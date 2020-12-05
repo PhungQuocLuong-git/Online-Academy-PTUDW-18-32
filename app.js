@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var homeRouter = require('./routes/home');
+
 
 const exphbs = require('express-handlebars');
 
@@ -15,7 +17,7 @@ app.engine('hbs', exphbs({
   defaultLayout: 'main.hbs',
   extname: '.hbs'
 }));
-app.set('view engine', 'hbs');
+
 
 
 
@@ -31,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/home', homeRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -49,6 +52,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.get('/home', (req, res) => {
+  res.render('home');
 
+})
 
 module.exports = app;
