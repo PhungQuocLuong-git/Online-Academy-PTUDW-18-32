@@ -7,6 +7,11 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 
 
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var homeRouter = require('./routes/home');
+
+
 
 const exphbs = require('express-handlebars');
 
@@ -16,6 +21,8 @@ const db = require('./config/db');
 
 // Connect to DB
 db.connect();
+
+
 
 // view engine setup
 app.engine('hbs', exphbs({
@@ -50,9 +57,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
 app.use('/user', usersRouter);
 app.use('/account', accountRouter);
 app.use('/courses',coursesRouter);
+
+app.use('/', indexRouter);
+app.use('/home', homeRouter);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
