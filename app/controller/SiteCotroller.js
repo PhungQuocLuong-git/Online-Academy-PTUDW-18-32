@@ -1,6 +1,6 @@
 
 module.exports={
     home(req, res, next) {
-        res.render('bs4');
+        res.render('home');
           }
 };
