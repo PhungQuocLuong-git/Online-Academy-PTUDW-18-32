@@ -49,7 +49,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', siteRouter);
+
 app.use('/user', usersRouter);
 app.use('/account', accountRouter);
 app.use('/courses',coursesRouter);
