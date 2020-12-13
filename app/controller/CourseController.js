@@ -1,7 +1,7 @@
 module.exports = {
     list(req, res){
         res.render('courses/list',{
-            layout:false,
+            script:'/javascripts/home.js'
         });
     }
 
