@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/validator.css">
+</head>
+<body>
+  
+
+<div  class="header-logo">
+    <a href="/">
+    
+    <img href="/" src="/img/google_play.png" alt="" class="img-header-logo">
+    </a>
+
+</div>
+    
+    <div class="main">
+
+        <div class="pr-box">
+            <h1>PR AREA</h1>
+        </div>
+
+        <form action="store" method="POST" class="form" id="form-1">
+          <h3 class="heading">ĐĂNG KÝ</h3>
+          <p class="desc"></p>
+          <div class="spacer"></div>
+      
+         
+          
+          <div class="form-group">
+            <label for="username" class="form-label">Tên đăng nhập</label>
+            <input id="username" name="username" type="text" placeholder="VD: abcd" class="form-control">
+            <span class="form-message"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="text" placeholder="VD: 18120502@student.hcmus.edu.vn" class="form-control">
+            <span class="form-message"></span>
+          </div>
+      
+          <div class="form-group">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" class="form-control">
+            <span class="form-message"></span>
+          </div>
+      
+          <div class="form-group ">
+            <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
+            <input id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu" type="password" class="form-control">
+            <span class="form-message"></span>
+          </div>
+          
+          {{!-- <div class="form-group"></div>
+            <label for="fullname" class="form-label">Tên đầy đủ</label>
+            <input id="fullname" name="fullname" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
+            <span class="form-message"></span>
+          </div>
+
+          <div class="form-group ">
+            <label for="role" class="form-label">Vai trò</label>
+            <select id="role" name="role"  type="" class="form-control">
+                <option value="">--Chọn vai trò--</option>
+                <option value="1">--Admin--</option>
+                <option value="2">--Nhà tuyển dụng--</option>
+                <option value="3">--Người xin việc--</option>
+            </select>
+            <span class="form-message"></span>
+          </div>
+
+          <div class="form-group ">
+            <label for="gender" class="form-label">Giới tính</label>
+            <select id="gender" name="gender" placeholder="Nhập lại mật khẩu"  class="form-control">
+                <option value="">--Chọn giới tính--</option>
+                <option value="male">--Nam--</option>
+                <option value="female">--Nữ--</option>
+                <option value="other">--Khác--</option>
+            </select>
+            <span class="form-message"></span>
+          </div> --}}
+
+          <div class="text-license">
+            Vui lòng đọc <a href="#">điều khoản sử dụng</a> trước khi đăng ký
+          </div>
+
+          <button class="btn btn-primary form-submit">Đăng ký</button>
+        </form>
+      
+      </div>
+          
+  <script src="/javascripts/validator.js"></script>
+
+    
+    <script>
+        Validator({
+            form:'#form-1',
+            formGroup:'.form-group',
+            errorSelector:'.form-message',
+            rules:[
+                Validator.isRequired('#email','Vui lòng nhập i meo'),
+                Validator.isEmail('#email','Vui lòng nhập lại i meo'),
+                Validator.minLength('#username',4),
+                Validator.isRequired('#username'),
+                Validator.isAccount('#username','Tên đăng nhập không được chứa các kí tự đặc bịt'),
+                Validator.minLength('#password',6),
+                {{!-- Validator.isPassword('#password','Mật khẩu phái bao gồm chữ in hoa, số và kí tự đặc biệt'), --}}
+                Validator.isRequired('#password_confirmation'),
+                {{!-- Validator.isRequired('#fullname','Vui lòng nhập họ tên đầy đủ'),
+                Validator.isRequired('#role','Vui lòng chọn vai trò'),
+                Validator.isRequired('#gender','Vui lòng chọn giới tính'), --}}
+                Validator.isConfirmed('#password_confirmation',function() {
+                  return document.querySelector('#form-1 #password').value;
+                },'Mật khẩu không khớp')
+            ],
+            
+        }
+        )
+    </script>
+</body>
+</html>

@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var SiteCotroller = require('../app/controller/SiteCotroller');
 
 /* GET home page. */
-router.get('/', SiteCotroller.home);
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+
 
 module.exports = router;
