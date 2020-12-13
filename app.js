@@ -6,7 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+<<<<<<< HEAD
 var homeRouter = require('./routes/home');
+=======
+>>>>>>> Luong
 
 
 const exphbs = require('express-handlebars');
@@ -17,9 +20,12 @@ app.engine('hbs', exphbs({
   defaultLayout: 'main.hbs',
   extname: '.hbs'
 }));
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> Luong
 
 
 // view engine setup
@@ -32,9 +38,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+<<<<<<< HEAD
 app.use('/', indexRouter);
 app.use('/home', homeRouter);
 app.use('/users', usersRouter);
+=======
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+>>>>>>> Luong
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -51,10 +64,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-app.get('/home', (req, res) => {
-  res.render('home');
-
-})
 
 module.exports = app;
