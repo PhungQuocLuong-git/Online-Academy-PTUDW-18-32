@@ -2,7 +2,7 @@
 module.exports = {
   home(req, res, next) {
     res.render('home', {
-      script: '/javascripts/home.js'
+      script: '/public/javascripts/home.js'
     });
   }
 };
