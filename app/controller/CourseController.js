@@ -11,7 +11,8 @@ module.exports = {
     },
     detail(req, res) {
         res.render('courses/detail',{
-            extraStyle: '/public/stylesheets/detail.css'
+            extraStyle: '/public/stylesheets/detail.css',
+            script:'/public/javascripts/home.js'
         });
     }
    
