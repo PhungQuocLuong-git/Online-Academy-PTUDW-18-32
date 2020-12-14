@@ -40,7 +40,7 @@ const usersRouter = require('./routes/user');
 const siteRouter = require('./routes/site');
 // const meRouter = require('./routes/me');
 const accountRouter = require('./routes/account');
-const coursesRouter = require('./routes/course');
+const coursesRouter = require('./routes/courses');
 
 
 app.use(logger('dev'));

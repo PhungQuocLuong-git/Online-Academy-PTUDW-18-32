@@ -1,0 +1,239 @@
+/* course-intro */
+.course-detail {
+    height: 32vw;
+    background-color: #3659a2;
+  }
+  
+  .course-detail-img {
+    margin-top: 13%;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  /* Tooltip custom */
+  .tooltip-inner {
+    background-color: #37294c;
+  }
+  .tooltip.bs-tooltip-right .arrow:before {
+    display: none;
+  }
+  .tooltip.bs-tooltip-left .arrow:before {
+    display: none;
+  }
+  .tooltip.bs-tooltip-bottom .arrow:before {
+    display: none;
+  }
+  .tooltip.bs-tooltip-top .arrow:before {
+    display: none;
+  }
+  
+  /* Tab */
+  .show {
+    color: #37294c;
+  }
+  
+  .nav-tabs .active {
+    color: #f0f0f0 !important;
+    background-color: #3659a2 !important;
+    border-bottom: solid 5px !important;
+  }
+  
+  .nav-tabs .active:hover {
+    color: #ccc !important;
+  }
+  
+  .nav-link {
+    color: #f0f0f0;
+    font-weight: 500;
+  }
+  
+  .nav-tabs .nav-link {
+    border: none;
+  }
+  
+  .nav-link:hover {
+    color: #ccc;
+  }
+  
+  /* Tab content*/
+  
+  .tab-content {
+    color: #37294c;
+    width: 50%;
+  }
+  
+  /* description */
+  
+  ul {
+    list-style: none;
+  }
+  
+  .tab-content .active {
+    animation: fadeInLeft 0.7s;
+  }
+  
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .tab-pane > p,
+  li {
+    color: black;
+  }
+  
+  /* Accordition */
+  .accordion {
+    background-color: white;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    border-radius: 6px;
+    margin-top: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    font-size: large;
+    font-weight: 500;
+  }
+  
+  .accordion:focus {
+    outline: 0px;
+  }
+  
+  .acor-active {
+    border-radius: 8px 8px 0 0;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 0px 0px;
+  }
+  
+  .acor-active + .panel {
+    border-radius: 0 0 8px 8px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  
+  .accordion:after {
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .acor-active:after {
+    border: none;
+    content: "\f106";
+    font-family: "Font Awesome 5 Free";
+  }
+  
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+  
+  .panel li {
+    font-size: large;
+    font-weight: 400;
+    padding-left: 40px;
+  }
+  
+  .panel li:before {
+    content: "\f144";
+    font-family: "Font Awesome 5 Free";
+    position: relative;
+    left: -20px;
+  }
+  
+  /* Overlay */
+  .overlay {
+    position: relative;
+  }
+  
+  .image-overlay {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: 0.5s ease;
+    backface-visibility: hidden;
+  }
+  
+  .middle {
+    transition: 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .overlay:hover .middle {
+    opacity: 1;
+  }
+  
+  .text {
+    color: white;
+    font-size: 100px;
+  }
+  
+  iframe {
+    display: block;
+  }
+  
+  
+  /* Instructor */
+  .instructor-name {
+    color:#3659a2;
+  }
+  
+  .intructor-first-des {
+    font-size: medium;
+    font-weight: 600;
+    color:#777 !important;
+  }
+  
+  
+  /* Progress */
+  .progress {
+    background-color:#ccc !important;
+  }
+  
+  /* Feedback */
+  .feedback-rating {
+    width: 8.5rem;
+    height: 8.5rem;
+    overflow: hidden;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  
+  .review-image {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .comment-content {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  .comment-content > p {
+    font-weight: 200;
+    font-size: 15px;
+    color:#777;
+  }

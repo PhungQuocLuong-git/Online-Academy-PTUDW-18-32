@@ -4,8 +4,6 @@
 <head>
     <link rel="icon" href="/public/images/favicon.ico" sizes="16x16">
 
-    <!-- Font Awesome -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 
     <!-- CSS only -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
@@ -15,10 +13,47 @@
     
     <!--custom CSS -->
     <link rel="stylesheet" href='/public/stylesheets/home.css'/>
+    <link rel="stylesheet" href='{{{extraStyle}}}'/>
 </head>
 
 <body>
     {{{body}}}
+
+    
+<footer>
+    <div class="footer-top bg-dark text-white p-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 footer-about wow fadeInUp animated d-flex justify-content-center"
+                    style="visibility: visible; animation-name: fadeInUp;">
+                    <img class="logo-footer align-self-center" src="/public/images/logo.png" alt="logo-footer" width="74"
+                        height="85">
+                    <h5 class="align-self-center ml-3">
+                        Online Academy
+                    </h5>
+                </div>
+                <div class="col-md-4 col-lg-4 offset-lg-1 footer-contact wow fadeInDown animated"
+                    style="visibility: visible; animation-name: fadeInDown;">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> VNUHCM - University of Science</p>
+                    <p><i class="fas fa-envelope"></i> Email: <a
+                            href="mailto:dohoanglong28500@gmail.com">dohoanglong28500@gmail.com</a></p>
+                    <p><i class="fas fa-mobile-alt"></i></i> Phone: 093475015</p>
+                </div>
+                <div class="col-md-4 col-lg-2 footer-social wow fadeInUp animated"
+                    style="visibility: visible; animation-name: fadeInUp;">
+                    <h3>Follow us</h3>
+                    <div class="d-flex justify-content-between">
+                        <a href="https://www.facebook.com/hoanglong285"><i class="fab fa-facebook"></i></a>
+                        <a href="https://twitter.com/DoHoangLong19"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

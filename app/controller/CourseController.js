@@ -9,6 +9,11 @@ module.exports = {
             script:'/public/javascripts/home.js'
         });
     },
+    detail(req, res) {
+        res.render('courses/detail',{
+            extraStyle: '/public/stylesheets/detail.css'
+        });
+    }
    
 };
 
