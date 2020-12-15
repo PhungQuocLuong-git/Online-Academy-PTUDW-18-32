@@ -9,5 +9,7 @@ router.get('/list',courseController.list );
 router.get('/search',courseController.search );
 
 
+router.get('/create',courseController.create );
+
 module.exports = router;
 
