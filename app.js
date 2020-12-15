@@ -19,7 +19,15 @@ db.connect();
 
 // view engine setup
 app.engine('hbs', exphbs({
-  extname: '.hbs'
+  extname: '.hbs',
+  helpers:{
+    ifcond(v1, v2, options) {
+      if(v1 === v2) {
+        return options.fn(this);
+      }
+      return options.inverse(this);
+    }
+  }
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
