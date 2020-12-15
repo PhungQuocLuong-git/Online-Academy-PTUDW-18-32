@@ -1,65 +1,60 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">Online Academy {{isStudent}} </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        {{#if isStudent}}
+        <li class="nav-item active">
+        <a class="nav-link" href="#">Teach on OA <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item nav-category">
-        <a class="nav-link" href="#">Link</a>
-        
-        <div class="category-one">
-          <ul class="category-one-menu">
-            <li class="category-one-item">
-              <a href="#" class="category-one-item-link">
-                Test 1
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{user.username}}
+            <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
+            
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+            <a class="dropdown-item" href="/me/stored/courses">My learning</a>
+            <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
+            
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/account/logout">Đăng xuất</a>
+          </div>
+        </li>
+        {{else}}
+            {{#if isTeacher}}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{user}}
+                <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
+                
               </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/courses/create">Đăng khóa hc</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
+                <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/account/logout">Đăng xuất</a>
+              </div>
             </li>
-            <li class="category-one-item">
-              <a href="#" class="category-one-item-link">
-                Test 1
-              </a>
-            </li>
-            <li class="category-one-item">
-              <a href="#" class="category-one-item-link">
-                Test 1
-              </a>
-            </li>
-            <li class="category-one-item">
-              <a href="#" class="category-one-item-link">
-                Test 1
-              </a>
-            </li>
-            <li class="category-one-item">
-              <a href="#" class="category-one-item-link">
-                Test 1
-              </a>
-            </li>
-            <li class="category-one-item">
-              <a href="#" class="category-one-item-link">
-                Test 1
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="category-two">
-          <ul class="category-two-menu">
-            <li class="category-two-item">Test 2</li>
-            <li class="category-two-item">Test 2</li>
-            <li class="category-two-item">Test 2</li>
-            <li class="category-two-item">Test 2</li>
-            <li class="category-two-item">Test 2</li>
-            <li class="category-two-item">Test 2</li>
-          </ul>
-        </div>
-      </li>
-     
+            {{else}}
+        <li class="nav-item active">
+          <a class="nav-link" href="/account/create">Đăng ký</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/account/login">Đăng nhập</a>
+        </li>
+        {{/if}}
+        {{/if}}
+      </ul>
+
       
-    </ul>
-    
+    </div>
   </div>
 </nav>

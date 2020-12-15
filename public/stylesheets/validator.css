@@ -173,12 +173,10 @@ html {
     height: 40px;
     font-weight: 550;
     font-size: 1.5rem;
-    /* height: 40px;
     padding: 8px 12px;
     border: 1px solid #b3b3b3;
     border-radius: 3px;
-    outline: none;
-    font-size: 1.4rem; */
+    outline: none;  
 }
 
 .sign-up-icon{
@@ -187,6 +185,7 @@ html {
 }
 
 .sign-up:hover {
+    border-color: #f368e0;
     background-color: #dfe6e9;
 }
 

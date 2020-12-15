@@ -1,5 +1,5 @@
 const Account = require('../models/Account');
-const { multipleMongooseToObject} = require('../../util/mongoose');
+const { mongooseToObject} = require('../../util/mongoose');
 
 // Hash password
 const bcrypt = require('bcrypt');
@@ -35,36 +35,10 @@ class AccountController{
                         .then (res.redirect('/'));
                     
                 }
-            })
+            });
+            
+        // res.json(req.body);
 
-        // Account.findOne({username: req.body.username})
-        //     .then( user => {if(user) res.json({err:'Existed username'})
-        // else res.json({msg:' success'})});
-
-
-        // success
-        // bcrypt.hash(req.body.password, saltRounds)
-        //     .then(function(hash) {
-                // req.body.password= hash;
-                // new Account(req.body).save();
-                // res.redirect('/');
-        // })
-        //     .catch(function () {
-        //         res.json({err: "failed hash"});
-        //     })
-
-        // Promise.all([bcrypt.hash(req.body.password, saltRounds),new Account(req.body).save()])
-        //     .then(([hash, success])=> {req.body.password = hash;
-        //     res.json({
-        //         pass:req.body.password,
-        //         object: req.body
-        //     })})
-        //     res.json({error: "Failed hash"});
-
-        // const account = new Account(req.body);
-        // account.save()
-        //     .then(() => res.redirect('/'))
-        //     .catch(error => {});
     }
 
     // [GET] /account/login
@@ -74,7 +48,7 @@ class AccountController{
         });
     }
 
-    // [GET] /account/login
+    // [POST] /account/check
     check(req,res,next) {
         Account.findOne({username: req.body.username})
             .then( user => {
@@ -82,12 +56,27 @@ class AccountController{
                 .then(function(result) {
                     if(result)
                    {
-                       req.session.logined = true;
-                       req.session.username = req.body.username;
-                    //     console.log('Success login');
-                   }
+                    req.app.locals.user = user;
+                    req.session.user = user;
+                    req.session.username = req.body.username;
+                 //     console.log('Success login');
+                
+                     switch(user.role){
+                         case 1:
+                             req.app.locals.isStudent = true;
+                             break;
+                         case 2:
+                             req.app.locals.isTeacher = true;
+                             break;
+                         case 3:
+                             req.app.locals.isAdmin = true;
+                             break;
+                            }
+                            // res.json({msg:"success"})
+                    }
                    else {
-                       res.send('err');
+                    res.redirect('/account/login');
+
                    }
                    res.redirect('/');
                 });

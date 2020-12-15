@@ -14,6 +14,13 @@ const db = require('./config/db');
 // Connect to DB
 db.connect();
 
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static('public'));
+
 // view engine setup
 app.engine('hbs', exphbs({
   extname: '.hbs',
@@ -46,12 +53,7 @@ const route = require('./routes');
 route(app);
 
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
-app.use('/public', express.static('public'));
+
 
 
 // catch 404 and forward to error handler
