@@ -1,0 +1,64 @@
+<div class="mt-4">
+    <h3>Đăng khóa học</h3>
+    <form method="POST" action="store" id="form-1">
+        <div class="form-group">
+            <label for="name">Tên khóa hc </label>
+            <input type="text"  class="form-control" id="name" name="name" >
+            <span class="form-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Mô tã khóa hc </label>
+            <textarea class="form-control" id="description" name="description" > </textarea>
+            <span class="form-message"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="description-thumnail">Mô tã khóa hc ngắn gọn </label>
+            <textarea class="form-control" id="description-thumnail" name="description-thumnail" > </textarea>
+            {{!-- <input type="text"  class="form-control" id="description" name="description" > --}}
+            <span class="form-message"></span>
+        </div>
+
+        
+
+        <div class="form-group">
+            <label for="price">price khóa hc </label>
+            <input type="text"  class="form-control" id="price" name="price" >
+            <span class="form-message"></span>
+        </div>
+
+        
+        
+
+        <div class="form-group">
+            <label for="kind">Loại khóa học </label>
+            <select name="kind" id="kind">
+                <option value="1">Web</option>
+                <option value="2">Android</option>
+                
+            </select>
+            <span class="form-message"></span>
+        </div>
+        
+        <button type="submit" class="btn btn-primary form-submit">Thêm khóa hc</button>
+    </form>
+</div>
+<link rel="stylesheet" href="/stylesheets/validator.css">
+<script src="/javascripts/validator.js"></script>
+
+
+<script>
+    Validator({
+        form:'#form-1',
+        formGroup:'.form-group',
+        errorSelector:'.form-message',
+        rules:[
+            Validator.isRequired('#name','Nhập tên khóa hc'),
+            Validator.isRequired('#description','Miêu tả khóa hc'),
+            Validator.isRequired('#videoId','Nhập video ID Utube')
+        ],
+    }
+
+    )
+</script>

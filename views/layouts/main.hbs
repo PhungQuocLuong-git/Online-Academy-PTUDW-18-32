@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
-    <link rel="icon" href="images/favicon.ico" sizes="16x16">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
     <!-- Font Awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
@@ -14,11 +16,19 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     
     <!--custom CSS -->
-    <link rel="stylesheet" href='/stylesheets/home.css'/>
+    <link rel="stylesheet" href='/stylesheets/style.css'/>
 </head>
 
 <body>
+    {{!-- <div class="header">
+        {{>header}}
+    </div> --}}
+
     {{{body}}}
+
+    <div class="footer">
+        {{>footer}}
+    </div>
 
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
