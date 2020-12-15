@@ -16,7 +16,7 @@ module.exports = {
             extraStyle: '/public/stylesheets/detail.css',
             script:'/public/javascripts/home.js'
         });
-    }
+    },
    
     create(req,res){
         // res.json({msg:'helo'});
