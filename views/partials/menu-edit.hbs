@@ -1,13 +1,32 @@
-<div class="card text-left">
-    <div class="card-body">
-        <h4 class="card-title">welcome</h4>
+{{!-- <div class="mx-3 shadow rounded">
+    <div class="card text-left">
+        <div class="text-center pt-5">
+            <img width="100" height="100" src="/public/images/user1.png" alt="user" class="rounded-circle shadow">
+        </div>
+        <div class="card-body text-center">
+            <h4 class="card-title">John Witch</h4>
+        </div>
     </div>
-</div>
-<div class="card">
-    <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action">Profile</a>
-        <a href="#" class="list-group-item list-group-item-action">Account</a>
-        <a href="#" class="list-group-item list-group-item-action ">Watch list</a>
-        <a href="#" class="list-group-item list-group-item-action ">Registered courses</a>
+    <div class="card">
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action">Account</a>
+            <a href="#" class="list-group-item list-group-item-action ">Watch list</a>
+            <a href="#" class="list-group-item list-group-item-action ">Registered courses</a>
+        </div>
+    </div>
+</div> --}}
+
+<div class="container-fluid menu-edit">
+    <div class="menu-edit-title">
+        <h2>My learning</h2>
+    </div>
+    <div class="menu-edit-link">
+
+            <a {{#ifcond url '/edit-profile'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/edit-profile">Profile</a>
+            <a {{#ifcond url '/edit-account'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/edit-account">Account</a>
+            <a {{#ifcond url '/watch-list'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/watch-list">Watchlist</a>
+            <a {{#ifcond url '/registered-courses'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/registered-courses">Courses</a>
+
     </div>
 </div>

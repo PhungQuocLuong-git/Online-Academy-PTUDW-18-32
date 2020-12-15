@@ -1,0 +1,33 @@
+.menu-edit {
+  background-color: #666;
+  font: 1em sans-serif;
+  padding-top: 50px;
+  padding-left: 120px;
+}
+
+.menu-edit-title {
+  color: white;
+  padding-bottom: 25px;
+  padding-left: 20px;
+}
+
+.menu-edit-link a{
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.menu-edit-link{
+  padding: 14px;
+}
+
+.menu-edit-link a:hover{
+  border-bottom: 5px solid white;
+}
+
+.tag-menu-active{
+  border-bottom: 5px solid white;
+}
+
+
+
