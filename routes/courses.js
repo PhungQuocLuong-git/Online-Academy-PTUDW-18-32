@@ -10,5 +10,7 @@ router.get('/search',courseController.search);
 router.get('/detail',courseController.detail);
 
 
+router.get('/create',courseController.create );
+
 module.exports = router;
 

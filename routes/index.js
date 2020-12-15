@@ -1,11 +1,26 @@
-var express = require('express');
-var router = express.Router();
+const siteRouter = require('./site');
+// const meRouter = require('./me');
+const accountRouter = require('./account');
+const coursesRouter = require('./course');
+const userRouter = require('./user');
+// const studentRouter = require('./student');
+// const AuthMiddleware = require('../app/middlewares/authMiddleware');
+// const StudentMiddleware = require('../app/middlewares/studentMiddleware');
+// const TeacherMiddleware = require('../app/middlewares/teacherMiddleware');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
+function route(app) {
+    app.locals.isTeacher = false ;
+    app.locals.isAdmin = false ;
+    app.locals.loged = false ;
+    app.locals.user = {};
+    app.use('/courses',coursesRouter);
+    // app.use('/me',TeacherMiddleware,meRouter);
+    // app.use('/student',StudentMiddleware,studentRouter);
+    app.use('/account',accountRouter);
+    app.use('/user',userRouter);
+    app.use('/', siteRouter);
 
+}
 
-module.exports = router;
+module.exports = route;
