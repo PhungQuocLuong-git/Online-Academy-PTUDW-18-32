@@ -5,18 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
     <link rel="stylesheet" href="/public/stylesheets/validator.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
 <body>
-  
-
-{{!-- <div  class="header-logo">
-    <a href="/">
-    
-    <img href="/" src="/images/logo.png" alt="" class="img-header-logo">
-    </a>
-
-</div> --}}
     
     <div class="main">
 
@@ -26,15 +17,14 @@
           <h3 class="heading">ĐĂNG KÝ</h3>
           <p class="desc"></p>
           <div class="spacer"></div>
-
-
-          <div class="form-control sign-up sign-up--facebook">
+      
+         <div class="sign-up sign-up--facebook">
             <i class="fab fa-google sign-up-icon"></i>
 
             Đăng ký với Google
           </div>
           
-          <div class="form-control sign-up sign-up--facebook">
+          <div class="sign-up sign-up--facebook">
             <i class="fab fa-facebook sign-up-icon"></i>
             Đăng ký với Facebook
           </div>
@@ -42,20 +32,15 @@
           <div class="or-seperate">
             <span>Hoặc</span>
           </div>
-
-          <div class="form-group">
-            <label for="fullname" class="form-label">Họ và tên</label>
-            <input id="fullname" name="fullname" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
-            <span class="form-message"></span>
-          </div>
+          
           <div class="form-group">
             <label for="username" class="form-label">Tên đăng nhập</label>
             <input id="username" name="username" type="text" placeholder="VD: abcd" class="form-control">
             <span class="form-message"></span>
           </div>
+
           <div class="form-group">
             <label for="email" class="form-label">Email</label>
-            
             <input id="email" name="email" type="text" placeholder="VD: 18120502@student.hcmus.edu.vn" class="form-control">
             <span class="form-message"></span>
           </div>
@@ -72,22 +57,12 @@
             <span class="form-message"></span>
           </div>
           
-          {{!-- <div class="form-group"></div>
+           {{!-- <div class="form-group"></div>
             <label for="fullname" class="form-label">Tên đầy đủ</label>
             <input id="fullname" name="fullname" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
             <span class="form-message"></span>
           </div> --}}
 
-          {{!-- <div class="form-group ">
-            <label for="role" class="form-label">Vai trò</label>
-            <select id="role" name="role"  type="" class="form-control">
-                <option value="">--Chọn vai trò--</option>
-                <option value="1">--Học viên--</option>
-                <option value="2">--Giáo viên--</option>
-                <option value="3">--Admin--</option>
-            </select>
-            <span class="form-message"></span>
-          </div> --}}
 
           {{!-- <div class="form-group ">
             <label for="gender" class="form-label">Giới tính</label>
@@ -98,21 +73,16 @@
                 <option value="other">--Khác--</option>
             </select>
             <span class="form-message"></span>
-          </div> --}}
-        <div class="or-seperate"></div>
-          <div class="footer-license">
-            Vui lòng đọc <a href="#" class="footer-license">điều khoản sử dụng</a> trước khi đăng ký
+          </div> --}} 
+
+          <div class="text-license">
+            Vui lòng đọc <a href="#">điều khoản sử dụng</a> trước khi đăng ký
           </div>
 
           <button class="btn btn-primary form-submit">Đăng ký</button>
-      <div class="footer-validator">
-        Bạn đã có tài khoản ?
-        <a href="/account/login" class="footer-text">Đăng nhập</a>
-      </div>
         </form>
       
       </div>
-
           
   <script src="/public/javascripts/validator.js"></script>
 
@@ -131,9 +101,9 @@
                 Validator.minLength('#password',6),
                 {{!-- Validator.isPassword('#password','Mật khẩu phái bao gồm chữ in hoa, số và kí tự đặc biệt'), --}}
                 Validator.isRequired('#password_confirmation'),
-                Validator.isRequired('#fullname','Vui lòng nhập họ tên đầy đủ'),
+                {{!-- Validator.isRequired('#fullname','Vui lòng nhập họ tên đầy đủ'),
                 Validator.isRequired('#role','Vui lòng chọn vai trò'),
-                {{!-- Validator.isRequired('#gender','Vui lòng chọn giới tính'), --}}
+                Validator.isRequired('#gender','Vui lòng chọn giới tính'), --}}
                 Validator.isConfirmed('#password_confirmation',function() {
                   return document.querySelector('#form-1 #password').value;
                 },'Mật khẩu không khớp')

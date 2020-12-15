@@ -1,7 +1,7 @@
 const siteRouter = require('./site');
 // const meRouter = require('./me');
 const accountRouter = require('./account');
-const coursesRouter = require('./course');
+const coursesRouter = require('./courses');
 const userRouter = require('./user');
 // const studentRouter = require('./student');
 // const AuthMiddleware = require('../app/middlewares/authMiddleware');
@@ -12,6 +12,7 @@ const userRouter = require('./user');
 function route(app) {
     app.locals.isTeacher = false ;
     app.locals.isAdmin = false ;
+    app.locals.isStudent = false ;
     app.locals.loged = false ;
     app.locals.user = {};
     app.use('/courses',coursesRouter);
