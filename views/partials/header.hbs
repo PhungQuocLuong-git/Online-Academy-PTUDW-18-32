@@ -9,11 +9,11 @@
       <ul class="navbar-nav ml-auto">
         {{#if isStudent}}
         <li class="nav-item active">
-        <a class="nav-link" href="#">Teach on OA <span class="sr-only">(current)</span></a>
+        <a class="nav-link btn-swap" href="#" data-id="{{idUser}}">Teach on OA <span class="sr-only">(current)</span></a>
       </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{user.username}}
+            {{nameUser}}
             <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
             
           </a>
@@ -28,9 +28,12 @@
         </li>
         {{else}}
             {{#if isTeacher}}
+             <li class="nav-item active">
+              <a class="nav-link btn-swap" href="#" data-id="{{idUser}}">Learn on OA <span class="sr-only">(current)</span></a>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{user}}
+                {{nameUser}}
                 <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
                 
               </a>
@@ -58,3 +61,24 @@
     </div>
   </div>
 </nav>
+
+<form name="swap-role" method="POST" ></form>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded',function () {
+    var swapForm = document.forms['swap-role'];
+    
+    var btnSwap= $('.btn-swap');
+    console.log('abc',btnSwap.data('id'));
+    console.log(btnSwap);
+    {{!-- btnSwap.onclick = function(event){
+      var button = $(event.relatedTarget);
+      console.log('bcd',button.data('id'));
+    } --}}
+    btnSwap.on('click', function(){
+      swapForm.action = '/account/' + btnSwap.data('id') + '/swap?_method=PATCH';
+      swapForm.submit();
+    })
+  })
+</script>
