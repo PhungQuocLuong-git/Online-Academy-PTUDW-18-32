@@ -48,6 +48,47 @@ class AccountController{
         });
     }
 
+    // [POST] /account/logout
+    logout(req,res,next) {
+        req.app.locals.isTeacher =false;
+        req.app.locals.isAdmin = false;
+        req.app.locals.isStudent = false;
+        req.session.destroy(() => {
+            res.render('accounts/login',{
+                layout:false,
+            });
+          });
+    }
+
+    // [PATCH] /account/:id
+    swap(req,res,next) {
+        var roleSwap = 1;
+        if(req.session.user.role===1){
+            roleSwap = 2;
+        }
+        
+        Account.updateOne({_id:req.params.id},{role:roleSwap})
+            .then(() => {
+                req.session.user.role = roleSwap;
+                req.app.locals.user = req.session.user;
+                switch(roleSwap){
+                    case 1:
+                        req.app.locals.isStudent = true;
+                        req.app.locals.isTeacher = false;
+                        break;
+                    case 2:
+                        req.app.locals.isTeacher = true;
+                        req.app.locals.isStudent = false;
+                        break;
+                    case 3:
+                        req.app.locals.isAdmin = true;
+                        break;
+                       }
+                // res.json({msg:req.app.locals.user.role})
+                res.redirect('/')
+            });
+    }
+
     // [POST] /account/check
     check(req,res,next) {
         Account.findOne({username: req.body.username})
@@ -56,9 +97,11 @@ class AccountController{
                 .then(function(result) {
                     if(result)
                    {
+                    req.app.locals.idUser = user._id ;
                     req.app.locals.user = user;
                     req.session.user = user;
                     req.session.username = req.body.username;
+                    req.app.locals.nameUser = user.username;
                  //     console.log('Success login');
                 
                      switch(user.role){
