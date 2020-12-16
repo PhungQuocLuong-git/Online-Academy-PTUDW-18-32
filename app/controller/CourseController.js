@@ -1,4 +1,5 @@
-const { create } = require("../models/Account");
+const Course = require('../models/Course');
+const { mongooseToObject} = require('../../util/mongoose')
 
 module.exports = {
     list(req, res){
@@ -23,6 +24,14 @@ module.exports = {
         res.render('courses/create',{
             layout:false,
         })
+    },
+
+    store(req,res,next){
+        req.body.course_author = req.session.user._id;
+        const course = new Course(req.body);
+        course.save()
+            .then(() => res.redirect('/'))
+            .catch(next);
     }
 };
 

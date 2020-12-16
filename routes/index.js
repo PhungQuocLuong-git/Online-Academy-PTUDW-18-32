@@ -6,7 +6,7 @@ const userRouter = require('./user');
 // const studentRouter = require('./student');
 // const AuthMiddleware = require('../app/middlewares/authMiddleware');
 // const StudentMiddleware = require('../app/middlewares/studentMiddleware');
-// const TeacherMiddleware = require('../app/middlewares/teacherMiddleware');
+const TeacherMiddleware = require('../app/middlewares/teacherMiddleware');
 
 
 function route(app) {
