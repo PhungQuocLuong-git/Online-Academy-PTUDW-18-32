@@ -21,7 +21,10 @@ function route(app) {
     app.use('/account',accountRouter);
     app.use('/user',userRouter);
     app.use('/', siteRouter);
-
+    // catch 404 and forward to error handler
+    app.use(function(req, res, next) {
+        next(createError(404));
+    });
 }
 
 module.exports = route;
