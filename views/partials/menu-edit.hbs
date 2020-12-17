@@ -26,7 +26,8 @@
             <a {{#ifcond url '/edit-profile'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/edit-profile">Profile</a>
             <a {{#ifcond url '/edit-account'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/edit-account">Account</a>
             <a {{#ifcond url '/watch-list'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/watch-list">Watchlist</a>
-            <a {{#ifcond url '/registered-courses'}}class="tag-menu-active"{{else}}{{/ifcond}} href="/user/registered-courses">Courses</a>
+            <a {{#ifcond url '/registered-courses'}}class="tag-menu-active" {{else}}{{/ifcond}} href="/user/registered-courses">Courses</a>
 
     </div>
 </div>
+<link rel="stylesheet" href='/public/stylesheets/user.css'/>

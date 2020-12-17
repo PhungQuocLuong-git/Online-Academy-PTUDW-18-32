@@ -50,9 +50,7 @@ class AccountController{
 
     // [POST] /account/logout
     logout(req,res,next) {
-        req.app.locals.isTeacher =false;
-        req.app.locals.isAdmin = false;
-        req.app.locals.isStudent = false;
+        req.app.locals.role = 0;
         req.session.destroy(() => {
             res.render('accounts/login',{
                 layout:false,
@@ -71,20 +69,7 @@ class AccountController{
             .then(() => {
                 req.session.user.role = roleSwap;
                 req.app.locals.user = req.session.user;
-                switch(roleSwap){
-                    case 1:
-                        req.app.locals.isStudent = true;
-                        req.app.locals.isTeacher = false;
-                        break;
-                    case 2:
-                        req.app.locals.isTeacher = true;
-                        req.app.locals.isStudent = false;
-                        break;
-                    case 3:
-                        req.app.locals.isAdmin = true;
-                        break;
-                       }
-                // res.json({msg:req.app.locals.user.role})
+                req.app.locals.role = roleSwap;
                 res.redirect('/')
             });
     }
@@ -102,20 +87,8 @@ class AccountController{
                     req.session.user = user;
                     req.session.username = req.body.username;
                     req.app.locals.nameUser = user.username;
-                 //     console.log('Success login');
-                
-                     switch(user.role){
-                         case 1:
-                             req.app.locals.isStudent = true;
-                             break;
-                         case 2:
-                             req.app.locals.isTeacher = true;
-                             break;
-                         case 3:
-                             req.app.locals.isAdmin = true;
-                             break;
-                            }
-                            // res.json({msg:"success"})
+                    req.app.locals.role = user.role;
+                   
                     }
                    else {
                     res.redirect('/account/login');
