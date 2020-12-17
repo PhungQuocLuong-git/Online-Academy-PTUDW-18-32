@@ -10,10 +10,7 @@ const userRouter = require('./user');
 
 
 function route(app) {
-    app.locals.isTeacher = false ;
-    app.locals.isAdmin = false ;
-    app.locals.isStudent = false ;
-    app.locals.loged = false ;
+    app.locals.role = 0 ;
     app.locals.idUser = 0 ;
     app.locals.nameUser = 'User' ;
     app.locals.user = {};
