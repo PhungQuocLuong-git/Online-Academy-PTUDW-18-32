@@ -13,11 +13,16 @@ module.exports = {
             script:'/public/javascripts/home.js'
         });
     },
-    detail(req, res) {
-        res.render('courses/detail',{
-            extraStyle: '/public/stylesheets/detail.css',
-            script:'/public/javascripts/home.js'
-        });
+    detail(req, res,next) {
+        let username = req.session.username;
+        Course.findOne({ slug: req.params.slug}).populate("course_author")
+            .then(course => {
+                res.render('courses/detail',{course:  mongooseToObject(course),
+                    extraStyle: '/public/stylesheets/detail.css',
+                    script:'/public/javascripts/home.js'
+                    } );
+            })
+            .catch(next);
     },
    
     create(req,res){
@@ -36,6 +41,22 @@ module.exports = {
                 Account.updateOne({_id:user._id},user)
                     .then(res.redirect('/'));
             })
+    },
+
+    book(req,res,next){
+        // res.json({test1: req.params.id,test2: req.session.username})
+        Promise.all([Course.findOne({_id:req.params.id}),Account.findOne({username: req.session.username})])
+            .then(([course2,user2]) => {
+                course2.course_students.forEach(student => {
+                    if(student.user_id.equals(user2._id))
+                        res.json({err:'Bn da dki khoa hc nay r'});
+                });
+                course2.course_students.push({user_id: user2._id});
+                user2.booked_courses.push({course_id: course2._id});
+                Promise.all([Course.updateOne({_id:course2._id},course2),Account.updateOne({username:user2.username},user2)])
+                    // .then(([r1,r2]) => res.json({r1,r2,test1:course2.course_students, test2:  user2.booked_courses}));
+                    .then(res.redirect('/'));
+                })
     }
 };
 

@@ -70,12 +70,6 @@
     var swapForm = document.forms['swap-role'];
     
     var btnSwap= $('.btn-swap');
-    console.log('abc',btnSwap.data('id'));
-    console.log(btnSwap);
-    {{!-- btnSwap.onclick = function(event){
-      var button = $(event.relatedTarget);
-      console.log('bcd',button.data('id'));
-    } --}}
     btnSwap.on('click', function(){
       swapForm.action = '/account/' + btnSwap.data('id') + '/swap?_method=PATCH';
       swapForm.submit();

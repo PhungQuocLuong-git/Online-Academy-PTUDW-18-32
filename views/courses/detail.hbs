@@ -24,7 +24,7 @@
         </ul>
       </div>
       <div class="h-75 d-inline-block align-self-center ml-auto text-white" style="width: 45%;">
-        <h3 class="font-weight-bold">Learn JavaScript From Scratch</h3>
+        <h3 class="font-weight-bold">{{course.name}}</h3>
         <p class="my-3" style="color:#BABDD9;">Master JavaScript with the most complete course! Projects
           Excellent course. we explain the core concepts in javascript that are usually glossed over in other
           courses.</p>
@@ -47,7 +47,7 @@
           <p class="ml-5"><i class="fas fa-globe"></i> English</p>
         </div>
         <button type="button" class="btn btn-danger btn-lg w-40">Add to cart</button>
-        <button type="button" class="btn btn-primary btn-lg ml-5 w-40">Buy now</button>
+        <button type="button" class="btn-book-course btn btn-primary btn-lg ml-5 w-40" data-id="{{course._id}} " >Buy now</button>
       </div>
     </div>
 
@@ -348,7 +348,7 @@
 
 
 
-
+<form name="book-course" method="POST"></form>
 
 
 
@@ -398,5 +398,14 @@ for (i = 0; i < acc.length; i++) {
       panel.style.maxHeight = panel.scrollHeight + "px";
     } 
   });
+  
+  
+  var bookForm = document.forms['book-course'];
+    
+    var btnBook= $('.btn-book-course');
+    btnBook.on('click', function(){
+      bookForm.action = '/courses/book/' + btnBook.data('id') ;
+      bookForm.submit();
+    })
 }
   </script>
