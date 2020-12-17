@@ -12,6 +12,7 @@ router.get('/create',TeacherMiddleware,courseController.create );
 // router.get('/detail',courseController.detail);
 router.post('/store',courseController.store);
 router.post('/book/:id',courseController.book);
+router.post('/wish/:id',courseController.wish);
 
 router.get('/:slug',courseController.detail);
 

@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const AccountSchema = new Schema({
   username: {type: String},
+  name: {type: String},
   email: {type: String},
   password: {type: String},
   // fullname: {type: String},
@@ -14,6 +15,11 @@ const AccountSchema = new Schema({
     },
   ],
   posted_courses: [
+    {
+      course_id: { type: Schema.Types.ObjectId, ref: "Course" },
+    },
+  ],
+  wish_courses: [
     {
       course_id: { type: Schema.Types.ObjectId, ref: "Course" },
     },

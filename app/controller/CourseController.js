@@ -14,15 +14,20 @@ module.exports = {
         });
     },
     detail(req, res,next) {
-        let username = req.session.username;
-        Course.findOne({ slug: req.params.slug}).populate("course_author")
-            .then(course => {
-                res.render('courses/detail',{course:  mongooseToObject(course),
-                    extraStyle: '/public/stylesheets/detail.css',
-                    script:'/public/javascripts/home.js'
-                    } );
-            })
-            .catch(next);
+        Promise.all([Course.findOne({ slug: req.params.slug}).populate("course_author"),
+                    Account.findById(req.session.user._id).populate("wish_courses")])
+                .then(([course,user])=> {
+                    let wished = false;
+                    user.wish_courses.forEach(wish => {
+                        if(wish.course_id.equals(course._id))
+                            wished=true;
+                    });
+                    res.render('courses/detail',{course:  mongooseToObject(course),
+                        wished,
+                        extraStyle: '/public/stylesheets/detail.css',
+                        script:'/public/javascripts/home.js'
+                        } );
+                })
     },
    
     create(req,res){
@@ -57,6 +62,30 @@ module.exports = {
                     // .then(([r1,r2]) => res.json({r1,r2,test1:course2.course_students, test2:  user2.booked_courses}));
                     .then(res.redirect('/'));
                 })
+    },
+
+    //[POST]/courses/wish/:id
+    wish(req,res,next){
+        // res.json({msg:req.params.id});
+        Account.findById(req.session.user._id).populate('wish_courses')
+            .then(user => {
+                let wished = false;
+                let i=0;
+                let j = 0;
+                user.wish_courses.forEach(wish => {
+                    if(wish.course_id.equals(req.params.id)){
+                        wished=true;
+                        j=i;
+                    }
+                    i++;
+                });
+                if(wished)
+                    user.wish_courses.splice(j,1);
+                else
+                    user.wish_courses.push({course_id: req.params.id});
+                Account.updateOne({_id:req.session.user._id},user)
+                    .then(res.redirect('/user/watch-list'));
+            })
     }
 };
 

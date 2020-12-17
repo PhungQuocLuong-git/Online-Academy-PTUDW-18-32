@@ -31,8 +31,8 @@
         <div class="d-flex text-warning">
           <h3 class="delete-price text-dark">$200</h3>
           <h3 class="ml-4">$199.99</h3>
-          <h3 class="mx-auto"><a href="" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i
-                class="far fa-heart text-danger"></i></a></i></h3>
+          <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}"data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i
+                class="{{#if wished}}fa{{else}}far {{/if}} fa-heart text-danger"></i></a></i></h3>
         </div>
         <div class="_46 d-flex mt-3">
           <span class="number-rating bg-warning text-white px-2" style="border-radius: 15%;"></span>
@@ -349,6 +349,7 @@
 
 
 <form name="book-course" method="POST"></form>
+<form name="wish-course" method="POST"></form>
 
 
 
@@ -406,6 +407,14 @@ for (i = 0; i < acc.length; i++) {
     btnBook.on('click', function(){
       bookForm.action = '/courses/book/' + btnBook.data('id') ;
       bookForm.submit();
+    })
+
+   var wishForm = document.forms['wish-course'];
+    
+    var btnWish= $('.btn-wish');
+    btnWish.on('click', function(){
+      wishForm.action = '/courses/wish/' + btnWish.data('id') ;
+      wishForm.submit();
     })
 }
   </script>
