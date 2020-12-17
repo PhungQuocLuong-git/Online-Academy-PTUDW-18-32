@@ -7,7 +7,17 @@ const AccountSchema = new Schema({
   email: {type: String},
   password: {type: String},
   // fullname: {type: String},
-    role: {type: Number, default: 1 },
+  role: {type: Number, default: 1 },
+  booked_courses: [
+    {
+      course_id: { type: Schema.Types.ObjectId, ref: "Course" },
+    },
+  ],
+  posted_courses: [
+    {
+      course_id: { type: Schema.Types.ObjectId, ref: "Course" },
+    },
+  ],
     // gender: {type: String, },
     // createdAt: {type: Date, default: Date.now},
     // updatedAt: {type: Date, default: Date.now},
