@@ -1,5 +1,6 @@
 const Course = require('../models/Course');
-const Account = require('../models/Account');
+const Student = require('../models/Student');
+const Teacher = require('../models/Teacher');
 const { mongooseToObject} = require('../../util/mongoose')
 
 module.exports = {
@@ -14,8 +15,18 @@ module.exports = {
         });
     },
     detail(req, res,next) {
+        // res.json({slug: req.params.slug});
+        // Course.findOne({ slug: req.params.slug})
+        //     .then (course => {
+        //         res.render('courses/detail',{course:  mongooseToObject(course),
+        //                     wished: 0,
+        //                     extraStyle: '/public/stylesheets/detail.css',
+        //                     script:'/public/javascripts/home.js'
+        //                     } );
+        //     })
+        // }
         Promise.all([Course.findOne({ slug: req.params.slug}).populate("course_author"),
-                    Account.findById(req.session.user._id).populate("wish_courses")])
+                    Student.findById(req.session.user._id).populate("wish_courses")])
                 .then(([course,user])=> {
                     let wished = false;
                     user.wish_courses.forEach(wish => {
@@ -28,7 +39,9 @@ module.exports = {
                         script:'/public/javascripts/home.js'
                         } );
                 })
-    },
+                .catch(err => res.json({msg:'fail cmnr'}));
+            }
+    ,
    
     create(req,res){
         res.render('courses/create',{
@@ -39,18 +52,18 @@ module.exports = {
     store(req,res,next){
         req.body.course_author = req.session.user._id;
         const course = new Course(req.body);
-        Promise.all([course.save(),Account.findOne({_id:req.session.user._id})])
+        Promise.all([course.save(),Teacher.findOne({_id:req.session.user._id})])
             .then (([result, user]) => {
                 const id = result._id;
                 user.posted_courses.push({ course_id: id });
-                Account.updateOne({_id:user._id},user)
+                Teacher.updateOne({_id:user._id},user)
                     .then(res.redirect('/'));
             })
     },
 
     book(req,res,next){
         // res.json({test1: req.params.id,test2: req.session.username})
-        Promise.all([Course.findOne({_id:req.params.id}),Account.findOne({username: req.session.username})])
+        Promise.all([Course.findOne({_id:req.params.id}),Student.findOne({username: req.session.username})])
             .then(([course2,user2]) => {
                 course2.course_students.forEach(student => {
                     if(student.user_id.equals(user2._id))
@@ -58,7 +71,7 @@ module.exports = {
                 });
                 course2.course_students.push({user_id: user2._id});
                 user2.booked_courses.push({course_id: course2._id});
-                Promise.all([Course.updateOne({_id:course2._id},course2),Account.updateOne({username:user2.username},user2)])
+                Promise.all([Course.updateOne({_id:course2._id},course2),Student.updateOne({username:user2.username},user2)])
                     // .then(([r1,r2]) => res.json({r1,r2,test1:course2.course_students, test2:  user2.booked_courses}));
                     .then(res.redirect('/'));
                 })
@@ -67,7 +80,7 @@ module.exports = {
     //[POST]/courses/wish/:id
     wish(req,res,next){
         // res.json({msg:req.params.id});
-        Account.findById(req.session.user._id).populate('wish_courses')
+        Student.findById(req.session.user._id).populate('wish_courses')
             .then(user => {
                 let wished = false;
                 let i=0;
@@ -83,7 +96,7 @@ module.exports = {
                     user.wish_courses.splice(j,1);
                 else
                     user.wish_courses.push({course_id: req.params.id});
-                Account.updateOne({_id:req.session.user._id},user)
+                Student.updateOne({_id:req.session.user._id},user)
                     .then(res.redirect('/user/watch-list'));
             })
     }

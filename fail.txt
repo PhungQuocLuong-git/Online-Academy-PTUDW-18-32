@@ -1,0 +1,10 @@
+#lỗi chung:
+Các route phải đăng nhập ms xem đc( do có findbyID):detail
+Chưa alert lỗi mà ms chỉ dạng res.json
+
+#tạo khóa hc:
+Numeral price, trạng thái khóa hc
+#Mua khóa hc:
+Chưa back đc trang trc( mún đc phải data-slug vào), order ở DB
+#Course detail:
+course.findone xong phai populate author ma author chua co id teacher

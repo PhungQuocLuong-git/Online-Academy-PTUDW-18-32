@@ -23,7 +23,7 @@
             <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
             
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/account/logout">Đăng xuất</a>
+            <a class="dropdown-item" href="/student/logout">Đăng xuất</a>
           </div>
         </li>
         {{else}}
@@ -43,15 +43,15 @@
                 <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
                 <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/account/logout">Đăng xuất</a>
+                <a class="dropdown-item" href="/student/logout">Đăng xuất</a>
               </div>
             </li>
             {{else}}
         <li class="nav-item active">
-          <a class="nav-link" href="/account/create">Đăng ký</a>
+          <a class="nav-link" href="/student/create">Đăng ký</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="/account/login">Đăng nhập</a>
+          <a class="nav-link" href="/student/login">Đăng nhập</a>
         </li>
         {{/ifcond}}
         {{/ifcond}}
@@ -71,7 +71,7 @@
     
     var btnSwap= $('.btn-swap');
     btnSwap.on('click', function(){
-      swapForm.action = '/account/' + btnSwap.data('id') + '/swap?_method=PATCH';
+      swapForm.action = '/student/' + btnSwap.data('id') + '/swap?_method=PATCH';
       swapForm.submit();
     })
   })
