@@ -25,14 +25,7 @@ app.use('/public', express.static('public'));
 // view engine setup
 app.engine('hbs', exphbs({
   extname: '.hbs',
-  helpers:{
-    ifcond(v1, v2, options) {
-      if(v1 === v2) {
-        return options.fn(this);
-      }
-      return options.inverse(this);
-    }
-  }
+  helpers:require('./heleprs/handlebars')
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

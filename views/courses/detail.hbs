@@ -46,7 +46,7 @@
           <p><i class="far fa-edit"></i> Last updated 10/2019 </p>
           <p class="ml-5"><i class="fas fa-globe"></i> English</p>
         </div>
-        <button type="button" class="btn btn-danger btn-lg w-40">Add to cart</button>
+        <button type="button" class="btn btn-add-cart btn-danger btn-lg w-40" data-id="{{course._id}}">Add to cart</button>
         <button type="button" class="btn-book-course btn btn-primary btn-lg ml-5 w-40" data-id="{{course._id}} " >Buy now</button>
       </div>
     </div>
@@ -350,6 +350,7 @@
 
 <form name="book-course" method="POST"></form>
 <form name="wish-course" method="POST"></form>
+<form name="add-course" method="POST"></form>
 
 
 
@@ -409,12 +410,23 @@ for (i = 0; i < acc.length; i++) {
       bookForm.submit();
     })
 
+
+
    var wishForm = document.forms['wish-course'];
     
     var btnWish= $('.btn-wish');
     btnWish.on('click', function(){
       wishForm.action = '/courses/wish/' + btnWish.data('id') ;
       wishForm.submit();
+    })
+    
+
+     var addForm = document.forms['add-course'];
+    
+    var btnAdd= $('.btn-add-cart');
+    btnAdd.on('click', function(){
+      addForm.action = '/courses/add/' + btnAdd.data('id') ;
+      addForm.submit();
     })
 }
   </script>

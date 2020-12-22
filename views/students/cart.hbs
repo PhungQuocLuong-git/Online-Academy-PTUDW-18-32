@@ -1,0 +1,114 @@
+<h1 class="mt-4">My cart</h1>
+
+<form class="mt-4" name="container-form" method="POST" action="/student/handle-form-actions">
+
+  <div class="mt-4">
+
+        <h3 class="mt-4">My cart</h3>
+        
+        <div class="mt-4 d-flex align-items-center">
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+              <label class="form-check-label" for="checkbox-all">
+                Chọn tất cả
+              </label>
+          </div>
+            <select class="form-control form-control-sm checkbox-select-all-options" name="action" required>
+              <option value ="">--Hành động--</option>
+              <option value="delete"> Xóa</option>
+              <option value="book">Mua</option>
+            </select>
+            <button class="btn btn-primary btn-sm check-all-submit-btn  " disabled >Thực hiện</button>
+        </div>
+    </div>
+    <table class="table mt-4 mt-4">
+      <thead>
+        <tr>
+          <th scope="col">1</th>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+          <th scope="col">btn</th>
+        </tr>
+      </thead>
+      <tbody>
+          {{#each student.cart_courses}}
+              
+            <tr>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{this.course_id._id}}" name="courseIds">
+                  </div>
+                </td>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.course_id.name}}</td>
+                <td>{{this.course_id.price}}</td>
+                <td>{{this.course_id.course_author.name}}</td>
+                <td>
+                  <a class="btn btn-del-cart btn-link btn-outline-warning" data-id="{{this.course_id._id}}" >Xóa</a>
+                  <a class="btn btn-book-cart btn-link btn-outline-warning" data-id="{{this.course_id._id}}" >Mua</a>
+                </td>
+            </tr>
+          {{/each}}
+      </tbody>
+    </table>
+<input type ="hidden" name ="total" value= {{total}}>
+</form>
+
+<form  name="del-course" method="POST"></form>
+<form  name="book-course" method="POST"></form>
+
+<script>
+  document.addEventListener('DOMContentLoaded',function () {
+    
+    var delForm = document.forms['del-course'];
+    var bookForm = document.forms['book-course'];
+    var checkboxAll = $('#checkbox-all');
+    var courseItemCheckBox = $('input[name="courseIds"]');
+    var checkAllSubmitBtn= $('.check-all-submit-btn');
+    
+    var btnDel= $('.btn-del-cart');
+    btnDel.on('click', function(e){
+      console.log(delForm);
+      delForm.action = '/student/delcart/' + e.target.getAttribute("data-id")+'?_method=DELETE' ;
+      delForm.submit();
+    })
+
+     var btnBook= $('.btn-book-cart');
+    btnBook.on('click', function(e){
+      console.log(bookForm);
+      bookForm.action = '/courses/book/' + e.target.getAttribute("data-id") ;
+      bookForm.submit();
+    })
+
+    //Checkbox-all dc click
+        checkboxAll.change(function() {
+          var isCheckedAll = $(this).prop('checked');
+          courseItemCheckBox.prop('checked',isCheckedAll);
+          renderCheckAllSubmitBtn();
+        });
+
+        //courseItemCheckBox Change
+        courseItemCheckBox.change(function() {
+          var isCheckedAll = courseItemCheckBox.length === $('input[name="courseIds"]:checked').length;
+          checkboxAll.prop('checked',isCheckedAll);
+          renderCheckAllSubmitBtn();
+        })
+
+
+        //Re-render check-all-submit-btn
+        function renderCheckAllSubmitBtn() {
+          var checkedCount=$('input[name="courseIds"]:checked').length;
+          if( checkedCount ){
+            checkAllSubmitBtn.removeAttr('disabled');
+          }
+          else{
+
+            {{!-- checkAllSubmitBtn.addAttr('disabled'); --}}
+            checkAllSubmitBtn.prop('disabled',true);
+          }
+        }
+  }
+  )
+</script>

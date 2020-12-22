@@ -14,6 +14,8 @@ router.get('/create',TeacherMiddleware,courseController.create );
 router.post('/store',courseController.store);
 router.post('/book/:id',courseController.book);
 router.post('/wish/:id',courseController.wish);
+router.post('/add/:id',courseController.add);
+router.delete('/delcart/:id',courseController.delcart);
 
 router.get('/:slug',courseController.detail);
 
