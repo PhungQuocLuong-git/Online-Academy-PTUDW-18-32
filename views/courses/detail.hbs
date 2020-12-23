@@ -1,3 +1,249 @@
+
+{{#section 'css'}}
+<style>
+    /* course-intro */
+.course-detail {
+    height: 32vw;
+    background-color: #3659a2;
+  }
+  
+  .course-detail-img {
+    margin-top: 13%;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  /* Tooltip custom */
+  .tooltip-inner {
+    background-color: #37294c;
+  }
+  .tooltip.bs-tooltip-right .arrow:before {
+    display: none;
+  }
+  .tooltip.bs-tooltip-left .arrow:before {
+    display: none;
+  }
+  .tooltip.bs-tooltip-bottom .arrow:before {
+    display: none;
+  }
+  .tooltip.bs-tooltip-top .arrow:before {
+    display: none;
+  }
+  
+  /* Tab */
+  .show {
+    color: #37294c;
+  }
+  
+  .nav-tabs .active {
+    color: #f0f0f0 !important;
+    background-color: #3659a2 !important;
+    border-bottom: solid 5px !important;
+  }
+  
+  .nav-tabs .active:hover {
+    color: #ccc !important;
+  }
+  
+  .nav-link {
+    color: #f0f0f0;
+    font-weight: 500;
+  }
+  
+  .nav-tabs .nav-link {
+    border: none;
+  }
+  
+  .nav-link:hover {
+    color: #ccc;
+  }
+  
+  /* Tab content*/
+  
+  .tab-content {
+    color: #37294c;
+    width: 50%;
+  }
+  
+  /* description */
+  
+  ul {
+    list-style: none;
+  }
+  
+  .tab-content .active {
+    animation: fadeInLeft 0.7s;
+  }
+  
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .tab-pane > p,
+  li {
+    color: black;
+  }
+  
+  /* Accordition */
+  .accordion {
+    background-color: white;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    border-radius: 6px;
+    margin-top: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    font-size: large;
+    font-weight: 500;
+  }
+  
+  .accordion:focus {
+    outline: 0px;
+  }
+  
+  .acor-active {
+    border-radius: 8px 8px 0 0;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 0px 0px;
+  }
+  
+  .acor-active + .panel {
+    border-radius: 0 0 8px 8px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  
+  .accordion:after {
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .acor-active:after {
+    border: none;
+    content: "\f106";
+    font-family: "Font Awesome 5 Free";
+  }
+  
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+  
+  .panel li {
+    font-size: large;
+    font-weight: 400;
+    padding-left: 40px;
+  }
+  
+  .panel li:before {
+    content: "\f144";
+    font-family: "Font Awesome 5 Free";
+    position: relative;
+    left: -20px;
+  }
+  
+  /* Overlay */
+  .overlay {
+    position: relative;
+  }
+  
+  .image-overlay {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: 0.5s ease;
+    backface-visibility: hidden;
+  }
+  
+  .middle {
+    transition: 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .overlay:hover .middle {
+    opacity: 1;
+  }
+  
+  .text {
+    color: white;
+    font-size: 100px;
+  }
+  
+  iframe {
+    display: block;
+  }
+  
+  
+  /* Instructor */
+  .instructor-name {
+    color:#3659a2;
+  }
+  
+  .intructor-first-des {
+    font-size: medium;
+    font-weight: 600;
+    color:#777 !important;
+  }
+  
+  
+  /* Progress */
+  .progress {
+    background-color:#ccc !important;
+  }
+  
+  /* Feedback */
+  .feedback-rating {
+    width: 8.5rem;
+    height: 8.5rem;
+    overflow: hidden;
+    border-radius: 7px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  
+  .review-image {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .comment-content {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  .comment-content > p {
+    font-weight: 200;
+    font-size: 15px;
+    color:#777;
+  }
+  </style>
+{{/section}}
+
+
 <!-- info -->
   <div class="container-fluid course-detail d-flex">
     <div class="mx-auto d-flex w-75">
@@ -31,8 +277,8 @@
         <div class="d-flex text-warning">
           <h3 class="delete-price text-dark">$200</h3>
           <h3 class="ml-4">$199.99</h3>
-          <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}"data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i
-                class="{{#if wished}}fa{{else}}far {{/if}} fa-heart text-danger"></i></a></i></h3>
+          <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i
+                class="fa-heart text-danger wish-icon"></i></a></i></h3>
         </div>
         <div class="_46 d-flex mt-3">
           <span class="number-rating bg-warning text-white px-2" style="border-radius: 15%;"></span>
@@ -352,27 +598,25 @@
 <form name="wish-course" method="POST"></form>
 
 
+{{#section 'js'}}
+<script>
 
+function isWished() {
+  var heart=$('.btn-wish').data('id');  
+  return $.getJSON(`/courses/wished?id=${heart}`);
+}
 
-  <!-- jquery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-  <!-- JavaScript Bootstrap -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-
-  <script>
 // Tooltip
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
-  });
+    $('[data-toggle="tooltip"]').tooltip();
+    isWished().then(wished=> {
+    let wishIcon=$('.wish-icon');
+    if(wished)
+    wishIcon.addClass('fas');
+    else 
+    wishIcon.addClass('far');
+    });
+});
 
 $(document).ready(function() { 
     var url = $("#Geeks3").attr('src'); 
@@ -399,7 +643,7 @@ for (i = 0; i < acc.length; i++) {
       panel.style.maxHeight = panel.scrollHeight + "px";
     } 
   });
-  
+} 
   
   var bookForm = document.forms['book-course'];
     
@@ -411,10 +655,22 @@ for (i = 0; i < acc.length; i++) {
 
    var wishForm = document.forms['wish-course'];
     
-    var btnWish= $('.btn-wish');
-    btnWish.on('click', function(){
-      wishForm.action = '/courses/wish/' + btnWish.data('id') ;
-      wishForm.submit();
-    })
-}
-  </script>
+var btnWish= $('.btn-wish');
+    btnWish.on('click',function(){
+      isWished().then(wished=>{
+      let wishIcon=$('.wish-icon');
+      if(wished==true) {
+      wishIcon.removeClass('fas');
+      wishIcon.addClass('far');
+      $.post('/courses/wish/'+ btnWish.data('id'), $('.btn-wish').serialize());
+      }
+      else {
+      wishIcon.removeClass('far');
+      wishIcon.addClass('fas');
+      $.post('/courses/wish/'+ btnWish.data('id'), $('.btn-wish').serialize());
+      }
+      });
+    });
+
+</script>
+{{/section}}  

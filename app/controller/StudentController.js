@@ -24,13 +24,10 @@ class StudentController{
                 else {
                     req.body.password= hash;
                     new Student(req.body).save()
-                        .then (res.redirect('/'));
-                    
+                    .then(res.redirect('/'))                
                 }
-            });
-            
+            });          
         // res.json(req.body);
-
     }
 
     // [GET] /Student/login
@@ -72,7 +69,7 @@ class StudentController{
             .then( user => {
                 bcrypt.compare(req.body.password,user.password).then((result)=>{
                     if(result){
-                    req.app.locals.idUser = user._id ;
+                    req.app.locals.idUser = user._id;
                     req.app.locals.user = user;
                     req.session.user = user;
                     req.session.username = req.body.username;

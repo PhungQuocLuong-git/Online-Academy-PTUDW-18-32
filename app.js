@@ -7,9 +7,9 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 
 const exphbs = require('express-handlebars');
+const hbs_sections = require('express-handlebars-sections');
 
 var app = express();
-
 const db = require('./config/db');
 
 // Connect to DB
@@ -26,12 +26,14 @@ app.use('/public', express.static('public'));
 app.engine('hbs', exphbs({
   extname: '.hbs',
   helpers:{
+    section: hbs_sections(),
     ifcond(v1, v2, options) {
       if(v1 === v2) {
         return options.fn(this);
       }
       return options.inverse(this);
-    }
+    },
+
   }
 }));
 app.set('views', path.join(__dirname, 'views'));

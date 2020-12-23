@@ -1,7 +1,8 @@
 const Course = require('../models/Course');
 const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
-const { mongooseToObject} = require('../../util/mongoose')
+const { mongooseToObject} = require('../../util/mongoose');
+const { collection } = require('../models/Course');
 
 module.exports = {
     list(req, res){
@@ -14,17 +15,8 @@ module.exports = {
             script:'/public/javascripts/home.js'
         });
     },
-    detail(req, res,next) {
-        // res.json({slug: req.params.slug});
-        // Course.findOne({ slug: req.params.slug})
-        //     .then (course => {
-        //         res.render('courses/detail',{course:  mongooseToObject(course),
-        //                     wished: 0,
-        //                     extraStyle: '/public/stylesheets/detail.css',
-        //                     script:'/public/javascripts/home.js'
-        //                     } );
-        //     })
-        // }
+
+    detail(req, res,next) {      
         Promise.all([Course.findOne({ slug: req.params.slug}).populate("course_author"),
                     Student.findById(req.session.user._id).populate("wish_courses")])
                 .then(([course,user])=> {
@@ -33,15 +25,18 @@ module.exports = {
                         if(wish.course_id.equals(course._id))
                             wished=true;
                     });
-                    res.render('courses/detail',{course:  mongooseToObject(course),
-                        wished,
-                        extraStyle: '/public/stylesheets/detail.css',
+                    res.render('courses/detail',{
+                        course:  mongooseToObject(course),
+                        //wished,
+                        // extraStyle: '/public/stylesheets/detail.css',
                         script:'/public/javascripts/home.js'
                         } );
                 })
                 .catch(err => res.json({msg:'fail cmnr'}));
-            }
-    ,
+        // res.render('courses/detail',{
+        //     script:'/public/javascripts/home.js'
+        // });
+            },
    
     create(req,res){
         res.render('courses/create',{
@@ -80,6 +75,7 @@ module.exports = {
     //[POST]/courses/wish/:id
     wish(req,res,next){
         // res.json({msg:req.params.id});
+        console.log('wish');
         Student.findById(req.session.user._id).populate('wish_courses')
             .then(user => {
                 let wished = false;
@@ -94,11 +90,35 @@ module.exports = {
                 });
                 if(wished)
                     user.wish_courses.splice(j,1);
-                else
+                else 
                     user.wish_courses.push({course_id: req.params.id});
+                
                 Student.updateOne({_id:req.session.user._id},user)
                     .then(res.redirect('/user/watch-list'));
             })
+    },
+
+    wished(req,res) {
+        Student.findById(req.session.user._id).populate('wish_courses').then(user => {
+            user.wish_courses.forEach(wish => {
+                if(wish.course_id.equals(req.query.id)){
+                    res.json(true);
+                    return;
+                }
+            });
+            res.json(false);
+        }).catch(err => res.json({msg:'fail cmnr'}));
+    },
+    rmwish(req,res) {
+        Student.findById(req.session.user._id).populate('wish_courses').then(user =>{
+            user.wish_courses.forEach(wish => {
+                if(wish.course_id.equals(req.params.id)){
+                    console.log('dung');
+                    db.Student.update({_id:req.session.user._id},
+                        { $pull: { 'wish_courses': { course_id: req.params.id } } });
+                }
+            });
+        }).catch(err => res.json({msg:'fail cmnr'}));
     }
 };
 
