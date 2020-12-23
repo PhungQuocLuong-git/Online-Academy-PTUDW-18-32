@@ -658,6 +658,7 @@ for (i = 0; i < acc.length; i++) {
 
    var wishForm = document.forms['wish-course'];
     
+<<<<<<< HEAD
 var btnWish= $('.btn-wish');
     btnWish.on('click',function(){
       isWished().then(wished=>{
@@ -677,3 +678,21 @@ var btnWish= $('.btn-wish');
 
 </script>
 {{/section}}  
+=======
+    var btnWish= $('.btn-wish');
+    btnWish.on('click', function(){
+      wishForm.action = '/courses/wish/' + btnWish.data('id') ;
+      wishForm.submit();
+    })
+    
+
+     var addForm = document.forms['add-course'];
+    
+    var btnAdd= $('.btn-add-cart');
+    btnAdd.on('click', function(){
+      addForm.action = '/courses/add/' + btnAdd.data('id') ;
+      addForm.submit();
+    })
+}
+  </script>
+>>>>>>> a733bf90427de73a903a1df3e22ac613bba7770e
