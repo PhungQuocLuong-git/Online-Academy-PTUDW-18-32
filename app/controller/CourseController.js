@@ -28,13 +28,8 @@ module.exports = {
                     course.view++;
                     Course.updateOne({slug:course.slug},course)
                         .then(res.render('courses/detail',{course:  mongooseToObject(course),
-<<<<<<< HEAD
                             //wished,
                             //extraStyle: '/public/stylesheets/detail.css',
-=======
-                            wished,
-                            extraStyle: '/public/stylesheets/detail.css',
->>>>>>> a733bf90427de73a903a1df3e22ac613bba7770e
                             script:'/public/javascripts/home.js'
                             } ))
                     
@@ -119,7 +114,6 @@ module.exports = {
                     .then(res.redirect('/user/watch-list'));
             })
     },
-<<<<<<< HEAD
 
     wished(req,res) {
         Student.findById(req.session.user._id).populate('wish_courses').then(user => {
@@ -132,8 +126,6 @@ module.exports = {
             res.json(false);
         }).catch(err => res.json({msg:'fail cmnr'}));
     },
-=======
->>>>>>> a733bf90427de73a903a1df3e22ac613bba7770e
     //[POST]/courses/add/:id
     add(req,res,next){
         // res.json({msg:req.params.id});
