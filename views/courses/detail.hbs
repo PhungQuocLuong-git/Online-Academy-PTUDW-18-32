@@ -240,6 +240,20 @@
     font-size: 15px;
     color:#777;
   }
+
+  .number-rates {
+        color: #8c8b8b;
+        font-weight: 400;
+        align-self: center;
+    }
+
+    .rate {
+        font-size: 25px;
+        font-family: sans-serif;
+        color: #ff8000;
+        margin-left: 10px;
+        margin-right: 20px;
+    }
   </style>
 {{/section}}
 
@@ -277,15 +291,13 @@
         <div class="d-flex text-warning">
           <h3 class="delete-price text-dark">$200</h3>
           <h3 class="ml-4">$199.99</h3>
-          <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i
+          <h3 class="mx-auto"><a class="btn-wish " data-id="{{course._id}}" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i
                 class="fa-heart text-danger wish-icon"></i></a></i></h3>
         </div>
-        <div class="_46 d-flex mt-3">
-          <span class="number-rating bg-warning text-white px-2" style="border-radius: 15%;"></span>
-          <div class="stars-outer ml-3">
-            <div class="stars-inner"></div>
-          </div>
-          <span class="number-rates ml-3"><i class="fas fa-users"></i> 4.113.023 </span>
+        <div class="d-flex">
+        <span class="number-rating bg-warning text-white px-2 h-75 align-self-center" style="border-radius: 15%;">4.6</span>
+        <div class="rate" data-rate-value=4.6></div>       
+        <span class="number-rates"><i class="fas fa-users"></i> (4.543.342)</span>
         </div>
         <p class="mt-3">Created by <strong>Jonathan Madano</strong> </p>
         <div class="d-flex">
@@ -607,6 +619,15 @@ function isWished() {
   return $.getJSON(`/courses/wished?id=${heart}`);
 }
 
+    $(document).ready(function () {
+        var options = {
+            max_value: 5,
+            initial_value: 4,
+            readonly: true
+        }
+        $(".rate").rate(options);
+    });
+
 // Tooltip
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
@@ -658,7 +679,6 @@ for (i = 0; i < acc.length; i++) {
 
    var wishForm = document.forms['wish-course'];
     
-<<<<<<< HEAD
 var btnWish= $('.btn-wish');
     btnWish.on('click',function(){
       isWished().then(wished=>{
@@ -678,21 +698,3 @@ var btnWish= $('.btn-wish');
 
 </script>
 {{/section}}  
-=======
-    var btnWish= $('.btn-wish');
-    btnWish.on('click', function(){
-      wishForm.action = '/courses/wish/' + btnWish.data('id') ;
-      wishForm.submit();
-    })
-    
-
-     var addForm = document.forms['add-course'];
-    
-    var btnAdd= $('.btn-add-cart');
-    btnAdd.on('click', function(){
-      addForm.action = '/courses/add/' + btnAdd.data('id') ;
-      addForm.submit();
-    })
-}
-  </script>
->>>>>>> a733bf90427de73a903a1df3e22ac613bba7770e

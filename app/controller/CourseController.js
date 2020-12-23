@@ -29,7 +29,7 @@ module.exports = {
                     Course.updateOne({slug:course.slug},course)
                         .then(res.render('courses/detail',{course:  mongooseToObject(course),
                             //wished,
-                            //extraStyle: '/public/stylesheets/detail.css',
+                            extraStyle: '/public/stylesheets/home.css',
                             script:'/public/javascripts/home.js'
                             } ))
                     
