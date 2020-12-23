@@ -18,6 +18,11 @@ const StudentSchema = new Schema({
       course_id: { type: Schema.Types.ObjectId, ref: "Course" },
     },
   ],
+  cart_courses: [
+    {
+      course_id: { type: Schema.Types.ObjectId, ref: "Course" },
+    },
+  ],
   },{
     timestamps: true,
   });

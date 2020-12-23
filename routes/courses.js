@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const TeacherMiddleware = require('../app/middlewares/teacherMiddleware');
+const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
 
 const courseController = require('../app/controller/CourseController');
 
@@ -16,6 +16,8 @@ router.get('/wished',courseController.wished);
 router.post('/store',courseController.store);
 router.post('/book/:id',courseController.book);
 router.post('/wish/:id',courseController.wish);
+router.post('/add/:id',courseController.add);
+router.delete('/delcart/:id',courseController.delcart);
 
 router.get('/:slug',courseController.detail);
 

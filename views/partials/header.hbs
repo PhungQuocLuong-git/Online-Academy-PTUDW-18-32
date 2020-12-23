@@ -9,8 +9,11 @@
       <ul class="navbar-nav ml-auto">
         {{#ifcond role 1}}
         <li class="nav-item active">
-        <a class="nav-link btn-swap" href="#" data-id="{{idUser}}">Teach on OA <span class="sr-only">(current)</span></a>
-      </li>
+          <a class="nav-link btn-cart" href="/student/cart/{{idUser}}" >Cart <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link btn-swap" href="#" data-id="{{idUser}}">Teach on OA <span class="sr-only">(current)</span></a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{nameUser}}
@@ -23,7 +26,7 @@
             <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
             
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/student/logout">Đăng xuất</a>
+            <a class="dropdown-item btn--logout" href="#">Đăng xuất</a>
           </div>
         </li>
         {{else}}
@@ -43,7 +46,8 @@
                 <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
                 <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/student/logout">Đăng xuất</a>
+                  <a class="dropdown-item btn--logout" href="#" >Đăng xuất</a>
+                
               </div>
             </li>
             {{else}}
@@ -63,7 +67,7 @@
 </nav>
 
 <form name="swap-role" method="POST" ></form>
-
+<form id="log-out" action="/student/logout" method="POST" ></form>
 
 <script>
   document.addEventListener('DOMContentLoaded',function () {
@@ -73,6 +77,11 @@
     btnSwap.on('click', function(){
       swapForm.action = '/student/' + btnSwap.data('id') + '/swap?_method=PATCH';
       swapForm.submit();
+    })
+    console.log($('#log-out'));
+    {{!-- Logout btn --}}
+    $('.btn--logout').on('click', function() {
+      $('#log-out').submit()
     })
   })
 </script>

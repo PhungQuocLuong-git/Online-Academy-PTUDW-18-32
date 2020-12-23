@@ -1,7 +1,9 @@
 #lỗi chung:
 Các route phải đăng nhập ms xem đc( do có findbyID):detail
 Chưa alert lỗi mà ms chỉ dạng res.json
-
+Chưa thêm mdw vào các route
+#Auth:
+Khi k có tk nào trong DB thì login bị crash
 #tạo khóa hc:
 Numeral price, trạng thái khóa hc
 #Mua khóa hc:
