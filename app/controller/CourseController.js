@@ -109,16 +109,5 @@ module.exports = {
             res.json(false);
         }).catch(err => res.json({msg:'fail cmnr'}));
     },
-    rmwish(req,res) {
-        Student.findById(req.session.user._id).populate('wish_courses').then(user =>{
-            user.wish_courses.forEach(wish => {
-                if(wish.course_id.equals(req.params.id)){
-                    console.log('dung');
-                    db.Student.update({_id:req.session.user._id},
-                        { $pull: { 'wish_courses': { course_id: req.params.id } } });
-                }
-            });
-        }).catch(err => res.json({msg:'fail cmnr'}));
-    }
 };
 

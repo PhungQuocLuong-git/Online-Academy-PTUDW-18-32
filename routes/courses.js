@@ -16,7 +16,6 @@ router.get('/wished',courseController.wished);
 router.post('/store',courseController.store);
 router.post('/book/:id',courseController.book);
 router.post('/wish/:id',courseController.wish);
-router.post('/rmwish/:id,',courseController.rmwish);
 
 router.get('/:slug',courseController.detail);
 
