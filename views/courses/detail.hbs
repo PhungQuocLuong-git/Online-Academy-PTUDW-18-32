@@ -613,6 +613,12 @@
 
 {{#section 'js'}}
 <script>
+  var bookForm = document.forms['book-course'];
+    var btnBook= $('.btn-book-course');
+    btnBook.on('click', function(){
+      bookForm.action = '/courses/book/' + btnBook.data('id') ;
+      bookForm.submit();
+    })
 
 function isWished() {
   var heart=$('.btn-wish').data('id');  
@@ -667,12 +673,15 @@ for (i = 0; i < acc.length; i++) {
   });
 } 
   
-  var bookForm = document.forms['book-course'];
-    
-    var btnBook= $('.btn-book-course');
-    btnBook.on('click', function(){
-      bookForm.action = '/courses/book/' + btnBook.data('id') ;
-      bookForm.submit();
+  
+
+
+  var addForm = document.forms['add-course'];
+    var btnAdd= $('.btn-add-cart');
+    console.log(addForm,btnAdd)
+    btnAdd.on('click', function(){
+      addForm.action = '/courses/add/' + btnAdd.data('id') ;
+      addForm.submit();
     })
 
 
@@ -695,6 +704,7 @@ var btnWish= $('.btn-wish');
       }
       });
     });
-
+  
+  
 </script>
 {{/section}}  

@@ -127,29 +127,25 @@ module.exports = {
         }).catch(err => res.json({msg:'fail cmnr'}));
     },
     //[POST]/courses/add/:id
-    add(req,res,next){
-        // res.json({msg:req.params.id});
+     add(req,res,next){
         Student.findById(req.session.user._id).populate('cart_courses')
-            .then(user => {
-                let added,booked;
-                added=user.cart_courses.some(course => course.course_id.equals(req.params.id));
-                booked=user.booked_courses.some(course => course.course_id.equals(req.params.id));
-                if(booked)
-                    res.json('Ban da mua khoa hoc nay');
-                if(added)
-                    res.json({msg:'Bn da them khoa hc nay r'})
+            .then( user => {return new Promise(  function(resolve,reject) {
+                if(user.cart_courses.some(course => course.course_id.equals(req.params.id))||
+                user.booked_courses.some(course => course.course_id.equals(req.params.id))){
+                    reject(user);
+                }
                 else
-                    user.cart_courses.push({course_id: req.params.id});
+                    resolve(user);
+            }) } )
+            .then(user =>{ 
+                user.cart_courses.push({course_id: req.params.id});
+                req.app.locals.cartCount = user.cart_courses.length;
                 Student.updateOne({_id:req.session.user._id},user)
-                    .then(() => {
-                        req.session.user = user;
-                        res.redirect('/user/watch-list');
-                    });
+                    .then(res.redirect('/'));
             })
-    },
-
-    delcart(req,res,next){
-        res.json({msg: req.params.id});
-    }
+            .catch(user =>{
+                res.json({msg:'fail',user});
+            })
+     }
 };
 

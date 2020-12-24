@@ -20,7 +20,7 @@ const CourseSchema = new Schema({
     view:{type:Number, default: 0},
     status:{type:Number, default: 0},
     image: {type: String, default: '/public/images/feature.png'},
-    kind: {type: Number, default: 1},
+    kind: {type: Number, ref:"Category"},
     // category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
     slug: { type: String, slug: 'name', unique: true }
     // createdAt: {type: Date, default: Date.now},
