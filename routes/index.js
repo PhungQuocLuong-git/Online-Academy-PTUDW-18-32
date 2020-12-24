@@ -7,7 +7,7 @@ const studentRouter = require('./student');
 const teacherRouter = require('./teacher');
 // const studentRouter = require('./student');
 // const AuthMiddleware = require('../app/middlewares/authMiddleware');
-// const StudentMiddleware = require('../app/middlewares/studentMiddleware');
+const StudentMiddleware = require('../app/middlewares/studentMiddleware');
 const TeacherMiddleware = require('../app/middlewares/teacherMiddleware');
 
 
@@ -16,6 +16,7 @@ function route(app) {
     app.locals.idUser = 0 ;
     app.locals.nameUser = 'User' ;
     app.locals.user = {};
+    app.locals.cartCount = 0;
     app.use('/courses',coursesRouter);
     // app.use('/me',TeacherMiddleware,meRouter);
     // app.use('/student',StudentMiddleware,studentRouter);
@@ -26,9 +27,9 @@ function route(app) {
     app.use('/', siteRouter);
     
     // catch 404 and forward to error handler
-    // app.use(function(req, res, next) {
-    //     next(createError(404));
-    // });
+    app.use(function(req, res, next) {
+        next(createError(404));
+    });
     
     // error handler
     app.use(function(err, req, res, next) {

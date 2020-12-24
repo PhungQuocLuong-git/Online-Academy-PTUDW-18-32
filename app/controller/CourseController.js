@@ -109,35 +109,54 @@ module.exports = {
                     .then(res.redirect('/user/watch-list'));
             })
     },
-    //[POST]/courses/add/:id
-    add(req,res,next){
-        // res.json({msg:req.params.id});
-        Student.findById(req.session.user._id).populate('cart_courses')
-            .then(user => {
-                let added = false;
-                user.cart_courses.forEach(course => {
-                    if(course.course_id.equals(req.params.id)){
-                        added=true;
-                    }
-                });
-                user.booked_courses.forEach(course => {
-                    if(course.course_id.equals(req.params.id))
-                        res.json('Ban da mua khoa hoc nay');
-                })
-                if(added)
-                    res.json({msg:'Bn da them khoa hc nay r'})
-                else
-                    user.cart_courses.push({course_id: req.params.id});
-                Student.updateOne({_id:req.session.user._id},user)
-                    .then(() => {
-                        req.session.user = user;
-                        res.redirect('/user/watch-list');
-                    });
-            })
-    },
 
-    delcart(req,res,next){
-        res.json({msg: req.params.id});
-    }
+    // add(req,res,next){
+    //     // res.json({msg:req.params.id});
+    //     Student.findById(req.session.user._id).populate('cart_courses')
+    //         .then(user => {
+    //             if(
+    //                 user.cart_courses.some(course => course.course_id.equals(req.params.id) ) ||
+    //                 user.booked_courses.some(course => course.course_id.equals(req.params.id) )
+    //             )
+    //             res.json({msg:'failll'});
+    //             else
+    //                 {
+    //                 user.cart_courses.push({course_id: req.params.id});
+    //                 console.log('bat dong bo');
+    //             req.app.locals.cartCount = user.cart_courses.length;
+    //             Student.updateOne({_id:req.session.user._id},user)
+    //                 .then(() => {
+    //                     req.session.user = user;
+    //                     res.redirect('/user/watch-list');
+    //                 });
+    //             }
+                
+    //             // res.json({msg:'Bat dong bo'});
+                
+    //         })
+    // },
+
+
+    //[POST]/courses/add/:id
+     add(req,res,next){
+        Student.findById(req.session.user._id).populate('cart_courses')
+            .then( user => {return new Promise(  function(resolve,reject) {
+                if(user.cart_courses.some(course => course.course_id.equals(req.params.id))||
+                user.booked_courses.some(course => course.course_id.equals(req.params.id))){
+                    reject(user);
+                }
+                else
+                    resolve(user);
+            }) } )
+            .then(user =>{ 
+                user.cart_courses.push({course_id: req.params.id});
+                req.app.locals.cartCount = user.cart_courses.length;
+                Student.updateOne({_id:req.session.user._id},user)
+                    .then(res.redirect('/'));
+            })
+            .catch(user =>{
+                res.json({msg:'fail',user});
+            })
+     }
 };
 
