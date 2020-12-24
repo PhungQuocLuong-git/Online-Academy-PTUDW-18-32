@@ -140,11 +140,14 @@ module.exports = {
             .then(user =>{ 
                 user.cart_courses.push({course_id: req.params.id});
                 req.app.locals.cartCount = user.cart_courses.length;
-                Student.updateOne({_id:req.session.user._id},user)
-                    .then(res.redirect('/'));
+                return Student.updateOne({_id:req.session.user._id},user)
+                    
             })
             .catch(user =>{
                 res.json({msg:'fail',user});
+            })
+            .then(user => {
+                res.json('/');
             })
      }
 };
