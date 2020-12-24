@@ -55,9 +55,12 @@ class StudentController{
                     total = total + course.course_id.price;
                 })
                 // res.json(total);
+ 
                 res.render('students/cart',{
                     total,
-                    student:mongooseToObject(user)
+                    student:mongooseToObject(user),
+                    extraStyle: '/public/stylesheets/home.css',
+                            script:'/public/javascripts/home.js'
                 })
             });
     }
@@ -65,6 +68,7 @@ class StudentController{
     // [POST] /Student/logout
     logout(req,res,next) {
         req.app.locals.role = 0;
+        req.session.role=0;
         req.session.destroy(() => {
             res.redirect('/student/login');
           });
@@ -97,6 +101,7 @@ class StudentController{
                     req.session.user = user;
                     req.session.username = req.body.username;
                     req.app.locals.nameUser = user.username;
+                    req.session.role=1;
                     req.app.locals.role = 1;
                     res.redirect('/')
                       } else {

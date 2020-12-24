@@ -131,16 +131,11 @@ module.exports = {
         // res.json({msg:req.params.id});
         Student.findById(req.session.user._id).populate('cart_courses')
             .then(user => {
-                let added = false;
-                user.cart_courses.forEach(course => {
-                    if(course.course_id.equals(req.params.id)){
-                        added=true;
-                    }
-                });
-                user.booked_courses.forEach(course => {
-                    if(course.course_id.equals(req.params.id))
-                        res.json('Ban da mua khoa hoc nay');
-                })
+                let added,booked;
+                added=user.cart_courses.some(course => course.course_id.equals(req.params.id));
+                booked=user.booked_courses.some(course => course.course_id.equals(req.params.id));
+                if(booked)
+                    res.json('Ban da mua khoa hoc nay');
                 if(added)
                     res.json({msg:'Bn da them khoa hc nay r'})
                 else

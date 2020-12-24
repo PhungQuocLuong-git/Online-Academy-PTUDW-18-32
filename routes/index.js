@@ -12,11 +12,24 @@ const teacherRouter = require('./teacher');
 const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
 
 
+
 function route(app) {
-    app.locals.role = 0 ;
-    app.locals.idUser = 0 ;
-    app.locals.nameUser = 'User' ;
-    app.locals.user = {};
+    app.use(function (req, res, next) {
+        if(typeof(req.session.role)==='undefined') {
+            app.locals.role = 0 ;
+            app.locals.idUser = 0 ;
+            app.locals.nameUser = 'User' ;
+            app.locals.user = {};
+        }
+        else {
+            app.locals.role = req.session.role;
+            app.locals.idUser = req.session.user._id ;
+            app.locals.nameUser = req.session.username ;
+            app.locals.user = req.session.user;
+        }
+
+    next();
+      })  
     app.use('/courses',coursesRouter);
     // app.use('/me',TeacherMiddleware,meRouter);
     // app.use('/student',StudentMiddleware,studentRouter);
