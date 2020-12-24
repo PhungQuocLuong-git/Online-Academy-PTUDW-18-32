@@ -29,7 +29,7 @@ function route(app) {
         }
 
     next();
-      })  
+    })  
     app.use('/courses',coursesRouter);
     // app.use('/me',TeacherMiddleware,meRouter);
     // app.use('/student',StudentMiddleware,studentRouter);

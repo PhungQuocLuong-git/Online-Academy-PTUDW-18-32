@@ -10,35 +10,45 @@ module.exports = {
             script:'/public/javascripts/home.js'
         });
     },
+
     search(req, res){
         res.render('courses/search',{
             script:'/public/javascripts/home.js'
         });
     },
-    detail(req, res,next) {
-        Promise.all([Course.findOne({ slug: req.params.slug}).populate("course_author"),
-                    Student.findById(req.session.user._id).populate("wish_courses"),])
-                .then(([course,user])=> {
-                    // res.json({au:course.course_author.name});
-                    let wished = false;
-                    user.wish_courses.forEach(wish => {
-                        if(wish.course_id.equals(course._id))
-                            wished=true;
-            });
-                    course.view++;
-                    Course.updateOne({slug:course.slug},course)
-                        .then(res.render('courses/detail',{course:  mongooseToObject(course),
-                            //wished,
-                            extraStyle: '/public/stylesheets/home.css',
-                            script:'/public/javascripts/home.js'
-                            } ))
+
+    async detail(req, res,next) {
+        // Promise.all([Course.findOne({ slug: req.params.slug}).populate("course_author"),
+        //             Student.findById(req.session.user._id).populate("wish_courses"),])
+        //         .then(([course,user])=> {
+        //             // res.json({au:course.course_author.name});
+        //             let wished = false;
+        //             user.wish_courses.forEach(wish => {
+        //                 if(wish.course_id.equals(course._id))
+        //                     wished=true;
+        //     });
+        //             course.view++;
+        //             Course.updateOne({slug:course.slug},course)
+        //                 .then(res.render('courses/detail',{course:  mongooseToObject(course),
+        //                     //wished,
+        //                     extraStyle: '/public/stylesheets/home.css',
+        //                     script:'/public/javascripts/home.js'
+        //                     } ))
                     
-                })
-                .catch(err => res.json({msg:'fail cmnr'}));
-        // res.render('courses/detail',{
-        //     script:'/public/javascripts/home.js'
-        // });
-            },
+        //     }).catch(err => res.json({msg:'fail cmnr'}));
+        try {
+            var course=await Course.findOne({slug: req.params.slug}).populate("course_author");
+            course.view++;
+            await Course.updateOne({slug:course.slug},course);
+            res.render('courses/detail',{
+                course:  mongooseToObject(course),
+                extraStyle: '/public/stylesheets/home.css',
+                script:'/public/javascripts/home.js'
+            }); 
+        } catch(err) {
+            res.json({msg:'Something happened!!!'});
+        }       
+    },
    
     create(req,res){
         res.render('courses/create',{
@@ -150,6 +160,27 @@ module.exports = {
 
     delcart(req,res,next){
         res.json({msg: req.params.id});
-    }
+    },
+
+    //Most viewed courses
+    async getMostviewed() {
+        var courses = await Course.find().populate('course_author');
+        courses.sort((course1,course2) => {course1.view-course2.view});
+        courses=courses.slice(0,3);
+        return courses;
+    },
+    //Most popular courses
+    getMostpopular() {
+
+    },
+    //Most highligted courses
+    getMostHighlighted() {
+
+    },
+    //Newest courses
+    getNewest() {
+
+    },
+
 };
 
