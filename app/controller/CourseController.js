@@ -51,33 +51,76 @@ module.exports = {
             })
     },
 
-    book(req, res, next) {
-        Promise.all([Course.findOne({ _id: req.params.id }), Student.findOne({ username: req.session.username })])
-            .then(([course2, user2]) => {
-                course2.course_students.forEach(student => {
-                    if (student.user_id.equals(user2._id))
-                        res.json({ err: 'Bn da dki khoa hc nay r' });
-                });
-
-                if (user2.money < course2.price) {
-                    res.json('Bn hok đủ money');
+    //[POST]/courses/add/:id
+    add(req,res,next){
+        Student.findById(req.session.user._id).populate("cart_courses.course_id")
+            .then( user => {return new Promise(  function(resolve,reject) {
+                if(user.cart_courses.some(course => course.course_id.equals(req.params.id))||
+                user.booked_courses.some(course => course.course_id.equals(req.params.id))){
+                    reject(user);
                 }
-                user2.money -= course2.price;
-                let i = 0;
-                user2.cart_courses.forEach(cou => {
-                    if (course2._id.equals(cou.course_id))
-                        user2.cart_courses.splice(i, 1);
-                    i++;
-                })
+                else
+                    resolve(user);
+            }) } )
+            .then(user =>{ 
+                user.cart_courses.push({course_id: req.params.id});
+                return Student.findByIdAndUpdate(req.session.user._id,user).populate("cart_courses.course_id")
+            })
+            .catch(user =>{
+                res.json({msg:'fail',user});
+            })
+            .then(user => {
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
+                res.redirect('/student/cart/'+user._id);
+            })
+     },
 
+    book(req,res,next){
+        
+        Course.findById(req.params.id).populate( 'course_students.user_id' )
+            .then(course => {return new Promise( function(resolve,reject) {
+                if(
+                    course.course_students.some(course => course.course_id.equals(req.session.user._id))){
+                        reject(course)
+                    }
+                    else
+                        resolve(course);
+            })
+            })
+            .catch (course => {
+                res.json({msg:'fail',course})
+            })
+            .then (course => 
+                {return new Promise(function(resolve,reject){
+                // res.json(req.session.user.cart_courses.findIndex(cours => cours.course_id.equals(req.params.id)))
+                var ret = req.session.user.cart_courses.findIndex(cours => cours.course_id._id.equals(req.params.id));
+                console.log(ret);
+                
+                if(course.price > req.session.user.money)
+                    reject();
+                else{
+                    resolve([ret,course]);
+                }
+                
+            })}
+            )
+            .then(  ([ret,course]) => {
+                if(ret>=0)
+                    req.session.user.cart_courses.splice(ret,1);
+                course.course_students.push({user_id: req.session.user._id});
+                req.session.user.booked_courses.push({course_id: course._id});
+                req.session.user.money -=course.price;
+                console.log(course,req.session.user);
 
-                course2.course_students.push({ user_id: user2._id });
-                course2.studentQty++;
-                user2.booked_courses.push({ course_id: course2._id });
-                req.session.user = user2;
-                Promise.all([Course.updateOne({ _id: course2._id }, course2), Student.updateOne({ username: user2.username }, user2)])
-                    // .then(([r1,r2]) => res.json({r1,r2,test1:course2.course_students, test2:  user2.booked_courses}));
-                    .then(res.redirect('/'));
+                return Promise.all([Course.findByIdAndUpdate(course._id,course),
+                    Student.findByIdAndUpdate(req.session.user._id,req.session.user)])
+            })
+            .then(([user,course]) => {
+                res.json({user,course});
+            })
+            .catch( () => {
+                res.json({msg:'Bn k mua dc khoa hc nay'});
             })
     },
 
@@ -116,40 +159,24 @@ module.exports = {
         else res.json(false);
     },
     //[POST]/courses/add/:id
-    async add(req, res, next) {
-        // Student.findById(req.session.user._id).populate('cart_courses')
-        //     .then(user => {
-        //         return new Promise(function (resolve, reject) {
-        //             if (user.cart_courses.some(course => course.course_id.equals(req.params.id)) ||
-        //                 user.booked_courses.some(course => course.course_id.equals(req.params.id))) {
-        //                 reject(user);
-        //             }
-        //             else
-        //                 resolve(user);
-        //         })
-        //     })
-        //     .then(user => {
-        //         user.cart_courses.push({ course_id: req.params.id });
-        //         req.app.locals.cartCount = user.cart_courses.length;
-        //         return Student.updateOne({ _id: req.session.user._id }, user)
-        //     })
-        var user = await Student.findById(req.session.user._id).populate('cart_courses');
-        let added, booked;
-        added = user.cart_courses.some(course => course.course_id.equals(req.params.id));
-        booked = user.booked_courses.some(course => course.course_id.equals(req.params.id));
-        if (booked)
-            res.json('Ban da mua khoa hoc nay');
+    // async add(req, res, next) {
+    //     var user = await Student.findById(req.session.user._id).populate('cart_courses');
+    //     let added, booked;
+    //     added = user.cart_courses.some(course => course.course_id.equals(req.params.id));
+    //     booked = user.booked_courses.some(course => course.course_id.equals(req.params.id));
+    //     if (booked)
+    //         res.json('Ban da mua khoa hoc nay');
         
-        if (added)
-            res.json({ msg: 'Bn da them khoa hc nay r' });
+    //     if (added)
+    //         res.json({ msg: 'Bn da them khoa hc nay r' });
 
-        if(!booked && !added){
-            user.cart_courses.push({ course_id: req.params.id });
-            await Student.updateOne({ _id: req.session.user._id }, user);
-            req.session.user = user;
-            res.redirect('/user/watch-list');
-        }
-    },
+    //     if(!booked && !added){
+    //         user.cart_courses.push({ course_id: req.params.id });
+    //         await Student.updateOne({ _id: req.session.user._id }, user);
+    //         req.session.user = user;
+    //         res.redirect('/user/watch-list');
+    //     }
+    // },
 
     delcart(req, res, next) {
         res.json({ msg: req.params.id });

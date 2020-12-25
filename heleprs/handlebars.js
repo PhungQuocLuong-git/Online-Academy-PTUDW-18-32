@@ -1,6 +1,10 @@
 const hbs_sections = require('express-handlebars-sections');
 const numeral = require('numeral');
+const { mongooseToObject } = require('../util/mongoose');
+const Course = require('../app/models/Course');
 
+
+// const mongooseToObject = require('../util/mongoose')
 
 module.exports = {
     sum: (a,b) => a + b,
@@ -14,10 +18,6 @@ module.exports = {
       format(val) {
           return numeral(val).format('0,0');
       },
-    for(from, to, incr, block) {
-        var accum = '';
-        for(var i = from; i < to; i += incr)
-            accum += block.fn(i);
-        return accum;
-    }
+    mon: (col,ind,field) => col[ind].course_id[field],
+    mon2: (col,field) => col.course_id[field],
 }
