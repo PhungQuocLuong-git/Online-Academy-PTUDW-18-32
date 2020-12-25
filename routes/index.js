@@ -29,17 +29,8 @@ function route(app) {
         }
         else {
             app.locals.role = req.session.role;
-            app.locals.idUser = req.session.user._id ;
-            app.locals.nameUser = req.session.username ;
-            // console.log(Array.isArray(req.app.locals.user));
-            if(req.app.locals.user)
-                {
-                    
-                }
-            else
+            if(!req.app.locals.user)
                 req.app.locals.user = req.session.user;
-
-            app.locals.cartU = req.session.user.cart_courses;
         }
 
     next();

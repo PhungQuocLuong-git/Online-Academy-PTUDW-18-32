@@ -49,16 +49,8 @@ class StudentController{
           })
             .then(user => {
                 let total = 0;
-                // var cart= user.cart_courses;
-                // res.json({user,cart:user.cart_courses[0].course_id.name})
-                user.cart_courses.forEach(course => {
-                    console.log(course.course_id.price);
-                    total = total + course.course_id.price;
-                })
-                // res.json(total);
                 req.app.locals.user = mongooseToObject(user);
                 res.render('students/cart',{
-                    total,
                     student:mongooseToObject(user),
                     extraStyle: '/public/stylesheets/home.css',
                             script:'/public/javascripts/home.js'
@@ -86,12 +78,9 @@ class StudentController{
                 req.app.locals.cartCount = user.cart_courses.length;
                 bcrypt.compare(req.body.password,user.password).then((result)=>{
                     if(result){
-                    req.app.locals.idUser = user._id;
                     req.session.user = mongooseToObject(user);
                     req.app.locals.user = mongooseToObject(user);
                     req.session.username = req.body.username;
-                    req.app.locals.nameUser = user.username;
-                    req.app.locals.cartUser = user.cart_courses;
                     req.session.role=1;
                     req.app.locals.role = 1;
                     res.redirect('/')
@@ -102,7 +91,6 @@ class StudentController{
                     .catch((err)=>res.json({error1: err}))
                 })
                 .catch(err => res.json({err2: err}));
-        // res.json(req.body)
     }
     
     // [DELETE] /student//delcart/:id
@@ -158,11 +146,9 @@ class StudentController{
                 if(total<= user.money){
                     var courses = await Course.find({_id: { $in: idCourses} }).populate('course_students')
                     let i = courses.length - 1;
-                    // res.json({t1:user,t2:user.cart_courses,t3:req.session.user,t4:req.session.user.cart_courses})
                     courses.forEach( async function(course)  {
                         user.booked_courses.push({course_id:course.id});
                         let i = 0;
-                        // user.cart_courses.splice(user.cart_courses.findIndex(co => course.course_id._id.equals(co.course_id)),1);
                         user.cart_courses.forEach(course2 => {
                             if(course._id.equals(course2.course_id._id)){
                                 user.cart_courses.splice(i,1);

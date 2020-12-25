@@ -49,15 +49,15 @@
               {{/each}}
                 
               </ul>
-               <a href="/student/cart/{{idUser}}" class="navbar__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
+               <a href="/student/cart/{{user._id}}" class="navbar__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
           </div>
         </li>
         <li class="nav-item active">
-          <a class="nav-link btn-swap" href="#" data-id="{{idUser}}">Teach on OA <span class="sr-only">(current)</span></a>
+          <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Teach on OA <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{nameUser}}
+            {{user.name}}
             <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
             
           </a>
@@ -73,11 +73,11 @@
         {{else}}
             {{#ifcond role 2}}
              <li class="nav-item active">
-              <a class="nav-link btn-swap" href="#" data-id="{{idUser}}">Learn on OA <span class="sr-only">(current)</span></a>
+              <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Learn on OA <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{nameUser}}
+                {{user.name}}
                 <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
                 
               </a>
