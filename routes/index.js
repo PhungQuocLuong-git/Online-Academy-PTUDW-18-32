@@ -31,10 +31,13 @@ function route(app) {
             app.locals.role = req.session.role;
             app.locals.idUser = req.session.user._id ;
             app.locals.nameUser = req.session.username ;
-            // if(req.session.user)
-            //     req.app.locals.user = req.session.user
-            // else
-            //     req.app.locals.user = req.session.user.toObject();
+            // console.log(Array.isArray(req.app.locals.user));
+            if(req.app.locals.user)
+                {
+                    
+                }
+            else
+                req.app.locals.user = req.session.user;
 
             app.locals.cartU = req.session.user.cart_courses;
         }

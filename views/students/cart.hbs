@@ -24,12 +24,12 @@
     <table class="table mt-4 mt-4">
       <thead>
         <tr>
-          <th scope="col">1</th>
+          <th scope="col"></th>
           <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-          <th scope="col">btn</th>
+          <th scope="col">Tên khóa hc</th>
+          <th scope="col">Money</th>
+          <th scope="col">Giảng viên</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -46,8 +46,8 @@
                 <td>{{this.course_id.price}}</td>
                 <td>{{this.course_id.course_author.name}}</td>
                 <td>
-                  <a class="btn btn-del-cart btn-link btn-outline-warning" data-id="{{this.course_id._id}}" >Xóa</a>
-                  <a class="btn btn-book-cart btn-link btn-outline-warning" data-id="{{this.course_id._id}}" >Mua</a>
+                  <btn class="btn btn-del-cart  btn-outline-danger" data-id="{{this.course_id._id}}" >Xóa</btn>
+                  <btn class="btn btn-book-cart  btn-outline-success" data-id="{{this.course_id._id}}" >Mua</btn>
                 </td>
             </tr>
           {{/each}}

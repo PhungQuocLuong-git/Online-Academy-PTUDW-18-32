@@ -172,7 +172,7 @@ class StudentController{
                         course.course_students.push({user_id: req.session.user._id});
                         let c = await Course.findByIdAndUpdate(course._id,course);
                     })
-                    req.session.user.money -=total;                              
+                    user.money -=total;                              
                     let student = await  Student.findByIdAndUpdate(req.session.user._id,user).populate({
                         path: "cart_courses.course_id",
                         select: "name slug price course_author",
