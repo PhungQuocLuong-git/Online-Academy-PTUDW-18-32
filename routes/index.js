@@ -18,14 +18,6 @@ function route(app) {
     app.use(function (req, res, next) {
         if(typeof(req.session.role)==='undefined') {
             app.locals.role = 0 ;
-            app.locals.idUser = 0 ;
-            app.locals.nameUser = 'User' ;
-            app.locals.user = {};
-            app.locals.arrayTest=[1,2,3,4];
-            app.locals.test={
-                a:'a',
-                b:'b'
-            }
         }
         else {
             app.locals.role = req.session.role;
