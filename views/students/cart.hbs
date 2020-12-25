@@ -50,6 +50,15 @@
                   <btn class="btn btn-book-cart  btn-outline-success" data-id="{{this.course_id._id}}" >Mua</btn>
                 </td>
             </tr>
+            {{else}}
+            <tr>
+          <td colspan="5" class="text-center">
+            Bạn chưa thêm khóa học nào vào giỏ.
+            <div class="">
+
+            <a href="/"> Về trang chủ
+            </div>
+        </tr>
           {{/each}}
       </tbody>
     </table>

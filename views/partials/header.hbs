@@ -17,6 +17,7 @@
           <i class="navbar__cart-icon fas fa-shopping-cart"></i>
           <span class="navbar__cart-notice">{{user.cart_courses.length}}</span>
           </a>
+          {{#if user.cart_courses.length }}
           <div class="navbar__cart-list ">
             {{!-- <img src="assets/img/cosmic_dusk_xayah_fanart_by_zuzifrost-dcdmps4.png" alt="" class="navbar__cart-no-card-img"> --}}
             <span class="navbar__card-list-no-card-msg">
@@ -24,7 +25,7 @@
             </span>
             <h4 class="navbar__cart-heading">Khóa hc đã thêm vào Cart </h4>
             <ul class="navbar__cart-list-item">
-              {{#each user.cart_courses}}
+                {{#each user.cart_courses}}
 
                 <li class="navbar__cart-item">
                     <img src="/public/images/user1.png" alt="" class="navbar__cart-img">
@@ -47,11 +48,20 @@
                     </div>
                 </li>
               {{/each}}
-                
+               
               </ul>
                <a href="/student/cart/{{user._id}}" class="navbar__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
           </div>
         </li>
+          {{else}}
+              <div class="navbar__cart-list navbar__cart-list--no-card ">
+            <img src="/public/images/empty-cart.png" alt="" class="navbar__cart-no-card-img">
+            <span class="navbar__card-list-no-card-msg">
+                Chưa có khóa nào
+            </span>
+          {{/if}}
+          
+                
         <li class="nav-item active">
           <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Teach on OA <span class="sr-only">(current)</span></a>
         </li>
