@@ -8,5 +8,4 @@ Khi k có tk nào trong DB thì login bị crash
 Numeral price, trạng thái khóa hc
 #Mua khóa hc:
 Chưa back đc trang trc( mún đc phải data-slug vào), order ở DB
-#Course detail:
-course.findone xong phai populate author ma author chua co id teacher
+*Chua update da~ push vs delcart vs -money

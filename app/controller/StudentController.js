@@ -56,7 +56,7 @@ class StudentController{
                     total = total + course.course_id.price;
                 })
                 // res.json(total);
- 
+                req.app.locals.user = mongooseToObject(user);
                 res.render('students/cart',{
                     total,
                     student:mongooseToObject(user),
@@ -74,35 +74,24 @@ class StudentController{
             res.redirect('/student/login');
           });
     }
-
-    // [PATCH] /Student/:id
-    swap(req,res,next) {
-        var roleSwap = 1;
-        if(req.session.user.role===1){
-            roleSwap = 2;
-        }
-        
-        Student.updateOne({_id:req.params.id},{role:roleSwap})
-            .then(() => {
-                req.session.user.role = roleSwap;
-                req.app.locals.user = req.session.user;
-                req.app.locals.role = roleSwap;
-                res.redirect('/')
-            });
-    }
-
     // [POST] /student/check
     check(req,res,next) {
-        Student.findOne({username: req.body.username})
+        Student.findOne({username: req.body.username}).populate({
+            path: "cart_courses.course_id",
+            select: "name slug price description course_author",
+            populate: { path: "course_author", select: "name" },
+            
+          })
             .then( user => {
                 req.app.locals.cartCount = user.cart_courses.length;
                 bcrypt.compare(req.body.password,user.password).then((result)=>{
                     if(result){
                     req.app.locals.idUser = user._id;
-                    req.app.locals.user = user;
-                    req.session.user = user;
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);
                     req.session.username = req.body.username;
                     req.app.locals.nameUser = user.username;
+                    req.app.locals.cartUser = user.cart_courses;
                     req.session.role=1;
                     req.app.locals.role = 1;
                     res.redirect('/')
@@ -118,7 +107,12 @@ class StudentController{
     
     // [DELETE] /student//delcart/:id
     delcart(req,res,next){
-        Student.findById(req.session.user._id)
+        Student.findById(req.session.user._id).populate({
+            path: "cart_courses.course_id",
+            select: "name slug price course_author",
+            populate: { path: "course_author", select: "name" },
+            
+          })
             .then(user => {
                 let i= 0;
                 user.cart_courses.forEach( course => {
@@ -128,70 +122,75 @@ class StudentController{
                 }
                 
                 )
-                req.app.locals.cartCount = user.cart_courses.length;
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
+
                 Student.updateOne({_id:req.session.user._id},user)
                     .then(res.redirect(`/student/cart/${user._id}`));
             });
     }
 
     // [POST] /student//handle-form-actions
-    handleFormActions(req,res,next){
-        // res.json({test:typeof(req.body.total)})
+    async handleFormActions(req,res,next){
+        // res.json(req.body);
         var idCourses = req.body.courseIds;
-        Student.findById(req.session.user._id)
-            .then(user => {
-                switch(req.body.action){
-                    case 'delete':
-                        idCourses.forEach( id => {
-                            let i = 0;
-                            user.cart_courses.forEach(course => {
-                                if(course.course_id.equals(id))
-                                    {user.cart_courses.splice(i,1);}
-                                i++;                               
-                            })
+        let user = await Student.findById(req.session.user._id).populate({
+                    path: "cart_courses.course_id",
+                    select: "name slug price course_author",
+                    populate: { path: "course_author", select: "name" },
+                    
+                  });
+        switch(req.body.action){
+            case 'delete':
+                idCourses.forEach( id => {
+                    let i = 0;
+                    user.cart_courses.forEach(course => {
+                        if(course.course_id.equals(id))
+                            {user.cart_courses.splice(i,1);}
+                        i++;                               
+                    })
+                })
+                req.session.user = mongooseToObject(user);
+                Student.updateOne({_id:user.id},user)
+            case 'book' :
+                var total = +req.body.total;
+                // res.json(req.session.user);
+                if(total<= user.money){
+                    var courses = await Course.find({_id: { $in: idCourses} }).populate('course_students')
+                    let i = courses.length - 1;
+                    // res.json({t1:user,t2:user.cart_courses,t3:req.session.user,t4:req.session.user.cart_courses})
+                    courses.forEach( async function(course)  {
+                        user.booked_courses.push({course_id:course.id});
+                        let i = 0;
+                        // user.cart_courses.splice(user.cart_courses.findIndex(co => course.course_id._id.equals(co.course_id)),1);
+                        user.cart_courses.forEach(course2 => {
+                            if(course._id.equals(course2.course_id._id)){
+                                user.cart_courses.splice(i,1);
+                            }
+                            i++;
                         })
-                        req.session.user = user;
-                       req.app.locals.cartCount = user.cart_courses.length;
-
-                        Student.updateOne({_id:user.id},user)
-                            .then(res.redirect('/'));
-                    case 'book':
-                        var total = +req.body.total;
-                        if(total<=req.session.user.money)
-                        {
-
-                            Course.find({_id: { $in: idCourses} }).populate('course_students')
-                                .then (courses => {
-                                    courses.forEach(course => {
-    
-                                        req.session.user.booked_courses.push({course_id:course.id});
-                                        let i = 0;
-                                        req.session.user.cart_courses.forEach(course2 => {
-                                            if(course._id.equals(course2.course_id)){
-                                                req.session.user.cart_courses.splice(i,1);
-                                            }
-                                            i++;
-                                        })
-                                        course.course_students.push({user_id: req.session.user._id});
-                                        Course.updateOne({_id:course._id},course)
-                                            .then(console.log('success'));
-                                        
-                                    })
-                                    req.session.user.money -=total;
-                                    req.app.locals.cartCount = user.cart_courses.length;                                  
-                                    Student.updateOne({_id:req.session.user._id},req.session.user)
-                                        .then(res.redirect('/'));
-                                    // res.json({test:course[0].course_students,test2: course[1].course_author,test3:course});
-                                });
-                        }
-                        else{
-                            res.json({msg:'Bn hok đủ money'});
-                        }
+                        course.course_students.push({user_id: req.session.user._id});
+                        let c = await Course.findByIdAndUpdate(course._id,course);
+                    })
+                    req.session.user.money -=total;                              
+                    let student = await  Student.findByIdAndUpdate(req.session.user._id,user).populate({
+                        path: "cart_courses.course_id",
+                        select: "name slug price course_author",
+                        populate: { path: "course_author", select: "name" },
+                        
+                      });
+                    
+                    if(student){
+                        req.session.user = mongooseToObject(user);
+                        req.app.locals.user = mongooseToObject(user);
+                        res.redirect('/');
+                    }
+                }
+            else {
+                res.json({total,urm:user.money});
+            }
 
             }
-                }
-
-            )
     }
 }
 

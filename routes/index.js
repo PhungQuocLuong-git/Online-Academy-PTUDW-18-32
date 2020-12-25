@@ -1,4 +1,5 @@
 const siteRouter = require('./site');
+const { mongooseToObject} = require('../util/mongoose');
 //const createError = require('http-errors');
 // const meRouter = require('./me');
 // const accountRouter = require('./account');
@@ -20,12 +21,22 @@ function route(app) {
             app.locals.idUser = 0 ;
             app.locals.nameUser = 'User' ;
             app.locals.user = {};
+            app.locals.arrayTest=[1,2,3,4];
+            app.locals.test={
+                a:'a',
+                b:'b'
+            }
         }
         else {
             app.locals.role = req.session.role;
             app.locals.idUser = req.session.user._id ;
             app.locals.nameUser = req.session.username ;
-            app.locals.user = req.session.user;
+            // if(req.session.user)
+            //     req.app.locals.user = req.session.user
+            // else
+            //     req.app.locals.user = req.session.user.toObject();
+
+            app.locals.cartU = req.session.user.cart_courses;
         }
 
     next();

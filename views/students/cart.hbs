@@ -38,7 +38,7 @@
             <tr>
                 <td>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{this.course_id._id}}" name="courseIds">
+                    <input class="form-check-input" type="checkbox" value="{{this.course_id._id}}" data-price="{{this.course_id.price}}" name="courseIds">
                   </div>
                 </td>
                 <th scope="row">{{sum @index 1}}</th>
@@ -53,7 +53,7 @@
           {{/each}}
       </tbody>
     </table>
-<input type ="hidden" name ="total" value= {{total}}>
+<input type ="hidden" name ="total">
 </form>
 
 <form  name="del-course" method="POST"></form>
@@ -93,13 +93,18 @@
         courseItemCheckBox.change(function() {
           var isCheckedAll = courseItemCheckBox.length === $('input[name="courseIds"]:checked').length;
           checkboxAll.prop('checked',isCheckedAll);
+          console.log()
           renderCheckAllSubmitBtn();
         })
 
 
         //Re-render check-all-submit-btn
         function renderCheckAllSubmitBtn() {
-          var checkedCount=$('input[name="courseIds"]:checked').length;
+          const arrayC = $('input[name="courseIds"]:checked').toArray();
+          var checkedCount=arrayC.length;
+          var totalMoney = arrayC.reduce((a,b)=>a+ +b.getAttribute('data-price'),0);
+          $('input[name="total"]').prop('value', totalMoney);
+          console.log(totalMoney);
           if( checkedCount ){
             checkAllSubmitBtn.removeAttr('disabled');
           }
