@@ -95,14 +95,11 @@ module.exports = {
                 {return new Promise(function(resolve,reject){
                 // res.json(req.session.user.cart_courses.findIndex(cours => cours.course_id.equals(req.params.id)))
                 var ret = req.session.user.cart_courses.findIndex(cours => cours.course_id._id.equals(req.params.id));
-                console.log(ret);
-                
                 if(course.price > req.session.user.money)
                     reject();
                 else{
                     resolve([ret,course]);
                 }
-                
             })}
             )
             .then(  ([ret,course]) => {
@@ -111,13 +108,19 @@ module.exports = {
                 course.course_students.push({user_id: req.session.user._id});
                 req.session.user.booked_courses.push({course_id: course._id});
                 req.session.user.money -=course.price;
-                console.log(course,req.session.user);
 
                 return Promise.all([Course.findByIdAndUpdate(course._id,course),
-                    Student.findByIdAndUpdate(req.session.user._id,req.session.user)])
+                    Student.findByIdAndUpdate(req.session.user._id,req.session.user).populate({
+                        path: "cart_courses.course_id",
+                        select: "name slug price course_author",
+                        populate: { path: "course_author", select: "name" },
+                        
+                      })])
             })
-            .then(([user,course]) => {
-                res.json({user,course});
+            .then(([course,user]) => {
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
+                res.redirect('/student/cart/'+user._id);
             })
             .catch( () => {
                 res.json({msg:'Bn k mua dc khoa hc nay'});
