@@ -1,173 +1,173 @@
 const Course = require('../models/Course');
 const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
-const { mongooseToObject} = require('../../util/mongoose');
+const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 const { collection } = require('../models/Course');
 
 module.exports = {
-    list(req, res){
-        res.render('courses/list',{
-            script:'/public/javascripts/home.js'
+    list(req, res) {
+        res.render('courses/list', {
+            script: '/public/javascripts/home.js'
         });
     },
 
-    search(req, res){
-        res.render('courses/search',{
-            script:'/public/javascripts/home.js'
+    search(req, res) {
+        res.render('courses/search', {
+            script: '/public/javascripts/home.js'
         });
     },
 
-    async detail(req, res,next) {
-        // Promise.all([Course.findOne({ slug: req.params.slug}).populate("course_author"),
-        //             Student.findById(req.session.user._id).populate("wish_courses"),])
-        //         .then(([course,user])=> {
-        //             // res.json({au:course.course_author.name});
-        //             let wished = false;
-        //             user.wish_courses.forEach(wish => {
-        //                 if(wish.course_id.equals(course._id))
-        //                     wished=true;
-        //     });
-        //             course.view++;
-        //             Course.updateOne({slug:course.slug},course)
-        //                 .then(res.render('courses/detail',{course:  mongooseToObject(course),
-        //                     //wished,
-        //                     extraStyle: '/public/stylesheets/home.css',
-        //                     script:'/public/javascripts/home.js'
-        //                     } ))
-                    
-        //     }).catch(err => res.json({msg:'fail cmnr'}));
+    async detail(req, res, next) {
         try {
-            var course=await Course.findOne({slug: req.params.slug}).populate("course_author");
+            var course = await Course.findOne({ slug: req.params.slug }).populate("course_author");
             course.view++;
-            await Course.updateOne({slug:course.slug},course);
-            res.render('courses/detail',{
-                course:  mongooseToObject(course),
+            await Course.updateOne({ slug: course.slug }, course);
+            res.render('courses/detail', {
+                course: mongooseToObject(course),
                 extraStyle: '/public/stylesheets/home.css',
-                script:'/public/javascripts/home.js'
-            }); 
-        } catch(err) {
-            res.json({msg:'Something happened!!!'});
-        }       
+                script: '/public/javascripts/home.js'
+            });
+        } catch (err) {
+            res.json({ msg: 'Something happened!!!' });
+        }
     },
-   
-    create(req,res){
-        res.render('courses/create',{
-            layout:false,
+
+    create(req, res) {
+        res.render('courses/create', {
+            layout: false,
         })
     },
 
-    
 
-    store(req,res,next){
+    store(req, res, next) {
         req.body.course_author = req.session.user._id;
         const course = new Course(req.body);
-        Promise.all([course.save(),Teacher.findOne({_id:req.session.user._id})])
-            .then (([result, user]) => {
+        Promise.all([course.save(), Teacher.findOne({ _id: req.session.user._id })])
+            .then(([result, user]) => {
                 const id = result._id;
                 user.posted_courses.push({ course_id: id });
-                Teacher.updateOne({_id:user._id},user)
+                Teacher.updateOne({ _id: user._id }, user)
                     .then(res.redirect('/'));
             })
     },
 
-    book(req,res,next){
-        Promise.all([Course.findOne({_id:req.params.id}),Student.findOne({username: req.session.username})])
-            .then(([course2,user2]) => {
+    book(req, res, next) {
+        Promise.all([Course.findOne({ _id: req.params.id }), Student.findOne({ username: req.session.username })])
+            .then(([course2, user2]) => {
                 course2.course_students.forEach(student => {
-                    if(student.user_id.equals(user2._id))
-                        res.json({err:'Bn da dki khoa hc nay r'});
+                    if (student.user_id.equals(user2._id))
+                        res.json({ err: 'Bn da dki khoa hc nay r' });
                 });
 
-                if(user2.money < course2.price){
+                if (user2.money < course2.price) {
                     res.json('Bn hok đủ money');
                 }
-                user2.money -=course2.price;
+                user2.money -= course2.price;
                 let i = 0;
                 user2.cart_courses.forEach(cou => {
-                    if(course2._id.equals(cou.course_id))
-                        user2.cart_courses.splice(i,1);
+                    if (course2._id.equals(cou.course_id))
+                        user2.cart_courses.splice(i, 1);
                     i++;
                 })
-                
-                
-                course2.course_students.push({user_id: user2._id});
-                user2.booked_courses.push({course_id: course2._id});
+
+
+                course2.course_students.push({ user_id: user2._id });
+                course2.studentQty++;
+                user2.booked_courses.push({ course_id: course2._id });
                 req.session.user = user2;
-                Promise.all([Course.updateOne({_id:course2._id},course2),Student.updateOne({username:user2.username},user2)])
+                Promise.all([Course.updateOne({ _id: course2._id }, course2), Student.updateOne({ username: user2.username }, user2)])
                     // .then(([r1,r2]) => res.json({r1,r2,test1:course2.course_students, test2:  user2.booked_courses}));
                     .then(res.redirect('/'));
-                })
+            })
     },
 
     //[POST]/courses/wish/:id
-    wish(req,res,next){
+    wish(req, res, next) {
         // res.json({msg:req.params.id});
         console.log('wish');
         Student.findById(req.session.user._id).populate('wish_courses')
             .then(user => {
                 let wished = false;
-                let i=0;
+                let i = 0;
                 let j = 0;
                 user.wish_courses.forEach(wish => {
-                    if(wish.course_id.equals(req.params.id)){
-                        wished=true;
-                        j=i;
+                    if (wish.course_id.equals(req.params.id)) {
+                        wished = true;
+                        j = i;
                     }
                     i++;
                 });
-                if(wished)
-                    user.wish_courses.splice(j,1);
-                else 
-                    user.wish_courses.push({course_id: req.params.id});
-                
-                Student.updateOne({_id:req.session.user._id},user)
+                if (wished)
+                    user.wish_courses.splice(j, 1);
+                else
+                    user.wish_courses.push({ course_id: req.params.id });
+
+                Student.updateOne({ _id: req.session.user._id }, user)
                     .then(res.redirect('/user/watch-list'));
             })
     },
 
-    wished(req,res) {
-        Student.findById(req.session.user._id).populate('wish_courses').then(user => {
-            user.wish_courses.forEach(wish => {
-                if(wish.course_id.equals(req.query.id)){
-                    res.json(true);
-                    return;
-                }
-            });
-            res.json(false);
-        }).catch(err => res.json({msg:'fail cmnr'}));
+    async wished(req, res) {
+        var user = await Student.findById(req.session.user._id).populate('wish_courses');
+        var isWished =user.wish_courses.some(course => course.course_id.equals(req.query.id));
+        if (isWished) {
+            res.json(true);
+        }
+        else res.json(false);
     },
     //[POST]/courses/add/:id
-    add(req,res,next){
-        // res.json({msg:req.params.id});
-        Student.findById(req.session.user._id).populate('cart_courses')
-            .then(user => {
-                let added,booked;
-                added=user.cart_courses.some(course => course.course_id.equals(req.params.id));
-                booked=user.booked_courses.some(course => course.course_id.equals(req.params.id));
-                if(booked)
-                    res.json('Ban da mua khoa hoc nay');
-                if(added)
-                    res.json({msg:'Bn da them khoa hc nay r'})
-                else
-                    user.cart_courses.push({course_id: req.params.id});
-                Student.updateOne({_id:req.session.user._id},user)
-                    .then(() => {
-                        req.session.user = user;
-                        res.redirect('/user/watch-list');
-                    });
-            })
+    async add(req, res, next) {
+        // Student.findById(req.session.user._id).populate('cart_courses')
+        //     .then(user => {
+        //         return new Promise(function (resolve, reject) {
+        //             if (user.cart_courses.some(course => course.course_id.equals(req.params.id)) ||
+        //                 user.booked_courses.some(course => course.course_id.equals(req.params.id))) {
+        //                 reject(user);
+        //             }
+        //             else
+        //                 resolve(user);
+        //         })
+        //     })
+        //     .then(user => {
+        //         user.cart_courses.push({ course_id: req.params.id });
+        //         req.app.locals.cartCount = user.cart_courses.length;
+        //         return Student.updateOne({ _id: req.session.user._id }, user)
+        //     })
+        var user = await Student.findById(req.session.user._id).populate('cart_courses');
+        let added, booked;
+        added = user.cart_courses.some(course => course.course_id.equals(req.params.id));
+        booked = user.booked_courses.some(course => course.course_id.equals(req.params.id));
+        if (booked)
+            res.json('Ban da mua khoa hoc nay');
+        
+        if (added)
+            res.json({ msg: 'Bn da them khoa hc nay r' });
+
+        if(!booked && !added){
+            user.cart_courses.push({ course_id: req.params.id });
+            await Student.updateOne({ _id: req.session.user._id }, user);
+            req.session.user = user;
+            res.redirect('/user/watch-list');
+        }
     },
 
-    delcart(req,res,next){
-        res.json({msg: req.params.id});
+    delcart(req, res, next) {
+        res.json({ msg: req.params.id });
     },
 
     //Most viewed courses
     async getMostviewed() {
         var courses = await Course.find().populate('course_author');
-        courses.sort((course1,course2) => {course1.view-course2.view});
-        courses=courses.slice(0,3);
-        return courses;
+        courses.sort((course1, course2) => { course1.view - course2.view });
+        // editedCourses=courses.slice(0,10);
+        editedCourses = {
+            first_3: multipleMongooseToObject(courses.slice(0, 3)),
+            next_3: multipleMongooseToObject(courses.slice(3, 6)),
+            last_3: multipleMongooseToObject(courses.slice(6, 9)),
+            last_1: mongooseToObject(courses[9])
+        }
+        //...mongooseToObject(courses[9])
+        return editedCourses;
     },
     //Most popular courses
     getMostpopular() {
@@ -181,6 +181,5 @@ module.exports = {
     getNewest() {
 
     },
-
 };
 

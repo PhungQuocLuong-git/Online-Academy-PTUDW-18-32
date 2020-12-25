@@ -7,7 +7,7 @@ module.exports = {
     var mostViewedCourses=await getMostviewed();
     console.log(mostViewedCourses);
     res.render('home', {
-      mostViewd: multipleMongooseToObject(mostViewedCourses),
+      mostViewed: mostViewedCourses,
       script: '/public/javascripts/home.js',
       extraStyle:'/public/stylesheets/home.css'      
     });

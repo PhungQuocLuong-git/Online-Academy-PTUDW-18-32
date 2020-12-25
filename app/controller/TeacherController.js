@@ -78,6 +78,7 @@ class TeacherController{
                     req.app.locals.nameUser = user.username;
                     req.session.role=2;
                     req.app.locals.role = 2;
+                    req.session.role = 2;
                     res.redirect('/')
                       } else {
                         res.redirect('/teachers/login');

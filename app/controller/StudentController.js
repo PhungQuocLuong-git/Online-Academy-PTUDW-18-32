@@ -38,6 +38,7 @@ class StudentController{
         });
     }
 
+    // [GET] /Student/cart/:id
     cart(req,res){
         // res.json({msg:req.params.id});
         Student.findById(req.params.id).populate({
@@ -94,6 +95,7 @@ class StudentController{
     check(req,res,next) {
         Student.findOne({username: req.body.username})
             .then( user => {
+                req.app.locals.cartCount = user.cart_courses.length;
                 bcrypt.compare(req.body.password,user.password).then((result)=>{
                     if(result){
                     req.app.locals.idUser = user._id;
@@ -114,6 +116,7 @@ class StudentController{
         // res.json(req.body)
     }
     
+    // [DELETE] /student//delcart/:id
     delcart(req,res,next){
         Student.findById(req.session.user._id)
             .then(user => {
@@ -123,12 +126,15 @@ class StudentController{
                         user.cart_courses.splice(i,1);
                     i++;
                 }
+                
                 )
+                req.app.locals.cartCount = user.cart_courses.length;
                 Student.updateOne({_id:req.session.user._id},user)
                     .then(res.redirect(`/student/cart/${user._id}`));
             });
     }
 
+    // [POST] /student//handle-form-actions
     handleFormActions(req,res,next){
         // res.json({test:typeof(req.body.total)})
         var idCourses = req.body.courseIds;
@@ -144,6 +150,9 @@ class StudentController{
                                 i++;                               
                             })
                         })
+                        req.session.user = user;
+                       req.app.locals.cartCount = user.cart_courses.length;
+
                         Student.updateOne({_id:user.id},user)
                             .then(res.redirect('/'));
                     case 'book':
@@ -169,6 +178,7 @@ class StudentController{
                                         
                                     })
                                     req.session.user.money -=total;
+                                    req.app.locals.cartCount = user.cart_courses.length;                                  
                                     Student.updateOne({_id:req.session.user._id},req.session.user)
                                         .then(res.redirect('/'));
                                     // res.json({test:course[0].course_students,test2: course[1].course_author,test3:course});

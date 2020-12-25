@@ -13,5 +13,11 @@ module.exports = {
       section: hbs_sections(),
       format(val) {
           return numeral(val).format('0,0');
-      }
+      },
+    for(from, to, incr, block) {
+        var accum = '';
+        for(var i = from; i < to; i += incr)
+            accum += block.fn(i);
+        return accum;
+    }
 }

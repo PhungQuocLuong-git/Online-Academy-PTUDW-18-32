@@ -1,6 +1,6 @@
 {{#section 'css'}}
 <style>
-    .number-rates {
+    .number-students {
         color: #8c8b8b;
         font-weight: 400;
         align-self: center;
@@ -72,7 +72,7 @@
                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                         <div class="card-text d-flex">
                             <div class="rate" data-rate-value=4></div>
-                            <span class="number-rates">(4.543.342)</span>
+                            <span class="number-students">(4.543.342)</span>
                         </div>
                         <div class="d-flex">
                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -91,7 +91,7 @@
                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                             <div class="card-text d-flex">
                                 <div class="rate" data-rate-value=4></div>
-                                <span class="number-rates">(4.543.342)</span>
+                                <span class="number-students">(4.543.342)</span>
                             </div>
                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                             <a href="/courses/detail" class="btn btn-primary align-self-start mt-auto">Go to course</a>
@@ -107,7 +107,7 @@
                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                             <div class="card-text d-flex">
                                 <div class="rate" data-rate-value=4></div>
-                                <span class="number-rates">(4.543.342)</span>
+                                <span class="number-students">(4.543.342)</span>
                             </div>
                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                             <a href="/courses/detail" class="btn btn-primary align-self-start mt-auto">Go to course</a>
@@ -132,192 +132,120 @@
     <div class="container-fluid p-0">
         <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
+                
                 <div class="carousel-item carousel-item-next carousel-item-left">
                     <div class="container-fluid">
                         <div class="row justify-content-around p-0 b-5">
+                            {{#each mostViewed.first_3}}
                             <div class="col-3 p-0">
                                 <div class="card h-100">
                                     <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
                                     <div class="card-body d-flex flex-column">
                                         <p class="card-text text-primary font-weight-bold">Web Development</p>
-                                        <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
-                                        <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
+                                        <h6 class="card-title font-weight-bold">{{name}} </h6>
+                                        <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
-                                            <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <div class="rate" data-rate-value={{rating}}></div>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
-                                            <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
+                                            <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
                                             <h5 class="card-text font-weight-bold align ml-3 discout-price"> $199.99
                                             </h5>
                                         </div>
-                                        <a href="/courses/detail" class="btn btn-primary align-self-start mt-auto">Go to
+                                        <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to
                                             course</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 p-0">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="/public/images/courses/2.png" alt="Card image cap">
-                                    <div class="card-body d-flex flex-column">
-                                        <p class="card-text text-primary font-weight-bold">Web Development</p>
-                                        <h6 class="card-title font-weight-bold">Learn Angular Fundamentals </h5>
-                                            <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
-                                            <div class="card-text d-flex">
-                                                <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
-                                            </div>
-                                            <h5 class="card-text font-weight-bold"> $99.99 </h5>
-                                            <a href="/courses/detail"
-                                                class="btn btn-primary align-self-start mt-auto">Go to
-                                                course</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 p-0">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-                                    <div class="card-body d-flex flex-column">
-                                        <p class="card-text text-primary font-weight-bold">JavaScript</p>
-                                        <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-                                            <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-                                            <div class="card-text d-flex">
-                                                <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
-                                            </div>
-                                            <h5 class="card-text font-weight-bold"> $111.99 </h5>
-                                            <a href="/courses/detail"
-                                                class="btn btn-primary align-self-start mt-auto">Go to
-                                                course</a>
-                                    </div>
-                                </div>
-                            </div>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
-                <div class="carousel-item">
+                <div class="carousel-item carousel-item-left">
                     <div class="container-fluid">
                         <div class="row justify-content-around p-0 b-5">
+                            {{#each mostViewed.next_3}}
                             <div class="col-3 p-0">
                                 <div class="card h-100">
                                     <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
                                     <div class="card-body d-flex flex-column">
                                         <p class="card-text text-primary font-weight-bold">Web Development</p>
-                                        <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
-                                        <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
+                                        <h6 class="card-title font-weight-bold">{{name}} </h6>
+                                        <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
-                                            <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <div class="rate" data-rate-value={{rating}}></div>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
-                                            <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
+                                            <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
                                             <h5 class="card-text font-weight-bold align ml-3 discout-price"> $199.99
                                             </h5>
                                         </div>
-                                        <a href="/courses/detail" class="btn btn-primary align-self-start mt-auto">Go to
+                                        <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to
                                             course</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 p-0">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="/public/images/courses/2.png" alt="Card image cap">
-                                    <div class="card-body d-flex flex-column">
-                                        <p class="card-text text-primary font-weight-bold">Web Development</p>
-                                        <h6 class="card-title font-weight-bold">Learn Angular Fundamentals </h5>
-                                            <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
-                                            <div class="card-text d-flex">
-                                                <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
-                                            </div>
-                                            <h5 class="card-text font-weight-bold"> $99.99 </h5>
-                                            <a href="/courses/detail"
-                                                class="btn btn-primary align-self-start mt-auto">Go to
-                                                course</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-3 p-0">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-                                    <div class="card-body d-flex flex-column">
-                                        <p class="card-text text-primary font-weight-bold">JavaScript</p>
-                                        <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-                                            <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-                                            <div class="card-text d-flex">
-                                                <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
-                                            </div>
-                                            <h5 class="card-text font-weight-bold"> $111.99 </h5>
-                                            <a href="/courses/detail"
-                                                class="btn btn-primary align-self-start mt-auto">Go to
-                                                course</a>
-                                    </div>
-                                </div>
-                            </div>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
                 <div class="carousel-item active carousel-item-left">
                     <div class="container-fluid">
                         <div class="row justify-content-around p-0 b-5">
+                            {{#each mostViewed.last_3}}
                             <div class="col-3 p-0">
                                 <div class="card h-100">
                                     <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
                                     <div class="card-body d-flex flex-column">
                                         <p class="card-text text-primary font-weight-bold">Web Development</p>
-                                        <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
-                                        <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
+                                        <h6 class="card-title font-weight-bold">{{name}} </h6>
+                                        <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
-                                            <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <div class="rate" data-rate-value={{rating}}></div>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
-                                            <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
+                                            <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
                                             <h5 class="card-text font-weight-bold align ml-3 discout-price"> $199.99
                                             </h5>
                                         </div>
-                                        <a href="/courses/detail" class="btn btn-primary align-self-start mt-auto">Go to
+                                        <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to
                                             course</a>
                                     </div>
                                 </div>
                             </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item carousel-item-left">
+                    <div class="container-fluid">
+                        <div class="row justify-content-around p-0 b-5">
+                            {{#with mostViewed.last_1}}
                             <div class="col-3 p-0">
                                 <div class="card h-100">
-                                    <img class="card-img-top" src="/public/images/courses/2.png" alt="Card image cap">
+                                    <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
                                     <div class="card-body d-flex flex-column">
                                         <p class="card-text text-primary font-weight-bold">Web Development</p>
-                                        <h6 class="card-title font-weight-bold">Learn Angular Fundamentals </h5>
-                                            <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
-                                            <div class="card-text d-flex">
-                                                <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
-                                            </div>
-                                            <h5 class="card-text font-weight-bold"> $99.99 </h5>
-                                            <a href="/courses/detail"
-                                                class="btn btn-primary align-self-start mt-auto">Go to
-                                                course</a>
+                                        <h6 class="card-title font-weight-bold">{{name}} </h6>
+                                        <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
+                                        <div class="card-text d-flex">
+                                            <div class="rate" data-rate-value={{rating}}></div>
+                                            <span class="number-students">(4.543.342)</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
+                                            <h5 class="card-text font-weight-bold align ml-3 discout-price"> $199.99
+                                            </h5>
+                                        </div>
+                                        <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to
+                                            course</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-3 p-0">
-                                <div class="card h-100">
-                                    <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-                                    <div class="card-body d-flex flex-column">
-                                        <p class="card-text text-primary font-weight-bold">JavaScript</p>
-                                        <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-                                            <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-                                            <div class="card-text d-flex">
-                                                <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
-                                            </div>
-                                            <h5 class="card-text font-weight-bold"> $111.99 </h5>
-                                            <a href="/courses/detail"
-                                                class="btn btn-primary align-self-start mt-auto">Go to
-                                                course</a>
-                                    </div>
-                                </div>
-                            </div>
+                            {{/with}}
                         </div>
                     </div>
                 </div>
@@ -358,7 +286,7 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -379,7 +307,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -397,7 +325,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
@@ -421,7 +349,7 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -442,7 +370,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -460,7 +388,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
@@ -484,7 +412,7 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -505,7 +433,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -523,7 +451,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
@@ -571,7 +499,7 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -592,7 +520,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -610,7 +538,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
@@ -634,7 +562,7 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -655,7 +583,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -673,7 +601,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
@@ -697,7 +625,7 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-rates">(4.543.342)</span>
+                                            <span class="number-students">(4.543.342)</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -718,7 +646,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -736,7 +664,7 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-rates">(4.543.342)</span>
+                                                <span class="number-students">(4.543.342)</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
