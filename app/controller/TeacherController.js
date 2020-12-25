@@ -76,6 +76,7 @@ class TeacherController{
                     req.session.user = user;
                     req.session.username = req.body.username;
                     req.app.locals.nameUser = user.username;
+                    req.session.role=2;
                     req.app.locals.role = 2;
                     req.session.role = 2;
                     res.redirect('/')

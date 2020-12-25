@@ -15,6 +15,7 @@ const CourseSchema = new Schema({
       ref: "Teacher",
     },
     course_students:[{user_id: { type: Schema.Types.ObjectId, ref: "Student" }}],
+    studentQty:{type:Number, default: 0},
     rating:{type:Number, default: 0},
     price:{type:Number, default: 0},
     view:{type:Number, default: 0},

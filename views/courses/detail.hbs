@@ -1,96 +1,100 @@
-
 {{#section 'css'}}
 <style>
-    /* course-intro */
-.course-detail {
+  /* course-intro */
+  .course-detail {
     height: 32vw;
     background-color: #3659a2;
   }
-  
+
   .course-detail-img {
     margin-top: 13%;
     border-radius: 6px;
     overflow: hidden;
   }
-  
+
   /* Tooltip custom */
   .tooltip-inner {
     background-color: #37294c;
   }
+
   .tooltip.bs-tooltip-right .arrow:before {
     display: none;
   }
+
   .tooltip.bs-tooltip-left .arrow:before {
     display: none;
   }
+
   .tooltip.bs-tooltip-bottom .arrow:before {
     display: none;
   }
+
   .tooltip.bs-tooltip-top .arrow:before {
     display: none;
   }
-  
+
   /* Tab */
   .show {
     color: #37294c;
   }
-  
+
   .nav-tabs .active {
     color: #f0f0f0 !important;
     background-color: #3659a2 !important;
     border-bottom: solid 5px !important;
   }
-  
+
   .nav-tabs .active:hover {
     color: #ccc !important;
   }
-  
+
   .nav-link {
     color: #f0f0f0;
     font-weight: 500;
   }
-  
+
   .nav-tabs .nav-link {
     border: none;
   }
-  
+
   .nav-link:hover {
     color: #ccc;
   }
-  
+
   /* Tab content*/
-  
+
   .tab-content {
     color: #37294c;
     width: 50%;
   }
-  
+
   /* description */
-  
+
   ul {
     list-style: none;
   }
-  
+
   .tab-content .active {
     animation: fadeInLeft 0.7s;
   }
-  
+
   @keyframes fadeInLeft {
     0% {
       opacity: 0;
       transform: translateX(-20px);
     }
+
     100% {
       opacity: 1;
       transform: translateX(0);
     }
   }
-  
-  .tab-pane > p,
+
+  .tab-pane>p,
   li {
     color: black;
   }
-  
+
   /* Accordition */
   .accordion {
     background-color: white;
@@ -109,21 +113,21 @@
     font-size: large;
     font-weight: 500;
   }
-  
+
   .accordion:focus {
     outline: 0px;
   }
-  
+
   .acor-active {
     border-radius: 8px 8px 0 0;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 0px 0px;
   }
-  
-  .acor-active + .panel {
+
+  .acor-active+.panel {
     border-radius: 0 0 8px 8px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
-  
+
   .accordion:after {
     content: "\f107";
     font-family: "Font Awesome 5 Free";
@@ -132,13 +136,13 @@
     float: right;
     margin-left: 5px;
   }
-  
+
   .acor-active:after {
     border: none;
     content: "\f106";
     font-family: "Font Awesome 5 Free";
   }
-  
+
   .panel {
     padding: 0 18px;
     background-color: white;
@@ -146,25 +150,25 @@
     overflow: hidden;
     transition: max-height 0.2s ease-out;
   }
-  
+
   .panel li {
     font-size: large;
     font-weight: 400;
     padding-left: 40px;
   }
-  
+
   .panel li:before {
     content: "\f144";
     font-family: "Font Awesome 5 Free";
     position: relative;
     left: -20px;
   }
-  
+
   /* Overlay */
   .overlay {
     position: relative;
   }
-  
+
   .image-overlay {
     opacity: 1;
     display: block;
@@ -173,7 +177,7 @@
     transition: 0.5s ease;
     backface-visibility: hidden;
   }
-  
+
   .middle {
     transition: 0.5s ease;
     opacity: 0;
@@ -184,38 +188,38 @@
     -ms-transform: translate(-50%, -50%);
     text-align: center;
   }
-  
+
   .overlay:hover .middle {
     opacity: 1;
   }
-  
+
   .text {
     color: white;
     font-size: 100px;
   }
-  
+
   iframe {
     display: block;
   }
-  
-  
+
+
   /* Instructor */
   .instructor-name {
-    color:#3659a2;
+    color: #3659a2;
   }
-  
+
   .intructor-first-des {
     font-size: medium;
     font-weight: 600;
-    color:#777 !important;
+    color: #777 !important;
   }
-  
-  
+
+
   /* Progress */
   .progress {
-    background-color:#ccc !important;
+    background-color: #ccc !important;
   }
-  
+
   /* Feedback */
   .feedback-rating {
     width: 8.5rem;
@@ -224,380 +228,404 @@
     border-radius: 7px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
-  
+
   .review-image {
     width: 4rem;
     height: 4rem;
   }
-  
+
   .comment-content {
     font-weight: 600;
     font-size: 16px;
   }
-  
-  .comment-content > p {
+
+  .comment-content>p {
     font-weight: 200;
     font-size: 15px;
-    color:#777;
+    color: #777;
   }
 
   .number-rates {
-        color: #8c8b8b;
-        font-weight: 400;
-        align-self: center;
-    }
+    color: #8c8b8b;
+    font-weight: 400;
+    align-self: center;
+  }
 
-    .rate {
-        font-size: 25px;
-        font-family: sans-serif;
-        color: #ff8000;
-        margin-left: 10px;
-        margin-right: 20px;
-    }
-  </style>
+  .rate {
+    font-size: 25px;
+    font-family: sans-serif;
+    color: #ff8000;
+    margin-left: 10px;
+    margin-right: 20px;
+  }
+</style>
 {{/section}}
 
 
 <!-- info -->
-  <div class="container-fluid course-detail d-flex">
-    <div class="mx-auto d-flex w-75">
-      <div class="col-6 d-flex flex-column">
-        <div class="p-0 overlay course-detail-img">
-          <img class="img-fluid" src="/public/images/courses/1.png" alt="">
-          <div class="middle">
-            <div class="text my-auto"><a href="#course-video" data-toggle="modal" class="text-dark"><i class="fas fa-play"></i></a></div>
-          </div>
+<div class="container-fluid course-detail d-flex">
+  <div class="mx-auto d-flex w-75">
+    <div class="col-6 d-flex flex-column">
+      <div class="p-0 overlay course-detail-img">
+        <img class="img-fluid" src="/public/images/courses/1.png" alt="">
+        <div class="middle">
+          <div class="text my-auto"><a href="#course-video" data-toggle="modal" class="text-dark"><i
+                class="fas fa-play"></i></a></div>
         </div>
-        <ul class="nav nav-tabs mt-auto border-0" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#curriculum">Curriculum</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#instructor">Instructor</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#feedback">Feedback</a>
-          </li>
-        </ul>
       </div>
-      <div class="h-75 d-inline-block align-self-center ml-auto text-white" style="width: 45%;">
-        <h3 class="font-weight-bold">{{course.name}}</h3>
-        <p class="my-3" style="color:#BABDD9;">Master JavaScript with the most complete course! Projects
-          Excellent course. we explain the core concepts in javascript that are usually glossed over in other
-          courses.</p>
-        <div class="d-flex text-warning">
-          <h3 class="delete-price text-dark">$200</h3>
-          <h3 class="ml-4">$199.99</h3>
-          <h3 class="mx-auto"><a class="btn-wish " data-id="{{course._id}}" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><i
-                class="fa-heart text-danger wish-icon"></i></a></i></h3>
-        </div>
-        <div class="d-flex">
-        <span class="number-rating bg-warning text-white px-2 h-75 align-self-center" style="border-radius: 15%;">4.6</span>
-        <div class="rate" data-rate-value=4.6></div>       
-        <span class="number-rates"><i class="fas fa-users"></i> (4.543.342)</span>
-        </div>
-        <p class="mt-3">Created by <strong>Jonathan Madano</strong> </p>
-        <div class="d-flex">
-          <p><i class="far fa-edit"></i> Last updated 10/2019 </p>
-          <p class="ml-5"><i class="fas fa-globe"></i> English</p>
-        </div>
-        <button type="button" class="btn btn-add-cart btn-danger btn-lg w-40" data-id="{{course._id}}">Add to cart</button>
-        <button type="button" class="btn-book-course btn btn-primary btn-lg ml-5 w-40" data-id="{{course._id}} " >Buy now</button>
-      </div>
+      <ul class="nav nav-tabs mt-auto border-0" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#description">Description</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#curriculum">Curriculum</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#instructor">Instructor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#feedback">Feedback</a>
+        </li>
+      </ul>
     </div>
-
+    <div class="h-75 d-inline-block align-self-center ml-auto text-white" style="width: 45%;">
+      <h3 class="font-weight-bold">{{course.name}}</h3>
+      <p class="my-3" style="color:#BABDD9;">Master JavaScript with the most complete course! Projects
+        Excellent course. we explain the core concepts in javascript that are usually glossed over in other
+        courses.</p>
+      <div class="d-flex text-warning">
+        <h3 class="delete-price text-dark">$200</h3>
+        <h3 class="ml-4">$199.99</h3>
+        <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}" data-toggle="tooltip" data-placement="top"
+            title="Add to Wishlist"><i class="fa-heart text-danger wish-icon"></i></a></i></h3>
+      </div>
+      <div class="d-flex">
+        <span class="number-rating bg-warning text-white px-2 h-75 align-self-center"
+          style="border-radius: 15%;">4.6</span>
+        <div class="rate" data-rate-value=4.6></div>
+        <span class="number-rates"><i class="fas fa-users"></i> (4.543.342)</span>
+      </div>
+      <p class="mt-3">Created by <strong>Jonathan Madano</strong> </p>
+      <div class="d-flex">
+        <p><i class="far fa-edit"></i> Last updated 10/2019 </p>
+        <p class="ml-5"><i class="fas fa-globe"></i> English</p>
+      </div>
+      <button type="button" class="btn btn-add-cart btn-danger btn-lg w-40" data-id="{{course._id}}">Add to
+        cart</button>
+      <button type="button" class="btn-book-course btn btn-primary btn-lg ml-5 w-40" data-id="{{course._id}} ">Buy
+        now</button>
+    </div>
   </div>
 
-  <div class="container-fluid d-flex justify-content-center pt-4" style="background-color: #EDEFF0;">
-    <div class="tab-content px-0">
-      <div id="description" class="container tab-pane active"><br>
-        <h3>Description</h3>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-          dolore magna aliquam erat volutpat. Ut wisi enim ad minim laoreet dolore magna aliquam erat volutpat. Ut wisi
-          enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-          consequat
-          consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-          volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci</p>
-        <h3>What You’ll Learn</h3>
-        <ul>
-          <li><i class="fas fa-check"></i> &nbsp;&nbsp;Setting up the environment</li>
-          <li><i class="fas fa-check"></i> &nbsp;&nbsp;Advanced HTML Practices</li>
-          <li><i class="fas fa-check"></i> &nbsp;&nbsp;Build a portfolio website</li>
-          <li><i class="fas fa-check"></i> &nbsp;&nbsp;Responsive Designs</li>
-          <li><i class="fas fa-check"></i> &nbsp;&nbsp;Understand HTML Programming</li>
-          <li><i class="fas fa-check"></i> &nbsp;&nbsp;Code HTML</li>
-          <li><i class="fas fa-check"></i> &nbsp;&nbsp;Start building beautiful websites</li>
+</div>
+
+<div class="container-fluid d-flex justify-content-center pt-4" style="background-color: #EDEFF0;">
+  <div class="tab-content px-0">
+    <div id="description" class="container tab-pane active"><br>
+      <h3>Description</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+        dolore magna aliquam erat volutpat. Ut wisi enim ad minim laoreet dolore magna aliquam erat volutpat. Ut wisi
+        enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+        consequat
+        consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci</p>
+      <h3>What You’ll Learn</h3>
+      <ul>
+        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Setting up the environment</li>
+        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Advanced HTML Practices</li>
+        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Build a portfolio website</li>
+        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Responsive Designs</li>
+        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Understand HTML Programming</li>
+        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Code HTML</li>
+        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Start building beautiful websites</li>
+      </ul>
+      <h3>Requirements</h3>
+      <ul>
+        <li>&bull;&nbsp;&nbsp;Any computer will work: Windows, macOS or Linux</li>
+        <li>&bull;&nbsp;&nbsp;Basic programming HTML and CSS.</li>
+        <li>&bull;&nbsp;&nbsp;Basic/Minimal understanding of JavaScript</li>
+      </ul>
+      <h3>Here Is Exactly What We Cover In This Course:</h3>
+      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+        dolore magna aliquam erat volutpat. Ut wisi enim ad minim laoreet dolore magna aliquam erat volutpat. Ut wisi
+        enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+        consequat
+
+        consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
+
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+        dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
+        suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam liber tempor cum soluta nobis eleifend option
+        congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet,
+        consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+        aliquip
+        ex ea commodo consequat.</p>
+    </div>
+    <div id="curriculum" class="container tab-pane fade"><br>
+      <button class="accordion">HTML Introduction</button>
+      <div class="panel p-0">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-action border-0">What is HTML</li>
+          <li class="list-group-item list-group-item-action border-0">What is web page?</li>
+          <li class="list-group-item list-group-item-action border-0">Your first web page <a href="#course-video"
+              data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2"> Preview</span></a></li>
+          <li class="list-group-item list-group-item-action border-0">Wrap up</li>
+          <li class="list-group-item list-group-item-action border-0">Introduction to next lecture</li>
         </ul>
-        <h3>Requirements</h3>
-        <ul>
-          <li>&bull;&nbsp;&nbsp;Any computer will work: Windows, macOS or Linux</li>
-          <li>&bull;&nbsp;&nbsp;Basic programming HTML and CSS.</li>
-          <li>&bull;&nbsp;&nbsp;Basic/Minimal understanding of JavaScript</li>
+      </div>
+      <button class="accordion">Your First Web Page</button>
+      <div class="panel p-0">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-action border-0">Cras justo odio</li>
+          <li class="list-group-item list-group-item-action border-0">Dapibus ac facilisis in</li>
+          <li class="list-group-item list-group-item-action border-0">Morbi leo risus</li>
+          <li class="list-group-item list-group-item-action border-0">Porta ac consectetur ac</li>
+          <li class="list-group-item list-group-item-action border-0">Vestibulum at eros</li>
         </ul>
-        <h3>Here Is Exactly What We Cover In This Course:</h3>
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-          dolore magna aliquam erat volutpat. Ut wisi enim ad minim laoreet dolore magna aliquam erat volutpat. Ut wisi
-          enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-          consequat
-
-          consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-          volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-          dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-          suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam liber tempor cum soluta nobis eleifend option
-          congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet,
-          consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-          volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
-          aliquip
-          ex ea commodo consequat.</p>
       </div>
-      <div id="curriculum" class="container tab-pane fade"><br>
-        <button class="accordion">HTML Introduction</button>
-        <div class="panel p-0"> 
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-action border-0">What is HTML</li>
-            <li class="list-group-item list-group-item-action border-0">What is web page?</li>
-            <li class="list-group-item list-group-item-action border-0">Your first web page <a href="#course-video" data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2"> Preview</span></a></li>
-            <li class="list-group-item list-group-item-action border-0">Wrap up</li>
-            <li class="list-group-item list-group-item-action border-0">Introduction to next lecture</li>
-          </ul>
-        </div>
-        <button class="accordion">Your First Web Page</button>
-        <div class="panel p-0">
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-action border-0">Cras justo odio</li>
-            <li class="list-group-item list-group-item-action border-0">Dapibus ac facilisis in</li>
-            <li class="list-group-item list-group-item-action border-0">Morbi leo risus</li>
-            <li class="list-group-item list-group-item-action border-0">Porta ac consectetur ac</li>
-            <li class="list-group-item list-group-item-action border-0">Vestibulum at eros</li>
-          </ul>
-        </div>
 
-        <button class="accordion">HTML Advanced Level</button>
-        <div class="panel p-0">
-          <ul class="list-group">
-            <li class="list-group-item list-group-item-action border-0">Cras justo odio</li>
-            <li class="list-group-item list-group-item-action border-0">Dapibus ac facilisis in</li>
-            <li class="list-group-item list-group-item-action border-0">Morbi leo risus</li>
-            <li class="list-group-item list-group-item-action border-0">Porta ac consectetur ac</li>
-            <li class="list-group-item list-group-item-action border-0">Vestibulum at eros</li>
-          </ul>
-        </div>
+      <button class="accordion">HTML Advanced Level</button>
+      <div class="panel p-0">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-action border-0">Cras justo odio</li>
+          <li class="list-group-item list-group-item-action border-0">Dapibus ac facilisis in</li>
+          <li class="list-group-item list-group-item-action border-0">Morbi leo risus</li>
+          <li class="list-group-item list-group-item-action border-0">Porta ac consectetur ac</li>
+          <li class="list-group-item list-group-item-action border-0">Vestibulum at eros</li>
+        </ul>
       </div>
-      <div id="instructor" class="container tab-pane fade"><br>
-        <h3 class="instructor-name">Jonathan Madano</h3>
-        <p class="intructor-first-des">Professional Web Developer and Instructor</p>
-        <div class="row">
-          <img src="/public/images/avatars/avatar-2.jpeg" class="rounded-circle ml-2 mb-4" alt="">
-          <div class="d-flex col-6">
-            <div class="text-danger">
-              <p><i class="fas fa-users"></i> </p>
-              <p><i class="fas fa-play-circle"></i> </p>
-              <p><i class="fas fa-user"></i> </p> 
-              <p><i class="fa fa-medal"></i> </p>            
-            </div>
-            <div class="col-8">
-              <p>1.113.754 Students</p>
-              <p>20 Courses</p>
-              <p>10 years Experiences</p>
-              <p>3 Certificates</p>
-            </div>           
+    </div>
+    <div id="instructor" class="container tab-pane fade"><br>
+      <h3 class="instructor-name">Jonathan Madano</h3>
+      <p class="intructor-first-des">Professional Web Developer and Instructor</p>
+      <div class="row">
+        <img src="/public/images/avatars/avatar-2.jpeg" class="rounded-circle ml-2 mb-4" alt="">
+        <div class="d-flex col-6">
+          <div class="text-danger">
+            <p><i class="fas fa-users"></i> </p>
+            <p><i class="fas fa-play-circle"></i> </p>
+            <p><i class="fas fa-user"></i> </p>
+            <p><i class="fa fa-medal"></i> </p>
           </div>
-          <h5>Experience as (Web) Developer</h5>
-          <p>Starting out at the age of 13 I never stopped learning new programming skills and languages. Early I started creating websites for friends and just for fun as well. Besides web development I also explored Python and other non-web-only languages. This passion has since lasted and lead to my decision of working as a freelance web developer and consultant. The success and fun I have in this job is immense and really keeps that passion burningly alive.</p>
-          <p>Starting web development on the backend (PHP with Laravel, NodeJS, Python) I also became more and more of a frontend developer using modern frameworks like React, Angular or VueJS 2 in a lot of projects. I love both worlds nowadays!</p>
-          <p>As a self-taught developer I had the chance to broaden my horizon by studying Business Administration where I hold a Master's degree. That enabled me to work in a major strategy consultancy as well as a bank. While learning, that I enjoy development more than these fields, the time in this sector greatly improved my overall experience and skills.</p>
-          <h5>Experience as Instructor</h5>
-          <p>As a self-taught professional I really know the hard parts and the difficult topics when learning new or improving on already-known languages. This background and experience enables me to focus on the most relevant key concepts and topics. My track record of many 5-star rated courses, more than 700,000 students on Udemy as well as a successful YouTube channel is the best proof for that.</p>
-          <p>Whether working as development instructor or teaching Business Administration I always received great feedback. The most rewarding experience is to see how people find new, better jobs, build awesome web applications, acquire amazing projects or simply enjoy their hobby with the help of my content.</p>
-          <p>Together with Manuel Lorenz, I founded Academind to offer the best possible learning experience to our more than 800,000 students.</p>
+          <div class="col-8">
+            <p>1.113.754 Students</p>
+            <p>20 Courses</p>
+            <p>10 years Experiences</p>
+            <p>3 Certificates</p>
+          </div>
+        </div>
+        <h5>Experience as (Web) Developer</h5>
+        <p>Starting out at the age of 13 I never stopped learning new programming skills and languages. Early I started
+          creating websites for friends and just for fun as well. Besides web development I also explored Python and
+          other non-web-only languages. This passion has since lasted and lead to my decision of working as a freelance
+          web developer and consultant. The success and fun I have in this job is immense and really keeps that passion
+          burningly alive.</p>
+        <p>Starting web development on the backend (PHP with Laravel, NodeJS, Python) I also became more and more of a
+          frontend developer using modern frameworks like React, Angular or VueJS 2 in a lot of projects. I love both
+          worlds nowadays!</p>
+        <p>As a self-taught developer I had the chance to broaden my horizon by studying Business Administration where I
+          hold a Master's degree. That enabled me to work in a major strategy consultancy as well as a bank. While
+          learning, that I enjoy development more than these fields, the time in this sector greatly improved my overall
+          experience and skills.</p>
+        <h5>Experience as Instructor</h5>
+        <p>As a self-taught professional I really know the hard parts and the difficult topics when learning new or
+          improving on already-known languages. This background and experience enables me to focus on the most relevant
+          key concepts and topics. My track record of many 5-star rated courses, more than 700,000 students on Udemy as
+          well as a successful YouTube channel is the best proof for that.</p>
+        <p>Whether working as development instructor or teaching Business Administration I always received great
+          feedback. The most rewarding experience is to see how people find new, better jobs, build awesome web
+          applications, acquire amazing projects or simply enjoy their hobby with the help of my content.</p>
+        <p>Together with Manuel Lorenz, I founded Academind to offer the best possible learning experience to our more
+          than 800,000 students.</p>
+      </div>
+    </div>
+    <div id="feedback" class="container tab-pane fade pl-0"><br>
+      <h3>Student feedback</h3>
+      <div class="row my-3">
+        <div class="d-flex flex-column align-items-center bg-light feedback-rating ml-2">
+          <h1 class="mt-2">4.6</h1>
+          <div class="_46">
+            <div class="stars-outer">
+              <div class="stars-inner"></div>
+            </div>
+          </div>
+          <p class="my-2">Course Rating</p>
+        </div>
+        <div class="col-7 d-flex flex-column justify-content-around">
+          <div class="progress h-10">
+            <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0"
+              aria-valuemax="100"></div>
+          </div>
+          <div class="progress h-10">
+            <div class="progress-bar" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0"
+              aria-valuemax="100"></div>
+          </div>
+          <div class="progress h-10">
+            <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+              aria-valuemax="100"></div>
+          </div>
+          <div class="progress h-10">
+            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+              aria-valuemax="100"></div>
+          </div>
+          <div class="progress h-10">
+            <div class="progress-bar" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0"
+              aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="col d-flex flex-column justify-content-around">
+          <div class="_43">
+            <div class="stars-outer">
+              <div class="stars-inner"> </div>
+            </div>
+            <span> 80% </span>
+          </div>
+          <div class="_34">
+            <div class="stars-outer">
+              <div class="stars-inner"> </div>
+            </div>
+            <span> 68% </span>
+          </div>
+          <div class="_43">
+            <div class="stars-outer">
+              <div class="stars-inner"> </div>
+            </div>
+            <span> 80% </span>
+          </div>
+          <div class="_12_5">
+            <div class="stars-outer">
+              <div class="stars-inner"> </div>
+            </div>
+            <span> 25% </span>
+          </div>
+          <div class="_1">
+            <div class="stars-outer">
+              <div class="stars-inner"> </div>
+            </div>
+            <span> 2% </span>
+          </div>
         </div>
       </div>
-      <div id="feedback" class="container tab-pane fade pl-0"><br>
-        <h3>Student feedback</h3>
-        <div class="row my-3">
-          <div class="d-flex flex-column align-items-center bg-light feedback-rating ml-2">
-            <h1 class="mt-2">4.6</h1>
-            <div class="_46">
+      <h3>Reviews</h3>
+      <ul class="p-0 my-4">
+        <li>
+          <div class="d-flex">
+            <img src="/public/images/avatars/Phat.png" class="rounded-circle review-image" alt="">
+            <div class="col-9 comment-content">
+              Tô Nguyễn Tấn Phát
+              <p>Student</p>
+            </div>
+            <div class="_43">
+              <div class="stars-outer">
+                <div class="stars-inner"> </div>
+              </div>
+            </div>
+          </div>
+          <div class="offset-1 col-11 mt-2">
+            <p>希望你能继续保持这么棒!我们十分为你骄傲。(最高级的表扬！)我对你的工作非常满意。你真明智！我想称赞一下你的勤奋希望你能继续保持这么棒!我们十分为你骄傲</p>
+          </div>
+        </li>
+        <br>
+        <li>
+          <div class="d-flex">
+            <img src="/public/images/avatars/Luong.jpg" class="rounded-circle review-image" alt="">
+            <div class="col-9 comment-content">
+              Phùng Quốc Lương
+              <p>Student</p>
+            </div>
+            <div class="_43">
+              <div class="stars-outer">
+                <div class="stars-inner"> </div>
+              </div>
+            </div>
+          </div>
+          <div class="offset-1 col-11 mt-2">
+            <p>Ơ mây zình, bốp bốp bốp 👏👏👏👏👏👏</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-3 pt-4">
+    <h3 class="mb-3 d-block w-75" style="color: #3E416D;margin-left:32px;">Related courses</h3>
+    <div class="row d-flex flex-column align-items-center p-0 b-5">
+      <div class="p-0 mb-5 col-9">
+        <div class="card h-100">
+          <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-primary font-weight-bold">Web Development</p>
+            <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
+            <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
+            <div class="_43">
+              <span class="number-rating"></span>
               <div class="stars-outer">
                 <div class="stars-inner"></div>
               </div>
+              <span class="number-rates">(40.323)</span>
             </div>
-            <p class="my-2">Course Rating</p>
-          </div>
-          <div class="col-7 d-flex flex-column justify-content-around">
-            <div class="progress h-10">
-              <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="d-flex">
+              <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
+              <h5 class="card-text font-weight-bold align ml-3"> $199.99 </h5>
             </div>
-            <div class="progress h-10">
-              <div class="progress-bar" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="progress h-10">
-              <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="progress h-10">
-              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="progress h-10">
-              <div class="progress-bar" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="col d-flex flex-column justify-content-around">
-            <div class="_43">
-              <div class="stars-outer">
-                <div class="stars-inner"> </div>
-              </div>
-              <span> 80% </span>
-            </div>
-            <div class="_34">
-              <div class="stars-outer">
-                <div class="stars-inner"> </div>
-              </div>
-              <span> 68% </span>
-            </div>
-            <div class="_43">
-              <div class="stars-outer">
-                <div class="stars-inner"> </div>
-              </div>
-              <span> 80% </span>
-            </div>
-            <div class="_12_5">
-              <div class="stars-outer">
-                <div class="stars-inner"> </div>
-              </div>
-              <span> 25% </span>
-            </div>
-            <div class="_1">
-              <div class="stars-outer">
-                <div class="stars-inner"> </div>
-              </div>
-              <span> 2% </span>
-            </div>
+            <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
           </div>
         </div>
-        <h3>Reviews</h3>
-        <ul class="p-0 my-4">
-          <li>
-            <div class="d-flex">
-              <img src="/public/images/avatars/Phat.png" class="rounded-circle review-image" alt="">
-              <div class="col-9 comment-content">
-                Tô Nguyễn Tấn Phát
-                <p>Student</p>
-              </div>
-              <div class="_43">
-                <div class="stars-outer">
-                  <div class="stars-inner"> </div>
-                </div>
-              </div>
-            </div>
-            <div class="offset-1 col-11 mt-2">
-              <p>希望你能继续保持这么棒!我们十分为你骄傲。(最高级的表扬！)我对你的工作非常满意。你真明智！我想称赞一下你的勤奋希望你能继续保持这么棒!我们十分为你骄傲</p>
-            </div>
-          </li>
-          <br>
-          <li>
-            <div class="d-flex">
-              <img src="/public/images/avatars/Luong.jpg" class="rounded-circle review-image" alt="">
-              <div class="col-9 comment-content">
-                Phùng Quốc Lương
-                <p>Student</p>
-              </div>
-              <div class="_43">
-                <div class="stars-outer">
-                  <div class="stars-inner"> </div>
-                </div>
-              </div>
-            </div>
-            <div class="offset-1 col-11 mt-2">
-              <p>Ơ mây zình, bốp bốp bốp 👏👏👏👏👏👏</p>
-            </div>
-          </li>
-        </ul>
       </div>
-    </div>
-
-    <div class="col-3 pt-4">
-      <h3 class="mb-3 d-block w-75" style="color: #3E416D;margin-left:32px;">Related courses</h3>
-      <div class="row d-flex flex-column align-items-center p-0 b-5">
-        <div class="p-0 mb-5 col-9">
-          <div class="card h-100">
-            <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
-            <div class="card-body d-flex flex-column">
-              <p class="card-text text-primary font-weight-bold">Web Development</p>
-              <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
-              <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
-              <div class="_43">
+      <div class="p-0 mb-5 col-9">
+        <div class="card h-100">
+          <img class="card-img-top" src="/public/images/courses/2.png" alt="Card image cap">
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-primary font-weight-bold">Web Development</p>
+            <h6 class="card-title font-weight-bold">Learn Angular Fundamentals </h5>
+              <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
+              <div class="_44">
                 <span class="number-rating"></span>
                 <div class="stars-outer">
                   <div class="stars-inner"></div>
                 </div>
-                <span class="number-rates">(40.323)</span>
+                <span class="number-rates">(41.543)</span>
               </div>
-              <div class="d-flex">
-                <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
-                <h5 class="card-text font-weight-bold align ml-3"> $199.99 </h5>
-              </div>
+              <h5 class="card-text font-weight-bold"> $99.99 </h5>
               <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-            </div>
           </div>
         </div>
-        <div class="p-0 mb-5 col-9">
-          <div class="card h-100">
-            <img class="card-img-top" src="/public/images/courses/2.png" alt="Card image cap">
-            <div class="card-body d-flex flex-column">
-              <p class="card-text text-primary font-weight-bold">Web Development</p>
-              <h6 class="card-title font-weight-bold">Learn Angular Fundamentals </h5>
-                <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
-                <div class="_44">
-                  <span class="number-rating"></span>
-                  <div class="stars-outer">
-                    <div class="stars-inner"></div>
-                  </div>
-                  <span class="number-rates">(41.543)</span>
+      </div>
+      <div class="p-0 mb-5 col-9">
+        <div class="card h-100">
+          <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
+          <div class="card-body d-flex flex-column">
+            <p class="card-text text-primary font-weight-bold">JavaScript</p>
+            <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
+              <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
+              <div class="_46">
+                <span class="number-rating"></span>
+                <div class="stars-outer">
+                  <div class="stars-inner"></div>
                 </div>
-                <h5 class="card-text font-weight-bold"> $99.99 </h5>
-                <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-            </div>
-          </div>
-        </div>
-        <div class="p-0 mb-5 col-9">
-          <div class="card h-100">
-            <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-            <div class="card-body d-flex flex-column">
-              <p class="card-text text-primary font-weight-bold">JavaScript</p>
-              <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-                <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-                <div class="_46">
-                  <span class="number-rating"></span>
-                  <div class="stars-outer">
-                    <div class="stars-inner"></div>
-                  </div>
-                  <span class="number-rates">(40.686)</span>
-                </div>
-                <h5 class="card-text font-weight-bold"> $111.99 </h5>
-                <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-            </div>
+                <span class="number-rates">(40.686)</span>
+              </div>
+              <h5 class="card-text font-weight-bold"> $111.99 </h5>
+              <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
 <!-- Modal -->
-<div class="modal fade" id="course-video" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="course-video" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content m-0">
       <div class="modal-body p-0">
-        <iframe class="w-100 m-0" id="Geeks3" width="450" height="350"
-                                    src= 
- "https://www.youtube.com/embed/nOCXXHGMezU" 
-                                    frameborder="0" allowfullscreen> 
-                            </iframe> 
+        <iframe class="w-100 m-0" id="Geeks3" width="450" height="350" src="https://www.youtube.com/embed/nOCXXHGMezU"
+          frameborder="0" allowfullscreen>
+        </iframe>
       </div>
     </div>
   </div>
@@ -613,98 +641,97 @@
 
 {{#section 'js'}}
 <script>
-  var bookForm = document.forms['book-course'];
-    var btnBook= $('.btn-book-course');
-    btnBook.on('click', function(){
-      bookForm.action = '/courses/book/' + btnBook.data('id') ;
-      bookForm.submit();
-    })
+  function isWished() {
+    var heart = $('.btn-wish').data('id');
+    return $.getJSON(`/courses/wished?id=${heart}`);
+  }
 
-function isWished() {
-  var heart=$('.btn-wish').data('id');  
-  return $.getJSON(`/courses/wished?id=${heart}`);
-}
-
-    $(document).ready(function () {
-        var options = {
-            max_value: 5,
-            initial_value: 4,
-            readonly: true
-        }
-        $(".rate").rate(options);
-    });
-
-// Tooltip
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-    isWished().then(wished=> {
-    let wishIcon=$('.wish-icon');
-    if(wished)
-    wishIcon.addClass('fas');
-    else 
-    wishIcon.addClass('far');
-    });
-});
-
-$(document).ready(function() { 
-    var url = $("#Geeks3").attr('src'); 
-    $("#Geeks2").on('hide.bs.modal', function() { 
-        $("#Geeks3").attr('src', ''); 
-    }); 
-    $("#Geeks2").on('show.bs.modal', function() { 
-        $("#Geeks3").attr('src', url); 
-    }); 
-}); 
-  
-  
-//Accordition
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("acor-active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
+  $(document).ready(function () {
+    var options = {
+      max_value: 5,
+      initial_value: 4,
+      readonly: true
+    }
+    $(".rate").rate(options);
   });
-} 
-  
-  
 
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    let wishIcon = $('.wish-icon');
+      if (isWished())
+        wishIcon.addClass('fas');
+      else
+        wishIcon.addClass('far');
+    /*isWished().then(wished => {
+      let wishIcon = $('.wish-icon');
+      console.log(wished);
+      if (wished)
+        wishIcon.addClass('fas');
+      else
+        wishIcon.addClass('far');
+    });*/
+  });
+
+  $(document).ready(function () {
+    var url = $("#Geeks3").attr('src');
+    $("#Geeks2").on('hide.bs.modal', function () {
+      $("#Geeks3").attr('src', '');
+    });
+    $("#Geeks2").on('show.bs.modal', function () {
+      $("#Geeks3").attr('src', url);
+    });
+  });
+
+
+  //Accordition
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      this.classList.toggle("acor-active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+  }
+
+
+  var bookForm = document.forms['book-course'];
+  var btnBook = $('.btn-book-course');
+  btnBook.on('click', function () {
+    bookForm.action = '/courses/book/' + btnBook.data('id');
+    bookForm.submit();
+  })
 
   var addForm = document.forms['add-course'];
-    var btnAdd= $('.btn-add-cart');
-    console.log(addForm,btnAdd)
-    btnAdd.on('click', function(){
-      addForm.action = '/courses/add/' + btnAdd.data('id') ;
-      addForm.submit();
-    })
+  var btnAdd = $('.btn-add-cart');
+  btnAdd.on('click', function () {
+    addForm.action = '/courses/add/' + btnAdd.data('id');
+    addForm.submit();
+  })
 
-
-
-   var wishForm = document.forms['wish-course'];
-    
-var btnWish= $('.btn-wish');
-    btnWish.on('click',function(){
-      isWished().then(wished=>{
-      let wishIcon=$('.wish-icon');
-      if(wished==true) {
-      wishIcon.removeClass('fas');
-      wishIcon.addClass('far');
-      $.post('/courses/wish/'+ btnWish.data('id'), $('.btn-wish').serialize());
+  var wishForm = document.forms['wish-course'];
+  var btnWish = $('.btn-wish');
+  btnWish.on('click', function () {
+    isWished().then(wished => {
+      let wishIcon = $('.wish-icon');
+      if (wished === true) {
+        wishIcon.removeClass('fas');
+        wishIcon.addClass('far');
+        $.post('/courses/wish/' + btnWish.data('id'), $('.btn-wish').serialize());
       }
       else {
-      wishIcon.removeClass('far');
-      wishIcon.addClass('fas');
-      $.post('/courses/wish/'+ btnWish.data('id'), $('.btn-wish').serialize());
+        wishIcon.removeClass('far');
+        wishIcon.addClass('fas');
+        $.post('/courses/wish/' + btnWish.data('id'), $('.btn-wish').serialize());
       }
-      });
     });
-  
-  
+  });
+
+
 </script>
-{{/section}}  
+{{/section}}

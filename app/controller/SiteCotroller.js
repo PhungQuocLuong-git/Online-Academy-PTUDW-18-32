@@ -1,9 +1,15 @@
+const { multipleMongooseToObject } = require('../../util/mongoose');
+const { getMostviewed } = require('./CourseController');
+const courseController = require('./CourseController');
 
 module.exports = {
-  home(req, res, next) {
+  async home(req, res, next) {
+    var mostViewedCourses=await getMostviewed();
+    console.log(mostViewedCourses);
     res.render('home', {
+      mostViewed: mostViewedCourses,
       script: '/public/javascripts/home.js',
-      extraStyle:'/public/stylesheets/home.css'
+      extraStyle:'/public/stylesheets/home.css'      
     });
   }
 };
