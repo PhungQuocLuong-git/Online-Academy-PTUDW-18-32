@@ -38,6 +38,17 @@ class StudentController{
         });
     }
 
+    // [GET] /Student/login
+    profile(req,res,next) {
+        // res.json(req.params.id);
+        Student.findById(req.params.id)
+            .then(student => res.render('users/edit-profile',{
+                use: mongooseToObject(student),
+                script: '/public/stylesheets/form.css'
+            }))
+            .catch(next)
+    }
+
     // [GET] /Student/cart/:id
     cart(req,res){
         // res.json({msg:req.params.id});
@@ -93,6 +104,20 @@ class StudentController{
                 .catch(err => res.json({err2: err}));
     }
     
+    // [PUT] /:id
+    update(req,res,next) {
+        // res.json(req.body);
+        Student.findByIdAndUpdate(req.params.id,req.body)
+            .then(user => {
+                req.session.user.name = req.body.name;
+                req.session.user.email = req.body.email;
+                req.app.locals.user.name = req.body.name ;
+                req.app.locals.user.email = req.body.email ;
+                res.redirect('/');
+            })
+            .catch(next);
+    }
+
     // [DELETE] /student//delcart/:id
     delcart(req,res,next){
         Student.findById(req.session.user._id).populate({

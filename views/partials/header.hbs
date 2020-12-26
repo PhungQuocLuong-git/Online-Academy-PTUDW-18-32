@@ -19,10 +19,6 @@
           </a>
           {{#if user.cart_courses.length }}
           <div class="navbar__cart-list ">
-            {{!-- <img src="assets/img/cosmic_dusk_xayah_fanart_by_zuzifrost-dcdmps4.png" alt="" class="navbar__cart-no-card-img"> --}}
-            <span class="navbar__card-list-no-card-msg">
-                Chưa có sản phẩm
-            </span>
             <h4 class="navbar__cart-heading">Khóa hc đã thêm vào Cart </h4>
             <ul class="navbar__cart-list-item">
                 {{#each user.cart_courses}}
@@ -33,7 +29,7 @@
                         <div class="navbar__cart-item-head">
                             <h5 class="navbar__cart-item-name">{{mon2 this 'name'}}</h5>
                             <div class="navbar__cart-item-wrap">
-                                <span class="navbar__cart-item-price">{{mon2 this 'price'}}</span>
+                                <span class="navbar__cart-item-price">{{format (mon2 this 'price')}}</span>
                                 <span class="navbar__cart-item-currency">VND</span>
                             </div>
                         </div>
@@ -73,8 +69,8 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             
-            <a class="dropdown-item" href="/me/stored/courses">My learning</a>
-            <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
+            <a class="dropdown-item" href="/student/stored/courses">My learning</a>
+            <a class="dropdown-item" href="/student/edit/{{user._id}}">Edit my profile</a>
             
             <div class="dropdown-divider"></div>
             <a class="dropdown-item btn--logout" href="#">Đăng xuất</a>

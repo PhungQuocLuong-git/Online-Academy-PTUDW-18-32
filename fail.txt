@@ -9,3 +9,4 @@ Numeral price, trạng thái khóa hc
 #Mua khóa hc:
 Chưa back đc trang trc( mún đc phải data-slug vào), order ở DB
 *Chua update da~ push vs delcart vs -money
+#Update profile
