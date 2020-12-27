@@ -7,6 +7,7 @@ const studentController = require('../app/controller/StudentController');
 router.get('/create', studentController.create);
 router.post('/store', studentController.store);
 router.get('/login', studentController.login);
+router.post('/check-otp', studentController.checkOtp);
 router.get('/cart/:id', studentController.cart);
 router.get('/edit/:id', studentController.profile);
 router.post('/check', studentController.check);

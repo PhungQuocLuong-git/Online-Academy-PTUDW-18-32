@@ -1,5 +1,6 @@
 const Student = require('../models/Student');
 const Course = require('../models/Course');
+const mailer = require('../../util/mailer');
 const { mongooseToObject} = require('../../util/mongoose');
 
 // Hash password
@@ -18,27 +19,64 @@ class StudentController{
 
     // [POST] /Student/store
     store(req,res,next) {
-
         Promise.all([Student.findOne({username: req.body.username}),bcrypt.hash(req.body.password, saltRounds)])
             .then(([user,hash]) => {
-                if(user) res.json({err:'Existed username'})
-                else {
-                    req.body.password= hash;
-                    new Student(req.body).save()
-                    .then(res.redirect('/'))                
+                if(user) {
+                    return new Promise(function(resolve,reject){
+                        reject('existed username');
+                    });
                 }
-            });          
-        // res.json(req.body);
+                req.body.password= hash;
+                const to = req.body.email;
+                const subject = 'Xác thực OTP nhé';
+                const randNumb = Math.floor(100000 + Math.random() * 900000) ;
+                req.app.locals.otp= randNumb;
+                req.app.locals.storeStudent= req.body;
+                req.app.locals.times= 3;
+                const body = `<h1> Vui lòng xác thực để đăng kí tài khoản </h1>Your OTP is ${randNumb} .`
+                // res.json({to,subject,body});
+                console.log('test',req.app.locals.otp, req.app.locals.times);
+
+                return mailer.sendMail(to, subject, body);
+            }) 
+            .catch(error => res.status(404).json(error))
+            .then (() => res.status(200).render('students/verify',{
+                layout:false
+            }))
     }
 
-    // [GET] /Student/login
+    // [POST] /student/check-otp
+    checkOtp(req,res) {
+        console.log(req.app.locals.otp,+req.body.otp,req.app.locals.times );
+        if(req.app.locals.otp === +req.body.otp){
+        
+            new Student(req.app.locals.storeStudent).save()
+                .then(res.status(200).redirect('/student/login'))
+                .catch(res.status(404).json('OOPS'));
+        }
+          
+        else{
+            req.app.locals.times = req.app.locals.times - 1 ;
+            if(!req.app.locals.times)
+                req.session.destroy(() =>{
+                    res.redirect('/student/create');
+                })
+            else
+                res.render('students/verify',{
+                    layout:false,
+                });
+
+        }
+      }
+
+    // [GET] /student/login
     login(req,res,next) {
         res.render('students/login',{
             layout:false,
         });
     }
 
-    // [GET] /Student/login
+    // [GET] /student/profile
     profile(req,res,next) {
         // res.json(req.params.id);
         Student.findById(req.params.id)

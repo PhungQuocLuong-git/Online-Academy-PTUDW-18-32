@@ -1,0 +1,61 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <link rel="stylesheet" href="/public/stylesheets/validator.css">
+     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
+<body>
+    
+    <div class="main">
+        <form action="/student/check-otp" method="POST" class="form form--verify" id="form-1">
+          <h3 class="heading">Nhập mã xác thực</h3>
+          <p class="desc"></p>
+          <div class="spacer"></div>
+          <div class="form-group">
+            <label for="otp" class="form-label">MÃ</label>
+            <input id="otp" name="otp" type="text" placeholder="Mã xác thực" class="form-control">
+            <span class="form-message"></span>
+          </div>
+          <div class="spacer"></div>
+
+          <div class="or-seperate"></div>
+          <div class="spacer"></div>
+
+            {{#ifcond times 2}}
+
+                <h2>Bạn còn {{times}} lần để nhập mã </h2>
+            {{/ifcond}}
+
+            {{#ifcond times 1}}
+
+                <h2>Bạn còn {{times}} lần để nhập mã </h2>
+            {{/ifcond}}
+
+          <button class="btn btn-primary form-submit">Gửi</button>
+        </form>
+      
+      </div>
+          
+  <script src="/public/javascripts/validator.js"></script>
+
+    
+    <script>
+        Validator({
+            form:'#form-1',
+            formGroup:'.form-group',
+            errorSelector:'.form-message',
+            rules:[
+                Validator.isRequired('#otp','Vui lòng nhập mã'),
+            ],
+            
+        }
+        )
+    </script>
+</body>
+</html>
