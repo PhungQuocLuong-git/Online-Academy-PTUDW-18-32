@@ -7,7 +7,8 @@ const TeacherSchema = new Schema({
   name: {type: String},
   email: {type: String},
   password: {type: String},
-  description: {type: String,default:'description of teacher'},
+  short_description: {type: String,default:'a short description of teacher'},
+  description: {type: String,default:'a description of teacher'},
   posted_courses: [
     {
       course_id: { type: Schema.Types.ObjectId, ref: "Course" },

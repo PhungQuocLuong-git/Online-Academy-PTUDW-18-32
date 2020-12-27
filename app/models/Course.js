@@ -8,8 +8,9 @@ mongoose.plugin(slug);
 
 const CourseSchema = new Schema({
     name: {type: String, default:'This is name', },
-    description: {type: String, default:'This is description', },
-    description_thumnail: {type: String, default:'This is description thumnail', },
+    description: {type: String, default:'This is a description', },
+    thumbnail: {type: String, default:'This is a link to thumbnail', },
+    short_description:{type: String, default:'This is a short description'},
     course_author: {
       type: Schema.Types.ObjectId,
       ref: "Teacher",
@@ -18,20 +19,26 @@ const CourseSchema = new Schema({
     studentQty:{type:Number, default: 0},
     rating:{type:Number, default: 0},
     price:{type:Number, default: 0},
+    discount_price:{type:Number,default:0},
     view:{type:Number, default: 0},
     status:{type:Number, default: 0},
     image: {type: String, default: '/public/images/feature.png'},
     kind: {type: Number, ref:"Category"},
     // category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
-    slug: { type: String, slug: 'name', unique: true }
+    slug: { type: String, slug: 'name', unique: true },
     // createdAt: {type: Date, default: Date.now},
     // updatedAt: {type: Date, default: Date.now},
+    curriculum: [{
+      unit: {type:String},
+      lectures: [{
+        name:{type:String,default:''},
+        link:{type:String},
+        preview:{type:Boolean}        
+      }]
+    }]
   },{
     timestamps: true,
   });
-
-
-
 
   module.exports = mongoose.model('Course', CourseSchema);
 

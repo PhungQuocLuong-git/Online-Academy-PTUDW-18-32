@@ -10,7 +10,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        {{#ifcond role 1}}
+        {{#ifequal role 1}}
         <li class="nav-item active navbar__cart-wrap">
           <a class="nav-link btn-cart" href="/student/cart/{{user._id}}" >
           
@@ -71,7 +71,7 @@
           </div>
         </li>
         {{else}}
-            {{#ifcond role 2}}
+            {{#ifequal role 2}}
              <li class="nav-item active">
               <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Learn on OA <span class="sr-only">(current)</span></a>
             </li>
@@ -98,8 +98,8 @@
         <li class="nav-item active">
           <a class="nav-link" href="/student/login">Đăng nhập</a>
         </li>
-        {{/ifcond}}
-        {{/ifcond}}
+        {{/ifequal}}
+        {{/ifequal}}
       </ul>
 
       

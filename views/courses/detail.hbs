@@ -12,6 +12,12 @@
     overflow: hidden;
   }
 
+  .img-fluid {
+   max-height: 350px;
+   width: 100%;
+   background-image: cover;
+  }
+
   /* Tooltip custom */
   .tooltip-inner {
     background-color: #37294c;
@@ -255,7 +261,7 @@
     font-size: 25px;
     font-family: sans-serif;
     color: #ff8000;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: 20px;
   }
 </style>
@@ -267,7 +273,7 @@
   <div class="mx-auto d-flex w-75">
     <div class="col-6 d-flex flex-column">
       <div class="p-0 overlay course-detail-img">
-        <img class="img-fluid" src="/public/images/courses/1.png" alt="">
+        <img class="img-fluid" src="{{course.thumbnail}}" alt="">
         <div class="middle">
           <div class="text my-auto"><a href="#course-video" data-toggle="modal" class="text-dark"><i
                 class="fas fa-play"></i></a></div>
@@ -290,25 +296,30 @@
     </div>
     <div class="h-75 d-inline-block align-self-center ml-auto text-white" style="width: 45%;">
       <h3 class="font-weight-bold">{{course.name}}</h3>
-      <p class="my-3" style="color:#BABDD9;">Master JavaScript with the most complete course! Projects
-        Excellent course. we explain the core concepts in javascript that are usually glossed over in other
-        courses.</p>
-      <div class="d-flex text-warning">
-        <h3 class="delete-price text-dark">$200</h3>
-        <h3 class="ml-4">$199.99</h3>
+      
+      {{{course.short_description}}}
+
+      <div class="d-flex text-warning mt-3">
+        {{#ifgreater course.discount_price 0}}
+        <h3 class="delete-price text-dark">${{course.price}}</h3>       
+        <h3 class="ml-4">${{course.discount_price}}</h3>
+        {{else}}
+        <h3 class="text-warning">${{course.price}}</h3> 
+        {{/ifgreater}}
+        {{#ifequal role 1}}
         <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}" data-toggle="tooltip" data-placement="top"
             title="Add to Wishlist"><i class="fa-heart text-danger wish-icon"></i></a></i></h3>
+        {{/ifequal}}
       </div>
       <div class="d-flex">
         <span class="number-rating bg-warning text-white px-2 h-75 align-self-center"
-          style="border-radius: 15%;">4.6</span>
+          style="border-radius: 5px;">4.6</span>
         <div class="rate" data-rate-value=4.6></div>
-        <span class="number-rates"><i class="fas fa-users"></i> (4.543.342)</span>
+        <span class="number-rates"><i class="fas fa-users"></i> {{course.course_students.length}}</span>
       </div>
-      <p class="mt-3">Created by <strong>Jonathan Madano</strong> </p>
+      <p class="mt-3">Created by <strong>{{course.course_author.name}}</strong> </p>
       <div class="d-flex">
-        <p><i class="far fa-edit"></i> Last updated 10/2019 </p>
-        <p class="ml-5"><i class="fas fa-globe"></i> English</p>
+        <p><i class="far fa-edit"></i> Last updated {{dateFormat course.updatedAt}} </p>
       </div>
       <button type="button" class="btn btn-add-cart btn-danger btn-lg w-40" data-id="{{course._id}}">Add to
         cart</button>
@@ -323,45 +334,7 @@
   <div class="tab-content px-0">
     <div id="description" class="container tab-pane active"><br>
       <h3>Description</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-        dolore magna aliquam erat volutpat. Ut wisi enim ad minim laoreet dolore magna aliquam erat volutpat. Ut wisi
-        enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-        consequat
-        consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci</p>
-      <h3>What You’ll Learn</h3>
-      <ul>
-        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Setting up the environment</li>
-        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Advanced HTML Practices</li>
-        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Build a portfolio website</li>
-        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Responsive Designs</li>
-        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Understand HTML Programming</li>
-        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Code HTML</li>
-        <li><i class="fas fa-check"></i> &nbsp;&nbsp;Start building beautiful websites</li>
-      </ul>
-      <h3>Requirements</h3>
-      <ul>
-        <li>&bull;&nbsp;&nbsp;Any computer will work: Windows, macOS or Linux</li>
-        <li>&bull;&nbsp;&nbsp;Basic programming HTML and CSS.</li>
-        <li>&bull;&nbsp;&nbsp;Basic/Minimal understanding of JavaScript</li>
-      </ul>
-      <h3>Here Is Exactly What We Cover In This Course:</h3>
-      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-        dolore magna aliquam erat volutpat. Ut wisi enim ad minim laoreet dolore magna aliquam erat volutpat. Ut wisi
-        enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-        consequat
-
-        consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
-
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-        dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper
-        suscipit lobortis nisl ut aliquip ex ea commodo consequat. Nam liber tempor cum soluta nobis eleifend option
-        congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet,
-        consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-        volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
-        aliquip
-        ex ea commodo consequat.</p>
+      {{{course.description}}}
     </div>
     <div id="curriculum" class="container tab-pane fade"><br>
       <button class="accordion">HTML Introduction</button>
@@ -398,8 +371,8 @@
       </div>
     </div>
     <div id="instructor" class="container tab-pane fade"><br>
-      <h3 class="instructor-name">Jonathan Madano</h3>
-      <p class="intructor-first-des">Professional Web Developer and Instructor</p>
+      <h3 class="instructor-name">{{course.course_author.name}}</h3>
+      <p class="intructor-first-des">{{course.course_author.short_description}}</p>
       <div class="row">
         <img src="/public/images/avatars/avatar-2.jpeg" class="rounded-circle ml-2 mb-4" alt="">
         <div class="d-flex col-6">
@@ -410,48 +383,22 @@
             <p><i class="fa fa-medal"></i> </p>
           </div>
           <div class="col-8">
-            <p>1.113.754 Students</p>
+            <p>6 Students</p>
             <p>20 Courses</p>
-            <p>10 years Experiences</p>
+            <p>10 Years</p>
             <p>3 Certificates</p>
           </div>
         </div>
-        <h5>Experience as (Web) Developer</h5>
-        <p>Starting out at the age of 13 I never stopped learning new programming skills and languages. Early I started
-          creating websites for friends and just for fun as well. Besides web development I also explored Python and
-          other non-web-only languages. This passion has since lasted and lead to my decision of working as a freelance
-          web developer and consultant. The success and fun I have in this job is immense and really keeps that passion
-          burningly alive.</p>
-        <p>Starting web development on the backend (PHP with Laravel, NodeJS, Python) I also became more and more of a
-          frontend developer using modern frameworks like React, Angular or VueJS 2 in a lot of projects. I love both
-          worlds nowadays!</p>
-        <p>As a self-taught developer I had the chance to broaden my horizon by studying Business Administration where I
-          hold a Master's degree. That enabled me to work in a major strategy consultancy as well as a bank. While
-          learning, that I enjoy development more than these fields, the time in this sector greatly improved my overall
-          experience and skills.</p>
-        <h5>Experience as Instructor</h5>
-        <p>As a self-taught professional I really know the hard parts and the difficult topics when learning new or
-          improving on already-known languages. This background and experience enables me to focus on the most relevant
-          key concepts and topics. My track record of many 5-star rated courses, more than 700,000 students on Udemy as
-          well as a successful YouTube channel is the best proof for that.</p>
-        <p>Whether working as development instructor or teaching Business Administration I always received great
-          feedback. The most rewarding experience is to see how people find new, better jobs, build awesome web
-          applications, acquire amazing projects or simply enjoy their hobby with the help of my content.</p>
-        <p>Together with Manuel Lorenz, I founded Academind to offer the best possible learning experience to our more
-          than 800,000 students.</p>
+        {{{course.course_author.description}}}
       </div>
     </div>
     <div id="feedback" class="container tab-pane fade pl-0"><br>
       <h3>Student feedback</h3>
-      <div class="row my-3">
-        <div class="d-flex flex-column align-items-center bg-light feedback-rating ml-2">
-          <h1 class="mt-2">4.6</h1>
-          <div class="_46">
-            <div class="stars-outer">
-              <div class="stars-inner"></div>
-            </div>
-          </div>
-          <p class="my-2">Course Rating</p>
+      <div class="row my-3 ml-1">
+        <div class="d-flex flex-column align-items-center bg-light feedback-rating">
+          <h1 class="mt-2 mb-0">4.6</h1>
+          <div class="rate text-dark" data-rate-value=4.6></div>
+          <p class="mb-2">Course Rating</p> 
         </div>
         <div class="col-7 d-flex flex-column justify-content-around">
           <div class="progress h-10">
@@ -476,35 +423,25 @@
           </div>
         </div>
         <div class="col d-flex flex-column justify-content-around">
-          <div class="_43">
-            <div class="stars-outer">
-              <div class="stars-inner"> </div>
-            </div>
-            <span> 80% </span>
+          <div class="d-flex">
+          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+          <span class="align-self-center">40%</span>
           </div>
-          <div class="_34">
-            <div class="stars-outer">
-              <div class="stars-inner"> </div>
-            </div>
-            <span> 68% </span>
+          <div class="d-flex">
+          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+          <span class="align-self-center">40%</span>
           </div>
-          <div class="_43">
-            <div class="stars-outer">
-              <div class="stars-inner"> </div>
-            </div>
-            <span> 80% </span>
+          <div class="d-flex">
+          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+          <span class="align-self-center">40%</span>
           </div>
-          <div class="_12_5">
-            <div class="stars-outer">
-              <div class="stars-inner"> </div>
-            </div>
-            <span> 25% </span>
+          <div class="d-flex">
+          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+          <span class="align-self-center">40%</span>
           </div>
-          <div class="_1">
-            <div class="stars-outer">
-              <div class="stars-inner"> </div>
-            </div>
-            <span> 2% </span>
+          <div class="d-flex">
+          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+          <span class="align-self-center">40%</span>
           </div>
         </div>
       </div>
@@ -641,12 +578,17 @@
 
 {{#section 'js'}}
 <script>
-  function isWished() {
-    var heart = $('.btn-wish').data('id');
-    return $.getJSON(`/courses/wished?id=${heart}`);
-  }
-
   $(document).ready(function () {
+    var url = $("#Geeks3").attr('src');
+    $("#Geeks2").on('hide.bs.modal', function () {
+      $("#Geeks3").attr('src', '');
+    });
+    $("#Geeks2").on('show.bs.modal', function () {
+      $("#Geeks3").attr('src', url);
+    });
+  });
+
+$(document).ready(function () {
     var options = {
       max_value: 5,
       initial_value: 4,
@@ -654,6 +596,12 @@
     }
     $(".rate").rate(options);
   });
+
+{{#ifequal role 1}}
+  function isWished() {
+    var heart = $('.btn-wish').data('id');
+    return $.getJSON(`/courses/wished?id=${heart}`);
+  }
 
   $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -671,17 +619,7 @@
         wishIcon.addClass('far');
     });*/
   });
-
-  $(document).ready(function () {
-    var url = $("#Geeks3").attr('src');
-    $("#Geeks2").on('hide.bs.modal', function () {
-      $("#Geeks3").attr('src', '');
-    });
-    $("#Geeks2").on('show.bs.modal', function () {
-      $("#Geeks3").attr('src', url);
-    });
-  });
-
+{{/ifequal}}
 
   //Accordition
   var acc = document.getElementsByClassName("accordion");
@@ -699,7 +637,7 @@
     });
   }
 
-
+{{#ifequal role 1}}
   var bookForm = document.forms['book-course'];
   var btnBook = $('.btn-book-course');
   btnBook.on('click', function () {
@@ -731,7 +669,7 @@
       }
     });
   });
-
+{{/ifequal}}
 
 </script>
 {{/section}}

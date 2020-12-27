@@ -21,11 +21,6 @@ function route(app) {
             app.locals.idUser = 0 ;
             app.locals.nameUser = 'User' ;
             app.locals.user = {};
-            app.locals.arrayTest=[1,2,3,4];
-            app.locals.test={
-                a:'a',
-                b:'b'
-            }
         }
         else {
             app.locals.role = req.session.role;

@@ -8,8 +8,14 @@ const Course = require('../app/models/Course');
 
 module.exports = {
     sum: (a,b) => a + b,
-    ifcond(v1, v2, options) {
+    ifequal(v1, v2, options) {
         if(v1 === v2) {
+          return options.fn(this);
+        }
+        return options.inverse(this);
+      },
+      ifgreater(v1, v2, options) {
+        if(v1 > v2) {
           return options.fn(this);
         }
         return options.inverse(this);
@@ -20,4 +26,12 @@ module.exports = {
       },
     mon: (col,ind,field) => col[ind].course_id[field],
     mon2: (col,field) => col.course_id[field],
+    dateFormat: (date) => {
+      options = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour12: false,
+        timeZone: 'America/Los_Angeles'
+      };
+      return new Intl.DateTimeFormat('en-GB', options).format(date);
+    }
 }
