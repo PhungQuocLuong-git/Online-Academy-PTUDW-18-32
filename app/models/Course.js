@@ -30,7 +30,15 @@ const CourseSchema = new Schema({
     timestamps: true,
   });
 
-
+  CourseSchema.index({
+    name: 'text',
+    description: 'text',
+  }, {
+    weights: {
+      name: 10,
+      description: 1,
+    },
+  });
 
 
   module.exports = mongoose.model('Course', CourseSchema);

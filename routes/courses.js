@@ -14,6 +14,7 @@ router.get('/wished',courseController.wished);
 
 // router.get('/detail',courseController.detail);
 router.post('/store',courseController.store);
+router.post('/fts',courseController.fts);
 router.post('/book/:id',courseController.book);
 router.post('/wish/:id',courseController.wish);
 router.post('/add/:id',courseController.add);

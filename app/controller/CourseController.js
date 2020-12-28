@@ -38,6 +38,16 @@ module.exports = {
         })
     },
 
+    fts(req, res) {
+        Course.find({
+            $text: { $search: req.body.kw },
+          }).populate('course_author course_students')
+            .then(courses => res.render('courses/search',{
+                courses: multipleMongooseToObject(courses)
+            }))
+            .catch(error => console.error(error));
+    },
+
 
     store(req, res, next) {
         req.body.course_author = req.session.user._id;
