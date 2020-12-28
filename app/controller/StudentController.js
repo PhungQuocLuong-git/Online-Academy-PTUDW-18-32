@@ -99,7 +99,7 @@ class StudentController{
     // [POST] /Student/logout
     logout(req,res,next) {
         req.app.locals.role = 0;
-        req.session.role=0;
+        req.app.locals.user = {};
         req.session.destroy(() => {
             res.redirect('/student/login');
           });
@@ -113,11 +113,13 @@ class StudentController{
             
           })
             .then( user => {
-                req.app.locals.cartCount = user.cart_courses.length;
-                bcrypt.compare(req.body.password,user.password).then((result)=>{
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
+                return bcrypt.compare(req.body.password,user.password)
+            })
+            .catch(err => res.json({err2: err}))
+            .then((result)=>{
                     if(result){
-                    req.session.user = mongooseToObject(user);
-                    req.app.locals.user = mongooseToObject(user);
                     req.session.username = req.body.username;
                     req.session.role=1;
                     req.app.locals.role = 1;
@@ -125,10 +127,7 @@ class StudentController{
                       } else {
                         res.redirect('/student/login');
                       }
-                    })
-                    .catch((err)=>res.json({error1: err}))
-                })
-                .catch(err => res.json({err2: err}));
+             })
     }
     
     // [PUT] /:id
