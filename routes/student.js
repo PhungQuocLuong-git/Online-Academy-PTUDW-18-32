@@ -9,7 +9,7 @@ router.post('/store', studentController.store);
 router.get('/login', studentController.login);
 router.post('/check-otp', studentController.checkOtp);
 router.get('/cart/:id', studentController.cart);
-router.get('/edit/:id', studentController.profile);
+router.post('/change', studentController.change);
 router.post('/check', studentController.check);
 router.post('/logout', studentController.logout);
 router.post('/handle-form-actions', studentController.handleFormActions);

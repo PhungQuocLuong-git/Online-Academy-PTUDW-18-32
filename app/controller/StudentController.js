@@ -5,6 +5,7 @@ const { mongooseToObject} = require('../../util/mongoose');
 
 // Hash password
 const bcrypt = require('bcrypt');
+const { findByIdAndUpdate } = require('../models/Student');
 const saltRounds = 10;
 
 
@@ -76,17 +77,6 @@ class StudentController{
         });
     }
 
-    // [GET] /student/profile
-    profile(req,res,next) {
-        // res.json(req.params.id);
-        Student.findById(req.params.id)
-            .then(student => res.render('users/edit-profile',{
-                use: mongooseToObject(student),
-                script: '/public/stylesheets/form.css'
-            }))
-            .catch(next)
-    }
-
     // [GET] /Student/cart/:id
     cart(req,res){
         // res.json({msg:req.params.id});
@@ -154,6 +144,28 @@ class StudentController{
                 res.redirect('/');
             })
             .catch(next);
+    }
+
+    change(req,res,next) {
+        Student.findById(req.session.user._id)
+        
+            .then(user => {console.log(req.body.oldPass,user);
+                return bcrypt.compare(req.body.oldPass,user.password)})
+            .then(ret => {
+                if(ret)
+                    return bcrypt.hash(req.body.newPass, saltRounds);
+                else
+                    {return new Promise(function(resolve,reject){
+                        res.send("false");
+                        reject("ABCDEFGH");
+                    }) }}
+            )
+            .then(hash => {
+                return Student.findByIdAndUpdate(req.session.user._id,{password:hash});
+            })
+            .then(user => {
+            res.send("true")})
+            .catch(err => console.log(err));
     }
 
     // [DELETE] /student//delcart/:id
@@ -244,3 +256,4 @@ class StudentController{
 }
 
 module.exports = new StudentController;
+
