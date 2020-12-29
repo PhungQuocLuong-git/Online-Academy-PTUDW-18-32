@@ -1,0 +1,55 @@
+<link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="card p-5">
+    <h5 class="card-header d-flex justify-content-between">
+        Subcategories of {{catname}}
+        <a class="btn btn-outline-success" href="/admin/categories/add" role="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Add Subcategory
+        </a>
+    </h5>
+    {{#if empty}}
+    <div class="card-body">
+        <p class="card-text">Không có dữ liệu</p>
+    </div>
+    {{else}}
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">SubCategory</th>
+                    <th scope="col">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each subcategories}}
+                <tr>
+                    <th scope="row">#</th>
+                    <td>{{SubCatName}}</td>
+                    <td class="text-right">
+                        <a name="" id="" class="btn btn-sm btn-primary" href="/admin/categories/" role="button"
+                            title="Edit Category">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                {{/each}}
+
+            </tbody>
+        </table>
+
+    </div>
+    {{/if}}
+    <div class="card-footer text-muted">
+        <a class="btn btn-primary" href="/admin/categories/" role="button">
+            <i class="fa fa-backward" aria-hidden="true"></i>
+            Back to List Categories
+        </a>
+
+    </div>
+
+
+</div>

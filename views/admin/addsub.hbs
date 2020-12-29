@@ -1,0 +1,35 @@
+<div class="container-fluid align-items-center">
+    <form method="POST" action="" class="w-75 p-5">
+
+        <div class="card">
+            <div class="card-header">
+                New Subcategory for {{catname}}
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="txt" class="form-control" id="exampleInputEmail1" 
+                        name="CatID" value="{{id}}" autofocus readonly hidden>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">SubCatName</label>
+                    <input type="txt" class="form-control" id="exampleInputEmail1" 
+                        name="SubCatName">
+                </div>
+
+
+            </div>
+            <div class="card-footer text-muted">
+                <a class="btn btn-primary" href="/admin/categories" role="button">
+                    <i class="fa fa-backward" aria-hidden="true"></i>
+                    Back to List
+                </a>
+                <button type="submit" class="btn btn-outline-success">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
