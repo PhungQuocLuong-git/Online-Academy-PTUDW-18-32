@@ -4,12 +4,16 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const methodOverride = require('method-override');
+const loadCategories =require('./app/middlewares/categories.mdw');
+
 
 var app = express();
 const db = require('./config/db');
 
 // Connect to DB
 db.connect();
+
+app.use(loadCategories.loadCategories);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,6 +23,7 @@ app.use(cookieParser());
 app.use('/public', express.static('public'));
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
+
 
 // Session
 require('./app/middlewares/session.mdw')(app);

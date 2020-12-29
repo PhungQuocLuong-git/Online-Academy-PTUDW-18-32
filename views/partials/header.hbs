@@ -8,18 +8,17 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Categories </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"> Second level 2 &raquo </a>
+              {{#each lcCategories}}
+                <li><a class="dropdown-item" href="#"> {{CatName}} &raquo </a>
                 <ul class="submenu dropdown-menu">
-                  <li><a class="dropdown-item" href=""> Third level 1</a></li>
-                  <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                  {{#each sub}}
+                    <li><a class="dropdown-item" href="">{{SubCatName}}</a></li>
+                  {{/each}}
+                  
                 </ul>
               </li>
-              <li><a class="dropdown-item" href="#"> Second level 2 &raquo </a>
-                <ul class="submenu dropdown-menu">
-                  <li><a class="dropdown-item" href=""> Third level 1</a></li>
-                  <li><a class="dropdown-item" href=""> Third level 2</a></li>
-                </ul>
-              </li>
+              {{/each}}
+              
             </ul>
           </li>
         </ul>
