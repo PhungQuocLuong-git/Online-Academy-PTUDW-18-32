@@ -74,14 +74,15 @@ module.exports = {
             }) } )
             .then(user =>{ 
                 user.cart_courses.push({course_id: req.params.id});
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
                 return Student.findByIdAndUpdate(req.session.user._id,user).populate("cart_courses.course_id")
             })
             .catch(user =>{
                 res.json({msg:'fail',user});
             })
             .then(user => {
-                req.session.user = mongooseToObject(user);
-                req.app.locals.user = mongooseToObject(user);
+                
                 res.redirect('/student/cart/'+user._id);
             })
      },
@@ -113,12 +114,12 @@ module.exports = {
             })}
             )
             .then(  ([ret,course]) => {
-                if(ret>=0)
-                    req.session.user.cart_courses.splice(ret,1);
+                if(ret>=0 && req.session.user.cart_courses.length >0)
+                    {
+                        req.session.user.cart_courses.splice(ret,1);}
                 course.course_students.push({user_id: req.session.user._id});
                 req.session.user.booked_courses.push({course_id: course._id});
                 req.session.user.money -=course.price;
-
                 return Promise.all([Course.findByIdAndUpdate(course._id,course),
                     Student.findByIdAndUpdate(req.session.user._id,req.session.user).populate({
                         path: "cart_courses.course_id",
@@ -128,11 +129,11 @@ module.exports = {
                       })])
             })
             .then(([course,user]) => {
-                req.session.user = mongooseToObject(user);
                 req.app.locals.user = mongooseToObject(user);
                 res.redirect('/student/cart/'+user._id);
             })
             .catch( () => {
+
                 res.json({msg:'Bn k mua dc khoa hc nay'});
             })
     },
