@@ -14,3 +14,5 @@ Chưa back đc trang trc( mún đc phải data-slug vào), order ở DB
 #Mail
 nhom15webhcmus@gmail.com
 pass:adminAdm1n
+
+chua tao truong cate trong course
