@@ -87,7 +87,6 @@ class StudentController{
             
           })
             .then(user => {
-                let total = 0;
                 req.app.locals.user = mongooseToObject(user);
                 res.render('students/cart',{
                     student:mongooseToObject(user),
@@ -100,7 +99,7 @@ class StudentController{
     // [POST] /Student/logout
     logout(req,res,next) {
         req.app.locals.role = 0;
-        req.session.role=0;
+        req.app.locals.user = {};
         req.session.destroy(() => {
             res.redirect('/student/login');
           });
@@ -114,11 +113,13 @@ class StudentController{
             
           })
             .then( user => {
-                req.app.locals.cartCount = user.cart_courses.length;
-                bcrypt.compare(req.body.password,user.password).then((result)=>{
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
+                return bcrypt.compare(req.body.password,user.password)
+            })
+            .catch(err => res.json({err2: err}))
+            .then((result)=>{
                     if(result){
-                    req.session.user = mongooseToObject(user);
-                    req.app.locals.user = mongooseToObject(user);
                     req.session.username = req.body.username;
                     req.session.role=1;
                     req.app.locals.role = 1;
@@ -126,10 +127,7 @@ class StudentController{
                       } else {
                         res.redirect('/student/login');
                       }
-                    })
-                    .catch((err)=>res.json({error1: err}))
-                })
-                .catch(err => res.json({err2: err}));
+             })
     }
     
     // [PUT] /:id
@@ -233,7 +231,9 @@ class StudentController{
                         course.course_students.push({user_id: req.session.user._id});
                         let c = await Course.findByIdAndUpdate(course._id,course);
                     })
-                    user.money -=total;                              
+                    user.money -=total; 
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);                             
                     let student = await  Student.findByIdAndUpdate(req.session.user._id,user).populate({
                         path: "cart_courses.course_id",
                         select: "name slug price course_author",
@@ -242,8 +242,6 @@ class StudentController{
                       });
                     
                     if(student){
-                        req.session.user = mongooseToObject(user);
-                        req.app.locals.user = mongooseToObject(user);
                         res.redirect('/');
                     }
                 }

@@ -59,9 +59,13 @@
             </div>
         </tr>
           {{/each}}
+          
       </tbody>
     </table>
 <input type ="hidden" name ="total">
+          {{#if student.cart_courses.length}}
+             Tổng cộng: <span class="total-money">0</span>đ
+          {{/if}}
 </form>
 
 <form  name="del-course" method="POST"></form>
@@ -112,6 +116,7 @@
           var checkedCount=arrayC.length;
           var totalMoney = arrayC.reduce((a,b)=>a+ +b.getAttribute('data-price'),0);
           $('input[name="total"]').prop('value', totalMoney);
+          document.querySelector('.total-money').innerHTML=totalMoney;
           console.log(totalMoney);
           if( checkedCount ){
             checkAllSubmitBtn.removeAttr('disabled');
