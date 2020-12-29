@@ -5,73 +5,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="/public/stylesheets/validator.css">
-    <link rel="stylesheet" href="/public/stylesheets/style.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
 
     <title>Login</title>
+    <style>
+        html {
+            font-size: 15px;
+        }
+
+        label {
+            margin-bottom: 5px;
+            margin-top: 1rem;
+        }
+
+        .edit-btn {
+            border: 0px;
+            background-color: inherit;
+        }
+
+        .lec-des {
+            font-size: 15px;
+        }
+
+        div[class*='chapter'] {
+            background-color: #e6e6e6;
+        }
+
+        .lecture {
+            background-color: rgb(179, 172, 172);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="mt-4">
-        <h3>Đăng khóa học</h3>
-        <form method="POST" action="/courses/store" id="form-1" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="name">Tên khóa hc </label>
-                <input type="text" class="form-control" id="name" name="name">
-                <span class="form-message"></span>
+    <form method="POST" action="/courses/store" id="form-1" name="createForm" enctype="multipart/form-data">
+        <div class="row mt-3 justify-content-center">
+            <div class="col-md-3 mb-3">
+                <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="des-tab" data-toggle="tab" href="#des" role="tab"
+                            aria-controls="des" aria-selected="true">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="curr-tab" data-toggle="tab" href="#curr" role="tab" aria-controls="curr"
+                            aria-selected="false">Curriculum</a>
+                    </li>
+                </ul>
             </div>
+            <!-- /.col-md-4 -->
+            <div class="col-md-7">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="des" role="tabpanel" aria-labelledby="des-tab">
 
-            <div class="form-group">
-                <label for="short_description">Mô tả khóa học ngắn gọn </label>
-                <textarea class="form-control" id="short_description" name="short_description"> </textarea>
-                {{!-- <input type="text" class="form-control" id="description" name="description"> --}}
-                <span class="form-message"></span>
+                        <div class="form-group">
+                            <label for="name">Tên khóa học </label>
+                            <input type="text" class="form-control" id="name" name="name">
+                            <span class="form-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="short_description">Mô tả khóa học ngắn gọn </label>
+                            <input class="form-control" id="short_description" name="short_description"> </input>
+                            <span class="form-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Mô tả khóa học</label>
+                            <textarea class="form-control" id="description" name="description"> </textarea>
+                            <span class="form-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="thumbnail">Thumbnail khoá học</label>
+                            <input id="thumbnail" name="thumbnail" type="file">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preview-vid">Preview course video khoá học</label>
+                            <input id="preview-vid" name="preview_vid" type="file">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">Giá khóa học</label>
+                            <input type="text" class="form-control" id="price" name="price">
+                            <span class="form-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">Giá duoc giam khóa học</label>
+                            <input type="text" class="form-control" id="discount-price" name="discount_price">
+                            <span class="form-message"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kind">Loại khóa học </label>
+                            <select name="kind" id="kind">
+                                <option value="1">Web</option>
+                                <option value="2">Android</option>
+                            </select>
+                            <span class="form-message"></span>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="curr" role="tabpanel" aria-labelledby="curr-tab">
+                        <div class="btn btn-outline-primary btn-add-chapter"> Add new chapter </div>
+                        <div class="w-75 mt-5 p-4 chapter1">
+                            <div class="d-flex justify-content-between">
+                                <div class="btn btn-outline-primary btn-add-lecture1" data-num="1"> Add new lecture
+                                </div>
+                                <div class="btn btn-outline-danger btn-delete-chapter"><i class="fas fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="chapter-name">Name</label> {{!-- chapter name --}}
+                                <input type="text" class="form-control" id="chapter-name" name="chapter_name"
+                                    placeholder="chapter's name">
+                            </div>
+                            <div class="w-75 lecture p-3">
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Lecture 1</h5>
+                                        <div class="btn btn-outline-danger btn-delete-lecture"><i
+                                                class="fas fa-times"></i></div>
+                                    </div>
+                                    <label for="lec-name">Name</label> {{!-- Lecture Name --}}
+                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter1_name"
+                                        placeholder="Lecture Name ">
+                                    <label for="des">Description</label> {{!-- Description --}}
+                                    <textarea type="text" class="form-control" class="des" name="lec_chapter1_des"
+                                        placeholder="Description"> </textarea>
+                                    <div class="form-group"> {{!-- Lecture content --}}
+                                        <label for="lec-content">Content</label>
+                                        <input id="lec-content" class="lec-content" name="lec_chapter1_content"
+                                            type="file">
+                                    </div>
+                                    <label for="lec-name">Preview this course?</label>
+                                    <fieldset class="lec1_chapter1_preview">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input1" type="radio" name="lec1_chapter1_preview"
+                                                id="lec1_chapter1_Radio1" value="true">
+                                            <label class="form-check-label m-0" for="lec1_chapter1_Radio1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input1" type="radio" name="lec1_chapter1_preview"
+                                                id="lec1_chapter1_Radio2" value="false">
+                                            <label class="form-check-label m-0" for="lec1_chapter1_Radio2">No</label>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary form-submit">Thêm khóa học</button>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="description">Mô tả khóa học</label>
-                <textarea class="form-control" id="description" name="description"> </textarea>
-                <span class="form-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="thumbnail">Thumbnail khoá học</label>
-                <input id="thumbnail" name="thumbnail" type="file">
-            </div>
-
-            <div class="form-group">
-                <label for="price">Giá khóa học</label>
-                <input type="text" class="form-control" id="price" name="price">
-                <span class="form-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="kind">Loại khóa học </label>
-                <select name="kind" id="kind">
-                    <option value="1">Web</option>
-                    <option value="2">Android</option>
-
-                </select>
-                <span class="form-message"></span>
-            </div>
-            <button type="submit" class="btn btn-primary form-submit">Thêm khóa học</button>
-        </form>
-    </div>
+            <!-- /.col-md-8 -->
+        </div>
+    </form>
 
 
 
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 
     <script src="/public/javascripts/validator.js"></script>
-    <script src="https://cdn.tiny.cloud/1/27g7modnmc4qdzsocnz7v44i7di0kfc7x2txeylvfvrzjsei/tinymce/5/tinymce.min.js"></script>
+    <script
+        src="https://cdn.tiny.cloud/1/27g7modnmc4qdzsocnz7v44i7di0kfc7x2txeylvfvrzjsei/tinymce/5/tinymce.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
 
@@ -83,6 +191,18 @@
                 maxFileCount: 1,
                 allowedFileExtensions: ["jpg", "png", "gif"]
             });
+            $(".lec-content").fileinput({
+                theme: 'fa',
+                dropZoneEnabled: false,
+                maxFileCount: 1,
+                allowedFileExtensions: ["mp4"]
+            });
+            $("#preview-vid").fileinput({
+                theme: 'fa',
+                dropZoneEnabled: false,
+                maxFileCount: 1,
+                allowedFileExtensions: ["mp4"]
+            });
         });
 
         tinymce.init({
@@ -93,18 +213,242 @@
                 'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
             ],
         });
+
         Validator({
             form: '#form-1',
             formGroup: '.form-group',
             errorSelector: '.form-message',
             rules: [
-                Validator.isRequired('#name', 'Nhập tên khóa hc'),
+                Validator.isRequired('#name', 'Nhập tên khóa học'),
             ],
         });
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
+
+        tinymce.init({
+            selector: 'textarea',
+            height: 300,
+            plugins: 'paste image link autolink lists table media',
+            toolbar: [
+                'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+            ],
+        });
+
+        //Thêm sự kiện thêm lecture cho chapter đầu tiên
+        $(`.btn-add-lecture1`).on('click', function () {
+            let lec_num = $(this).data('num');
+            lec_num++;
+            $(this).parent().parent().append(`<div class="w-75 lecture p-3 mt-3">
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Lecture ${lec_num}</h5>
+                                        <div class="btn btn-outline-danger btn-delete-lecture"><i
+                                                class="fas fa-times"></i></div>
+                                    </div>
+                                    <label for="lec-name">Name</label>                      {{!-- Lecture Name --}}
+                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter1_name" placeholder="Lecture Name">
+                                    <label for="des">Description</label>                     {{!-- Description --}}
+                                    <textarea type="text" class="form-control" class="des" name="lec_chapter1_des" placeholder="Description"></textarea>
+                                    <div class="form-group">                        {{!-- Lecture content --}}
+                                        <label for="lec-content">Content</label>
+                                        <input id="lec-content" class="lec-content" name="lec_chapter1_content" type="file">
+                                    </div>
+                                    <label for="lec-name">Preview this course?</label>
+                                    <fieldset class="lec${lec_num}_chapter1_preview">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter1_preview"
+                                            id="lec${lec_num}_chapter1_Radio1" value="true">
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter1_Radio1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter1_preview"
+                                            id="lec${lec_num}_chapter1_Radio2" value="false">
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter1_Radio2">No</label>
+                                    </div>
+                                    </fieldset>
+                                </div>
+                            </div>`)
+            $(".lec-content").fileinput({
+                theme: 'fa',
+                dropZoneEnabled: false,
+                maxFileCount: 1,
+                allowedFileExtensions: ["pdf", "mp4"]
+            });
+            tinymce.init({
+                selector: 'textarea',
+                height: 300,
+                plugins: 'paste image link autolink lists table media',
+                toolbar: [
+                    'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+                ],
+            });
+            $(this).data('num', lec_num)
+            //Thêm sự kiện xoá lecture cho chapter mới thêm
+            $(`.btn-delete-lecture`).on('click', function () {
+                /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
+            lec_num--;
+            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
+                $(this).parent().parent().parent().remove();
+            })
+        })
+        //Thêm sự kiện xoá chapter cho chapter đầu tiên
+        $(`.btn-delete-chapter`).on('click', function () {
+            $(this).parent().parent().remove();
+        })
+        //Thêm sự kiện xoá lecture cho chapter đầu tiên
+        $(`.btn-delete-lecture`).on('click', function () {
+            /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
+            lec_num--;
+            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
+            $(this).parent().parent().parent().remove();
+        })
+
+
+        var num = 1;
+        $('.btn-add-chapter').on('click', function () {        //Sự kiện thêm 1 chapter
+            num++;                                      //Biến lưu chapter thứ num
+            //Thêm 1 chapter
+            var lec_num=1;
+            $('#curr').append(`<div class="w-75 mt-5 p-4 chapter${num}">
+                            <div class="d-flex justify-content-between">
+                                <div class="btn btn-outline-primary btn-add-lecture${num}" data-num="1"> Add new lecture </div>
+                                <div class="btn btn-outline-danger btn-delete-chapter"><i
+                                        class="fas fa-times"></i></div>
+                            </div>
+                            <div class="form-group">            
+                                <label for="chapter-name">Name</label>           {{!-- chapter name --}}
+                                <input type="text" class="form-control" id="chapter-name" name="chapter_name" placeholder="chapter's name">
+                            </div>
+                            <div class="w-75 lecture p-3">
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Lecture 1</h5>
+                                        <div class="btn btn-outline-danger btn-delete-lecture"><i
+                                                class="fas fa-times"></i></div>
+                                    </div>
+                                    <label for="lec-name">Name</label>                      {{!-- Lecture Name --}}
+                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter${num}_name" placeholder="Lecture Name">
+                                    <label for="des">Description</label>                     {{!-- Description --}}
+                                    <textarea type="text" class="form-control" class="des" name="lec_chapter${num}_des" placeholder="Description"></textarea>
+                                    <div class="form-group">                        {{!-- Lecture content --}}
+                                        <label for="lec-content">Content</label>
+                                        <input id="lec-content" class="lec-content" name="lec_chapter${num}_content" type="file">
+                                    </div>
+                                    <label for="lec-name">Preview this course?</label>
+                                    <fieldset id="lec${lec_num}_chapter${num}_preview">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
+                                            id="lec${lec_num}_chapter${num}_Radio1" value="true">
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
+                                            id="lec${lec_num}_chapter${num}_Radio2" value="false">
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio2">No</label>
+                                    </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>`);
+            //Add fileinput cho chapter mới thêm
+            $(`.lec-content`).fileinput({
+                theme: 'fa',
+                dropZoneEnabled: false,
+                maxFileCount: 1,
+                allowedFileExtensions: ["mp4"]
+            });
+            tinymce.init({
+                selector: 'textarea',
+                height: 300,
+                plugins: 'paste image link autolink lists table media',
+                toolbar: [
+                    'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+                ],
+            });
+
+            //Thêm sự kiện thêm 1 lecture cho chapter mới thêm
+            $(`.btn-add-lecture${num}`).on('click', function () {
+                let lec_num = $(this).data('num');
+                lec_num++;
+                $(this).parent().parent().append(`<div class="w-75 lecture p-3 mt-3">
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Lecture ${lec_num}</h5>
+                                        <div class="btn btn-outline-danger btn-delete-lecture"><i
+                                                class="fas fa-times"></i></div>
+                                    </div>
+                                    <label for="lec-name">Name</label>                      {{!-- Lecture Name --}}
+                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter${num}_name" placeholder="Lecture Name">
+                                    <label for="des">Description</label>                     {{!-- Description --}}
+                                    <textarea type="text" class="form-control" class="des" name="lec_chapter${num}_des" placeholder="Description"></textarea>
+                                    <div class="form-group">                        {{!-- Lecture content --}}
+                                        <label for="lec-content">Content</label>
+                                        <input id="lec-content" class="lec-content" name="lec_chapter${num}_content" type="file">
+                                    </div>
+                                    <label for="lec-name">Preview this course?</label>
+                                    <fieldset id="lec${lec_num}_chapter${num}_preview">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
+                                            id="lec${lec_num}_chapter${num}_Radio1" value="true">
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio1">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
+                                            id="lec${lec_num}_chapter${num}_Radio2" value="false">
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio2">No</label>
+                                    </div>
+                                    </fieldset>
+                                </div>
+                            </div>`)
+                $(".lec-content").fileinput({
+                    theme: 'fa',
+                    dropZoneEnabled: false,
+                    maxFileCount: 1,
+                    allowedFileExtensions: ["mp4"]
+                });
+                tinymce.init({
+                    selector: 'textarea',
+                    height: 300,
+                    plugins: 'paste image link autolink lists table media',
+                    toolbar: [
+                        'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+                    ],
+                });
+                $(this).data('num', lec_num)
+                //Thêm sự kiện xoá lecture cho lecture mới thêm
+                $(`.btn-delete-lecture`).on('click', function () {
+                    /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
+            lec_num--;
+            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
+                    $(this).parent().parent().parent().remove();
+                })
+            })
+            //Thêm sự kiện xoá chapter cho chapter mới thêm
+            $(`.btn-delete-chapter`).on('click', function () {
+                $(this).parent().parent().remove();
+            })
+            //Thêm sự kiện xoá lecture cho chapter mới thêm
+            $(`.btn-delete-lecture`).on('click', function () {
+                /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
+            lec_num--;
+            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
+                $(this).parent().parent().parent().remove();
+            })
+        });
+
+        var submitForm = document.forms['createForm'];
+        var btnSubmit = $('.form-submit');
+        btnSubmit.on('click', function () {
+            submitForm.action = `/courses/store?num=${num}`;
+            for (let i = 1; i <= num; i++) {
+                let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
+                submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
+            }
+            submitForm.submit();
+        })
+
     </script>
 </body>
 

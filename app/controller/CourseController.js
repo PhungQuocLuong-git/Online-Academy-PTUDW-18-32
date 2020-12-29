@@ -42,25 +42,77 @@ module.exports = {
     async store(req, res, next) {
         const storage = multer.diskStorage({
             destination: function (req, file, cb) {
-                console.log(file.originalname);
-                cb(null, './public/images/courses/')
+                if (file.originalname.includes('.mp4')) {
+                    cb(null, './public/videos/');
+                }
+                if (file.originalname.includes('.pdf')) {
+                    cb(null, './public/documents/');
+                }
+                if (file.originalname.includes('.png') || file.originalname.includes('.jpg') || file.originalname.includes('.gif')) {
+                    cb(null, './public/images/courses/');
+                }
             },
             filename: function (req, file, cb) {
-                console.log(file.originalname);
-                cb(null, req.body.name+'.png');
+                cb(null, file.originalname);
+
             }
         });
-        console.log(req.body);
         const upload = multer({ storage });
-        upload.array('thumbnail', 3)(req, res, async function (err) {
-            console.log(req.body);
+        //console.log(req.query);
+        var inputArr = [{ name: 'thumbnail', maxcount: 1 }, { name: 'preview_vid', maxcount: 1 }];
+        for (let i = 1; i <= +req.query.num; i++) {
+            if (req.query[`chapter${i}`] !== 'undefined') {
+                inputArr.push({ name: `lec_chapter${i}_content`, maxcount: 10 });
+            }
+        }
+        //console.log(inputArr);
+        upload.fields(inputArr)(req, res, async function (err) {
             if (err) {
                 console.log(err);
             }
             else {
+                //console.log(req.body);
+                //console.log(req.files);
                 req.body.course_author = req.session.user._id;
-                console.log(req.body);
-                req.body.thumbnail = `/public/images/courses/${req.body.name}.png`;
+                req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
+                req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
+                req.body.curriculum = [];
+                for (let i = 1; i <= +req.query.num; i++) {
+
+                    if (req.query[`chapter${i}`] !== 'undefined') {
+                        let previewArr = [];
+                        for (let j = 1; j <= +req.query[`chapter${i}`]; j++) {
+                            if (typeof (req.body[`lec${j}_chapter${i}_preview`]) !== 'undefined') {
+                                previewArr.push(req.body[`lec${j}_chapter${i}_preview`]);
+                            }
+                        }
+
+                        var object = { chapter: req.body.chapter_name[i - 1], lectures: [] };       //Lecture
+                        if (+req.query[`chapter${i}`] > 1) {
+                            for (let j = 1; j <= +req.query[`chapter${i}`]; j++) {                  //Xử lý nội dung lecture
+                                if (typeof (req.body[`lec_chapter${i}_name`][j-1]) !== 'undefined') {
+                                    object.lectures.push({
+                                        name: req.body[`lec_chapter${i}_name`][j - 1],
+                                        description: req.body[`lec_chapter${i}_des`][j - 1],
+                                        link: '/public/videos/' + req.files[`lec_chapter${i}_content`][j - 1].originalname,
+                                        preview: previewArr[j - 1]
+                                    });
+                                }
+                            }
+                        }
+                        if (+req.query[`chapter${i}`] === 1) {
+                            object.lectures.push({                                //Xử lý nội dung lecture nếu lecture chỉ có 1 trong chapter
+                                name: req.body[`lec_chapter${i}_name`],
+                                description: req.body[`lec_chapter${i}_des`],
+                                link: '/public/videos/' + req.files[`lec_chapter${i}_content`].originalname,
+                                preview: req.files[`lec_chapter${i}_preview`]
+                            })
+                        }
+                        req.body.curriculum.push(object);
+
+                    }
+                }
+
                 const course = new Course(req.body);
                 course.save();
                 var teacher = await Teacher.findOne({ _id: req.session.user._id });

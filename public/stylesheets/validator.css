@@ -1,210 +1,190 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 html {
-    color: #333;
-    font-size: 62.5%;
-    font-family: 'Open Sans', sans-serif;
-    background: #fff;
-
+  color: #333;
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  background: #fff;
 }
 .main {
-    padding-top: 16px;
-    background: #fff;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
+  padding-top: 16px;
+  background: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
 }
 .form {
-    width: 360px;
-    min-height: 100px;
-    padding: 32px 24px;
-    text-align: center;
-    background: #fff;
-    border-radius: 2px;
-    margin: 24px;
-    align-self: center;
-    /* box-shadow: 0 10px 50px 0 rgba(51,62,73,.1); */
-    box-shadow: 0 1px 5px -1px rgba(51,62,73,.14), 0 4px 10px 0 rgba(51,62,73,.08);
-
+  width: 360px;
+  min-height: 100px;
+  padding: 32px 24px;
+  text-align: center;
+  background: #fff;
+  border-radius: 2px;
+  margin: 24px;
+  align-self: center;
+  /* box-shadow: 0 10px 50px 0 rgba(51,62,73,.1); */
+  box-shadow: 0 1px 5px -1px rgba(51, 62, 73, 0.14),
+    0 4px 10px 0 rgba(51, 62, 73, 0.08);
 }
 .form .heading {
-    font-size: 2rem;
-    }
-    /* .form .desc {
-    text-align: center;
-    color: #636d77;
-    font-size: 1.6rem;
-    font-weight: lighter;
-    line-height: 2.4rem;
-    margin-top: 16px;
-    font-weight: 300;
-    } */
+  font-size: 2rem;
+}
 
 .form-group {
-    display: flex;
-    margin-bottom: 16px;
-    flex-direction: column;
-    }
+  display: flex;
+  margin-bottom: 16px;
+  flex-direction: column;
+}
 
 .form-label,
 .form-message {
-    text-align: left;
-    }
+  text-align: left;
+}
 
 .form-label {
-    font-weight: 700;
-    padding-bottom: 6px;
-    line-height: 1.8rem;
-    font-size: 1.4rem;
-    }
+  font-weight: 700;
+  padding-bottom: 6px;
+  line-height: 1.8rem;
+  font-size: 1.4rem;
+}
 
 .form-control {
-    height: 40px;
-    padding: 8px 12px;
-    border: 1px solid #b3b3b3;
-    border-radius: 3px;
-    outline: none;
-    font-size: 1.4rem;
-    }
-
-    
-
-.form-control:hover {
-    border-color: #f368e0;
-    }
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #b3b3b3;
+  border-radius: 3px;
+  outline: none;
+  font-size: 1.4rem;
+}
 
 .form-group.invalid .form-control {
-    border-color: #f33a58;
-    }
+  border-color: #f33a58;
+}
 
 .form-group.invalid .form-message {
-    color: #f33a58;
-    }
+  color: #f33a58;
+}
 
-    .form-message {
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-    padding: 4px 0 0;
-    }
+.form-message {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding: 4px 0 0;
+}
 
 .form-submit {
-    outline: none;
-    background-color:#f368e0;
-    margin-top: 12px;
-    padding: 12px 16px;
-    font-weight: 600;
-    color: #fff;
-    border: none;
-    width: 100%;
-    font-size: 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    }
+  outline: none;
+  background-color: #f368e0;
+  margin-top: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
 .form-submit:hover {
-    background-color: #f368e0;
-    }
+  background-color: #f368e0;
+}
 
 .spacer {
-    margin-top: 36px;
-    }
+  margin-top: 36px;
+}
 .form-group.horizontal {
-      flex-direction: row;
-    }
+  flex-direction: row;
+}
 
-    /* .horizontal-option{
+/* .horizontal-option{
       margin-top:10px;
     } */
 
 .header-logo {
-    display: block;
-    justify-content: center;
-    /* width: 360px; */
-    /* min-height: 100px; */
-    /* padding: 32px 24px; */
-    /* padding-bottom: 16px; */
-    text-align: center;
-    background: #fff;
-    border-radius: 2px;
-    border-bottom: #f33a58;
-    width: 100%;
-    background-color: #f368e0;
-    /* margin: 24px; */
-    align-self: center;
-    box-shadow: 0 1px 5px -1px rgba(51,62,73,.14), 0 4px 10px 0 rgba(51,62,73,.08);
-    
+  display: block;
+  justify-content: center;
+  /* width: 360px; */
+  /* min-height: 100px; */
+  /* padding: 32px 24px; */
+  /* padding-bottom: 16px; */
+  text-align: center;
+  background: #fff;
+  border-radius: 2px;
+  border-bottom: #f33a58;
+  width: 100%;
+  background-color: #f368e0;
+  /* margin: 24px; */
+  align-self: center;
+  box-shadow: 0 1px 5px -1px rgba(51, 62, 73, 0.14),
+    0 4px 10px 0 rgba(51, 62, 73, 0.08);
 }
 
-.img-header-logo{
-    height: 60px;
-    margin: 20px;
+.img-header-logo {
+  height: 60px;
+  margin: 20px;
 }
 
-.footer-license{
-    font-size: 1.2rem;
-    color: #999;
-    margin-top: 8px;
+.footer-license {
+  font-size: 1.2rem;
+  color: #999;
+  margin-top: 8px;
 }
 
-.footer-validator{
-    margin-top: 24px;
-    font-size: 1.4rem;
-    color: #999;
+.footer-validator {
+  margin-top: 24px;
+  font-size: 1.4rem;
+  color: #999;
 }
 
-.footer-text{
-    text-decoration: none;
-    font-weight: 600;
-    color: #f368e0;
+.footer-text {
+  text-decoration: none;
+  font-weight: 600;
+  color: #f368e0;
 }
 
-.divide{
-    background-color:#999 ;
-    width: 100%;
-    height: 1px;
+.divide {
+  background-color: #999;
+  width: 100%;
+  height: 1px;
 }
 
-
-.sign-up{
-    margin-top: 16px;
-    height: 40px;
-    font-weight: 550;
-    font-size: 1.5rem;
-    padding: 8px 12px;
-    border: 1px solid #b3b3b3;
-    border-radius: 3px;
-    outline: none;  
+.sign-up {
+  margin-top: 16px;
+  height: 40px;
+  font-weight: 550;
+  font-size: 1.5rem;
+  padding: 8px 12px;
+  border: 1px solid #b3b3b3;
+  border-radius: 3px;
+  outline: none;
 }
 
-.sign-up-icon{
-    color: #f368e0;
-    padding-right: 4px;
+.sign-up-icon {
+  color: #f368e0;
+  padding-right: 4px;
 }
 
 .sign-up:hover {
-    border-color: #f368e0;
-    background-color: #dfe6e9;
+  border-color: #f368e0;
+  background-color: #dfe6e9;
 }
 
-.or-seperate{
-
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.4rem;
-    border-bottom: 1px solid #e1e6eb;
-    margin: 10px 2px 24px 2px;
+.or-seperate {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #e1e6eb;
+  margin: 10px 2px 24px 2px;
 }
 
-
-.or-seperate span{
-
-    background-color: #fff;
-    color: #636d77;
-    padding: 0 10px;
-    display: inline-block;
-    position: relative;
-    top: 10px;
+.or-seperate span {
+  background-color: #fff;
+  color: #636d77;
+  padding: 0 10px;
+  display: inline-block;
+  position: relative;
+  top: 10px;
 }
