@@ -1,10 +1,33 @@
 <nav class=" navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container ">
-    <a class="navbar-brand" href="/">Online Academy 
+    <a class="navbar-brand" href="/">Online Academy
     </a>
+          
+      <div class="collapse navbar-collapse" id="main_nav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Categories </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#"> Second level 2 &raquo </a>
+                <ul class="submenu dropdown-menu">
+                  <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                  <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item" href="#"> Second level 2 &raquo </a>
+                <ul class="submenu dropdown-menu">
+                  <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                  <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     
-    
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <form class="form-inline my-2 my-lg-0" method="POST" action="/courses/fts">
@@ -15,133 +38,145 @@
       <ul class="navbar-nav ml-auto">
         {{#ifcond role 1}}
         <li class="nav-item active navbar__cart-wrap">
-          <a class="nav-link btn-cart" href="/student/cart/{{user._id}}" >
-          
-          <i class="navbar__cart-icon fas fa-shopping-cart"></i>
-          <span class="navbar__cart-notice">{{user.cart_courses.length}}</span>
+          <a class="nav-link btn-cart" href="/student/cart/{{user._id}}">
+
+            <i class="navbar__cart-icon fas fa-shopping-cart"></i>
+            <span class="navbar__cart-notice">{{user.cart_courses.length}}</span>
           </a>
           {{#if user.cart_courses.length }}
           <div class="navbar__cart-list ">
             <h4 class="navbar__cart-heading">Khóa hc đã thêm vào Cart </h4>
             <ul class="navbar__cart-list-item">
-                {{#each user.cart_courses}}
+              {{#each user.cart_courses}}
 
-                <li class="navbar__cart-item">
-                    <img src="/public/images/user1.png" alt="" class="navbar__cart-img">
-                    <div class="navbar__cart-item-info">
-                        <div class="navbar__cart-item-head">
-                            <h5 class="navbar__cart-item-name">{{mon2 this 'name'}}</h5>
-                            <div class="navbar__cart-item-wrap">
-                                <span class="navbar__cart-item-price">{{format (mon2 this 'price')}}</span>
-                                <span class="navbar__cart-item-currency">VND</span>
-                            </div>
-                        </div>
-                        <div class="navbar__cart-item-body">
-                            <span class="navbar__cart-item-description">
-                                Category:Web
-                            </span>
-                            <form action="" method="POST"></form>
-
-                            <span class="btn navbar__cart-item-remove btn-del-cart btn-outline-danger" data-id="{{this.course_id._id}}">Xóa</span>
-                        </div>
+              <li class="navbar__cart-item">
+                <img src="/public/images/user1.png" alt="" class="navbar__cart-img">
+                <div class="navbar__cart-item-info">
+                  <div class="navbar__cart-item-head">
+                    <h5 class="navbar__cart-item-name">{{mon2 this 'name'}}</h5>
+                    <div class="navbar__cart-item-wrap">
+                      <span class="navbar__cart-item-price">{{format (mon2 this 'price')}}</span>
+                      <span class="navbar__cart-item-currency">VND</span>
                     </div>
-                </li>
+                  </div>
+                  <div class="navbar__cart-item-body">
+                    <span class="navbar__cart-item-description">
+                      Category:Web
+                    </span>
+                    <form action="" method="POST"></form>
+
+                    <span class="btn navbar__cart-item-remove btn-del-cart btn-outline-danger"
+                      data-id="{{this.course_id._id}}">Xóa</span>
+                  </div>
+                </div>
+              </li>
               {{/each}}
-               
-              </ul>
-               <a href="/student/cart/{{user._id}}" class="navbar__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
-          </div>
-        </li>
-          {{else}}
-              <div class="navbar__cart-list navbar__cart-list--no-card ">
-            <img src="/public/images/empty-cart.png" alt="" class="navbar__cart-no-card-img">
-            <span class="navbar__card-list-no-card-msg">
-                Chưa có khóa nào
-            </span>
-          {{/if}}
-          
-                
-        <li class="nav-item active">
-          <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Teach on OA <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{user.name}}
-            <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
-            
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            
-            <a class="dropdown-item" href="/student/stored/courses">My learning</a>
-            <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
-            <a class="dropdown-item" href="/user/edit-account">Đổi mật khẩu</a>
-            
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item btn--logout" href="#">Đăng xuất</a>
+
+            </ul>
+            <a href="/student/cart/{{user._id}}" class="navbar__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
           </div>
         </li>
         {{else}}
-            {{#ifcond role 2}}
-             <li class="nav-item active">
-              <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Learn on OA <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{user.name}}
-                <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
-                
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/courses/create">Đăng khóa hc</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
-                <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
-                <div class="dropdown-divider"></div>
-                  <a class="dropdown-item btn--logout" href="#" >Đăng xuất</a>
-                
-              </div>
-            </li>
-            {{else}}
-        <li class="nav-item active">
-          <a class="nav-link" href="/student/create">Đăng ký</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/student/login">Đăng nhập</a>
-        </li>
-        {{/ifcond}}
-        {{/ifcond}}
+        <div class="navbar__cart-list navbar__cart-list--no-card ">
+          <img src="/public/images/empty-cart.png" alt="" class="navbar__cart-no-card-img">
+          <span class="navbar__card-list-no-card-msg">
+            Chưa có khóa nào
+          </span>
+          {{/if}}
+
+
+          <li class="nav-item active">
+            <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Teach on OA <span
+                class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              {{user.name}}
+              <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
+
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+              <a class="dropdown-item" href="/student/stored/courses">My learning</a>
+              <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
+              <a class="dropdown-item" href="/user/edit-account">Đổi mật khẩu</a>
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item btn--logout" href="#">Đăng xuất</a>
+            </div>
+          </li>
+          {{else}}
+          {{#ifcond role 2}}
+          <li class="nav-item active">
+            <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Learn on OA <span
+                class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              {{user.name}}
+              <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
+
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/courses/create">Đăng khóa hc</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
+              <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item btn--logout" href="#">Đăng xuất</a>
+
+            </div>
+          </li>
+          {{else}}
+          <li class="nav-item active">
+            <a class="nav-link" href="/student/create">Đăng ký</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/student/login">Đăng nhập</a>
+          </li>
+          {{/ifcond}}
+          {{/ifcond}}
       </ul>
 
-      
+
     </div>
   </div>
 </nav>
 
 <link rel="stylesheet" href="/public/stylesheets/header.css">
-<form name="swap-role" method="POST" ></form>
-<form id="log-out" action="/student/logout" method="POST" ></form>
-<form  name="del-course" method="POST"></form>
+<form name="swap-role" method="POST"></form>
+<form id="log-out" action="/student/logout" method="POST"></form>
+<form name="del-course" method="POST"></form>
 
 <script>
-  document.addEventListener('DOMContentLoaded',function () {
+  document.addEventListener('DOMContentLoaded', function () {
     var swapForm = document.forms['swap-role'];
-    
-    var btnSwap= $('.btn-swap');
-    btnSwap.on('click', function(){
+
+    var btnSwap = $('.btn-swap');
+    btnSwap.on('click', function () {
       swapForm.action = '/student/' + btnSwap.data('id') + '/swap?_method=PATCH';
       swapForm.submit();
     })
     console.log($('#log-out'));
-    {{!-- Logout btn --}}
-    $('.btn--logout').on('click', function() {
+    { { !--Logout btn-- } }
+    $('.btn--logout').on('click', function () {
       $('#log-out').submit()
     })
     var delForm = document.forms['del-course'];
-    var btnDel= $('.btn-del-cart');
-    btnDel.on('click', function(e){
+    var btnDel = $('.btn-del-cart');
+    btnDel.on('click', function (e) {
       console.log(delForm);
-      delForm.action = '/student/delcart/' + e.target.getAttribute("data-id")+'?_method=DELETE' ;
+      delForm.action = '/student/delcart/' + e.target.getAttribute("data-id") + '?_method=DELETE';
       delForm.submit();
     })
   })
+
+  $(document).on('click', '.dropdown-menu', function (e) {
+  e.stopPropagation();
+});
+
+// make it as accordion for smaller screens
+
 </script>
