@@ -1,9 +1,11 @@
 const Student = require('../models/Student');
 const Course = require('../models/Course');
+const mailer = require('../../util/mailer');
 const { mongooseToObject} = require('../../util/mongoose');
 
 // Hash password
 const bcrypt = require('bcrypt');
+const { findByIdAndUpdate } = require('../models/Student');
 const saltRounds = 10;
 
 
@@ -18,20 +20,57 @@ class StudentController{
 
     // [POST] /Student/store
     store(req,res,next) {
-
         Promise.all([Student.findOne({username: req.body.username}),bcrypt.hash(req.body.password, saltRounds)])
             .then(([user,hash]) => {
-                if(user) res.json({err:'Existed username'})
-                else {
-                    req.body.password= hash;
-                    new Student(req.body).save()
-                    .then(res.redirect('/'))                
+                if(user) {
+                    return new Promise(function(resolve,reject){
+                        reject('existed username');
+                    });
                 }
-            });          
-        // res.json(req.body);
+                req.body.password= hash;
+                const to = req.body.email;
+                const subject = 'Xác thực OTP nhé';
+                const randNumb = Math.floor(100000 + Math.random() * 900000) ;
+                req.app.locals.otp= randNumb;
+                req.app.locals.storeStudent= req.body;
+                req.app.locals.times= 3;
+                const body = `<h1> Vui lòng xác thực để đăng kí tài khoản </h1>Your OTP is ${randNumb} .`
+                // res.json({to,subject,body});
+                console.log('test',req.app.locals.otp, req.app.locals.times);
+
+                return mailer.sendMail(to, subject, body);
+            }) 
+            .catch(error => res.status(404).json(error))
+            .then (() => res.status(200).render('students/verify',{
+                layout:false
+            }))
     }
 
-    // [GET] /Student/login
+    // [POST] /student/check-otp
+    checkOtp(req,res) {
+        console.log(req.app.locals.otp,+req.body.otp,req.app.locals.times );
+        if(req.app.locals.otp === +req.body.otp){
+        
+            new Student(req.app.locals.storeStudent).save()
+                .then(res.status(200).redirect('/student/login'))
+                .catch(res.status(404).json('OOPS'));
+        }
+          
+        else{
+            req.app.locals.times = req.app.locals.times - 1 ;
+            if(!req.app.locals.times)
+                req.session.destroy(() =>{
+                    res.redirect('/student/create');
+                })
+            else
+                res.render('students/verify',{
+                    layout:false,
+                });
+
+        }
+      }
+
+    // [GET] /student/login
     login(req,res,next) {
         res.render('students/login',{
             layout:false,
@@ -48,7 +87,6 @@ class StudentController{
             
           })
             .then(user => {
-                let total = 0;
                 req.app.locals.user = mongooseToObject(user);
                 res.render('students/cart',{
                     student:mongooseToObject(user),
@@ -61,7 +99,7 @@ class StudentController{
     // [POST] /Student/logout
     logout(req,res,next) {
         req.app.locals.role = 0;
-        req.session.role=0;
+        req.app.locals.user = {};
         req.session.destroy(() => {
             res.redirect('/student/login');
           });
@@ -75,11 +113,13 @@ class StudentController{
             
           })
             .then( user => {
-                req.app.locals.cartCount = user.cart_courses.length;
-                bcrypt.compare(req.body.password,user.password).then((result)=>{
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
+                return bcrypt.compare(req.body.password,user.password)
+            })
+            .catch(err => res.json({err2: err}))
+            .then((result)=>{
                     if(result){
-                    req.session.user = mongooseToObject(user);
-                    req.app.locals.user = mongooseToObject(user);
                     req.session.username = req.body.username;
                     req.session.role=1;
                     req.app.locals.role = 1;
@@ -87,12 +127,45 @@ class StudentController{
                       } else {
                         res.redirect('/student/login');
                       }
-                    })
-                    .catch((err)=>res.json({error1: err}))
-                })
-                .catch(err => res.json({err2: err}));
+             })
     }
     
+    // [PUT] /:id
+    update(req,res,next) {
+        // res.json(req.body);
+        Student.findByIdAndUpdate(req.params.id,req.body)
+            .then(user => {
+                req.session.user.name = req.body.name;
+                req.session.user.email = req.body.email;
+                req.app.locals.user.name = req.body.name ;
+                req.app.locals.user.email = req.body.email ;
+                res.redirect('/');
+            })
+            .catch(next);
+    }
+
+    change(req,res,next) {
+        Student.findById(req.session.user._id)
+        
+            .then(user => {console.log(req.body.oldPass,user);
+                return bcrypt.compare(req.body.oldPass,user.password)})
+            .then(ret => {
+                if(ret)
+                    return bcrypt.hash(req.body.newPass, saltRounds);
+                else
+                    {return new Promise(function(resolve,reject){
+                        res.send("false");
+                        reject("ABCDEFGH");
+                    }) }}
+            )
+            .then(hash => {
+                return Student.findByIdAndUpdate(req.session.user._id,{password:hash});
+            })
+            .then(user => {
+            res.send("true")})
+            .catch(err => console.log(err));
+    }
+
     // [DELETE] /student//delcart/:id
     delcart(req,res,next){
         Student.findById(req.session.user._id).populate({
@@ -158,7 +231,9 @@ class StudentController{
                         course.course_students.push({user_id: req.session.user._id});
                         let c = await Course.findByIdAndUpdate(course._id,course);
                     })
-                    user.money -=total;                              
+                    user.money -=total; 
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);                             
                     let student = await  Student.findByIdAndUpdate(req.session.user._id,user).populate({
                         path: "cart_courses.course_id",
                         select: "name slug price course_author",
@@ -167,8 +242,6 @@ class StudentController{
                       });
                     
                     if(student){
-                        req.session.user = mongooseToObject(user);
-                        req.app.locals.user = mongooseToObject(user);
                         res.redirect('/');
                     }
                 }
@@ -181,3 +254,4 @@ class StudentController{
 }
 
 module.exports = new StudentController;
+

@@ -7,10 +7,12 @@ const coursesRouter = require('./courses');
 const userRouter = require('./user');
 const studentRouter = require('./student');
 const teacherRouter = require('./teacher');
+const admin = require('./admin');
 // const studentRouter = require('./student');
 // const AuthMiddleware = require('../app/middlewares/authMiddleware');
 // const StudentMiddleware = require('../app/middlewares/studentMiddleware');
 const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
+const { request } = require('../app');
 
 
 
@@ -38,6 +40,8 @@ function route(app) {
     app.use('/teacher',teacherRouter);
     app.use('/user',userRouter);
     app.use('/', siteRouter);
+    app.use('/admin', admin);
+    
     
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

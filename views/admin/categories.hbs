@@ -1,0 +1,90 @@
+<link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="d-flex justify-content-center">
+    <div class="card p-5 w-75">
+        <h5 class="card-header d-flex justify-content-between">
+            Categories
+            <a class="btn btn-outline-success" href="/admin/categories/add" role="button">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Add Category
+            </a>
+        </h5>
+        {{#if empty}}
+        <div class="card-body">
+            <p class="card-text">Không có dữ liệu</p>
+        </div>
+        {{else}}
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each categories}}
+    
+                    <tr data-toggle="collapse" data-target="#{{_id}}" class="clickable">
+                        <th scope="row">#</th>
+                        <td>
+                            {{CatName}} 
+                        </td>
+                        <td class="text-right">
+                            <a class="btn btn-sm btn-primary" href="/admin/categories/{{_id}}" role="button"
+                                title="Edit Category" onclick="func(event)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr class="p-0 m-0">
+                        <td colspan="3" class="p-0 m-0">
+                            <div class="justify-content-center">
+                                <div id="{{_id}}" class="collapse p-3 w-auto">
+        
+                                    <h6 class="card-header d-flex justify-content-between">
+                                        Subcategories
+                                        <a class="btn btn-outline-success" href="/admin/categories/addsub/{{_id}}"
+                                            role="button">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                            Add Subcategory
+                                        </a>
+                                    </h6>
+                                    <div class="card-body">
+                                        {{#each sub}}
+                                        <div class="d-flex justify-content-between">
+                                            <div>{{SubCatName}}</div>
+                                            <div>
+                                                <a class="btn btn-sm btn-primary" href="/admin/subcategories/{{_id}}" role="button"
+                                                    title="Edit Subcategory" onclick="func(event)">
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                            
+                                        </div>
+                                        <hr>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+    
+    
+                    {{/each}}
+    
+                </tbody>
+            </table>
+        </div>
+        {{/if}}
+    
+    
+    </div>
+</div>
+<script>
+    function func(event) {
+        event.stopPropagation();
+    }
+</script>

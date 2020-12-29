@@ -3,7 +3,9 @@ module.exports = {
         res.render('users/edit-profile');
     },
     account(req, res, next) {
-        res.render('users/edit-account');
+        res.render('users/edit-account',{
+            script: '/public/stylesheets/form.css'
+        });
     },
     watchlist(req, res, next) {
         res.render('users/watch-list', {

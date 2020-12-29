@@ -188,3 +188,7 @@ html {
   position: relative;
   top: 10px;
 }
+
+.form--verify{
+    background-color: #f5f6fa;
+}

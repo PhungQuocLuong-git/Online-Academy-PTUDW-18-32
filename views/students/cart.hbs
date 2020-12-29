@@ -50,10 +50,22 @@
                   <btn class="btn btn-book-cart  btn-outline-success" data-id="{{this.course_id._id}}" >Mua</btn>
                 </td>
             </tr>
+            {{else}}
+            <tr>
+          <td colspan="5" class="text-center">
+            Bạn chưa thêm khóa học nào vào giỏ.
+            <div class="">
+            <a href="/"> Về trang chủ
+            </div>
+        </tr>
           {{/each}}
+          
       </tbody>
     </table>
 <input type ="hidden" name ="total">
+          {{#if student.cart_courses.length}}
+             Tổng cộng: <span class="total-money">0</span>đ
+          {{/if}}
 </form>
 
 <form  name="del-course" method="POST"></form>
@@ -104,6 +116,7 @@
           var checkedCount=arrayC.length;
           var totalMoney = arrayC.reduce((a,b)=>a+ +b.getAttribute('data-price'),0);
           $('input[name="total"]').prop('value', totalMoney);
+          document.querySelector('.total-money').innerHTML=totalMoney;
           console.log(totalMoney);
           if( checkedCount ){
             checkAllSubmitBtn.removeAttr('disabled');

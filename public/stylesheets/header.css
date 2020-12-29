@@ -173,6 +173,7 @@
   .navbar__cart-list--no-card .navbar__card-list-no-card-msg,
   .navbar__cart-list--no-card .navbar__cart-no-card-img{
     margin-left: auto;
+    text-align: center;
     margin-right: auto;
     display: block;
   }
@@ -181,7 +182,7 @@
     display: none;
     font-size: 16px;
     margin-top: 14px;
-    color: #333;
+    color: #f368e0;
   }
   
   .navbar__cart-no-card-img{
@@ -200,4 +201,32 @@
     line-height: 16px;
     border-radius: 10px;
     border: 2px solid #343A40;
+  }
+
+
+  @media (min-width: 992px){
+    .dropdown-menu .dropdown-toggle:after{
+      border-top: .3em solid transparent;
+        border-right: 0;
+        border-bottom: .3em solid transparent;
+        border-left: .3em solid;
+    }
+    .dropdown-menu .dropdown-menu{
+      margin-left:0; margin-right: 0;
+    }
+    .dropdown-menu li{
+      position: relative;
+    }
+    .nav-item .submenu{ 
+      display: none;
+      position: absolute;
+      left:100%; top:-7px;
+    }
+    .nav-item .submenu-left{ 
+      right:100%; left:auto;
+    }
+    .dropdown-menu > li:hover{ background-color: #f1f1f1 }
+    .dropdown-menu > li:hover > .submenu{
+      display: block;
+    }
   }

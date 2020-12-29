@@ -38,6 +38,15 @@ module.exports = {
             layout: false,
         })
     },
+    fts(req, res) {
+        Course.find({
+            $text: { $search: req.body.kw },
+          }).populate('course_author course_students')
+            .then(courses => res.render('courses/search',{
+                courses: multipleMongooseToObject(courses)
+            }))
+            .catch(error => console.error(error));
+    },
 
     async store(req, res, next) {
         const storage = multer.diskStorage({
@@ -54,7 +63,6 @@ module.exports = {
             },
             filename: function (req, file, cb) {
                 cb(null, file.originalname);
-
             }
         });
         const upload = multer({ storage });
@@ -126,15 +134,19 @@ module.exports = {
     //[POST]/courses/add/:id
     add(req, res, next) {
         Student.findById(req.session.user._id).populate("cart_courses.course_id")
-            .then(user => {
-                return new Promise(function (resolve, reject) {
-                    if (user.cart_courses.some(course => course.course_id.equals(req.params.id)) ||
-                        user.booked_courses.some(course => course.course_id.equals(req.params.id))) {
-                        reject(user);
-                    }
-                    else
-                        resolve(user);
-                })
+            .then( user => {return new Promise(  function(resolve,reject) {
+                if(user.cart_courses.some(course => course.course_id.equals(req.params.id))||
+                user.booked_courses.some(course => course.course_id.equals(req.params.id))){
+                    reject(user);
+                }
+                else
+                    resolve(user);
+            }) } )
+            .then(user =>{ 
+                user.cart_courses.push({course_id: req.params.id});
+                req.session.user = mongooseToObject(user);
+                req.app.locals.user = mongooseToObject(user);
+                return Student.findByIdAndUpdate(req.session.user._id,user).populate("cart_courses.course_id")
             })
             .then(user => {
                 user.cart_courses.push({ course_id: req.params.id });
@@ -178,23 +190,22 @@ module.exports = {
                 })
             }
             )
-            .then(([ret, course]) => {
-                if (ret >= 0)
-                    req.session.user.cart_courses.splice(ret, 1);
-                course.course_students.push({ user_id: req.session.user._id });
-                req.session.user.booked_courses.push({ course_id: course._id });
-                req.session.user.money -= course.price;
-
-                return Promise.all([Course.findByIdAndUpdate(course._id, course),
-                Student.findByIdAndUpdate(req.session.user._id, req.session.user).populate({
-                    path: "cart_courses.course_id",
-                    select: "name slug price course_author",
-                    populate: { path: "course_author", select: "name" },
-
-                })])
+            .then(  ([ret,course]) => {
+                if(ret>=0 && req.session.user.cart_courses.length >0)
+                    {
+                        req.session.user.cart_courses.splice(ret,1);}
+                course.course_students.push({user_id: req.session.user._id});
+                req.session.user.booked_courses.push({course_id: course._id});
+                req.session.user.money -=course.price;
+                return Promise.all([Course.findByIdAndUpdate(course._id,course),
+                    Student.findByIdAndUpdate(req.session.user._id,req.session.user).populate({
+                        path: "cart_courses.course_id",
+                        select: "name slug price course_author",
+                        populate: { path: "course_author", select: "name" },
+                        
+                      })])
             })
-            .then(([course, user]) => {
-                req.session.user = mongooseToObject(user);
+            .then(([course,user]) => {
                 req.app.locals.user = mongooseToObject(user);
                 res.redirect('/student/cart/' + user._id);
             })
