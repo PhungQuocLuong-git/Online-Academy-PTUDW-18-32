@@ -84,7 +84,7 @@ module.exports = {
         });
         const upload = multer({ storage });
 
-        console.log(req.query);
+        //console.log(req.query);
         //Tao input cho multer fields
         var inputArr = [{ name: 'thumbnail', maxcount: 1 }, { name: 'preview_vid', maxcount: 1 }];
         for (let i = 1; i <= +req.query.num; i++) {
@@ -92,15 +92,15 @@ module.exports = {
                 inputArr.push({ name: `lec_chapter${i}_content`, maxcount: 10 });
             }
         }
-        console.log(inputArr);
+        //console.log(inputArr);
 
         upload.fields(inputArr)(req, res, async function (err) {
             if (err) {
                 console.log(err);
             }
             else {
-                console.log(req.body);
-                console.log(req.files);
+                //console.log(req.body);
+                //console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
                 req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
@@ -114,7 +114,7 @@ module.exports = {
                                 previewArr.push(req.body[`lec${j}_chapter${i}_preview`]);
                             }
                         }
-                        console.log(previewArr);
+                        //console.log(previewArr);
                         var object = { chapter_name: req.body.chapter_name[i - 1], lectures: [] };       //Lecture
                         if (+req.query[`chapter${i}`] > 1) {
                             for (let j = 1; j <= +req.query[`chapter${i}`]; j++) {                  //Xử lý nội dung lecture
