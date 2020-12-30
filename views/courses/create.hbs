@@ -57,6 +57,10 @@
                         <a class="nav-link" id="curr-tab" data-toggle="tab" href="#curr" role="tab" aria-controls="curr"
                             aria-selected="false">Curriculum</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sub-tab" data-toggle="tab" href="#sub" role="tab" aria-controls="sub"
+                            aria-selected="false">Submit</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.col-md-4 -->
@@ -158,11 +162,13 @@
                                             <label class="form-check-label m-0" for="lec1_chapter1_Radio2">No</label>
                                         </div>
                                     </fieldset>
-
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary form-submit">Thêm khóa học</button>
+                        
+                    </div>
+                    <div class="tab-pane fade" id="sub" role="tabpanel" aria-labelledby="sub-tab">
+<button type="submit" class="btn btn-primary form-submit">Thêm khóa học</button>
                     </div>
                 </div>
             </div>
@@ -310,7 +316,7 @@
         $('.btn-add-chapter').on('click', function () {        //Sự kiện thêm 1 chapter
             num++;                                      //Biến lưu chapter thứ num
             //Thêm 1 chapter
-            var lec_num=1;
+            var lec_num = 1;
             $('#curr').append(`<div class="w-75 mt-5 p-4 chapter${num}">
                             <div class="d-flex justify-content-between">
                                 <div class="btn btn-outline-primary btn-add-lecture${num}" data-num="1"> Add new lecture </div>

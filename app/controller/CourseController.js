@@ -80,7 +80,7 @@ module.exports = {
             }
             else {
                 //console.log(req.body);
-                //console.log(req.files);
+                console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
                 req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
@@ -112,8 +112,8 @@ module.exports = {
                             object.lectures.push({                                //Xử lý nội dung lecture nếu lecture chỉ có 1 trong chapter
                                 name: req.body[`lec_chapter${i}_name`],
                                 description: req.body[`lec_chapter${i}_des`],
-                                link: '/public/videos/' + req.files[`lec_chapter${i}_content`].originalname,
-                                preview: req.files[`lec_chapter${i}_preview`]
+                                link: '/public/videos/' + req.files[`lec_chapter${i}_content`][0].originalname,
+                                preview: previewArr[0]
                             })
                         }
                         req.body.curriculum.push(object);
