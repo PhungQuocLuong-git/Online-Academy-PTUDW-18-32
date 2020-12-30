@@ -101,7 +101,7 @@ class StudentController{
         req.app.locals.role = 0;
         req.app.locals.user = {};
         req.session.destroy(() => {
-            res.redirect('/student/login');
+            res.redirect('/');
           });
     }
     // [POST] /student/check

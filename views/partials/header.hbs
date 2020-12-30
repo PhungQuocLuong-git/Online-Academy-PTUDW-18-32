@@ -29,7 +29,7 @@
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <form class="form-inline my-2 my-lg-0" method="POST" action="/courses/fts">
+    <form class="form-inline my-2 my-lg-0" method="GET" action="/courses/fts">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="kw">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
@@ -145,21 +145,13 @@
 </nav>
 
 <link rel="stylesheet" href="/public/stylesheets/header.css">
-<form name="swap-role" method="POST"></form>
-<form id="log-out" action="/student/logout" method="POST"></form>
-<form name="del-course" method="POST"></form>
+<form id="log-out" action="/student/logout" method="POST" ></form>
+<form  name="del-course" method="POST"></form>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var swapForm = document.forms['swap-role'];
-
-    var btnSwap = $('.btn-swap');
-    btnSwap.on('click', function () {
-      swapForm.action = '/student/' + btnSwap.data('id') + '/swap?_method=PATCH';
-      swapForm.submit();
-    })
-
-    $('.btn--logout').on('click', function () {
+  document.addEventListener('DOMContentLoaded',function () {
+    {{!-- Logout btn --}}
+    $('.btn--logout').on('click', function() {
       $('#log-out').submit()
     })
     var delForm = document.forms['del-course'];
