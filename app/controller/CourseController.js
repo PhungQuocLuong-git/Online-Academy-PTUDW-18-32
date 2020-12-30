@@ -4,6 +4,7 @@ const Teacher = require('../models/Teacher');
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 const { collection } = require('../models/Course');
 const multer = require('multer');
+const Curriculum = require('../models/Curriculum');
 
 module.exports = {
     list(req, res) {
@@ -20,14 +21,17 @@ module.exports = {
 
     async detail(req, res, next) {
         try {
-            var course = await Course.findOne({ slug: req.params.slug }).populate("course_author");
-            course.view++;
-            await Course.updateOne({ slug: course.slug }, course);
+        var course = await (await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author'));
+            console.log(course.curriculum);
+            var isBooked = course.course_students.some(student=>student.user_id.equals(req.session.user._id));
             res.render('courses/detail', {
                 course: mongooseToObject(course),
                 extraStyle: '/public/stylesheets/home.css',
-                script: '/public/javascripts/home.js'
+                script: '/public/javascripts/home.js',
+                isBooked
             });
+            course.view++;
+            await Course.updateOne({ slug: course.slug }, course);
         } catch (err) {
             res.json({ msg: 'Something happened!!!' });
         }
@@ -41,8 +45,8 @@ module.exports = {
     fts(req, res) {
         Course.find({
             $text: { $search: req.body.kw },
-          }).populate('course_author course_students')
-            .then(courses => res.render('courses/search',{
+        }).populate('course_author course_students')
+            .then(courses => res.render('courses/search', {
                 courses: multipleMongooseToObject(courses)
             }))
             .catch(error => console.error(error));
@@ -66,20 +70,23 @@ module.exports = {
             }
         });
         const upload = multer({ storage });
-        //console.log(req.query);
+
+        console.log(req.query);
+        //Tao input cho multer fields
         var inputArr = [{ name: 'thumbnail', maxcount: 1 }, { name: 'preview_vid', maxcount: 1 }];
         for (let i = 1; i <= +req.query.num; i++) {
             if (req.query[`chapter${i}`] !== 'undefined') {
                 inputArr.push({ name: `lec_chapter${i}_content`, maxcount: 10 });
             }
         }
-        //console.log(inputArr);
+        console.log(inputArr);
+
         upload.fields(inputArr)(req, res, async function (err) {
             if (err) {
                 console.log(err);
             }
             else {
-                //console.log(req.body);
+                console.log(req.body);
                 console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
@@ -94,33 +101,45 @@ module.exports = {
                                 previewArr.push(req.body[`lec${j}_chapter${i}_preview`]);
                             }
                         }
-
-                        var object = { chapter: req.body.chapter_name[i - 1], lectures: [] };       //Lecture
+                        console.log(previewArr);
+                        var object = { chapter_name: req.body.chapter_name[i - 1], lectures: [] };       //Lecture
                         if (+req.query[`chapter${i}`] > 1) {
                             for (let j = 1; j <= +req.query[`chapter${i}`]; j++) {                  //Xử lý nội dung lecture
-                                if (typeof (req.body[`lec_chapter${i}_name`][j-1]) !== 'undefined') {
+                                if (typeof (req.body[`lec_chapter${i}_name`][j - 1]) !== 'undefined') {
+                                    let description='', link='';
+                                    if(typeof (req.body[`lec_chapter${i}_des`])!=='undefined') 
+                                    description = req.body[`lec_chapter${i}_des`][j - 1];
+                                    if(req.body[`lec_chapter${i}_content`][j-1]==='yes') {
+                                        link='/public/videos/' + req.files[`lec_chapter${i}_content`][0].originalname;
+                                        req.files[`lec_chapter${i}_content`].shift();
+                                    }
                                     object.lectures.push({
                                         name: req.body[`lec_chapter${i}_name`][j - 1],
-                                        description: req.body[`lec_chapter${i}_des`][j - 1],
-                                        link: '/public/videos/' + req.files[`lec_chapter${i}_content`][j - 1].originalname,
+                                        description,
+                                        link,
                                         preview: previewArr[j - 1]
                                     });
-                                }
+                                } 
                             }
                         }
-                        if (+req.query[`chapter${i}`] === 1) {
-                            object.lectures.push({                                //Xử lý nội dung lecture nếu lecture chỉ có 1 trong chapter
+                        if (+req.query[`chapter${i}`] === 1) {                               //Xử lý nội dung lecture nếu lecture chỉ có 1 trong chapter
+                            let description='', link='';
+                            if(typeof (req.body[`lec_chapter${i}_des`])!=='undefined') 
+                                description=req.body[`lec_chapter${i}_des`];
+                            if(req.body[`lec_chapter${i}_content`]==='yes') 
+                                link='/public/videos/' + req.files[`lec_chapter${i}_content`][0].originalname;
+                            object.lectures.push({ 
                                 name: req.body[`lec_chapter${i}_name`],
-                                description: req.body[`lec_chapter${i}_des`],
-                                link: '/public/videos/' + req.files[`lec_chapter${i}_content`][0].originalname,
+                                description,
+                                link,
                                 preview: previewArr[0]
                             })
                         }
-                        req.body.curriculum.push(object);
-
+                        const curr = new Curriculum(object);
+                        curr.save();
+                        req.body.curriculum.push({_id:curr.id});
                     }
                 }
-
                 const course = new Course(req.body);
                 course.save();
                 var teacher = await Teacher.findOne({ _id: req.session.user._id });
@@ -134,19 +153,21 @@ module.exports = {
     //[POST]/courses/add/:id
     add(req, res, next) {
         Student.findById(req.session.user._id).populate("cart_courses.course_id")
-            .then( user => {return new Promise(  function(resolve,reject) {
-                if(user.cart_courses.some(course => course.course_id.equals(req.params.id))||
-                user.booked_courses.some(course => course.course_id.equals(req.params.id))){
-                    reject(user);
-                }
-                else
-                    resolve(user);
-            }) } )
-            .then(user =>{ 
-                user.cart_courses.push({course_id: req.params.id});
+            .then(user => {
+                return new Promise(function (resolve, reject) {
+                    if (user.cart_courses.some(course => course.course_id.equals(req.params.id)) ||
+                        user.booked_courses.some(course => course.course_id.equals(req.params.id))) {
+                        reject(user);
+                    }
+                    else
+                        resolve(user);
+                })
+            })
+            .then(user => {
+                user.cart_courses.push({ course_id: req.params.id });
                 req.session.user = mongooseToObject(user);
                 req.app.locals.user = mongooseToObject(user);
-                return Student.findByIdAndUpdate(req.session.user._id,user).populate("cart_courses.course_id")
+                return Student.findByIdAndUpdate(req.session.user._id, user).populate("cart_courses.course_id")
             })
             .then(user => {
                 user.cart_courses.push({ course_id: req.params.id });
@@ -190,22 +211,22 @@ module.exports = {
                 })
             }
             )
-            .then(  ([ret,course]) => {
-                if(ret>=0 && req.session.user.cart_courses.length >0)
-                    {
-                        req.session.user.cart_courses.splice(ret,1);}
-                course.course_students.push({user_id: req.session.user._id});
-                req.session.user.booked_courses.push({course_id: course._id});
-                req.session.user.money -=course.price;
-                return Promise.all([Course.findByIdAndUpdate(course._id,course),
-                    Student.findByIdAndUpdate(req.session.user._id,req.session.user).populate({
-                        path: "cart_courses.course_id",
-                        select: "name slug price course_author",
-                        populate: { path: "course_author", select: "name" },
-                        
-                      })])
+            .then(([ret, course]) => {
+                if (ret >= 0 && req.session.user.cart_courses.length > 0) {
+                    req.session.user.cart_courses.splice(ret, 1);
+                }
+                course.course_students.push({ user_id: req.session.user._id });
+                req.session.user.booked_courses.push({ course_id: course._id });
+                req.session.user.money -= course.price;
+                return Promise.all([Course.findByIdAndUpdate(course._id, course),
+                Student.findByIdAndUpdate(req.session.user._id, req.session.user).populate({
+                    path: "cart_courses.course_id",
+                    select: "name slug price course_author",
+                    populate: { path: "course_author", select: "name" },
+
+                })])
             })
-            .then(([course,user]) => {
+            .then(([course, user]) => {
                 req.app.locals.user = mongooseToObject(user);
                 res.redirect('/student/cart/' + user._id);
             })

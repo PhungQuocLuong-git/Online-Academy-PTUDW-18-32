@@ -119,52 +119,6 @@
                     </div>
                     <div class="tab-pane fade" id="curr" role="tabpanel" aria-labelledby="curr-tab">
                         <div class="btn btn-outline-primary btn-add-chapter"> Add new chapter </div>
-                        <div class="w-75 mt-5 p-4 chapter1">
-                            <div class="d-flex justify-content-between">
-                                <div class="btn btn-outline-primary btn-add-lecture1" data-num="1"> Add new lecture
-                                </div>
-                                <div class="btn btn-outline-danger btn-delete-chapter"><i class="fas fa-times"></i>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="chapter-name">Name</label> {{!-- chapter name --}}
-                                <input type="text" class="form-control" id="chapter-name" name="chapter_name"
-                                    placeholder="chapter's name">
-                            </div>
-                            <div class="w-75 lecture p-3">
-                                <div class="form-group">
-                                    <div class="d-flex justify-content-between">
-                                        <h5>Lecture 1</h5>
-                                        <div class="btn btn-outline-danger btn-delete-lecture"><i
-                                                class="fas fa-times"></i></div>
-                                    </div>
-                                    <label for="lec-name">Name</label> {{!-- Lecture Name --}}
-                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter1_name"
-                                        placeholder="Lecture Name ">
-                                    <label for="des">Description</label> {{!-- Description --}}
-                                    <textarea type="text" class="form-control" class="des" name="lec_chapter1_des"
-                                        placeholder="Description"> </textarea>
-                                    <div class="form-group"> {{!-- Lecture content --}}
-                                        <label for="lec-content">Content</label>
-                                        <input id="lec-content" class="lec-content" name="lec_chapter1_content"
-                                            type="file">
-                                    </div>
-                                    <label for="lec-name">Preview this course?</label>
-                                    <fieldset class="lec1_chapter1_preview">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input1" type="radio" name="lec1_chapter1_preview"
-                                                id="lec1_chapter1_Radio1" value="true">
-                                            <label class="form-check-label m-0" for="lec1_chapter1_Radio1">Yes</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input1" type="radio" name="lec1_chapter1_preview"
-                                                id="lec1_chapter1_Radio2" value="false">
-                                            <label class="form-check-label m-0" for="lec1_chapter1_Radio2">No</label>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div>
-                        </div>
                         
                     </div>
                     <div class="tab-pane fade" id="sub" role="tabpanel" aria-labelledby="sub-tab">
@@ -242,81 +196,9 @@
             ],
         });
 
-        //Thêm sự kiện thêm lecture cho chapter đầu tiên
-        $(`.btn-add-lecture1`).on('click', function () {
-            let lec_num = $(this).data('num');
-            lec_num++;
-            $(this).parent().parent().append(`<div class="w-75 lecture p-3 mt-3">
-                                <div class="form-group">
-                                    <div class="d-flex justify-content-between">
-                                        <h5>Lecture ${lec_num}</h5>
-                                        <div class="btn btn-outline-danger btn-delete-lecture"><i
-                                                class="fas fa-times"></i></div>
-                                    </div>
-                                    <label for="lec-name">Name</label>                      {{!-- Lecture Name --}}
-                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter1_name" placeholder="Lecture Name">
-                                    <label for="des">Description</label>                     {{!-- Description --}}
-                                    <textarea type="text" class="form-control" class="des" name="lec_chapter1_des" placeholder="Description"></textarea>
-                                    <div class="form-group">                        {{!-- Lecture content --}}
-                                        <label for="lec-content">Content</label>
-                                        <input id="lec-content" class="lec-content" name="lec_chapter1_content" type="file">
-                                    </div>
-                                    <label for="lec-name">Preview this course?</label>
-                                    <fieldset class="lec${lec_num}_chapter1_preview">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter1_preview"
-                                            id="lec${lec_num}_chapter1_Radio1" value="true">
-                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter1_Radio1">Yes</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter1_preview"
-                                            id="lec${lec_num}_chapter1_Radio2" value="false">
-                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter1_Radio2">No</label>
-                                    </div>
-                                    </fieldset>
-                                </div>
-                            </div>`)
-            $(".lec-content").fileinput({
-                theme: 'fa',
-                dropZoneEnabled: false,
-                maxFileCount: 1,
-                allowedFileExtensions: ["pdf", "mp4"]
-            });
-            tinymce.init({
-                selector: 'textarea',
-                height: 300,
-                plugins: 'paste image link autolink lists table media',
-                toolbar: [
-                    'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
-                ],
-            });
-            $(this).data('num', lec_num)
-            //Thêm sự kiện xoá lecture cho chapter mới thêm
-            $(`.btn-delete-lecture`).on('click', function () {
-                /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
-            lec_num--;
-            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
-                $(this).parent().parent().parent().remove();
-            })
-        })
-        //Thêm sự kiện xoá chapter cho chapter đầu tiên
-        $(`.btn-delete-chapter`).on('click', function () {
-            $(this).parent().parent().remove();
-        })
-        //Thêm sự kiện xoá lecture cho chapter đầu tiên
-        $(`.btn-delete-lecture`).on('click', function () {
-            /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
-            lec_num--;
-            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
-            $(this).parent().parent().parent().remove();
-        })
-
-
-        var num = 1;
-        $('.btn-add-chapter').on('click', function () {        //Sự kiện thêm 1 chapter
-            num++;                                      //Biến lưu chapter thứ num
-            //Thêm 1 chapter
-            var lec_num = 1;
+        var num = 0;
+        $('.btn-add-chapter').on('click', function () {        //Sự kiện thêm 1 chapter          
+            num++;  
             $('#curr').append(`<div class="w-75 mt-5 p-4 chapter${num}">
                             <div class="d-flex justify-content-between">
                                 <div class="btn btn-outline-primary btn-add-lecture${num}" data-num="1"> Add new lecture </div>
@@ -343,16 +225,16 @@
                                         <input id="lec-content" class="lec-content" name="lec_chapter${num}_content" type="file">
                                     </div>
                                     <label for="lec-name">Preview this course?</label>
-                                    <fieldset id="lec${lec_num}_chapter${num}_preview">
+                                    <fieldset id="lec1_chapter${num}_preview">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
-                                            id="lec${lec_num}_chapter${num}_Radio1" value="true">
-                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio1">Yes</label>
+                                        <input class="form-check-input" type="radio" name="lec1_chapter${num}_preview"
+                                            id="lec1_chapter${num}_Radio1" value="true">
+                                        <label class="form-check-label m-0" for="lec1_chapter${num}_Radio1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
-                                            id="lec${lec_num}_chapter${num}_Radio2" value="false">
-                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio2">No</label>
+                                        <input class="form-check-input" type="radio" name="lec1_chapter${num}_preview"
+                                            id="lec1_chapter${num}_Radio2" value="false" checked>
+                                        <label class="form-check-label m-0" for="lec1_chapter${num}_Radio2">No</label>
                                     </div>
                                     </fieldset>
                                 </div>
@@ -368,7 +250,7 @@
             tinymce.init({
                 selector: 'textarea',
                 height: 300,
-                plugins: 'paste image link autolink lists table media',
+                plugins: 'paste image link autolink lists table media text textpattern',
                 toolbar: [
                     'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
                 ],
@@ -376,6 +258,7 @@
 
             //Thêm sự kiện thêm 1 lecture cho chapter mới thêm
             $(`.btn-add-lecture${num}`).on('click', function () {
+                let atlNum=$(this).attr('class').charAt($(this).attr('class').length-1);
                 let lec_num = $(this).data('num');
                 lec_num++;
                 $(this).parent().parent().append(`<div class="w-75 lecture p-3 mt-3">
@@ -386,24 +269,24 @@
                                                 class="fas fa-times"></i></div>
                                     </div>
                                     <label for="lec-name">Name</label>                      {{!-- Lecture Name --}}
-                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter${num}_name" placeholder="Lecture Name">
+                                    <input type="text" class="form-control" id="lec-name" name="lec_chapter${atlNum}_name" placeholder="Lecture Name">
                                     <label for="des">Description</label>                     {{!-- Description --}}
-                                    <textarea type="text" class="form-control" class="des" name="lec_chapter${num}_des" placeholder="Description"></textarea>
+                                    <textarea type="text" class="form-control" class="des" name="lec_chapter${atlNum}_des" placeholder="Description"></textarea>
                                     <div class="form-group">                        {{!-- Lecture content --}}
                                         <label for="lec-content">Content</label>
-                                        <input id="lec-content" class="lec-content" name="lec_chapter${num}_content" type="file">
+                                        <input id="lec-content" class="lec-content" name="lec_chapter${atlNum}_content" type="file">
                                     </div>
                                     <label for="lec-name">Preview this course?</label>
-                                    <fieldset id="lec${lec_num}_chapter${num}_preview">
+                                    <fieldset id="lec${lec_num}_chapter${atlNum}_preview">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
-                                            id="lec${lec_num}_chapter${num}_Radio1" value="true">
-                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio1">Yes</label>
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${atlNum}_preview"
+                                            id="lec${lec_num}_chapter${atlNum}_Radio1" value="true">
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${atlNum}_Radio1">Yes</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${num}_preview"
-                                            id="lec${lec_num}_chapter${num}_Radio2" value="false">
-                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${num}_Radio2">No</label>
+                                        <input class="form-check-input" type="radio" name="lec${lec_num}_chapter${atlNum}_preview"
+                                            id="lec${lec_num}_chapter${atlNum}_Radio2" value="false" checked>
+                                        <label class="form-check-label m-0" for="lec${lec_num}_chapter${atlNum}_Radio2">No</label>
                                     </div>
                                     </fieldset>
                                 </div>
@@ -426,8 +309,8 @@
                 //Thêm sự kiện xoá lecture cho lecture mới thêm
                 $(`.btn-delete-lecture`).on('click', function () {
                     /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
-            lec_num--;
-            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
+                    lec_num--;
+                    $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
                     $(this).parent().parent().parent().remove();
                 })
             })
@@ -447,6 +330,16 @@
         var submitForm = document.forms['createForm'];
         var btnSubmit = $('.form-submit');
         btnSubmit.on('click', function () {
+             $('input[type="file"]').each(function(){
+                if(this.value==='')
+                {
+                    let name=$(this).attr('name');
+                    $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
+                } else {
+                let name=$(this).attr('name');
+                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
+                }
+            })
             submitForm.action = `/courses/store?num=${num}`;
             for (let i = 1; i <= num; i++) {
                 let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
