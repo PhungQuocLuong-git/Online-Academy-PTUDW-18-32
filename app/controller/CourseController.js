@@ -3,6 +3,7 @@ const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 const { collection } = require('../models/Course');
+// const { options } = require('../../routes/courses');
 
 module.exports = {
     list(req, res) {
@@ -39,9 +40,23 @@ module.exports = {
     },
 
     fts(req, res) {
-        Course.find({
-            $text: { $search: req.body.kw },
-          }).populate('course_author course_students')
+        var options ={};
+        var sortOption = {};
+        if(req.query.rating){
+            const rate = +req.query.rating;
+            options.rating = {$gte: rate};
+        }
+        if(req.query.price){
+            const price = +req.query.price;
+            options.price = {$gte: price};
+        }
+        // if(req.query.field){
+        //     sortOption.field
+        // }
+        sortOption.field="price";
+        sortOption.type=1;
+        console.log(options);
+        Course.find({$text: { $search: req.query.kw }}).find(options).sortable(req).populate('course_author course_students')
             .then(courses => res.render('courses/search',{
                 courses: multipleMongooseToObject(courses)
             }))
@@ -92,7 +107,7 @@ module.exports = {
         Course.findById(req.params.id).populate( 'course_students.user_id' )
             .then(course => {return new Promise( function(resolve,reject) {
                 if(
-                    course.course_students.some(course => course.course_id.equals(req.session.user._id))){
+                    course.course_students.some(course => course.user_id.equals(req.session.user._id))){
                         reject(course)
                     }
                     else

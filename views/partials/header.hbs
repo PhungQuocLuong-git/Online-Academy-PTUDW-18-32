@@ -7,7 +7,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <form class="form-inline my-2 my-lg-0" method="POST" action="/courses/fts">
+    <form class="form-inline my-2 my-lg-0" method="GET" action="/courses/fts">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="kw">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
@@ -62,7 +62,7 @@
           
                 
         <li class="nav-item active">
-          <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Teach on OA <span class="sr-only">(current)</span></a>
+          <div class="user-money"  > {{format user.money}}  <i class="fas fa-coins"></i></div>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -82,9 +82,6 @@
         </li>
         {{else}}
             {{#ifcond role 2}}
-             <li class="nav-item active">
-              <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Learn on OA <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{user.name}}
@@ -118,20 +115,11 @@
 </nav>
 
 <link rel="stylesheet" href="/public/stylesheets/header.css">
-<form name="swap-role" method="POST" ></form>
 <form id="log-out" action="/student/logout" method="POST" ></form>
 <form  name="del-course" method="POST"></form>
 
 <script>
   document.addEventListener('DOMContentLoaded',function () {
-    var swapForm = document.forms['swap-role'];
-    
-    var btnSwap= $('.btn-swap');
-    btnSwap.on('click', function(){
-      swapForm.action = '/student/' + btnSwap.data('id') + '/swap?_method=PATCH';
-      swapForm.submit();
-    })
-    console.log($('#log-out'));
     {{!-- Logout btn --}}
     $('.btn--logout').on('click', function() {
       $('#log-out').submit()

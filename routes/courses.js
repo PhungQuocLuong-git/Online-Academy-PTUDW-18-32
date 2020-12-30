@@ -11,10 +11,11 @@ router.get('/list',courseController.list);
 router.get('/search',courseController.search);
 router.get('/create',TeacherMiddleware,courseController.create );
 router.get('/wished',courseController.wished);
+router.get('/fts',courseController.fts);
 
 // router.get('/detail',courseController.detail);
 router.post('/store',courseController.store);
-router.post('/fts',courseController.fts);
+// router.post('/fts',courseController.fts);
 router.post('/book/:id',courseController.book);
 router.post('/wish/:id',courseController.wish);
 router.post('/add/:id',courseController.add);
