@@ -1,16 +1,68 @@
 const Course = require('../models/Course');
 const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
+const Category = require('../models/Category');
+const Subategory = require('../models/Subcategory');
+
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 const { collection } = require('../models/Course');
 const multer = require('multer');
 const Curriculum = require('../models/Curriculum');
 
 module.exports = {
-    list(req, res) {
-        res.render('courses/list', {
-            script: '/public/javascripts/home.js'
-        });
+    async listlevel1(req, res) {
+        var slug = req.params.slug;
+        var catid = await Category.find({ slug: slug });
+        
+        var len = catid.length;
+        if (len === 0) {
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid: 1,
+            });
+        }
+        else {
+            catid = catid[0];
+            var list = await Course.find({ catid: catid._id }).populate('course_author');
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid:0,
+                list: list,
+                name: catid.CatName,
+                empty: list.length,
+                extraStyle:'/public/stylesheets/home.css'  
+            });
+        }
+        
+    },
+    async listlevel2(req, res) {
+
+        var slug1 = req.params.slug1;
+        var slug2 = req.params.slug2;
+        var catid = await Category.find({ slug: slug1 });
+        var subcatid = await Subategory.find({ slug: slug2 });
+        
+        var len1 = catid.length;
+        var len2 = subcatid.length;
+        if (len1 === 0 || len2 === 0) {
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid: 1,
+            });
+        }
+        else {
+            
+            var list = await Course.find({ subcatid: subcatid[0]._id }).populate('course_author');
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid:0,
+                list: list,
+                name: subcatid[0].SubCatName,
+                empty: list.length,
+                extraStyle:'/public/stylesheets/home.css'  
+            });
+        }
+        
     },
 
     search(req, res) {
