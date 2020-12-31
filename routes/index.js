@@ -12,6 +12,7 @@ const admin = require('./admin');
 // const AuthMiddleware = require('../app/middlewares/authMiddleware');
 // const StudentMiddleware = require('../app/middlewares/studentMiddleware');
 const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
+const adminMiddleware = require('../app/middlewares/adminMiddleware');
 const { request } = require('../app');
 
 
@@ -33,9 +34,6 @@ function route(app) {
     next();
     })  
     app.use('/courses',coursesRouter);
-    // app.use('/me',TeacherMiddleware,meRouter);
-    // app.use('/student',StudentMiddleware,studentRouter);
-    // app.use('/account',accountRouter);
     app.use('/student',studentRouter);
     app.use('/teacher',teacherRouter);
     app.use('/user',userRouter);

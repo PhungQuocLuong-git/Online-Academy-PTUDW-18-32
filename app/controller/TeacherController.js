@@ -67,7 +67,7 @@ class TeacherController{
 
     // [POST] /Teacher/check
     check(req,res,next) {
-        Teacher.findOne({username: req.body.username})
+        Teacher.findOne({username: req.body.username,stt:1})
             .then( user => {
                 bcrypt.compare(req.body.password,user.password).then((result)=>{
                     if(result){
