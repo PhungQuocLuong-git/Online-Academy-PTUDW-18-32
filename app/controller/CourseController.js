@@ -22,7 +22,7 @@ module.exports = {
     async detail(req, res, next) {
         try {
         var course = await (await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author'));
-            console.log(course.curriculum);
+            //console.log(course.curriculum);
             var isBooked = course.course_students.some(student=>student.user_id.equals(req.session.user._id));
             res.render('courses/detail', {
                 course: mongooseToObject(course),
