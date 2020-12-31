@@ -1,5 +1,6 @@
 module.exports = {
     profile(req, res, next) {
+        
         res.render('users/edit-profile');
     },
     account(req, res, next) {
@@ -20,6 +21,7 @@ module.exports = {
             percent: +'10'/+'25'*100,
         });
     },
+    
     checkactive(req,res,next){
         const url = req.url+'';
         console.log(url);

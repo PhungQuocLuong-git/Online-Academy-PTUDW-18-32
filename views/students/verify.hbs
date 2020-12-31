@@ -27,15 +27,15 @@
           <div class="or-seperate"></div>
           <div class="spacer"></div>
 
-            {{#ifcond times 2}}
+            {{#ifequal times 2}}
 
                 <h2>Bạn còn {{times}} lần để nhập mã </h2>
-            {{/ifcond}}
+            {{/ifequal}}
 
-            {{#ifcond times 1}}
+            {{#ifequal times 1}}
 
                 <h2>Bạn còn {{times}} lần để nhập mã </h2>
-            {{/ifcond}}
+            {{/ifequal}}
 
           <button class="btn btn-primary form-submit">Gửi</button>
         </form>

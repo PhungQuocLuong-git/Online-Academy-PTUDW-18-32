@@ -32,6 +32,22 @@ class TeacherController{
 
     }
 
+    async censor(req,res) {
+        if(req.body.type === 'ok')
+            var status = 1;
+        else
+            var status = -1;
+        
+
+        let teacher = await Teacher.findByIdAndUpdate(req.body.idTeacher,{$set: { stt: 0 }});
+        if(teacher){
+            res.send('true');
+        }
+        else
+            res.send('false');
+        
+    }
+
     // [GET] /Teacher/login
     login(req,res,next) {
         res.render('teachers/login',{

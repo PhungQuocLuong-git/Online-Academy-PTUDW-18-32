@@ -14,9 +14,9 @@
   }
 
   .img-fluid {
-   max-height: 350px;
-   width: 100%;
-   background-image: cover;
+    max-height: 350px;
+    width: 100%;
+    background-image: cover;
   }
 
   /* Tooltip custom */
@@ -297,15 +297,15 @@
     </div>
     <div class="h-75 d-inline-block align-self-center ml-auto text-white" style="width: 45%;">
       <h3 class="font-weight-bold">{{course.name}}</h3>
-      
+
       {{{course.short_description}}}
 
       <div class="d-flex text-warning mt-3">
         {{#ifgreater course.discount_price 0}}
-        <h3 class="delete-price text-dark">${{course.price}}</h3>       
+        <h3 class="delete-price text-dark">${{course.price}}</h3>
         <h3 class="ml-4">${{course.discount_price}}</h3>
         {{else}}
-        <h3 class="text-warning">${{course.price}}</h3> 
+        <h3 class="text-warning">${{course.price}}</h3>
         {{/ifgreater}}
         {{#ifequal role 1}}
         <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}" data-toggle="tooltip" data-placement="top"
@@ -338,25 +338,39 @@
       {{{course.description}}}
     </div>
     <div id="curriculum" class="container tab-pane fade"><br>
-      {{#each course.curriculum}}
-      <button class="accordion">{{this.chapter}}</button>
+    {{#if isBooked}}
+{{#each course.curriculum}}
+      <button class="accordion">{{chapter_name}}</button>
       <div class="panel p-0">
         <ul class="list-group">
           {{#each this.lectures}}
-          <li class="list-group-item list-group-item-action border-0">{{name}}
+          <a href="#{{name}}" data-toggle="modal" style="text-decoration: none;">
+            <li class="list-group-item list-group-item-action border-0">{{name}}</li>
+          </a>
+          {{/each}}
+        </ul>
+      </div>
+      {{/each}}
+    {{else}}
+{{#each course.curriculum}}
+      <button class="accordion">{{chapter_name}}</button>
+      <div class="panel p-0">
+        <ul class="list-group">
+          {{#each this.lectures}}
+            <li class="list-group-item list-group-item-action border-0">{{name}}
             {{#if this.preview}}
-            <a href="#{{name}}" data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2">
+                <a href="#{{_id}}" data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2">
                 Preview</span></a>
             {{/if}}
-          </li>
+            </li>
           {{/each}}
-          {{!-- <li class="list-group-item list-group-item-action border-0">Your first web page <a href="#course-video"
-              data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2"> Preview</span></a></li> --}}
         </ul>
       </div>
 
-    {{/each}}
+      {{/each}}
+    {{/if}}
       
+
     </div>
     <div id="instructor" class="container tab-pane fade"><br>
       <h3 class="instructor-name">{{course.course_author.name}}</h3>
@@ -386,7 +400,7 @@
         <div class="d-flex flex-column align-items-center bg-light feedback-rating">
           <h1 class="mt-2 mb-0">4.6</h1>
           <div class="rate text-dark" data-rate-value=4.6></div>
-          <p class="mb-2">Course Rating</p> 
+          <p class="mb-2">Course Rating</p>
         </div>
         <div class="col-7 d-flex flex-column justify-content-around">
           <div class="progress h-10">
@@ -412,24 +426,24 @@
         </div>
         <div class="col d-flex flex-column justify-content-around">
           <div class="d-flex">
-          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
-          <span class="align-self-center">40%</span>
+            <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+            <span class="align-self-center">40%</span>
           </div>
           <div class="d-flex">
-          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
-          <span class="align-self-center">40%</span>
+            <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+            <span class="align-self-center">40%</span>
           </div>
           <div class="d-flex">
-          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
-          <span class="align-self-center">40%</span>
+            <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+            <span class="align-self-center">40%</span>
           </div>
           <div class="d-flex">
-          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
-          <span class="align-self-center">40%</span>
+            <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+            <span class="align-self-center">40%</span>
           </div>
           <div class="d-flex">
-          <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
-          <span class="align-self-center">40%</span>
+            <div class="rate p-0" data-rate-value=4.6 style="font-size: 19px;margin-left:0; margin-right:10px"></div>
+            <span class="align-self-center">40%</span>
           </div>
         </div>
       </div>
@@ -549,33 +563,23 @@
     <div class="modal-content m-0" style="width: 608px;">
       <div class="modal-header">
         <div>
-        <h6 class="modal-title" id="exampleModalLongTitle">Courses Preview</h6>
-        <h4 class="model-title"> {{course.name}}</h4>
+          <h6 class="modal-title" id="exampleModalLongTitle">Courses Preview</h6>
+          <h4 class="model-title"> {{course.name}}</h4>
         </div>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body p-0">
-          <video
-    id="my-video"
-    class="video-js"
-    controls
-    preload="auto"
-    width="608"
-    height="342" 
-    data-setup="{}"
-  >
-    <source src="{{course.preview_video}}" type="video/mp4" />
-    <source src="MY_VIDEO.webm" type="video/webm"/>
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank"
-        >supports HTML5 video</a
-      >
-    </p>
-  </video>
+        <video id="my-video" class="video-js" controls preload="auto" width="608" height="342" data-setup="{}">
+          <source src="{{course.preview_video}}" type="video/mp4" />
+          <source src="MY_VIDEO.webm" type="video/webm" />
+          <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+          </p>
+        </video>
       </div>
     </div>
   </div>
@@ -583,40 +587,30 @@
 
 {{#each course.curriculum}}
 {{#each this.lectures}}
-<div class="modal fade" id="{{name}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content m-0" style="width: 608px;">
       <div class="modal-header">
         <div>
-        <h4 class="modal-title" id="exampleModalLongTitle">{{name}}</h4>
+          <h4 class="modal-title" id="exampleModalLongTitle">{{name}}</h4>
         </div>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body p-0">
-          <video
-    id="my-video"
-    class="video-js"
-    controls
-    preload="auto"
-    width="608"
-    height="342" 
-    data-setup="{}"
-  >
-    <source src="{{this.link}}" type="video/mp4"/>
-    <source src="MY_VIDEO.webm" type="video/webm"/>
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that
-      <a href="https://videojs.com/html5-video-support/" target="_blank"
-        >supports HTML5 video</a
-      >
-    </p>
-  </video>
-  
-  {{{description}}}
+        <video id="my-video" class="video-js" controls preload="auto" width="608" height="342" data-setup="{}">
+          <source src="{{this.link}}" type="video/mp4" />
+          <source src="MY_VIDEO.webm" type="video/webm" />
+          <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+          </p>
+        </video>
+
+        {{{description}}}
       </div>
     </div>
   </div>
@@ -644,7 +638,7 @@
     });
   });
 
-$(document).ready(function () {
+  $(document).ready(function () {
     var options = {
       max_value: 5,
       initial_value: 4,
@@ -653,7 +647,7 @@ $(document).ready(function () {
     $(".rate").rate(options);
   });
 
-{{#ifequal role 1}}
+  {{#ifequal role 1}}
   function isWished() {
     var heart = $('.btn-wish').data('id');
     return $.getJSON(`/courses/wished?id=${heart}`);
@@ -662,10 +656,10 @@ $(document).ready(function () {
   $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     let wishIcon = $('.wish-icon');
-      if (isWished())
-        wishIcon.addClass('fas');
-      else
-        wishIcon.addClass('far');
+    if (isWished())
+      wishIcon.addClass('fas');
+    else
+      wishIcon.addClass('far');
     /*isWished().then(wished => {
       let wishIcon = $('.wish-icon');
       console.log(wished);
@@ -675,57 +669,57 @@ $(document).ready(function () {
         wishIcon.addClass('far');
     });*/
   });
-{{/ifequal}}
+  {{/ifequal}}
 
-  //Accordition
-  var acc = document.getElementsByClassName("accordion");
-  var i;
+      //Accordition
+      var acc = document.getElementsByClassName("accordion");
+      var i;
 
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function () {
-      this.classList.toggle("acor-active");
-      var panel = this.nextElementSibling;
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-      } else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+          this.classList.toggle("acor-active");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+          } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          }
+        });
       }
-    });
-  }
 
-{{#ifequal role 1}}
-  var bookForm = document.forms['book-course'];
-  var btnBook = $('.btn-book-course');
-  btnBook.on('click', function () {
-    bookForm.action = '/courses/book/' + btnBook.data('id');
-    bookForm.submit();
-  })
+      {{#ifequal role 1 }}
+      var bookForm = document.forms['book-course'];
+      var btnBook = $('.btn-book-course');
+      btnBook.on('click', function () {
+        bookForm.action = '/courses/book/' + btnBook.data('id');
+        bookForm.submit();
+      })
 
-  var addForm = document.forms['add-course'];
-  var btnAdd = $('.btn-add-cart');
-  btnAdd.on('click', function () {
-    addForm.action = '/courses/add/' + btnAdd.data('id');
-    addForm.submit();
-  })
+      var addForm = document.forms['add-course'];
+      var btnAdd = $('.btn-add-cart');
+      btnAdd.on('click', function () {
+        addForm.action = '/courses/add/' + btnAdd.data('id');
+        addForm.submit();
+      })
 
-  var wishForm = document.forms['wish-course'];
-  var btnWish = $('.btn-wish');
-  btnWish.on('click', function () {
-    isWished().then(wished => {
-      let wishIcon = $('.wish-icon');
-      if (wished === true) {
-        wishIcon.removeClass('fas');
-        wishIcon.addClass('far');
-        $.post('/courses/wish/' + btnWish.data('id'), $('.btn-wish').serialize());
-      }
-      else {
-        wishIcon.removeClass('far');
-        wishIcon.addClass('fas');
-        $.post('/courses/wish/' + btnWish.data('id'), $('.btn-wish').serialize());
-      }
-    });
-  });
-{{/ifequal}}
+      var wishForm = document.forms['wish-course'];
+      var btnWish = $('.btn-wish');
+      btnWish.on('click', function () {
+        isWished().then(wished => {
+          let wishIcon = $('.wish-icon');
+          if (wished === true) {
+            wishIcon.removeClass('fas');
+            wishIcon.addClass('far');
+            $.post('/courses/wish/' + btnWish.data('id'), $('.btn-wish').serialize());
+          }
+          else {
+            wishIcon.removeClass('far');
+            wishIcon.addClass('fas');
+            $.post('/courses/wish/' + btnWish.data('id'), $('.btn-wish').serialize());
+          }
+        });
+      });
+      {{/ifequal}}
 
 </script>
 {{/section}}

@@ -17,7 +17,6 @@ async function loadCategories(req, res, next) {
 
 
     }
-    
     res.locals.lcCategories = list;
     next();
 
