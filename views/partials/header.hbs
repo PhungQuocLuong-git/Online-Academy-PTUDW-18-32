@@ -9,10 +9,10 @@
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Categories </a>
             <ul class="dropdown-menu">
               {{#each lcCategories}}
-                <li><a class="dropdown-item" href="#"> {{CatName}} &raquo </a>
+                <li><a class="dropdown-item" href="/courses/list/{{slug}}"> {{CatName}} &raquo </a>
                 <ul class="submenu dropdown-menu">
                   {{#each sub}}
-                    <li><a class="dropdown-item" href="">{{SubCatName}}</a></li>
+                    <li><a class="dropdown-item" href="/courses/list/{{../slug}}/{{slug}}">{{SubCatName}}</a></li>
                   {{/each}}
                   
                 </ul>

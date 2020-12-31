@@ -6,11 +6,12 @@ const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
 const courseController = require('../app/controller/CourseController');
 
 
-router.get('/', courseController.list);
-router.get('/list',courseController.list);
+router.get('/', courseController.listlevel1);
 router.get('/search',courseController.search);
 router.get('/create',TeacherMiddleware,courseController.create );
 router.get('/wished',courseController.wished);
+router.get('/list/:slug1/:slug2',courseController.listlevel2);
+router.get('/list/:slug',courseController.listlevel1);
 
 // router.get('/detail',courseController.detail);
 router.post('/store',courseController.store);

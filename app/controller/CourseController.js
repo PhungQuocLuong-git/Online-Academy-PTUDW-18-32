@@ -1,15 +1,67 @@
 const Course = require('../models/Course');
 const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
+const Category = require('../models/Category');
+const Subategory = require('../models/Subcategory');
+
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 const { collection } = require('../models/Course');
 const multer = require('multer');
 
 module.exports = {
-    list(req, res) {
-        res.render('courses/list', {
-            script: '/public/javascripts/home.js'
-        });
+    async listlevel1(req, res) {
+        var slug = req.params.slug;
+        var catid = await Category.find({ slug: slug });
+        
+        var len = catid.length;
+        if (len === 0) {
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid: 1,
+            });
+        }
+        else {
+            catid = catid[0];
+            var list = await Course.find({ catid: catid._id }).populate('course_author');
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid:0,
+                list: list,
+                name: catid.CatName,
+                empty: list.length,
+                extraStyle:'/public/stylesheets/home.css'  
+            });
+        }
+        
+    },
+    async listlevel2(req, res) {
+
+        var slug1 = req.params.slug1;
+        var slug2 = req.params.slug2;
+        var catid = await Category.find({ slug: slug1 });
+        var subcatid = await Subategory.find({ slug: slug2 });
+        
+        var len1 = catid.length;
+        var len2 = subcatid.length;
+        if (len1 === 0 || len2 === 0) {
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid: 1,
+            });
+        }
+        else {
+            
+            var list = await Course.find({ subcatid: subcatid[0]._id }).populate('course_author');
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid:0,
+                list: list,
+                name: subcatid[0].SubCatName,
+                empty: list.length,
+                extraStyle:'/public/stylesheets/home.css'  
+            });
+        }
+        
     },
 
     search(req, res) {
@@ -41,8 +93,8 @@ module.exports = {
     fts(req, res) {
         Course.find({
             $text: { $search: req.body.kw },
-          }).populate('course_author course_students')
-            .then(courses => res.render('courses/search',{
+        }).populate('course_author course_students')
+            .then(courses => res.render('courses/search', {
                 courses: multipleMongooseToObject(courses)
             }))
             .catch(error => console.error(error));
@@ -98,7 +150,7 @@ module.exports = {
                         var object = { chapter: req.body.chapter_name[i - 1], lectures: [] };       //Lecture
                         if (+req.query[`chapter${i}`] > 1) {
                             for (let j = 1; j <= +req.query[`chapter${i}`]; j++) {                  //Xử lý nội dung lecture
-                                if (typeof (req.body[`lec_chapter${i}_name`][j-1]) !== 'undefined') {
+                                if (typeof (req.body[`lec_chapter${i}_name`][j - 1]) !== 'undefined') {
                                     object.lectures.push({
                                         name: req.body[`lec_chapter${i}_name`][j - 1],
                                         description: req.body[`lec_chapter${i}_des`][j - 1],
@@ -134,19 +186,21 @@ module.exports = {
     //[POST]/courses/add/:id
     add(req, res, next) {
         Student.findById(req.session.user._id).populate("cart_courses.course_id")
-            .then( user => {return new Promise(  function(resolve,reject) {
-                if(user.cart_courses.some(course => course.course_id.equals(req.params.id))||
-                user.booked_courses.some(course => course.course_id.equals(req.params.id))){
-                    reject(user);
-                }
-                else
-                    resolve(user);
-            }) } )
-            .then(user =>{ 
-                user.cart_courses.push({course_id: req.params.id});
+            .then(user => {
+                return new Promise(function (resolve, reject) {
+                    if (user.cart_courses.some(course => course.course_id.equals(req.params.id)) ||
+                        user.booked_courses.some(course => course.course_id.equals(req.params.id))) {
+                        reject(user);
+                    }
+                    else
+                        resolve(user);
+                })
+            })
+            .then(user => {
+                user.cart_courses.push({ course_id: req.params.id });
                 req.session.user = mongooseToObject(user);
                 req.app.locals.user = mongooseToObject(user);
-                return Student.findByIdAndUpdate(req.session.user._id,user).populate("cart_courses.course_id")
+                return Student.findByIdAndUpdate(req.session.user._id, user).populate("cart_courses.course_id")
             })
             .then(user => {
                 user.cart_courses.push({ course_id: req.params.id });
@@ -190,22 +244,22 @@ module.exports = {
                 })
             }
             )
-            .then(  ([ret,course]) => {
-                if(ret>=0 && req.session.user.cart_courses.length >0)
-                    {
-                        req.session.user.cart_courses.splice(ret,1);}
-                course.course_students.push({user_id: req.session.user._id});
-                req.session.user.booked_courses.push({course_id: course._id});
-                req.session.user.money -=course.price;
-                return Promise.all([Course.findByIdAndUpdate(course._id,course),
-                    Student.findByIdAndUpdate(req.session.user._id,req.session.user).populate({
-                        path: "cart_courses.course_id",
-                        select: "name slug price course_author",
-                        populate: { path: "course_author", select: "name" },
-                        
-                      })])
+            .then(([ret, course]) => {
+                if (ret >= 0 && req.session.user.cart_courses.length > 0) {
+                    req.session.user.cart_courses.splice(ret, 1);
+                }
+                course.course_students.push({ user_id: req.session.user._id });
+                req.session.user.booked_courses.push({ course_id: course._id });
+                req.session.user.money -= course.price;
+                return Promise.all([Course.findByIdAndUpdate(course._id, course),
+                Student.findByIdAndUpdate(req.session.user._id, req.session.user).populate({
+                    path: "cart_courses.course_id",
+                    select: "name slug price course_author",
+                    populate: { path: "course_author", select: "name" },
+
+                })])
             })
-            .then(([course,user]) => {
+            .then(([course, user]) => {
                 req.app.locals.user = mongooseToObject(user);
                 res.redirect('/student/cart/' + user._id);
             })

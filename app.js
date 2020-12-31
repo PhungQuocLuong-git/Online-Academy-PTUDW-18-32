@@ -4,7 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const methodOverride = require('method-override');
-const loadCategories =require('./app/middlewares/categories.mdw');
 
 
 var app = express();
@@ -13,7 +12,6 @@ const db = require('./config/db');
 // Connect to DB
 db.connect();
 
-app.use(loadCategories.loadCategories);
 
 app.use(logger('dev'));
 app.use(express.json());
