@@ -7,6 +7,7 @@ const TeacherSchema = new Schema({
   name: {type: String},
   email: {type: String},
   password: {type: String},
+  stt: {type: Number,default:0},
   short_description: {type: String,default:'a short description of teacher'},
   description: {type: String,default:'a description of teacher'},
   posted_courses: [
