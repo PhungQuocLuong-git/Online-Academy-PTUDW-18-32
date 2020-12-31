@@ -24,9 +24,10 @@ const CourseSchema = new Schema({
   status: { type: Number, default: 0 },
   image: { type: String, default: '/public/images/feature.png' },
   preview_video: { type: String, default: '' },
-  kind: { type: Number, ref: "Category" },
+  catid: { type: String, require: true },
+  subcatid: { type: String, require: true },
   curriculum: [
-      {type: Schema.Types.ObjectId, ref: 'Curriculum' }
+    { type: Schema.Types.ObjectId, ref: 'Curriculum' }
   ],
   // category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   slug: { type: String, slug: 'name', unique: true },
@@ -47,10 +48,10 @@ CourseSchema.index({
 });
 
 CourseSchema.query.sortable = function (req) {
-  if(req.query.hasOwnProperty('field')){
+  if (req.query.hasOwnProperty('field')) {
     const isValidType = ['asc', 'desc'].includes(req.query.type);
     return this.sort({
-        [req.query.field]: isValidType ? req.query.type : 'desc', 
+      [req.query.field]: isValidType ? req.query.type : 'desc',
     })
   };
   return this;
