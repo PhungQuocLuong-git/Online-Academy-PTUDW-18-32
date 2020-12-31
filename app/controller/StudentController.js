@@ -112,9 +112,9 @@ class StudentController {
             path: "cart_courses.course_id",
             select: "name slug price description course_author",
             populate: { path: "course_author", select: "name" },
-
         })
             .then(user => {
+                console.log(user);
                 req.session.user = mongooseToObject(user);
                 req.app.locals.user = mongooseToObject(user);
                 return bcrypt.compare(req.body.password, user.password)
