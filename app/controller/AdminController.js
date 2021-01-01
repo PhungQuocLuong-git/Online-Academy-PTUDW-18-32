@@ -1,13 +1,59 @@
 const categorySchema = require('../models/Category');
 const subcategorySchema = require('../models/Subcategory');
+const Teacher = require('../models/Teacher');
+const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
+
 
 
 class AdminController {
 
     // [GET] /admin
-    power(req, res) {
+    login(req, res) {
 
-        res.render('admin/power');
+        res.render('admin/login',{
+            layout:false
+        });
+    };
+
+    // [GET] /logout
+    logout(req, res) {
+        req.session.role = 0;
+        req.app.locals.role = 0;
+
+        res.redirect('/');
+    };
+
+    // [POST] /admin/check
+    check(req, res) {
+        console.log(req.body,req.body.username ==='admin',req.body.password ==='admin')
+        if(req.body.username ==='admin'&& req.body.password ==='admin'){
+            console.log('ok');
+            req.session.role=3;
+            req.app.locals.role = 3;
+        }
+        else{
+            console.log('not ok')
+        }
+        console.log(req.app.locals.role)
+        res.redirect('/');
+        
+    };
+
+    home(req,res) {
+        res.render('admin/admin',{
+            layout:'admin'
+        });
+    };
+
+    teacherQueue(req,res) {
+        Teacher.find({stt:0})
+            .then(teachers => {
+                res.render('admin/teacher-queue',{
+                    layout:'admin',
+                    teachers: multipleMongooseToObject(teachers)
+                });
+            })
+        
     };
 
     addcategory(req, res) {

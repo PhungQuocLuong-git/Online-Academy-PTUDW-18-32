@@ -33,5 +33,31 @@ module.exports = {
       timeZone: 'America/Los_Angeles'
     };
     return new Intl.DateTimeFormat('en-GB', options).format(date);
+  },
+  ifCond(v1,operator,v2,options) {
+    switch (operator) {
+      case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+      case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+      case '!=':
+          return (v1 != v2) ? options.fn(this) : options.inverse(this);
+      case '!==':
+          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+      case '<':
+          return (v1 < v2) ? options.fn(this) : options.inverse(this);
+      case '<=':
+          return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+      case '>':
+          return (v1 > v2) ? options.fn(this) : options.inverse(this);
+      case '>=':
+          return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+      case '&&':
+          return (v1 && v2) ? options.fn(this) : options.inverse(this);
+      case '||':
+          return (v1 || v2) ? options.fn(this) : options.inverse(this);
+      default:
+          return options.inverse(this);
+  }
   }
 }
