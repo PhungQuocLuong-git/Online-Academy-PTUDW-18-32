@@ -1,0 +1,162 @@
+<h1 id='storage' data-dlt=" {{#ifequal delete 0}} 0 ">COURSES {{else}} 1 ">TRASH{{/ifequal}}</h1>
+
+<div id="toast"></div>
+<div class="container-fluid">
+    <div class="row ">
+
+    {{#each courses}}
+    
+    <div class="col-4 mt-4">
+
+        <div class="card h-100">
+            <img class="card-img-top img-course" src="{{this.thumbnail}}" alt="Card image cap">
+            <div class="card-body d-flex flex-column">
+                <p class="card-text text-primary font-weight-bold">{{this.name}}</p>
+                <h6 class="card-title font-weight-bold">{{this.short_description}} </h5>
+                    <p class="card-subtitle text-secondary teacher-text">{{this.course_author.name}}</p>
+                    <div class="_46">
+                        <span class="number-rating"></span>
+                        <div class="stars-outer">
+                            <div class="stars-inner"></div>
+                        </div>
+                        <span class="number-rates">({{this.rating}})</span>
+                    </div>
+                    <h5 class="card-text font-weight-bold"> ${{this.price}} </h5>
+                    <div class="temp"></div>
+                    {{#ifequal ../delete 0}} 
+                    
+                        <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to course</a>
+                    {{else}} 
+                        <button class='btn  btn-primary mt-auto btn-restore' data-id="{{this._id}}" >
+                            <span class="fas fa-window-restore"></span>
+                            Khôi phục
+                        </button>
+                    {{/ifequal}}
+            </div>
+            <div class="home-product-item__favourite test">
+                <i class="fas fa-check"></i>
+                <span>
+
+                    Yêu thích
+                </span> 
+            </div>
+            <button class="btn btn-dlt-course" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-course-modal">
+
+                <i class="fas fa-times icon-dlt"></i>
+            </button>
+        </div>
+    </div>
+
+    {{else}}
+        <h3>Không có khóa học nào</h3>
+    {{/each}}
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="delete-course-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa khóa học ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {{#ifequal delete 0}} 
+            <p>Bn chắc chắn mún xóa khóa học này chứ ?</p>
+          {{else}} 
+            <p>Bn chắc chắn mún xóa hoàn toàn khóa học này chứ ?</p>
+            <p class="font-weight-bold">Lưu ý: hành động này không thể khôi phục sau khi hoàn thành</p>
+          {{/ifequal}}
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-course" type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Delete</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="/public/stylesheets/courses.css">
+
+ 
+
+{{#section 'js'}}
+
+
+    <script>
+        if(+$('#storage').data('dlt')){
+            pathUrl='destroy';
+            typeAjax = 'delete';
+            msg='Bạn đã xóa hoàn toàn khóa học này !! ';
+            $('.btn-restore').on('click',function(e) {
+                console.log($(e.target).data('id'));
+                const parentNode = $(e.target).parent().parent().parent();
+                const courseID = $(e.target).data('id');
+                 $.ajax({
+                    url: "/courses/restore",
+                    type:"patch",
+                    data: { courseID},
+                    success: function (response) {
+                        if (response == "false") {
+                            showErrorToast();
+                        }
+                        else{
+                            parentNode.fadeOut(400,'linear');
+                            toast({
+                                title: "Thành công!",
+                                message: 'Khóa hc đã được khôi phục !!',
+                                type: 'success',
+                                duration: 5000
+                                });
+                        }
+                        
+                        
+                    }
+                });
+            })
+        }
+        else {
+            pathUrl='delete';
+            typeAjax = 'patch';
+            msg='Bạn đã xóa thành công khóa học này !'
+        }
+        console.log(pathUrl)
+         function showErrorToast() {
+            toast({
+            title: "Thất bại!",
+            message: "OOPS. Something went wrong !!!",
+            type: "error",
+            duration: 5000
+            });
+        }
+        $('#delete-course-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            courseID = button.data('id') // Extract info from data-* attributes
+             btnDlt = button.parent().parent()
+        });
+        $('#btn-delete-course').on('click',function(e){
+            $.ajax({
+                    url: "/courses/"+ pathUrl,
+                    type:typeAjax,
+                    data: { courseID},
+                    success: function (response) {
+                        if (response == "false") {
+                            showErrorToast();
+                        }
+                        else{
+                            btnDlt.fadeOut(400,'linear');
+                            toast({
+                                title: "Thành công!",
+                                message: msg,
+                                type: 'success',
+                                duration: 5000
+                                });
+                        }
+                        
+                        
+                    }
+                });
+        })
+    </script>
+{{/section}}

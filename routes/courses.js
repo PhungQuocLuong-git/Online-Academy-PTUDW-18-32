@@ -20,7 +20,9 @@ router.post('/store',courseController.store);
 router.post('/book/:id',courseController.book);
 router.post('/wish/:id',courseController.wish);
 router.post('/add/:id',courseController.add);
-router.post('/rate/:slug',courseController.storeRate);
+router.patch('/delete',courseController.delete);
+router.patch('/restore',courseController.restore);
+router.delete('/destroy',courseController.destroy);
 
 router.get('/:slug',courseController.detail);
 

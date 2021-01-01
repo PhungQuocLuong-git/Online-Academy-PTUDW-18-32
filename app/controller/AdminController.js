@@ -1,6 +1,7 @@
 const categorySchema = require('../models/Category');
 const subcategorySchema = require('../models/Subcategory');
 const Teacher = require('../models/Teacher');
+const Course = require('../models/Course');
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 
 
@@ -56,8 +57,35 @@ class AdminController {
         
     };
 
+    courses(req,res) {
+        Course.find({status:0})
+            .then(courses => {
+                res.render('admin/courses',{
+                    layout:'admin',
+                    courses:multipleMongooseToObject(courses),
+                    delete:0
+                });
+            })
+        
+    };
+
+    trash(req,res) {
+        Course.find({status:-1})
+            .then(courses => {
+                console.log(courses)
+                res.render('admin/courses',{
+                    layout:'admin',
+                    courses:multipleMongooseToObject(courses),
+                    delete:1
+                });
+            })
+        
+    };
+
     addcategory(req, res) {
-        res.render('admin/addcategory');
+        res.render('admin/addcategory',{
+            layout:'admin'
+        });
     };
     async addsubcategory(req, res) {
         const id = req.params.id;
@@ -66,6 +94,7 @@ class AdminController {
         res.render('admin/addsub', {
             id: id,
             catname:catname[0].CatName,
+            layout:'admin'
         });
     };
     async categories(req, res) {
@@ -83,6 +112,7 @@ class AdminController {
         res.render('admin/categories', {
             empty: list.length === 0,
             categories: list,
+            layout:'admin'
         });
 
     };
@@ -133,7 +163,8 @@ class AdminController {
 
 
         res.render('admin/editcategory', {
-            list: list[0]
+            list: list[0],
+            layout: 'admin'
         });
     };
     async editsubcategory(req, res) {
@@ -145,7 +176,8 @@ class AdminController {
 
 
         res.render('admin/editsubcategory', {
-            list: list[0]
+            list: list[0],
+            layout:'admin'
         });
     };
     async del(req, res) {
