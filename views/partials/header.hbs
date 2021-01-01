@@ -84,15 +84,17 @@
           {{/if}}
 
 
-          <li class="nav-item active">
+          <li class="nav-item active d-flex align-items-center">
             <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Teach on OA <span
                 class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-around" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               {{user.name}}
-              <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
+              <div class="user-avatar-div">
+              <img src="{{user.avatar}}" class="user-avatar align-items-center">
+              </div>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 

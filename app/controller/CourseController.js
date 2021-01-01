@@ -3,6 +3,7 @@ const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
 const Category = require('../models/Category');
 const Subategory = require('../models/Subcategory');
+const Rate=require('../models/Rate');
 
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 const { collection } = require('../models/Course');
@@ -73,14 +74,15 @@ module.exports = {
 
     async detail(req, res, next) {
         try {
-        var course = await (await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author'));
+        var course = await (await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author rates'));
             //console.log(course.curriculum);
             var isBooked = course.course_students.some(student=>student.user_id.equals(req.session.user._id));
             res.render('courses/detail', {
                 course: mongooseToObject(course),
                 extraStyle: '/public/stylesheets/home.css',
                 script: '/public/javascripts/home.js',
-                isBooked
+                isBooked,
+                isTeacher: req.session.role===2
             });
             course.view++;
             await Course.updateOne({ slug: course.slug }, course);
@@ -333,25 +335,42 @@ module.exports = {
         }
         else res.json(false);
     },
-    //[POST]/courses/add/:id
-    // async add(req, res, next) {
-    //     var user = await Student.findById(req.session.user._id).populate('cart_courses');
-    //     let added, booked;
-    //     added = user.cart_courses.some(course => course.course_id.equals(req.params.id));
-    //     booked = user.booked_courses.some(course => course.course_id.equals(req.params.id));
-    //     if (booked)
-    //         res.json('Ban da mua khoa hoc nay');
 
-    //     if (added)
-    //         res.json({ msg: 'Bn da them khoa hc nay r' });
+    async storeRate(req,res) {
+        var course = await Course.findOne({slug:req.params.slug});
+        var rate = await Rate.findOne({course_id:course._id,student_id:req.session.user._id});
+        // console.log(course);
+        // console.log(rate);
+        // console.log(req.body);
+        if(rate===null) {
+            rate = new Rate({course_id:course._id,
+                student_id:req.session.user._id,
+                student_name:req.session.user.name,
+                student_avatar:req.session.user.avatar,
+                rate_value:req.body.rate_value,
+                comment: req.body.comment
+            });
+            rate.save();
+            course.rates.push({_id:rate.id});
+            if(course.rating==='0') {
+                course.rating=rate.rate_value;
+                console.log(course.rating);
+            }
+            else {
+                course.rating=((+course.rating)*(course.rates.length-1)+(+rate.rate_value))/course.rates.length;
+            }
+        }
+        else {
+            let prevRate_value=rate.rate_value;
+            rate.rate_value=req.body.rate_value;
+            rate.comment=req.body.comment;
+            course.rating=+course.rating-(rate.rate_value-prevRate_value)/course.rates.length;
+            await Rate.updateOne({course_id:course._id,student_id:req.session.user._id},rate);
+        }
+        await Course.updateOne({slug:req.params.slug},course);
 
-    //     if(!booked && !added){
-    //         user.cart_courses.push({ course_id: req.params.id });
-    //         await Student.updateOne({ _id: req.session.user._id }, user);
-    //         req.session.user = user;
-    //         res.redirect('/user/watch-list');
-    //     }
-    // },
+        res.redirect(req.get('Referrer'));
+    },
 
     delcart(req, res, next) {
         res.json({ msg: req.params.id });

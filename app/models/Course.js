@@ -17,7 +17,7 @@ const CourseSchema = new Schema({
   },
   course_students: [{ user_id: { type: Schema.Types.ObjectId, ref: "Student" } }],
   studentQty: { type: Number, default: 0 },
-  rating: { type: Number, default: 0 },
+  rating: { type: String, default: '0'},
   price: { type: Number, default: 0 },
   discount_price: { type: Number, default: 0 },
   view: { type: Number, default: 0 },
@@ -28,6 +28,9 @@ const CourseSchema = new Schema({
   subcatid: { type: String, require: true },
   curriculum: [
     { type: Schema.Types.ObjectId, ref: 'Curriculum' }
+  ],
+  rates: [
+    {type:Schema.Types.ObjectId,ref:'Rate'}
   ],
   // category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   slug: { type: String, slug: 'name', unique: true },
