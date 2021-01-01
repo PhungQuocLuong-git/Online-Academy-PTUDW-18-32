@@ -357,14 +357,15 @@ module.exports = {
                 console.log(course.rating);
             }
             else {
-                course.rating=((+course.rating)*(course.rates.length-1)+(+rate.rate_value))/course.rates.length;
+                course.rating=(((+course.rating)*(course.rates.length-1)+(+rate.rate_value))/course.rates.length).toFixed(2);
             }
         }
         else {
-            let prevRate_value=rate.rate_value;
+            let prevRate_value=+rate.rate_value;
             rate.rate_value=req.body.rate_value;
             rate.comment=req.body.comment;
-            course.rating=+course.rating-(rate.rate_value-prevRate_value)/course.rates.length;
+            course.rating=(+course.rating-(prevRate_value-(+rate.rate_value))/course.rates.length).toFixed(2);
+            console.log(course.rating);
             await Rate.updateOne({course_id:course._id,student_id:req.session.user._id},rate);
         }
         await Course.updateOne({slug:req.params.slug},course);
