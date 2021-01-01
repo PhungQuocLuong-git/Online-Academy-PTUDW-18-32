@@ -655,19 +655,15 @@
 
   $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    let wishIcon = $('.wish-icon');
-    if (isWished())
-      wishIcon.addClass('fas');
-    else
-      wishIcon.addClass('far');
-    /*isWished().then(wished => {
+    
+    isWished().then(wished => {
       let wishIcon = $('.wish-icon');
       console.log(wished);
       if (wished)
         wishIcon.addClass('fas');
       else
         wishIcon.addClass('far');
-    });*/
+    });
   });
   {{/ifequal}}
 
