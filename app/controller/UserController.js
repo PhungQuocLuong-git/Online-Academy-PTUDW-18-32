@@ -61,6 +61,7 @@ module.exports = {
         const id = req.params.id;
         const student = await Student.find({ "_id": req.session.user._id, "wish_courses.course_id": id });
         const len=student.length;
+        console.log(len);
         // console.log("saaaaaaaaaaaaaaaa"+student);
         if(len>0)
         {

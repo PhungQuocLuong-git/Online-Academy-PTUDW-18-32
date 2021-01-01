@@ -108,7 +108,7 @@
         $("i."+id).addClass('fa');
       }
       
-      $.get(`/user/removefromwishlist/${id}`);
+      $.post(`/user/removefromwishlist/${id}`);
 
     });
   });

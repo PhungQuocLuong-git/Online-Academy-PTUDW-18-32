@@ -9,7 +9,7 @@ router.get('/edit-account', UserController.account);
 router.get('/watch-list', UserController.watchlist);
 router.get('/registered-courses', UserController.registeredcourses);
 
-router.get('/removefromwishlist/:id',UserController.removefromwishlist);
+router.post('/removefromwishlist/:id',UserController.removefromwishlist);
 
 
 module.exports = router;
