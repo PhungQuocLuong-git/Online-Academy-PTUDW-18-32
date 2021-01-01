@@ -107,8 +107,9 @@ class StudentController {
         });
     }
     // [POST] /student/check
-    check(req, res, next) {
-        Student.findOne({ username: req.body.username }).populate({
+    check(req,res,next) {
+        // res.json(req.body.password);
+        Student.findOne({username: req.body.username}).populate({
             path: "cart_courses.course_id",
             select: "name slug price description course_author",
             populate: { path: "course_author", select: "name" },

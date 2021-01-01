@@ -1,7 +1,6 @@
 <nav class=" navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container ">
-    <a class="navbar-brand" href="/">Online Academy
-    </a>
+    <a class="navbar-brand" href="/">Online Academy {{role}} 
           
       <div class="collapse navbar-collapse" id="main_nav">
         <ul class="navbar-nav">
@@ -108,10 +107,6 @@
           </li>
           {{else}}
           {{#ifequal role 2}}
-          <li class="nav-item active">
-            <a class="nav-link btn-swap" href="#" data-id="{{user._id}}">Learn on OA <span
-                class="sr-only">(current)</span></a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
@@ -130,12 +125,32 @@
             </div>
           </li>
           {{else}}
+          {{#ifequal role 3}}
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              ADMIN
+              <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
+
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/courses/create">ABC</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
+              <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item btn--logout" href="/teacher/logout">Đăng xuất</a>
+
+            </div>
+          </li>
+          {{else}}
           <li class="nav-item active">
             <a class="nav-link" href="/student/create">Đăng ký</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="/student/login">Đăng nhập</a>
           </li>
+          {{/ifequal}}
           {{/ifequal}}
           {{/ifequal}}
       </ul>
