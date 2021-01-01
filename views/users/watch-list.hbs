@@ -1,135 +1,124 @@
 {{>menu-edit}}
+<style>
+  .btn_wishlist{
+    border: none;
+    background-color: white;
+  }
+</style>
 <div class="container mt-5">
-    <div class="row justify-content-center">
-      
-      <div class="col-sm-9 p-0">
-        <div class="container-fluid">
-          <div class="row justify-content-around p-0 b-5">
-            <div class="col-4 p-3">
-              <div class="card h-100">
-                <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
-                <div class="card-body d-flex flex-column">
-                  <p class="card-text text-primary font-weight-bold">Web Development</p>
-                  <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
-                  <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
-                  <div class="_43">
-                    <span class="number-rating"></span>
-                    <div class="stars-outer">
-                      <div class="stars-inner"></div>
-                    </div>
-                    <span class="number-rates">(4.323.342)</span>
-                  </div>
-                  <div class="d-flex">
-                    <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
-                    <h5 class="card-text font-weight-bold align ml-3"> $199.99 </h5>
-                  </div>
-                  <div class="d-flex justify-content-between">
-                    <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-                    <a href="#" class="" title="Remove from Watch ist">
-                      <i class="fa fa-heart " style="color: crimson; width: 30px; height: 30px;" aria-hidden="true"></i>
-                    </a>
-                  </div>
+  <div class="row justify-content-center">
+
+    <div class="col-sm-9 p-0">
+      <div class="container-fluid">
+        <div class="row justify-content-around p-0 b-5">
+          {{#each list}}
+          <div class="col-4 p-3">
+            <div class="card h-100">
+              <img class="card-img-top" src="{{course_id.thumbnail}}" alt="Card image cap">
+              <div class="card-body d-flex flex-column">
+                <p class="card-text text-primary font-weight-bold">{{course_id.name}}</p>
+                <h6 class="card-title font-weight-bold">{{course_id.short_description}} </h6>
+                <p class="card-subtitle text-secondary teacher-text">{{course_id.course_author.name}}</p>
+                <div class="card-text d-flex">
+                  <div class="rate" data-rate-value={{course_id.rating}}></div>
+                  <span class="number-students">(4.543.342)</span>
                 </div>
-              </div>
-            </div>
-            <div class="col-4 p-3">
-              <div class="card h-100">
-                <img class="card-img-top" src="/public/images/courses/2.png" alt="Card image cap">
-                <div class="card-body d-flex flex-column">
-                  <p class="card-text text-primary font-weight-bold">Web Development</p>
-                  <h6 class="card-title font-weight-bold">Learn Angular Fundamentals </h5>
-                    <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
-                    <div class="_44">
-                      <span class="number-rating"></span>
-                      <div class="stars-outer">
-                        <div class="stars-inner"></div>
-                      </div>
-                      <span class="number-rates">(4.543.342)</span>
-                    </div>
-                    <h5 class="card-text font-weight-bold"> $99.99 </h5>
-                    <div class="d-flex justify-content-between">
-                      <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-                      <a href="#" class="" title="Remove from Watch ist">
-                        <i class="fa fa-heart " style="color: crimson; width: 30px; height: 30px;" aria-hidden="true"></i>
-                      </a>
-                    </div>
+                <div class="d-flex">
+                  <h5 class="card-text font-weight-bold delete-price"> {{course_id.price}} </h5>
+                  <h5 class="card-text font-weight-bold align ml-3"> $199.99 </h5>
                 </div>
-              </div>
-            </div>
-            <div class="col-4 p-3">
-              <div class="card h-100">
-                <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-                <div class="card-body d-flex flex-column">
-                  <p class="card-text text-primary font-weight-bold">JavaScript</p>
-                  <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-                    <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-                    <div class="_46">
-                      <span class="number-rating"></span>
-                      <div class="stars-outer">
-                        <div class="stars-inner"></div>
-                      </div>
-                      <span class="number-rates">(4.113.023)</span>
-                    </div>
-                    <h5 class="card-text font-weight-bold"> $111.99 </h5>
-                    <div class="d-flex justify-content-between">
-                      <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-                      <a href="#" class="" title="Remove from Watch ist">
-                        <i class="fa fa-heart " style="color: crimson; width: 30px; height: 30px;" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-4 p-3">
-              <div class="card h-100">
-                <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-                <div class="card-body d-flex flex-column">
-                  <p class="card-text text-primary font-weight-bold">JavaScript</p>
-                  <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-                    <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-                    <div class="_46">
-                      <span class="number-rating"></span>
-                      <div class="stars-outer">
-                        <div class="stars-inner"></div>
-                      </div>
-                      <span class="number-rates">(4.113.023)</span>
-                    </div>
-                    <h5 class="card-text font-weight-bold"> $111.99 </h5>
-                    <div class="d-flex justify-content-between">
-                      <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-                      <a href="#" class="" title="Remove from Watch ist">
-                        <i class="fa fa-heart " style="color: crimson; width: 30px; height: 30px;" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-4 p-3">
-              <div class="card h-100">
-                <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-                <div class="card-body d-flex flex-column">
-                  <p class="card-text text-primary font-weight-bold">JavaScript</p>
-                  <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-                    <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-                    <div class="_46">
-                      <span class="number-rating"></span>
-                      <div class="stars-outer">
-                        <div class="stars-inner"></div>
-                      </div>
-                      <span class="number-rates">(4.113.023)</span>
-                    </div>
-                    <h5 class="card-text font-weight-bold"> $111.99 </h5>
-                    <div class="d-flex justify-content-between">
-                      <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-                      <a href="#" class="" title="Remove from Watch ist">
-                        <i class="fa fa-heart " style="color: crimson; width: 30px; height: 30px;" aria-hidden="true"></i>
-                      </a>
-                    </div>
+                <div class="d-flex justify-content-between">
+                  <a href="/courses/{{course_id.slug}}" class="btn btn-primary align-self-start mt-auto">Go to
+                    course</a>
+                  
+                  <button value="1" id="{{course_id._id}}" class="btn_wishlist">
+                    <span title="Remove from Watch List"></span>
+                    <i class=" fa-heart fa-lg wish-icon fa {{course_id._id}}" style="color: crimson;" aria-hidden="true"
+                      id="{{course_id._id}}"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
+          {{/each}}
+
+
+
+
+
         </div>
       </div>
     </div>
   </div>
+</div>
+{{#section 'js'}}
+<script>
+  $(document).ready(function () {
+    var options = {
+      max_value: 5,
+      initial_value: 4,
+      readonly: true
+    }
+    $(".rate").rate(options);
+  });
+
+
+
+
+  /*$(".wish-icon").on("click", function () {
+    var id = this.id + '';
+    console.log(id);
+    let wishIcon = $(id);
+    console.log(wishIcon);
+    wishIcon.addClass('fas');
+  });*/
+
+  /*$(document).ready(function () {
+    $("i").click(function () {
+      let id = "#" + this.id;
+      $(id).addClass('fa');
+    });
+  });*/
+
+  /*$(document).ready(function () {
+    $(".btn_wishlist").click(function () {
+      let id = this.id;
+      let val=this.value;
+      alert(id+"       "+val);
+      $.post(`/user/removefromwishlist/${id}`);
+
+    });
+  });*/
+
+  $(document).ready(function () {
+    $(".btn_wishlist").click(function () {
+      let id = this.id;
+      let val=this.value;
+      //alert(id+"       "+val);
+      if(val==="1")
+      {
+        this.value="0";
+        $("i."+id).removeClass('fa');
+        $("i."+id).addClass('far');
+      }
+      else
+      {
+        this.value="1";
+        $("i."+id).removeClass('far');
+        $("i."+id).addClass('fa');
+      }
+      
+      $.get(`/user/removefromwishlist/${id}`);
+
+    });
+  });
+
+  
+
+
+
+
+
+
+</script>
+{{/section}}
