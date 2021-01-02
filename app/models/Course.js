@@ -60,6 +60,15 @@ CourseSchema.query.sortable = function (req) {
   return this;
 }
 
+CourseSchema.remove('delete',function(next) {
+  console.log('mdw ran');
+  this.model('Student').update(
+      { },
+      { "$pull": { "booked_courses": this._id } },
+      { "multi": true },
+      next()
+  );
+})
 
 
 

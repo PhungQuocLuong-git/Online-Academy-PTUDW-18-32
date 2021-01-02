@@ -4,10 +4,10 @@
     </div>
     <div class="menu-edit-link">
 
+            <a {{#ifequal url '/registered-courses'}}class="tag-menu-active" {{else}}{{/ifequal}} href="/user/registered-courses">Courses</a>
+            <a {{#ifequal url '/watch-list'}}class="tag-menu-active"{{else}}{{/ifequal}} href="/user/watch-list">Watchlist</a>
             <a {{#ifequal url '/edit-profile'}}class="tag-menu-active"{{else}}{{/ifequal}} href="/user/edit-profile">Profile</a>
             <a {{#ifequal url '/edit-account'}}class="tag-menu-active"{{else}}{{/ifequal}} href="/user/edit-account">Account</a>
-            <a {{#ifequal url '/watch-list'}}class="tag-menu-active"{{else}}{{/ifequal}} href="/user/watch-list">Watchlist</a>
-            <a {{#ifequal url '/registered-courses'}}class="tag-menu-active" {{else}}{{/ifequal}} href="/user/registered-courses">Courses</a>
 
     </div>
 </div>
