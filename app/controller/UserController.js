@@ -64,7 +64,7 @@ module.exports = {
         
         // console.log("saaaaaaaaaaaaaaaa"+student);
         if (len > 0) {
-            await Student.updateOne(
+            Student.updateOne(
                 { _id: req.session.user._id },
                 { $pull: { wish_courses: { course_id: id } } },
                 (err, data) => {
@@ -79,7 +79,7 @@ module.exports = {
                 });
         }
         else {
-            await Student.updateOne(
+            Student.updateOne(
                 { _id: req.session.user._id },
                 { $push: { wish_courses: { course_id: id } } },
                 (err, data) => {

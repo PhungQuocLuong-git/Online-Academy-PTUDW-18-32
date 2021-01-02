@@ -234,44 +234,53 @@ module.exports = {
 
     async destroy(req, res, next) {
 
-        //let course = await Course.remove({_id:req.body.courseID});
+
         console.log(req.body.courseID);
-        let ok = await Student.updateMany(
-            { "wish_courses.course_id": req.body.courseID },
-            { $pull: { wish_courses: { course_id: req.body.courseID },booked_courses:{} } },
-            (err, data) => {
-                if (err) {
-
-                    res.status(200).send('false');
-                }
-                else {
-
-                    res.status(200).send('true');
-                }
-            });
-        let ok1 = await Student.updateMany(
+        await Student.updateMany(
             { "wish_courses.course_id": req.body.courseID },
             { $pull: { wish_courses: { course_id: req.body.courseID } } },
             (err, data) => {
                 if (err) {
 
-                    res.status(200).send('false');
+                    // res.status(200).send('false');
                 }
                 else {
 
-                    res.status(200).send('true');
+                    // res.status(200).send('true');
                 }
             });
-        let ok2 = await Student.updateMany(
-            { "wish_courses.course_id": req.body.courseID },
-            { $pull: { wish_courses: { course_id: req.body.courseID } } },
+        await Student.updateMany(
+            { "cart_courses.course_id": req.body.courseID },
+            { $pull: { cart_courses: { course_id: req.body.courseID } } },
             (err, data) => {
                 if (err) {
 
-                    res.status(200).send('false');
+                    // res.status(200).send('false');
                 }
                 else {
 
+                    // res.status(200).send('true');
+                }
+            });
+        await Student.updateMany(
+            { "booked_courses.course_id": req.body.courseID },
+            { $pull: { booked_courses: { course_id: req.body.courseID } } },
+            (err, data) => {
+                if (err) {
+
+                    // res.status(200).send('false');
+                }
+                else {
+
+                    // res.status(200).send('true');
+                }
+            });
+        await Course.remove({ _id: req.body.courseID },
+            (err, data) => {
+                if (err) {
+                    res.status(200).send('false');
+                }
+                else {
                     res.status(200).send('true');
                 }
             });

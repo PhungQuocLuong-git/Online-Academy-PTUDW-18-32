@@ -16,6 +16,8 @@ Chưa back đc trang trc( mún đc phải data-slug vào), order ở DB
 ##chưa thử router sai, chưa thử logout cho tài khoản chưa login,và các đường dẫn không hợp lệ vớI từng role
 chưa xử lý đăng nhập theo từng role
 chưa thêm đăng nhập cho admin
+chưa xử lý xoá sub cate khi cate chính bị xoá
+chua them truong discout, xu ly discout cho teacher va admin
 
 #Mail
 nhom15webhcmus@gmail.com
