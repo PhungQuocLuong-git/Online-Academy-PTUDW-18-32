@@ -238,6 +238,32 @@ module.exports = {
         console.log(req.body.courseID);
         let ok = await Student.updateMany(
             { "wish_courses.course_id": req.body.courseID },
+            { $pull: { wish_courses: { course_id: req.body.courseID },booked_courses:{} } },
+            (err, data) => {
+                if (err) {
+
+                    res.status(200).send('false');
+                }
+                else {
+
+                    res.status(200).send('true');
+                }
+            });
+        let ok1 = await Student.updateMany(
+            { "wish_courses.course_id": req.body.courseID },
+            { $pull: { wish_courses: { course_id: req.body.courseID } } },
+            (err, data) => {
+                if (err) {
+
+                    res.status(200).send('false');
+                }
+                else {
+
+                    res.status(200).send('true');
+                }
+            });
+        let ok2 = await Student.updateMany(
+            { "wish_courses.course_id": req.body.courseID },
             { $pull: { wish_courses: { course_id: req.body.courseID } } },
             (err, data) => {
                 if (err) {

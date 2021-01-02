@@ -113,7 +113,7 @@ class AdminController {
             empty: list.length === 0,
             categories: list,
             layout:'admin',
-            extraStyle:'/public/stylesheets/home.css',
+            
 
         });
 
