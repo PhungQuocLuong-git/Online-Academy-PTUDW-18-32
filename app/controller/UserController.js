@@ -60,44 +60,39 @@ module.exports = {
     async removefromwishlist(req, res) {
         const id = req.params.id;
         const student = await Student.find({ "_id": req.session.user._id, "wish_courses.course_id": id });
-        const len=student.length;
-        console.log(len);
+        const len = student.length;
+        
         // console.log("saaaaaaaaaaaaaaaa"+student);
-        if(len>0)
-        {
-            Student.updateOne(
+        if (len > 0) {
+            await Student.updateOne(
                 { _id: req.session.user._id },
                 { $pull: { wish_courses: { course_id: id } } },
                 (err, data) => {
-                    /* if (err) {
-                        
+                    if (err) {
+
                         console.log(err);
                     }
                     else {
 
-                        console.log(data);
-                    } */
+                        res.send("dddddddddd");
+                    }
                 });
         }
-        else{
-            Student.updateOne(
+        else {
+            await Student.updateOne(
                 { _id: req.session.user._id },
                 { $push: { wish_courses: { course_id: id } } },
                 (err, data) => {
-                    /* if (err) {
-                        
-                        console.log("bbbbbbbbbbbbbbbbbaaaaaaaaaaaaaa");
+                    if (err) {
                         console.log(err);
                     }
                     else {
-                        console.log("bbbbbbbbbbbbbbbbb");
-                        console.log(data);
-                    } */
+                        res.send("rrrrrrrrrr");
+                    }
                 });
         }
-        
-        // console.log("bbbbbbbbbbbbbbbbbbbbb"+student);
-        
+        console.log(len);
+
 
     }
 
