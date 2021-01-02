@@ -16,7 +16,6 @@ class TeacherController{
 
     // [POST] /Teacher/store
     store(req,res,next) {
-
         Promise.all([Teacher.findOne({username: req.body.username}),bcrypt.hash(req.body.password, saltRounds)])
             .then(([user,hash]) => {
                 if(user) res.json({err:'Existed username'})
@@ -39,7 +38,7 @@ class TeacherController{
             var status = -1;
         
 
-        let teacher = await Teacher.findByIdAndUpdate(req.body.idTeacher,{$set: { stt: 0 }});
+        let teacher = await Teacher.findByIdAndUpdate(req.body.idTeacher,{$set: { stt: status }});
         if(teacher){
             res.send('true');
         }

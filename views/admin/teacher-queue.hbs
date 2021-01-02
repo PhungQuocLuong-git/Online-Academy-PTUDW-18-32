@@ -29,15 +29,6 @@
 {{#section 'js'}}
     <script>
 
-        function showSuccessToast() {
-    toast({
-      title: "Thành công!",
-      message: "Bạn đã đăng ký thành công tài khoản tại F8.",
-      type: "success",
-      duration: 5000
-    });
-  }
-
   function showErrorToast() {
     toast({
       title: "Thất bại!",
@@ -49,7 +40,9 @@
         $('.btn-censor').on('click',function(e){
             const idTeacher = e.target.getAttribute("data-id");
             const type = e.target.getAttribute("data-censor");
-            var parentRow = e.target.parentNode.parentNode.parentNode.parentNode;
+            var btn = $(e.target);
+            var parentRow = btn.parent().parent().parent().parent();
+            console.log(parentRow);
             if (type==='ok'){
                 var typeToast = 'success';
                 var msg = 'Bn đã duyệt thành công';
@@ -67,8 +60,7 @@
                             showErrorToast();
                         }
                         else{
-                            parentRow.style.animation = "fadeOut linear 1s .1s forwards"
-                            setTimeout(function(){ parentRow.style.display= "none"; }, 1000);
+                            parentRow.fadeOut(500,'linear')
                             toast({
                                 title: "Thành công!",
                                 message: msg,

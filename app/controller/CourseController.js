@@ -217,6 +217,36 @@ module.exports = {
         });
     },
 
+    delete(req,res,next) {
+        
+        Course.findByIdAndUpdate(req.body.courseID,{status:-1})
+            .then(() => res.status(200).send('true'))
+            .catch(() => res.status(200).send('false'))
+    },
+
+    restore(req,res,next) {
+        
+        Course.findByIdAndUpdate(req.body.courseID,{status:0})
+        .then(() => res.status(200).send('true'))
+        .catch(() => res.status(200).send('false'))
+    },
+    
+
+    async destroy(req,res,next) {
+        // console.log(req.body.courseID);
+
+        // let course = await Course.remove({_id:req.body.courseID});
+        // if(course){
+
+        //     res.status(200).send('true');
+        // }
+        // else
+        //     res.status(200).send('false');
+        // Course.findByIdAndDelete(req.body.courseID)
+        res.status(200).send('true');
+    },
+    
+
     //[POST]/courses/add/:id
     add(req, res, next) {
         Student.findById(req.session.user._id).populate("cart_courses.course_id")
