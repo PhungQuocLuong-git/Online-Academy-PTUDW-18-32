@@ -2,6 +2,8 @@
 Các route phải đăng nhập ms xem đc( do có findbyID):detail
 Chưa alert lỗi mà ms chỉ dạng res.json
 Chưa thêm mdw vào các route
+Chưa xử lý chỗ guest xem detail
+Chưa xứ lý không đăng review video khoá học
 #Auth:
 Khi k có tk nào trong DB thì login bị crash
 #tạo khóa hc:
@@ -10,6 +12,10 @@ Numeral price, trạng thái khóa hc
 Chưa back đc trang trc( mún đc phải data-slug vào), order ở DB
 *Chua update da~ push vs delcart vs -money
 #Update profile
+
+##chưa thử router sai, chưa thử logout cho tài khoản chưa login,và các đường dẫn không hợp lệ vớI từng role
+chưa xử lý đăng nhập theo từng role
+chưa thêm đăng nhập cho admin
 
 #Mail
 nhom15webhcmus@gmail.com
