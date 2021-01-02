@@ -2516,12 +2516,6 @@
     -webkit-transition: height 0.35s ease;
     -o-transition: height 0.35s ease;
     transition: height 0.35s ease; }
-    @media (prefers-reduced-motion: reduce) {
-      .collapsing {
-        -webkit-transition: none;
-        -o-transition: none;
-        transition: none; } }
-  
   .dropup,
   .dropright,
   .dropdown,

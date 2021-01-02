@@ -36,7 +36,7 @@ class AdminController {
             console.log('not ok')
         }
         console.log(req.app.locals.role)
-        res.redirect('/');
+        res.redirect('/admin');
         
     };
 
@@ -54,7 +54,6 @@ class AdminController {
                     teachers: multipleMongooseToObject(teachers)
                 });
             })
-        
     };
 
     courses(req,res) {
