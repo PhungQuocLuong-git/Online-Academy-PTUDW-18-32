@@ -394,6 +394,7 @@ module.exports = {
             let prevRate_value=+rate.rate_value;
             rate.rate_value=req.body.rate_value;
             rate.comment=req.body.comment;
+            rate.student_avatar=req.session.user.avatar;
             course.rating=(+course.rating-(prevRate_value-(+rate.rate_value))/course.rates.length).toFixed(2);
             console.log(course.rating);
             await Rate.updateOne({course_id:course._id,student_id:req.session.user._id},rate);

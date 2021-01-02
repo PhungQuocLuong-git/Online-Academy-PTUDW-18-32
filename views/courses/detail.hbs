@@ -475,7 +475,7 @@
           <h5>No one has rated this course</h5>
       {{/if}}
       <h3>Submit reviews</h3>
-      <form action="/courses/rate/{{course.slug}}" method="POST" id="feedback_submit">
+      <form action="/courses/rate/{{course.slug}}" method="POST" id="feedback_form">
       <div class="my-4">
           
         <div class="d-flex">
@@ -486,13 +486,14 @@
               {{user.name}}
               <p>Student</p>
             </div>
-            <div class="col"> Pick your star rated for this course:</div>
-            <div class='rateToSubmit'></div>
-            <input type="hidden" id="rate_value" name="rate_value" value='0'>
+            <div class="col rate-message text-danger"></div>
+            <div class='rateToSubmit' id="rate"></div>
+              <input type="hidden" id="rate_value" name="rate_value" value='0'>
           </div>
           <div class="offset-1 col-11 mt-2 form-group">
             <label for="comment">Comment</label>
             <textarea class="form-control" id="comment" name="comment"></textarea>
+            <span class="cmt-message text-danger"></span>
           </div>
           <div class="offset-10">
           <button class="btn btn-primary" type="submit" id="btn-submit">Update feedback</button>
@@ -740,12 +741,24 @@
         addForm.submit();
       })
 
-      var feedbackForm= document.forms['feedback_submit'];
+      var feedbackForm= document.forms['feedback_form'];
       var btnSubmit = $('#btn-submit');
-      btnSubmit.on('click', function () {
+      btnSubmit.on('click', function (e) {
         let rate_val=$('.rateToSubmit').rate("getValue");
         $('input[name=rate_value]').val(rate_val);
+        let cmt=$('#comment').val();
+        if(cmt==="") {
+          $('.cmt-message').html('Please fill out your comment');
+          e.preventDefault();
+        }
+        if(rate_val===0) {
+            $('.rate-message').html('Please pick your star rated for this course:');
+            e.preventDefault();
+        }
+        if(cmt!=="" && rate_val!==0) {
+        $('input[name=rate_value]').val(rate_val);
         feedbackForm.submit();
+        }
       })
 
       var wishForm = document.forms['wish-course'];
