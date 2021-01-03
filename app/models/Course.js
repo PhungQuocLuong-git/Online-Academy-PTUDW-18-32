@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const slug = require('mongoose-slug-generator');
+var mongoosePaginate = require('mongoose-paginate');
 
 
 
@@ -70,7 +71,7 @@ CourseSchema.remove('delete',function(next) {
   );
 })
 
-
+CourseSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Course', CourseSchema);
 
