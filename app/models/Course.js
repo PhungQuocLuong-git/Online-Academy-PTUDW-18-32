@@ -46,10 +46,12 @@ CourseSchema.index({
   description: 'text',
 }, {
   weights: {
-    name: 10,
+    name: 100,
     description: 1,
   },
 });
+
+CourseSchema.index({name:1})
 
 CourseSchema.query.sortable = function (req) {
   if (req.query.hasOwnProperty('field')) {
