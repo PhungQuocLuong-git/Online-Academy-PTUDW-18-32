@@ -11,9 +11,9 @@ const admin = require('./admin');
 // const studentRouter = require('./student');
 // const AuthMiddleware = require('../app/middlewares/authMiddleware');
 // const StudentMiddleware = require('../app/middlewares/studentMiddleware');
-const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
-const adminMiddleware = require('../app/middlewares/adminMiddleware');
-const { request } = require('../app');
+// const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
+// const adminMiddleware = require('../app/middlewares/adminMiddleware');
+// const { request } = require('../app');
 const loadCategories =require('../app/middlewares/categories.mdw');
 
 

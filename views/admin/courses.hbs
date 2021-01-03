@@ -90,6 +90,8 @@
             typeAjax = 'delete';
             msg='Bạn đã xóa hoàn toàn khóa học này !! ';
             $('.btn-restore').on('click',function(e) {
+                console.log(e.target);
+                
                 console.log($(e.target).data('id'));
                 const parentNode = $(e.target).parent().parent().parent();
                 const courseID = $(e.target).data('id');

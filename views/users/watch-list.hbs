@@ -108,7 +108,11 @@
         $("i."+id).addClass('fa');
       }
       
-      $.get(`/user/removefromwishlist/${id}`);
+      $.post(`/user/removefromwishlist/${id}`,function(data, status){
+        console.log(data);
+        console.log(status);
+        
+      });
 
     });
   });
