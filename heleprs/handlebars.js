@@ -1,7 +1,5 @@
 const hbs_sections = require('express-handlebars-sections');
 const numeral = require('numeral');
-const { mongooseToObject } = require('../util/mongoose');
-const Course = require('../app/models/Course');
 
 
 // const mongooseToObject = require('../util/mongoose')

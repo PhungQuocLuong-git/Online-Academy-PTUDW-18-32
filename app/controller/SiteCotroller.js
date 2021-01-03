@@ -1,6 +1,5 @@
 const { multipleMongooseToObject } = require('../../util/mongoose');
 const { getMostviewed } = require('./CourseController');
-const courseController = require('./CourseController');
 
 module.exports = {
   async home(req, res, next) {

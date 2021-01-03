@@ -16,6 +16,7 @@ router.get('/list/:slug',courseController.listlevel1);
 
 // router.get('/detail',courseController.detail);
 router.post('/store',courseController.store);
+router.post('/rate/:slug',courseController.storeRate);
 // router.post('/fts',courseController.fts);
 router.post('/book/:id',courseController.book);
 router.post('/wish/:id',courseController.wish);
