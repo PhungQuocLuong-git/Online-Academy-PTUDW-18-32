@@ -1,6 +1,11 @@
 const hbs_sections = require('express-handlebars-sections');
 const numeral = require('numeral');
-
+// const { mongooseToObject } = require('../util/mongoose');
+const Course = require('../app/models/Course');
+var Handlebars=require('handlebars');
+var paginate = require('handlebars-paginate');
+ 
+Handlebars.registerHelper('paginate', paginate);
 
 // const mongooseToObject = require('../util/mongoose')
 
@@ -57,5 +62,7 @@ module.exports = {
       default:
           return options.inverse(this);
   }
-  }
+  },
+  paginate: paginate,
+  
 }

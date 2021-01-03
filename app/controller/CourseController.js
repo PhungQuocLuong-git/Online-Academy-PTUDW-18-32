@@ -7,6 +7,7 @@ const Rate = require('../models/Rate');
 const Curriculum = require('../models/Curriculum');
 
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
+// const { collection } = require('../models/Course');
 const multer = require('multer');
 
 async function getMostPurchasedRelated(course_subCatid) {
@@ -20,10 +21,20 @@ async function getMostPurchasedRelated(course_subCatid) {
 module.exports = {
     async listlevel1(req, res) {
         var slug = req.params.slug;
+        // var catid = await Category.find({ slug: slug });
         var page = req.query.p;
-        var url = req.url;
         if (typeof page === 'undefined') {
             page = 1;
+        }
+
+
+
+        /* var len = catid.length;
+        if (len === 0) {
+            res.render('courses/list', {
+                script: '/public/javascripts/home.js',
+                isvalid: 1,
+            });
         }
         else {
             page = +page;
@@ -47,43 +58,65 @@ module.exports = {
                 url: url,
 
             });
+        } */
+        var list = [];
+        var isvalid;
+        var name = '';
+        var npage = 0;
+        var limit = 10;
+        if (slug === "all-courses") {
+            isvalid = 0;
+            var pag = await Course.paginate({}, { page: page, limit: limit });
+            list = pag.docs;
+            npage = Math.ceil(pag.total / limit);
+            name = "All";
         }
         else {
             var catid = await Category.find({ slug: slug });
-
-            var len = catid.length;
-            if (len === 0) {
-                res.render('courses/list', {
-                    script: '/public/javascripts/home.js',
-                    isvalid: 1,
-                });
+            if (catid.length === 0) {
+                isvalid = 1;
             }
             else {
                 catid = catid[0];
-                var list = await Course.find({ catid: catid._id }).populate('course_author');
-                res.render('courses/list', {
-                    script: '/public/javascripts/home.js',
-                    isvalid: 0,
-                    list: list,
-                    name: catid.CatName,
-                    empty: list.length,
-                    extraStyle: '/public/stylesheets/home.css',
-                    page: page,
-                    url: url,
-                });
-            }
+                name = catid.CatName;
+                // list = await Course.find({ catid: catid._id }).populate('course_author');
+                var pag = await Course.paginate({ catid: catid._id }, { page: page, limit: limit });
+                list = pag.docs;
+                npage = Math.ceil(pag.total / limit);
 
+            }
         }
+        
+
+        
+
+
+        res.render('courses/list', {
+            script: '/public/javascripts/home.js',
+            isvalid: isvalid,
+            list: list,
+            name: name,
+            empty: list.length,
+            extraStyle: '/public/stylesheets/home.css',
+            pagination: {
+                page: page,
+                pageCount: npage,
+            },
+
+        });
+
 
     },
     async listlevel2(req, res) {
 
         var slug1 = req.params.slug1;
         var slug2 = req.params.slug2;
-        var catid = await Category.find({ slug: slug1 });
-        var subcatid = await Subategory.find({ slug: slug2 });
+        var page = req.query.p;
+        if (typeof page === 'undefined') {
+            page = 1;
+        }
 
-        var len1 = catid.length;
+        /* var len1 = catid.length;
         var len2 = subcatid.length;
         if (len1 === 0 || len2 === 0) {
             res.render('courses/list', {
@@ -103,7 +136,44 @@ module.exports = {
                 extraStyle: '/public/stylesheets/home.css',
 
             });
+        } */
+
+        var list = [];
+        var isvalid;
+        var name = '';
+        var npage = 0;
+        var limit = 10;
+        var catid = await Category.find({ slug: slug1 });
+        var subcatid = await Subategory.find({ slug: slug2 });
+        var len1 = catid.length;
+        var len2 = subcatid.length;
+        if (len1 === 0 || len2 === 0) {
+            isvalid = 1;
         }
+        else {
+            subcatid = subcatid[0];
+            name = subcatid.SubCatName;
+            // list = await Course.find({ subcatid: subcatid._id }).populate('course_author');
+            var pag = await Course.paginate({ subcatid: subcatid._id }, { page: page, limit: limit });
+            list = pag.docs;
+            npage = Math.ceil(pag.total / limit);
+        }
+
+
+
+        res.render('courses/list', {
+            script: '/public/javascripts/home.js',
+            isvalid: isvalid,
+            list: list,
+            name: name,
+            empty: list.length,
+            extraStyle: '/public/stylesheets/home.css',
+            pagination: {
+                page: page,
+                pageCount: npage,
+            },
+
+        });
 
     },
 

@@ -52,7 +52,7 @@ module.exports = {
             script: '/public/javascripts/home.js',
             progress: '10',
             numlesson: '25',
-            percent: +'10' / +'25' * 100,
+        percent: +'10' / +'25' * 100,
             url: url,
             list: student.booked_courses,
         });
