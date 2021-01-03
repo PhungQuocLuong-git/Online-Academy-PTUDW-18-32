@@ -4,11 +4,18 @@ const Teacher = require('../models/Teacher');
 const Category = require('../models/Category');
 const Subategory = require('../models/Subcategory');
 const Rate = require('../models/Rate');
+const Curriculum = require('../models/Curriculum');
 
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
-const { collection } = require('../models/Course');
 const multer = require('multer');
-const Curriculum = require('../models/Curriculum');
+
+async function getMostPurchasedRelated(course_subCatid) {
+    var courses = await Course.find({ subcatid: course_subCatid }).populate('course_author');
+    courses.sort((course1, course2) => { return course2.course_students.length - course1.course_students.length });
+    var mostRelatedPurchased = multipleMongooseToObject(courses.slice(0, 6));
+    return mostRelatedPurchased;
+}
+
 
 module.exports = {
     async listlevel1(req, res) {
@@ -107,22 +114,25 @@ module.exports = {
     },
 
     async detail(req, res, next) {
-        try {
-            var course = await (await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author rates'));
-            //console.log(course.curriculum);
-            var isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
-            res.render('courses/detail', {
-                course: mongooseToObject(course),
-                extraStyle: '/public/stylesheets/home.css',
-                script: '/public/javascripts/home.js',
-                isBooked,
-                isTeacher: req.session.role === 2
-            });
-            course.view++;
-            await Course.updateOne({ slug: course.slug }, course);
-        } catch (err) {
-            res.json({ msg: 'Something happened!!!' });
-        }
+        // try {
+        var course = await (await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author rates'));
+        var isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+        var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
+        var isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+        mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
+        res.render('courses/detail', {
+            course: mongooseToObject(course),
+            script: '/public/javascripts/home.js',
+            isBooked,
+            isTeacher: req.session.role === 2,
+            mostRelatedPurchased,
+            isStudent
+        });
+        course.view++;
+        await Course.updateOne({ slug: course.slug }, course);
+        // } catch (err) {
+        //     res.json({ msg: 'Something happened!!!' });
+        // }
     },
 
     create(req, res) {
@@ -269,7 +279,7 @@ module.exports = {
     async destroy(req, res, next) {
 
 
-        console.log(req.body.courseID);
+        //console.log(req.body.courseID);
         await Student.updateMany(
             { "wish_courses.course_id": req.body.courseID },
             { $pull: { wish_courses: { course_id: req.body.courseID } } },
@@ -473,7 +483,6 @@ module.exports = {
             rate.comment = req.body.comment;
             rate.student_avatar = req.session.user.avatar;
             course.rating = (+course.rating - (prevRate_value - (+rate.rate_value)) / course.rates.length).toFixed(2);
-            console.log(course.rating);
             await Rate.updateOne({ course_id: course._id, student_id: req.session.user._id }, rate);
         }
         await Course.updateOne({ slug: req.params.slug }, course);
@@ -499,6 +508,7 @@ module.exports = {
         //...mongooseToObject(courses[9])
         return editedCourses;
     },
+
     //Most popular courses
     getMostpopular() {
 

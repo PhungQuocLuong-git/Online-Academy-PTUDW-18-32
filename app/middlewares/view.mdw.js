@@ -10,8 +10,6 @@ module.exports = function (app) {
           },
         helpers: require('../../heleprs/handlebars')
     }));
-    app.set('view engine', 'hbs');
-    
-    
+    app.set('view engine', 'hbs'); 
 
 }

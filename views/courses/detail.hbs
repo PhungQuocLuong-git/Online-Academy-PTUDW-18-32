@@ -1,5 +1,6 @@
 {{#section 'css'}}
 <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+<link rel="stylesheet" href="/public/stylesheets/home.css">
 <style>
   /* course-intro */
   .course-detail {
@@ -265,12 +266,20 @@
     align-self: center;
   }
 
-  .rate, .rateToSubmit {
+  .rate,
+  .rateToSubmit {
     font-size: 25px;
     font-family: sans-serif;
     color: #ff8000;
     margin-left: 20px;
     margin-right: 20px;
+  }
+
+  .number-students {
+    color: #8c8b8b;
+    font-weight: 400;
+    align-self: center;
+    margin-left: 5px;
   }
 </style>
 {{/section}}
@@ -321,8 +330,8 @@
       </div>
       <div class="d-flex">
         <span class="number-rating bg-warning text-white px-2 h-75 align-self-center"
-          style="border-radius: 5px;">4.6</span>
-        <div class="rate" data-rate-value=4.6></div>
+          style="border-radius: 5px;">{{#if course.rating}}{{course.rating}}{{else}}0{{/if}}</span>
+        <div class="rate" data-rate-value={{course.rating}}></div>
         <span class="number-rates"><i class="fas fa-users"></i> {{course.course_students.length}}</span>
       </div>
       <p class="mt-3">Created by <strong>{{course.course_author.name}}</strong> </p>
@@ -338,15 +347,15 @@
 
 </div>
 
-<div class="container-fluid d-flex justify-content-center pt-4" style="background-color: #EDEFF0;">
+<div class="container-fluid d-flex justify-content-center pt-4" style="background-color: #EDEFF0;min-height:700px">
   <div class="tab-content px-0">
     <div id="description" class="container tab-pane active"><br>
       <h3>Description</h3>
       {{{course.description}}}
     </div>
     <div id="curriculum" class="container tab-pane fade"><br>
-    {{#ifCond isBooked '||' isTeacher}}
-{{#each course.curriculum}}
+      {{#ifCond isBooked '||' isTeacher}}
+      {{#each course.curriculum}}
       <button class="accordion">{{chapter_name}}</button>
       <div class="panel p-0">
         <ul class="list-group">
@@ -358,25 +367,25 @@
         </ul>
       </div>
       {{/each}}
-    {{else}}
-{{#each course.curriculum}}
+      {{else}}
+      {{#each course.curriculum}}
       <button class="accordion">{{chapter_name}}</button>
       <div class="panel p-0">
         <ul class="list-group">
           {{#each this.lectures}}
-            <li class="list-group-item list-group-item-action border-0">{{name}}
+          <li class="list-group-item list-group-item-action border-0">{{name}}
             {{#if this.preview}}
-                <a href="#{{_id}}" data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2">
+            <a href="#{{_id}}" data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2">
                 Preview</span></a>
             {{/if}}
-            </li>
+          </li>
           {{/each}}
         </ul>
       </div>
 
       {{/each}}
-    {{/ifCond}}
-      
+      {{/ifCond}}
+
 
     </div>
     <div id="instructor" class="container tab-pane fade"><br>
@@ -402,7 +411,7 @@
       </div>
     </div>
     <div id="feedback" class="container tab-pane fade pl-0"><br>
-      <h3>Student rates</h3>  
+      <h3>Student rates</h3>
       <div class="row my-3 ml-1">
         <div class="d-flex flex-column align-items-center bg-light feedback-rating">
           <h1 class="mt-2 mb-0">{{course.rating}}</h1>
@@ -411,40 +420,40 @@
         </div>
         <div class="col-7 d-flex flex-column justify-content-around">
           <div class="progress h-10">
-            <div class="progress-bar" role="progressbar" id="pb5" style="width: 100%"></div>
+            <div class="progress-bar" role="progressbar" id="pb5" style="width: 0%"></div>
           </div>
           <div class="progress h-10">
-            <div class="progress-bar" role="progressbar" id="pb45" style="width: 90%"></div>
+            <div class="progress-bar" role="progressbar" id="pb45" style="width: 0%"></div>
           </div>
           <div class="progress h-10">
-            <div class="progress-bar" role="progressbar" id="pb4" style="width: 80%"></div>
+            <div class="progress-bar" role="progressbar" id="pb4" style="width: 0%"></div>
           </div>
           <div class="progress h-10">
-            <div class="progress-bar" role="progressbar" id="pb35" style="width: 70%"></div>
+            <div class="progress-bar" role="progressbar" id="pb35" style="width: 0%"></div>
           </div>
           <div class="progress h-10">
-            <div class="progress-bar" role="progressbar" id="pblqt3" style="width: 2%"></div>
+            <div class="progress-bar" role="progressbar" id="pblqt3" style="width: 0%"></div>
           </div>
         </div>
         <div class="col d-flex flex-column justify-content-around">
           <div class="d-flex">
-            <span class="align-self-center mr-2" id="_5">40% voted </span>            
+            <span class="align-self-center mr-2" id="_5">0 voted </span>
             <span class="align-self-center">5 <i class="fas fa-star text-warning"></i></span>
           </div>
           <div class="d-flex">
-              <span class="align-self-center mr-2" id="_45">40% voted </span>           
+            <span class="align-self-center mr-2" id="_45">0 voted </span>
             <span class="align-self-center">4.5 <i class="fas fa-star text-warning"></i></span>
           </div>
           <div class="d-flex">
-              <span class="align-self-center mr-2" id="_4">40% voted </span>            
+            <span class="align-self-center mr-2" id="_4">0 voted </span>
             <span class="align-self-center">4 <i class="fas fa-star text-warning"></i></span>
           </div>
           <div class="d-flex">
-              <span class="align-self-center mr-2" id="_35">40% voted </span>
+            <span class="align-self-center mr-2" id="_35">0 voted </span>
             <span class="align-self-center">3.5 <i class="fas fa-star text-warning"></i></span>
           </div>
           <div class="d-flex">
-            <span class="align-self-center mr-2" id="_lqt3">40% voted </span>
+            <span class="align-self-center mr-2" id="_lqt3">0 voted </span>
             <span class="align-self-center">≤ 3 <i class="fas fa-star text-warning"></i></span>
           </div>
         </div>
@@ -456,7 +465,7 @@
         <li>
           <div class="d-flex">
             <div class="rounded-circle review-image-div">
-            <img src="{{student_avatar}}" class="review-image">
+              <img src="{{student_avatar}}" class="review-image">
             </div>
             <div class="col-8 comment-content">
               {{student_name}}
@@ -472,15 +481,16 @@
         {{/each}}
       </ul>
       {{else}}
-          <h5>No one has rated this course</h5>
+      <h5>No one has rated this course</h5>
       {{/if}}
+      {{#if isStudent}}
       <h3>Submit reviews</h3>
       <form action="/courses/rate/{{course.slug}}" method="POST" id="feedback_form">
-      <div class="my-4">
-          
-        <div class="d-flex">
+        <div class="my-4">
+
+          <div class="d-flex">
             <div class="rounded-circle review-image-div">
-            <img src="{{user.avatar}}" class="review-image">
+              <img src="{{user.avatar}}" class="review-image">
             </div>
             <div class="col-5 comment-content">
               {{user.name}}
@@ -488,7 +498,7 @@
             </div>
             <div class="col rate-message text-danger"></div>
             <div class='rateToSubmit' id="rate"></div>
-              <input type="hidden" id="rate_value" name="rate_value" value='0'>
+            <input type="hidden" id="rate_value" name="rate_value" value='0'>
           </div>
           <div class="offset-1 col-11 mt-2 form-group">
             <label for="comment">Comment</label>
@@ -496,76 +506,48 @@
             <span class="cmt-message text-danger"></span>
           </div>
           <div class="offset-10">
-          <button class="btn btn-primary" type="submit" id="btn-submit">Update feedback</button>
+            <button class="btn btn-primary" type="submit" id="btn-submit">Update feedback</button>
           </div>
-      </div>
+        </div>
       </form>
+      {{/if}}
     </div>
   </div>
 
   <div class="col-3 pt-4">
     <h3 class="mb-3 d-block w-75" style="color: #3E416D;margin-left:32px;">Related courses</h3>
     <div class="row d-flex flex-column align-items-center p-0 b-5">
-      <div class="p-0 mb-5 col-9">
+      {{#if mostRelatedPurchased}}
+      {{#each mostRelatedPurchased}}
+      <div class="col-8 p-0 mb-3">
         <div class="card h-100">
-          <img class="card-img-top" src="/public/images/courses/1.png" alt="Card image cap">
+          <img class="card-img-top" src="{{thumbnail}}" alt="Card image cap">
           <div class="card-body d-flex flex-column">
             <p class="card-text text-primary font-weight-bold">Web Development</p>
-            <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
-            <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
-            <div class="_43">
-              <span class="number-rating"></span>
-              <div class="stars-outer">
-                <div class="stars-inner"></div>
-              </div>
-              <span class="number-rates">(40.323)</span>
+            <h6 class="card-title font-weight-bold">{{name}} </h6>
+            <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
+            <div class="card-text d-flex">
+            <div class="rate m-0" data-rate-value={{rating}}></div>
+            <span class="number-students">(4.543.342)</span>
             </div>
             <div class="d-flex">
-              <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
-              <h5 class="card-text font-weight-bold align ml-3"> $199.99 </h5>
+              {{#if discount_price}}
+              <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
+              <h5 class="card-text font-weight-bold align ml-3 discout-price"> ${{discount_price}}
+              {{else}}
+              <h5 class="card-text font-weight-bold"> ${{price}} </h5>
+              {{/if}}
+              </h5>
             </div>
-            <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
+            <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to
+              course</a>
           </div>
         </div>
       </div>
-      <div class="p-0 mb-5 col-9">
-        <div class="card h-100">
-          <img class="card-img-top" src="/public/images/courses/2.png" alt="Card image cap">
-          <div class="card-body d-flex flex-column">
-            <p class="card-text text-primary font-weight-bold">Web Development</p>
-            <h6 class="card-title font-weight-bold">Learn Angular Fundamentals </h5>
-              <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
-              <div class="_44">
-                <span class="number-rating"></span>
-                <div class="stars-outer">
-                  <div class="stars-inner"></div>
-                </div>
-                <span class="number-rates">(41.543)</span>
-              </div>
-              <h5 class="card-text font-weight-bold"> $99.99 </h5>
-              <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-          </div>
-        </div>
-      </div>
-      <div class="p-0 mb-5 col-9">
-        <div class="card h-100">
-          <img class="card-img-top" src="/public/images/courses/3.png" alt="Card image cap">
-          <div class="card-body d-flex flex-column">
-            <p class="card-text text-primary font-weight-bold">JavaScript</p>
-            <h6 class="card-title font-weight-bold">The Complete JavaScript </h5>
-              <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
-              <div class="_46">
-                <span class="number-rating"></span>
-                <div class="stars-outer">
-                  <div class="stars-inner"></div>
-                </div>
-                <span class="number-rates">(40.686)</span>
-              </div>
-              <h5 class="card-text font-weight-bold"> $111.99 </h5>
-              <a href="#" class="btn btn-primary align-self-start mt-auto">Go to course</a>
-          </div>
-        </div>
-      </div>
+      {{/each}}
+      {{else}}
+      <h5></h5>
+      {{/if}}
     </div>
   </div>
 </div>
@@ -678,7 +660,7 @@
   $(document).ready(function () {
     var options = {
       max_value: 5,
-      initial_value: 4,
+      step_size:0.25,
       readonly: true
     }
     $(".rate").rate(options);
@@ -691,7 +673,7 @@
     $(".rateToSubmit").rate(optionsForSubmit);
   });
 
-  {{#ifequal role 1}}
+  {{#ifequal role 1 }}
   function isWished() {
     var heart = $('.btn-wish').data('id');
     return $.getJSON(`/courses/wished?id=${heart}`);
@@ -741,23 +723,23 @@
         addForm.submit();
       })
 
-      var feedbackForm= document.forms['feedback_form'];
+      var feedbackForm = document.forms['feedback_form'];
       var btnSubmit = $('#btn-submit');
       btnSubmit.on('click', function (e) {
-        let rate_val=$('.rateToSubmit').rate("getValue");
+        let rate_val = $('.rateToSubmit').rate("getValue");
         $('input[name=rate_value]').val(rate_val);
-        let cmt=$('#comment').val();
-        if(cmt==="") {
+        let cmt = $('#comment').val();
+        if (cmt === "") {
           $('.cmt-message').html('Please fill out your comment');
           e.preventDefault();
         }
-        if(rate_val===0) {
-            $('.rate-message').html('Please pick your star rated for this course:');
-            e.preventDefault();
+        if (rate_val === 0) {
+          $('.rate-message').html('Please pick your star rated for this course:');
+          e.preventDefault();
         }
-        if(cmt!=="" && rate_val!==0) {
-        $('input[name=rate_value]').val(rate_val);
-        feedbackForm.submit();
+        if (cmt !== "" && rate_val !== 0) {
+          $('input[name=rate_value]').val(rate_val);
+          feedbackForm.submit();
         }
       })
 
@@ -780,37 +762,37 @@
       });
       {{/ifequal}}
 
-      var rate5=0,rate45=0,rate4=0,rate35=0,ratelqt3=0;
-      {{#each course.rates}}
-        {{#ifequal rate_value '5'}}
-            rate5++;
-        {{else}}
-        {{#ifequal rate_value '4.5'}}
-            rate45++;
-        {{else}}
-        {{#ifequal rate_value '4'}}
-            rate4++;
-        {{else}}
-        {{#ifequal rate_value '3.5'}}
-            rate35++;
-        {{else}}
-            ratelqt3++;
-        {{/ifequal}}
-        {{/ifequal}}
-        {{/ifequal}}
-        {{/ifequal}}
-      {{/each}}
-      var len={{course.rates.length}};
+          var rate5 = 0, rate45 = 0, rate4 = 0, rate35 = 0, ratelqt3 = 0;
+          {{#each course.rates }}
+          {{#ifequal rate_value '5' }}
+          rate5++;
+          {{else }}
+          {{#ifequal rate_value '4.5' }}
+          rate45++;
+          {{else }}
+          {{#ifequal rate_value '4' }}
+          rate4++;
+          {{else }}
+          {{#ifequal rate_value '3.5' }}
+          rate35++;
+          {{else }}
+          ratelqt3++;
+          {{/ifequal}}
+              {{/ifequal}}
+                  {{/ifequal}}
+                      {{/ifequal}}
+                          {{/each}}
+                              var len = {{ course.rates.length }};
 
-      $('#_5').html(rate5+' voted ');
-      $('#_45').html(rate45+' voted ');
-      $('#_4').html(rate4+' voted ');
-      $('#_35').html(rate35+' voted ');
-      $('#_lqt3').html(ratelqt3+' voted ');
-      $('#pb5').width((rate5*100)/len+'%');
-      $('#pb45').width((rate45*100)/len+'%');
-      $('#pb4').width((rate4*100)/len+'%');
-      $('#pb35').width((rate35*100)/len+'%');
-      $('#pblqt3').width((ratelqt3*100)/len+'%');
+                            $('#_5').html(rate5 + ' voted ');
+                            $('#_45').html(rate45 + ' voted ');
+                            $('#_4').html(rate4 + ' voted ');
+                            $('#_35').html(rate35 + ' voted ');
+                            $('#_lqt3').html(ratelqt3 + ' voted ');
+                            $('#pb5').width((rate5 * 100) / len + '%');
+                            $('#pb45').width((rate45 * 100) / len + '%');
+                            $('#pb4').width((rate4 * 100) / len + '%');
+                            $('#pb35').width((rate35 * 100) / len + '%');
+                            $('#pblqt3').width((ratelqt3 * 100) / len + '%');
 </script>
 {{/section}}

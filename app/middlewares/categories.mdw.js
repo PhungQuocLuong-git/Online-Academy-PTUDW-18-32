@@ -9,13 +9,9 @@ async function loadCategories(req, res, next) {
 
     const len = list.length;
     for (var i = 0; i < len; i++) {
-
-      
         var sublist = await subcategories.find({CatID: list[i]._id});
         sublist = sublist.map(mongoose => mongoose.toObject());
         list[i]['sub']=sublist;
-
-
     }
     res.locals.lcCategories = list;
     next();
