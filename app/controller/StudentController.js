@@ -7,7 +7,7 @@ const fs = require('fs');
 
 // Hash password
 const bcrypt = require('bcrypt');
-const { findByIdAndUpdate } = require('../models/Student');
+// const { findByIdAndUpdate } = require('../models/Student');
 const saltRounds = 10;
 
 

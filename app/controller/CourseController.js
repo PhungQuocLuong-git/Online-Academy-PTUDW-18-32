@@ -19,6 +19,9 @@ async function getMostPurchasedRelated(course_subCatid) {
 
 
 module.exports = {
+    courses(req, res){
+        res.redirect('/courses/list/all-courses');
+    },
     async listlevel1(req, res) {
         var slug = req.params.slug;
         // var catid = await Category.find({ slug: slug });
@@ -588,8 +591,23 @@ module.exports = {
 
     },
     //Newest courses
-    getNewest() {
+    async getNewest() {
+        var courses = await Course.find().populate('course_author').sort({createdAt: -1}).limit(10);
+        // courses.sort((course1, course2) => { course1.view - course2.view });
+        // editedCourses=courses.slice(0,10);
+        for(var i=0;i<courses.length;i++)
+        {
+            console.log(courses[i].createdAt);
 
+        }
+        editedCourses = {
+            first_3: multipleMongooseToObject(courses.slice(0, 3)),
+            next_3: multipleMongooseToObject(courses.slice(3, 6)),
+            last_3: multipleMongooseToObject(courses.slice(6, 9)),
+            last_1: mongooseToObject(courses[9])
+        }
+        //...mongooseToObject(courses[9])
+        return editedCourses;
     },
 };
 

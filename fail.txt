@@ -18,6 +18,8 @@ chưa xử lý đăng nhập theo từng role
 chưa thêm đăng nhập cho admin
 chưa xử lý xoá sub cate khi cate chính bị xoá
 chua them truong discout, xu ly discout cho teacher va admin
+chưa có profile cho teacher, change password
+không cho phép sửa tên khi ko chọn ảnh 
 
 #Mail
 nhom15webhcmus@gmail.com
