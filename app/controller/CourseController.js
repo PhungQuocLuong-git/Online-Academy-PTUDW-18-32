@@ -226,7 +226,11 @@ module.exports = {
         // }
         sortOption.field = "price";
         sortOption.type = 1;
-        Course.find({ $text: { $search: req.query.kw } }).find(options).sortable(req).populate('course_author course_students')
+        // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
+        Course.find({$or: [{$text: {$search: req.query.kw}}, {name: {$regex: req.query.kw,$options:'i'}}]})
+        .find(options).sortable(req).populate('course_author course_students')
+        // Course.find({ "name": { $regex: req.query.kw,$options:'i' } })
+        // Course.find().pretty()
             .then(courses => res.render('courses/search', {
                 courses: multipleMongooseToObject(courses)
             }))
@@ -436,8 +440,13 @@ module.exports = {
     },
 
     book(req, res, next) {
-
-        Course.findById(req.params.id).populate('course_students.user_id')
+        // res.json(req.session.user._id)
+        // Course.findOne({_id:req.params.id})
+        // .then(course => {console.log(course.course_students,'a',course)
+        //     console.log(course.course_students.includes(req.session.user._id)) ;}
+        // )
+       
+        Course.findById(req.params.id).populate('course_students')
             .then(course => {
                 return new Promise(function (resolve, reject) {
                     if (
@@ -486,6 +495,18 @@ module.exports = {
                 res.json({ msg: 'Bn k mua dc khoa hc nay' });
             })
     },
+
+    // book(req,res,next){
+    //         Course.findOne({_id:req.params.id})
+    //     .then(course => {console.log(course.course_students,'a',course)
+    //         console.log(course.course_students.indexOf(req.session.user._id)) ;}
+    //     )
+    //     // Course.findById(req.params.id)
+    //     //     .then(course => {
+    //     //         if(course.course_students.includes)
+    //     //         {}
+    //     //     })
+    // },
 
     //[POST]/courses/wish/:id
     wish(req, res, next) {
