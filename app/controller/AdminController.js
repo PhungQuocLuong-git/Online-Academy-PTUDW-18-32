@@ -71,7 +71,7 @@ class AdminController {
     trash(req,res) {
         Course.find({status:-1})
             .then(courses => {
-                console.log(courses)
+                // console.log(courses)
                 res.render('admin/courses',{
                     layout:'admin',
                     courses:multipleMongooseToObject(courses),
@@ -111,7 +111,9 @@ class AdminController {
         res.render('admin/categories', {
             empty: list.length === 0,
             categories: list,
-            layout:'admin'
+            layout:'admin',
+            
+
         });
 
     };

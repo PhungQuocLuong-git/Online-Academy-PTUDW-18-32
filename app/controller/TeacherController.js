@@ -86,8 +86,9 @@ class TeacherController{
         Teacher.findOne({username: req.body.username,stt:1})
             .then( user => {
                 bcrypt.compare(req.body.password,user.password).then((result)=>{
+                    user= mongooseToObject(user);
                     if(result){
-                    req.app.locals.idUser = user._id ;
+                    // req.app.locals.idUser = user._id ;
                     req.app.locals.user = user;
                     req.session.user = user;
                     req.session.username = req.body.username;

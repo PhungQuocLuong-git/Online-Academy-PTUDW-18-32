@@ -7,6 +7,7 @@ const Rate = require('../models/Rate');
 const Curriculum = require('../models/Curriculum');
 
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
+// const { collection } = require('../models/Course');
 const multer = require('multer');
 
 async function getMostPurchasedRelated(course_subCatid) {
@@ -20,9 +21,15 @@ async function getMostPurchasedRelated(course_subCatid) {
 module.exports = {
     async listlevel1(req, res) {
         var slug = req.params.slug;
-        var catid = await Category.find({ slug: slug });
+        // var catid = await Category.find({ slug: slug });
+        var page = req.query.p;
+        if (typeof page === 'undefined') {
+            page = 1;
+        }
 
-        var len = catid.length;
+
+
+        /* var len = catid.length;
         if (len === 0) {
             res.render('courses/list', {
                 script: '/public/javascripts/home.js',
@@ -30,27 +37,86 @@ module.exports = {
             });
         }
         else {
-            catid = catid[0];
-            var list = await Course.find({ catid: catid._id }).populate('course_author');
+            page = +page;
+        }
+
+        console.log(page);
+        console.log(url);
+        if (slug === "all-courses") {
+            var list = await Course.find({}).populate('course_author');
             res.render('courses/list', {
                 script: '/public/javascripts/home.js',
                 isvalid: 0,
                 list: list,
-                name: catid.CatName,
+                name: "All courses",
                 empty: list.length,
-                extraStyle: '/public/stylesheets/home.css'
+                extraStyle: '/public/stylesheets/home.css',
+                pagination: {
+                    page: 1,
+                    pageCount: 5
+                  },
+                url: url,
+
             });
+        } */
+        var list = [];
+        var isvalid;
+        var name = '';
+        var npage = 0;
+        var limit = 10;
+        if (slug === "all-courses") {
+            isvalid = 0;
+            var pag = await Course.paginate({}, { page: page, limit: limit });
+            list = pag.docs;
+            npage = Math.ceil(pag.total / limit);
+            name = "All";
         }
+        else {
+            var catid = await Category.find({ slug: slug });
+            if (catid.length === 0) {
+                isvalid = 1;
+            }
+            else {
+                catid = catid[0];
+                name = catid.CatName;
+                // list = await Course.find({ catid: catid._id }).populate('course_author');
+                var pag = await Course.paginate({ catid: catid._id }, { page: page, limit: limit });
+                list = pag.docs;
+                npage = Math.ceil(pag.total / limit);
+
+            }
+        }
+        
+
+        
+
+
+        res.render('courses/list', {
+            script: '/public/javascripts/home.js',
+            isvalid: isvalid,
+            list: list,
+            name: name,
+            empty: list.length,
+            extraStyle: '/public/stylesheets/home.css',
+            pagination: {
+                page: page,
+                pageCount: npage,
+            },
+
+        });
+
 
     },
     async listlevel2(req, res) {
 
         var slug1 = req.params.slug1;
         var slug2 = req.params.slug2;
-        var catid = await Category.find({ slug: slug1 });
-        var subcatid = await Subategory.find({ slug: slug2 });
+        var page = req.query.p;
+        if (typeof page === 'undefined') {
+            page = 1;
+        }
 
-        var len1 = catid.length;
+        /* var len1 = catid.length;
         var len2 = subcatid.length;
         if (len1 === 0 || len2 === 0) {
             res.render('courses/list', {
@@ -67,9 +133,47 @@ module.exports = {
                 list: list,
                 name: subcatid[0].SubCatName,
                 empty: list.length,
-                extraStyle: '/public/stylesheets/home.css'
+                extraStyle: '/public/stylesheets/home.css',
+
             });
+        } */
+
+        var list = [];
+        var isvalid;
+        var name = '';
+        var npage = 0;
+        var limit = 10;
+        var catid = await Category.find({ slug: slug1 });
+        var subcatid = await Subategory.find({ slug: slug2 });
+        var len1 = catid.length;
+        var len2 = subcatid.length;
+        if (len1 === 0 || len2 === 0) {
+            isvalid = 1;
         }
+        else {
+            subcatid = subcatid[0];
+            name = subcatid.SubCatName;
+            // list = await Course.find({ subcatid: subcatid._id }).populate('course_author');
+            var pag = await Course.paginate({ subcatid: subcatid._id }, { page: page, limit: limit });
+            list = pag.docs;
+            npage = Math.ceil(pag.total / limit);
+        }
+
+
+
+        res.render('courses/list', {
+            script: '/public/javascripts/home.js',
+            isvalid: isvalid,
+            list: list,
+            name: name,
+            empty: list.length,
+            extraStyle: '/public/stylesheets/home.css',
+            pagination: {
+                page: page,
+                pageCount: npage,
+            },
+
+        });
 
     },
 
@@ -122,7 +226,11 @@ module.exports = {
         // }
         sortOption.field = "price";
         sortOption.type = 1;
-        Course.find({ $text: { $search: req.query.kw } }).find(options).sortable(req).populate('course_author course_students')
+        // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
+        Course.find({$or: [{$text: {$search: req.query.kw}}, {name: {$regex: req.query.kw,$options:'i'}}]})
+        .find(options).sortable(req).populate('course_author course_students')
+        // Course.find({ "name": { $regex: req.query.kw,$options:'i' } })
+        // Course.find().pretty()
             .then(courses => res.render('courses/search', {
                 courses: multipleMongooseToObject(courses)
             }))
@@ -243,17 +351,58 @@ module.exports = {
 
 
     async destroy(req, res, next) {
-        // console.log(req.body.courseID);
 
-        // let course = await Course.remove({_id:req.body.courseID});
-        // if(course){
 
-        //     res.status(200).send('true');
-        // }
-        // else
-        //     res.status(200).send('false');
-        // Course.findByIdAndDelete(req.body.courseID)
-        res.status(200).send('true');
+        //console.log(req.body.courseID);
+        await Student.updateMany(
+            { "wish_courses.course_id": req.body.courseID },
+            { $pull: { wish_courses: { course_id: req.body.courseID } } },
+            (err, data) => {
+                if (err) {
+
+                    // res.status(200).send('false');
+                }
+                else {
+
+                    // res.status(200).send('true');
+                }
+            });
+        await Student.updateMany(
+            { "cart_courses.course_id": req.body.courseID },
+            { $pull: { cart_courses: { course_id: req.body.courseID } } },
+            (err, data) => {
+                if (err) {
+
+                    // res.status(200).send('false');
+                }
+                else {
+
+                    // res.status(200).send('true');
+                }
+            });
+        await Student.updateMany(
+            { "booked_courses.course_id": req.body.courseID },
+            { $pull: { booked_courses: { course_id: req.body.courseID } } },
+            (err, data) => {
+                if (err) {
+
+                    // res.status(200).send('false');
+                }
+                else {
+
+                    // res.status(200).send('true');
+                }
+            });
+        await Course.remove({ _id: req.body.courseID },
+            (err, data) => {
+                if (err) {
+                    res.status(200).send('false');
+                }
+                else {
+                    res.status(200).send('true');
+                }
+            });
+
     },
 
 
@@ -291,8 +440,13 @@ module.exports = {
     },
 
     book(req, res, next) {
-
-        Course.findById(req.params.id).populate('course_students.user_id')
+        // res.json(req.session.user._id)
+        // Course.findOne({_id:req.params.id})
+        // .then(course => {console.log(course.course_students,'a',course)
+        //     console.log(course.course_students.includes(req.session.user._id)) ;}
+        // )
+       
+        Course.findById(req.params.id).populate('course_students')
             .then(course => {
                 return new Promise(function (resolve, reject) {
                     if (
@@ -342,6 +496,18 @@ module.exports = {
             })
     },
 
+    // book(req,res,next){
+    //         Course.findOne({_id:req.params.id})
+    //     .then(course => {console.log(course.course_students,'a',course)
+    //         console.log(course.course_students.indexOf(req.session.user._id)) ;}
+    //     )
+    //     // Course.findById(req.params.id)
+    //     //     .then(course => {
+    //     //         if(course.course_students.includes)
+    //     //         {}
+    //     //     })
+    // },
+
     //[POST]/courses/wish/:id
     wish(req, res, next) {
         // res.json({msg:req.params.id});
@@ -380,6 +546,9 @@ module.exports = {
     async storeRate(req, res) {
         var course = await Course.findOne({ slug: req.params.slug });
         var rate = await Rate.findOne({ course_id: course._id, student_id: req.session.user._id });
+        // console.log(course);
+        // console.log(rate);
+        // console.log(req.body);
         if (rate === null) {
             rate = new Rate({
                 course_id: course._id,

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const slug = require('mongoose-slug-generator');
+var mongoosePaginate = require('mongoose-paginate');
 
 
 
@@ -45,10 +46,12 @@ CourseSchema.index({
   description: 'text',
 }, {
   weights: {
-    name: 10,
+    name: 100,
     description: 1,
   },
 });
+
+CourseSchema.index({name:1})
 
 CourseSchema.query.sortable = function (req) {
   if (req.query.hasOwnProperty('field')) {
@@ -70,7 +73,7 @@ CourseSchema.remove('delete',function(next) {
   );
 })
 
-
+CourseSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Course', CourseSchema);
 

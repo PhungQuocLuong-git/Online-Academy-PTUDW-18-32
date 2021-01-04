@@ -1,4 +1,4 @@
-const e = require('express');
+// const e = require('express');
 var categoriesSchema = require('../models/Category');
 var subcategories = require('../models/Subcategory');
 

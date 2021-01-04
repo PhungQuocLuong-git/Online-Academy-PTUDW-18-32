@@ -1,134 +1,138 @@
 
+
 <div class="container-fluid p-0 my-5" style="width: 94%;">
+    <h1 id="search">Search</h1>
     <div class="row mt-4">
         <div class="col-sm-1"></div>
         <div class="col-2">
 
             <div class="dropdown dropdowm--sort">
-            <button class="btn btn-light dropdown-toggle btn-sort" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Sort 
-            </button>
-            <div class="dropdown-menu dropdown-menu--sort" aria-labelledby="dropdownMenuButton">
-                <btn class="btn dropdown-item" id="rating-asc" >Lowest Rating</btn>
-                <btn class="btn dropdown-item"  id="rating-dec">Highest Rating</btn>
-                <btn class="btn dropdown-item" id="price-asc" >Lowest Price</btn>
-                <btn class="btn dropdown-item"  id="price-dec">Highest Price</btn>
-                
+                <button class="btn btn-light dropdown-toggle btn-sort" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort
+                </button>
+                <div class="dropdown-menu dropdown-menu--sort" aria-labelledby="dropdownMenuButton">
+                    <btn class="btn dropdown-item" id="rating-asc">Lowest Rating</btn>
+                    <btn class="btn dropdown-item" id="rating-dec">Highest Rating</btn>
+                    <btn class="btn dropdown-item" id="price-asc">Lowest Price</btn>
+                    <btn class="btn dropdown-item" id="price-dec">Highest Price</btn>
+
+                </div>
             </div>
         </div>
-    </div>
     </div>
     <div class="row mt-4">
         <div class="col-lg-2">
 
-        <button class="btn btn-dlt-all " id="btn-dlt-all" style="display: none;">
-           <i class="fas fa-times dlt-all-x"></i>
-            Xóa bộ lọc
-        </button>
+            <button class="btn btn-dlt-all " id="btn-dlt-all" style="display: none;">
+                <i class="fas fa-times dlt-all-x"></i>
+                Xóa bộ lọc
+            </button>
         </div>
         <div class="col-lg-10">
-        <div class=" d-flex">
-            <button class="btn btn-danger" id="btn-dlt-sort" style="display: none;">
-                <span class="dlt-text dlt-sort-text"></span>
-                <span class="dlt-x dlt-sort-x"></span>
-            </button>
-            <button class="btn btn-danger" id="btn-dlt-rate" style="display: none;">
-                <span class="dlt-text dlt-rate-text"></span>
-                <span class="dlt-x dlt-rate-x"></span>
-            </button>
-        
-            <button class="btn btn-danger" id="btn-dlt-price" style="display: none;">
-                <span class="dlt-text dlt-price-text"></span>
-                <span class="dlt-x dlt-price-x"></span>
-            </button>
+            <div class=" d-flex">
+                <button class="btn btn-danger" id="btn-dlt-sort" style="display: none;">
+                    <span class="dlt-text dlt-sort-text"></span>
+                    <span class="dlt-x dlt-sort-x"></span>
+                </button>
+                <button class="btn btn-danger" id="btn-dlt-rate" style="display: none;">
+                    <span class="dlt-text dlt-rate-text"></span>
+                    <span class="dlt-x dlt-rate-x"></span>
+                </button>
+
+                <button class="btn btn-danger" id="btn-dlt-price" style="display: none;">
+                    <span class="dlt-text dlt-price-text"></span>
+                    <span class="dlt-x dlt-price-x"></span>
+                </button>
+            </div>
         </div>
     </div>
-    </div>
-<div class="  d-flex"   >
-    <div class="col-lg-2">
-      <nav class="menu">
-        <h3 class="menu__heading">Rating</h3>
+    <div class="  d-flex">
+        <div class="col-lg-2">
+            <nav class="menu">
+                <h3 class="menu__heading">Rating</h3>
 
-        <ul class="menu-list">
-            <li class="menu-item ">
-                <btn  class="menu-item__link " name="rate"  >Tất cả</btn>
-            </li>
-            <li class="menu-item ">
-                <btn  class="menu-item__link menu-item__link--rate" name="rate" value="3" >
-                    3 & up
-                </btn>
-            </li>
-            <li class="menu-item ">
-                <btn  class="menu-item__link menu-item__link--rate" name="rate" value="3.5" >
-                    3.5 & up
-                </btn>
-            </li>
-            <li class="menu-item ">
-                <btn  class="menu-item__link menu-item__link--rate" name="rate" value="4" >
-                    4 & up
-                </btn>
-            </li>
-            <li class="menu-item">
-                <btn  class="menu-item__link" name="rate" value="4.5">4.5 & up</btn>
-            </li>
-        </ul>
-    </nav>
+                <ul class="menu-list">
+                    <li class="menu-item ">
+                        <btn class="menu-item__link " name="rate">Tất cả</btn>
+                    </li>
+                    <li class="menu-item ">
+                        <btn class="menu-item__link menu-item__link--rate" name="rate" value="3">
+                            3 & up
+                        </btn>
+                    </li>
+                    <li class="menu-item ">
+                        <btn class="menu-item__link menu-item__link--rate" name="rate" value="3.5">
+                            3.5 & up
+                        </btn>
+                    </li>
+                    <li class="menu-item ">
+                        <btn class="menu-item__link menu-item__link--rate" name="rate" value="4">
+                            4 & up
+                        </btn>
+                    </li>
+                    <li class="menu-item">
+                        <btn class="menu-item__link" name="rate" value="4.5">4.5 & up</btn>
+                    </li>
+                </ul>
+            </nav>
 
-      <nav class="menu">
-        <h3 class="menu__heading">Price</h3>
+            <nav class="menu">
+                <h3 class="menu__heading">Price</h3>
 
-        <ul class="menu-list">
-            <li class="menu-item ">
-                <btn  class="menu-item__link" name="price"  >Tất cả</btn>
-            </li>
-            <li class="menu-item ">
-                <btn  class="menu-item__link" name="price" value="5000" >>=5000</btn>
-            </li>
-            <li class="menu-item">
-                <btn  class="menu-item__link" name="price" value="10000">>=10000</btn>
-            </li>
-        </ul>
-    </nav>
+                <ul class="menu-list">
+                    <li class="menu-item ">
+                        <btn class="menu-item__link" name="price">Tất cả</btn>
+                    </li>
+                    <li class="menu-item ">
+                        <btn class="menu-item__link" name="price" value="5000">>=5000</btn>
+                    </li>
+                    <li class="menu-item">
+                        <btn class="menu-item__link" name="price" value="10000">>=10000</btn>
+                    </li>
+                </ul>
+            </nav>
 
-    </div>
-    <div class="col-lg-10">
-        
-        {{#each courses}}
+        </div>
+        <div class="col-lg-10">
 
-        <div class="row my-3 ">
-            <div class="col-4">
-                <img width="260px" height="160px" class="card-img-top" src="/public/images/courses/1on2y0.jpg"
-                    alt="Card image cap">
-            </div>
-            <div class="col-8">
-                <div class="card-body d-flex flex-column my-0 p-0">
-                    <p class="card-text text-primary font-weight-bold">{{this.name}}</p>
-                    <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
-                    <p class="card-subtitle text-secondary teacher-text">{{this.course_author.name}}</p>
-                    <div class="_43 rating-course">
+            {{#each courses}}
 
-                        <div class="rate" data-rate-value={{this.rating}}></div>
-                        <span class="number-rates">({{this.course_students.length}})</span>
+            <div class="row my-3 ">
+                <div class="col-4">
+                    <img width="260px" height="160px" class="card-img-top" src="/public/images/courses/1on2y0.jpg"
+                        alt="Card image cap">
+                </div>
+                <div class="col-8">
+                    <div class="card-body d-flex flex-column my-0 p-0">
+                        <p class="card-text text-primary font-weight-bold">{{this.name}}</p>
+                        <h6 class="card-title font-weight-bold">Ultimate Web Developer Course </h6>
+                        <p class="card-subtitle text-secondary teacher-text">{{this.course_author.name}}</p>
+                        <div class="_43 rating-course">
+
+                            <div class="rate" data-rate-value={{this.rating}}></div>
+                            <span class="number-rates">({{this.course_students.length}})</span>
+                        </div>
+                        <div class="d-flex w-100 justify-content-end position-absolute">
+                            <h5 class="card-text font-weight-bold  text-right"> {{format this.price}} VND </h5>
+                        </div>
+                        <a href="/courses/{{this.slug}}" class="btn btn-primary align-self-start mt-auto">Go to
+                            course</a>
                     </div>
-                    <div class="d-flex w-100 justify-content-end position-absolute">
-                        <h5 class="card-text font-weight-bold  text-right"> {{format this.price}} VND </h5>
-                    </div>
-                    <a href="/courses/{{this.slug}}" class="btn btn-primary align-self-start mt-auto">Go to course</a>
                 </div>
             </div>
+            {{/each}}
         </div>
-        {{/each}}
     </div>
-</div>
-    
+    {{>paging}}
+
 </div>
 
-<link rel="stylesheet" href='/public/stylesheets/home.css'/>
+<link rel="stylesheet" href='/public/stylesheets/home.css' />
 
 {{#section 'js'}}
 <script>
-     $(document).ready(function () {
+    $(document).ready(function () {
         var options = {
             max_value: 5,
             initial_value: 4,
@@ -136,136 +140,136 @@
         }
         $(".rate").rate(options);
     });
-   var url = new URL(document.location.href);
-    
+    var url = new URL(document.location.href);
 
 
+    $('#search').append(': '+url.searchParams.get('kw'))
     //Click vào item menu add parameter vào URL
-  var rateInput2 = $('btn[name="rate"]');
-  rateInput2.on("click",function(e) {
-    if(e.target.getAttribute('value')){
-     url.searchParams.set("rating",e.target.getAttribute('value'))
-      document.location = url; 
-    }
-    else{
-        url.searchParams.delete("rating");
-        document.location = url; 
-    }
-  })
-
-  var priceInput2 = $('btn[name="price"]');
-  priceInput2.on("click",function(e) {
-    if(e.target.getAttribute('value')){
-     url.searchParams.set("price",e.target.getAttribute('value'))
-      document.location = url; 
-    }
-      else{
-        url.searchParams.delete("price");
-        document.location = url; 
-    }
-  })
-  
-
-  //Nếu có parameter thì thêm thẻ xóa parameter và bật active cho item menu
-    var priceArray = priceInput2.toArray();
-  if(url.toString().includes('&price')){
-    const priceValue = url.searchParams.get('price');
-    document.getElementById("btn-dlt-price").style.display = "block";
-      document.querySelector('#btn-dlt-price').querySelector('.dlt-price-text').append('Price: '+priceValue);
-      document.querySelector('#btn-dlt-price').querySelector('.dlt-price-x').innerHTML='<i class="fas fa-times"></i>';
-    priceArray.forEach( price => {
-      if(price.getAttribute('value')===priceValue)
-        {
-            price.parentElement.classList.add('menu-item--active')}
+    var rateInput2 = $('btn[name="rate"]');
+    rateInput2.on("click", function (e) {
+        if (e.target.getAttribute('value')) {
+            url.searchParams.set("rating", e.target.getAttribute('value'))
+            document.location = url;
+        }
+        else {
+            url.searchParams.delete("rating");
+            document.location = url;
+        }
     })
-  }
-  else{
-      priceArray[0].parentElement.classList.add('menu-item--active');
-  }
+
+    var priceInput2 = $('btn[name="price"]');
+    priceInput2.on("click", function (e) {
+        if (e.target.getAttribute('value')) {
+            url.searchParams.set("price", e.target.getAttribute('value'))
+            document.location = url;
+        }
+        else {
+            url.searchParams.delete("price");
+            document.location = url;
+        }
+    })
+
+
+    //Nếu có parameter thì thêm thẻ xóa parameter và bật active cho item menu
+    var priceArray = priceInput2.toArray();
+    if (url.toString().includes('&price')) {
+        const priceValue = url.searchParams.get('price');
+        document.getElementById("btn-dlt-price").style.display = "block";
+        document.querySelector('#btn-dlt-price').querySelector('.dlt-price-text').append('Price: ' + priceValue);
+        document.querySelector('#btn-dlt-price').querySelector('.dlt-price-x').innerHTML = '<i class="fas fa-times"></i>';
+        priceArray.forEach(price => {
+            if (price.getAttribute('value') === priceValue) {
+                price.parentElement.classList.add('menu-item--active')
+            }
+        })
+    }
+    else {
+        priceArray[0].parentElement.classList.add('menu-item--active');
+    }
 
 
 
     var rateArray = rateInput2.toArray();
-  if(url.toString().includes('&rating')){
-    const rateValue = url.searchParams.get('rating');
-      document.getElementById("btn-dlt-rate").style.display = "block";
-      document.querySelector('#btn-dlt-rate').querySelector('.dlt-rate-text').append('Rate: '+rateValue);
-      document.querySelector('#btn-dlt-rate').querySelector('.dlt-rate-x').innerHTML='<i class="fas fa-times"></i>';
-    rateArray.forEach( rate => {
-      if(rate.getAttribute('value')===rateValue)
-        rate.parentElement.classList.add('menu-item--active')
-    })
-  }
-  else{
-      rateArray[0].parentElement.classList.add('menu-item--active');
-  }
+    if (url.toString().includes('&rating')) {
+        const rateValue = url.searchParams.get('rating');
+        document.getElementById("btn-dlt-rate").style.display = "block";
+        document.querySelector('#btn-dlt-rate').querySelector('.dlt-rate-text').append('Rate: ' + rateValue);
+        document.querySelector('#btn-dlt-rate').querySelector('.dlt-rate-x').innerHTML = '<i class="fas fa-times"></i>';
+        rateArray.forEach(rate => {
+            if (rate.getAttribute('value') === rateValue)
+                rate.parentElement.classList.add('menu-item--active')
+        })
+    }
+    else {
+        rateArray[0].parentElement.classList.add('menu-item--active');
+    }
 
-  if(url.toString().includes('&field')){
-      const field = url.searchParams.get('field');
-      const type = url.searchParams.get('type');
-      if(type === 'asc')
+    if (url.toString().includes('&field')) {
+        const field = url.searchParams.get('field');
+        const type = url.searchParams.get('type');
+        if (type === 'asc')
             var type1 = 'Lowest';
         else
             var type1 = 'Highest'
-      const upperField = field[0].toUpperCase() + field.slice(1);
-      document.querySelector('#dropdownMenuButton').innerHTML=  type1 + ' ' + upperField ;
-      const idString = url.searchParams.get('field') + '-' + type;
-      document.getElementById(idString).style.display = 'none';
-      document.querySelector('#btn-dlt-sort')
-       document.getElementById("btn-dlt-sort").style.display = "block";
-      document.querySelector('#btn-dlt-sort').querySelector('.dlt-sort-text').append(upperField+': '+type1);
-      document.querySelector('#btn-dlt-sort').querySelector('.dlt-sort-x').innerHTML='<i class="fas fa-times"></i>';
-  }
+        const upperField = field[0].toUpperCase() + field.slice(1);
+        document.querySelector('#dropdownMenuButton').innerHTML = type1 + ' ' + upperField;
+        const idString = url.searchParams.get('field') + '-' + type;
+        document.getElementById(idString).style.display = 'none';
+        document.querySelector('#btn-dlt-sort')
+        document.getElementById("btn-dlt-sort").style.display = "block";
+        document.querySelector('#btn-dlt-sort').querySelector('.dlt-sort-text').append(upperField + ': ' + type1);
+        document.querySelector('#btn-dlt-sort').querySelector('.dlt-sort-x').innerHTML = '<i class="fas fa-times"></i>';
+    }
 
-//Btn-Dlt parameter
-    $('#btn-dlt-rate').on('click',function() {
+    //Btn-Dlt parameter
+    $('#btn-dlt-rate').on('click', function () {
         url.searchParams.delete("rating");
-        document.location = url; 
+        document.location = url;
     })
-    $('#btn-dlt-price').on('click',function() {
+    $('#btn-dlt-price').on('click', function () {
         url.searchParams.delete("price");
-        document.location = url; 
+        document.location = url;
     })
-    $('#btn-dlt-sort').on('click',function() {
+    $('#btn-dlt-sort').on('click', function () {
         url.searchParams.delete("field");
         url.searchParams.delete("type");
-        document.location = url; 
+        document.location = url;
     })
-    if(url.toString().includes('&')){
+    if (url.toString().includes('&')) {
         document.querySelector('.btn-dlt-all').style.display = "block";
-        $('#btn-dlt-all').on('click',function() {
+        $('#btn-dlt-all').on('click', function () {
             var newUrl = new URL(document.location.origin + document.location.pathname);
-            newUrl.searchParams.set("kw",url.searchParams.get("kw"));
-            document.location = newUrl; 
+            newUrl.searchParams.set("kw", url.searchParams.get("kw"));
+            document.location = newUrl;
         })
     }
 
 
-//Bấm vào sort thêm parameter field vs type vào new url
-  $('#rating-dec').on('click',function() {
-    
-     url.searchParams.set("field","rating");
-     url.searchParams.set("type","dec");
-     document.location = url;
-  })
-  $('#rating-asc').on('click',function() {
-    
-     url.searchParams.set("field","rating");
-     url.searchParams.set("type","asc");
-     document.location = url;
-  })
-  $('#price-dec').on('click',function() {
-    
-     url.searchParams.set("field","price");
-     url.searchParams.set("type","dec");
-     document.location = url;
-  })
-  $('#price-asc').on('click',function() {
-    
-     url.searchParams.set("field","price");
-     url.searchParams.set("type","asc");
-     document.location = url;
-  })
+    //Bấm vào sort thêm parameter field vs type vào new url
+    $('#rating-dec').on('click', function () {
+
+        url.searchParams.set("field", "rating");
+        url.searchParams.set("type", "dec");
+        document.location = url;
+    })
+    $('#rating-asc').on('click', function () {
+
+        url.searchParams.set("field", "rating");
+        url.searchParams.set("type", "asc");
+        document.location = url;
+    })
+    $('#price-dec').on('click', function () {
+
+        url.searchParams.set("field", "price");
+        url.searchParams.set("type", "dec");
+        document.location = url;
+    })
+    $('#price-asc').on('click', function () {
+
+        url.searchParams.set("field", "price");
+        url.searchParams.set("type", "asc");
+        document.location = url;
+    })
 </script>
 
 {{/section}}
