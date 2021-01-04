@@ -2,7 +2,7 @@ const session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
 var store = new MongoDBStore({
-  uri: 'mongodb+srv://dbUser:dbUser@cluster0.edbz1.mongodb.net/doanweb?retryWrites=true&w=majority',
+  uri: 'mongodb+srv://dbUser2:dbUser2@cluster0.krhp6.mongodb.net/doanweb?retryWrites=true&w=majority',
   collection: 'session',
   databaseName: 'doanweb'
 });

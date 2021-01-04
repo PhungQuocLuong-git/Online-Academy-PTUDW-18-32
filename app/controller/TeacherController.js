@@ -3,6 +3,7 @@ const { mongooseToObject} = require('../../util/mongoose');
 
 // Hash password
 const bcrypt = require('bcrypt');
+const Course = require('../models/Course');
 const saltRounds = 10;
 
 
@@ -103,6 +104,13 @@ class TeacherController{
                 })
                 .catch(err => res.json({err2: err}));
         // res.json(req.body)
+    }
+
+    async uploadedCourses(req,res) {
+        var courses = await Course.find({status:0,course_author:req.session.user._id});
+        res.render('teachers/courses',{
+            courses
+        })
     }
 }
 

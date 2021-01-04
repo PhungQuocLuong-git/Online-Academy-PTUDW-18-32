@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="">
+
+
+
+<div class="row">
+    {{#each courses}}
+    <div class="col-4 mt-4">
+
+        <div class="card h-100">
+            <img class="card-img-top img-course" src="{{this.thumbnail}}" alt="Card image cap">
+            <div class="card-body d-flex flex-column">
+                <p class="card-text text-primary font-weight-bold">{{this.name}}</p>
+                <h6 class="card-title font-weight-bold">{{this.short_description}} </h5>
+                    <p class="card-subtitle text-secondary teacher-text">{{this.course_author.name}}</p>
+                    <div class="_46">
+                        <span class="number-rating"></span>
+                        <div class="stars-outer">
+                            <div class="stars-inner"></div>
+                        </div>
+                        <span class="number-rates">({{this.rating}})</span>
+                    </div>
+                    <h5 class="card-text font-weight-bold"> ${{this.price}} </h5>
+                    <div class="temp"></div>
+                    {{#ifequal ../delete 0}}
+
+                    <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to course</a>
+                    {{else}}
+                    <button class='btn  btn-primary mt-auto btn-restore' data-id="{{this._id}}">
+                        <span class="fas fa-window-restore"></span>
+                        Khôi phục
+                    </button>
+                    {{/ifequal}}
+            </div>
+            <div class="home-product-item__favourite test">
+                <i class="fas fa-check"></i>
+                <span>
+
+                    Yêu thích
+                </span>
+            </div>
+            <button class="btn btn-edit-course" data-toggle="modal" data-id="{{this._id}}"
+                data-target="#delete-course-modal">
+                <i class="fas fa-times icon-dlt"></i>
+            </button>
+        </div>
+    </div>
+
+    {{else}}
+    <h3>Không có khóa học nào</h3>
+    {{/each}}
+</div>
+</div>

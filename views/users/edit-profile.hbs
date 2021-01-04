@@ -62,7 +62,7 @@
     <div class="col-sm-3 p-2">
       <div class="card text-left">
         <div class="text-center pt-5">
-          <input id="avatar" name="avatar" type="file" required>
+          <input id="avatar" name="avatar" type="file">
         </div>
         <div class="card-body text-center">
           <h4 class="card-title">{{user.name}}</h4>
@@ -125,6 +125,7 @@
     maxFileCount: 1,
     overwriteInitial: true,
     maxFileSize: 4500,
+    initialPreviewAsData: true,
     showClose: false,
     showCaption: false,
     showUpload: false,

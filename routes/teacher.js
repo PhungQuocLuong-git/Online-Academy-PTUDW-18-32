@@ -14,5 +14,6 @@ router.post('/check', teacherController.check);
 router.patch('/censor',isAdmin, teacherController.censor);
 // router.post('/login', teacherController.create);
 router.get('/logout', teacherController.logout);
+router.get('/courses',teacherController.uploadedCourses);
 
 module.exports = router;

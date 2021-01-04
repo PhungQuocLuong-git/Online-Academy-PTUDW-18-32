@@ -150,20 +150,20 @@ class StudentController {
                 console.log(err);
             }
             else {
-                console.log(req.files);
-                console.log(req.body);
-                req.body.avatar = '/public/images/avatars/' + req.files[0].originalname;
-                if(!req.session.user.avatar.includes('https://'))
-                    fs.unlink('.'+req.session.user.avatar,(sth) => {
-                        console.log(sth);
-                });
+                if(req.files.length!==0) {
+                    req.body.avatar = '/public/images/avatars/' + req.files[0].originalname;
+                    req.session.user.avatar = req.body.avatar;
+                    req.app.locals.user.avatar = req.body.avatar;
+                    if(req.session.user.avatar.includes('https://'))
+                        fs.unlink('.'+req.session.user.avatar,(sth) => {
+                            console.log(sth);
+                    });
+                }
                 var user = await Student.findByIdAndUpdate(req.params.id, req.body)
-                req.session.user.avatar = req.body.avatar;
                 req.session.user.name = req.body.name;
                 req.session.user.email = req.body.email;
                 req.app.locals.user.name = req.body.name;
                 req.app.locals.user.email = req.body.email;
-                req.app.locals.user.avatar = req.body.avatar;
                 res.redirect('/');
             }
         });
