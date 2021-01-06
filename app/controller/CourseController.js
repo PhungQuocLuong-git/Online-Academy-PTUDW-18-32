@@ -2,9 +2,13 @@ const Course = require('../models/Course');
 const Student = require('../models/Student');
 const Teacher = require('../models/Teacher');
 const Category = require('../models/Category');
+const Subcategory = require('../models/Subcategory');
+const Bookdetail = require('../models/Bookdetail');
 const Subategory = require('../models/Subcategory');
+const moment = require("moment-timezone");
 const Rate = require('../models/Rate');
 const Curriculum = require('../models/Curriculum');
+
 
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 // const { collection } = require('../models/Course');
@@ -19,6 +23,9 @@ async function getMostPurchasedRelated(course_subCatid) {
 
 
 module.exports = {
+    courses(req, res) {
+        res.redirect('/courses/list/all-courses');
+    },
     async listlevel1(req, res) {
         var slug = req.params.slug;
         // var catid = await Category.find({ slug: slug });
@@ -486,6 +493,9 @@ module.exports = {
                 course.course_students.push({ user_id: req.session.user._id });
                 req.session.user.booked_courses.push({ course_id: course._id });
                 req.session.user.money -= course.price;
+                const instance = new Bookdetail({ course_id: course._id, student_id: req.session.user._id, catid: course.catid, subcatid: course.subcatid });
+                instance.save(function (err) {
+                });
                 return Promise.all([Course.findByIdAndUpdate(course._id, course),
                 Student.findByIdAndUpdate(req.session.user._id, req.session.user).populate({
                     path: "cart_courses.course_id",
@@ -607,17 +617,120 @@ module.exports = {
         return editedCourses;
     },
 
-    //Most popular courses
-    getMostpopular() {
+    //Most popular category
+    async getMostpopular(res) {
+        dateTo = moment(); dateFrom = moment().subtract(7, 'd');
+        var listbooked = await Bookdetail.find({ "createdAt": { $gte: dateFrom } });
+        var listsub = await Subcategory.find({}).populate("CatID");
+        listsub = multipleMongooseToObject(listsub);
+        var listcate = res.locals.lcCategories;
 
+        var lencate = listcate.length;
+        var lenbooked = listbooked.length;
+        var lensub = listsub.length;
+        for (var i = 0; i < lencate; i++) {
+            listcate[i]['count'] = 0;
+        }
+        for (var i = 0; i < lensub; i++) {
+            listsub[i]['count'] = 0;
+        }
+        for (var i = 0; i < lenbooked; i++) {
+            for (var j = 0; j < lencate; j++) {
+                if (listbooked[i].catid == listcate[j]._id) {
+                    listcate[j]['count'] += 1;
+                }
+            }
+            for (var e = 0; e < lensub; e++) {
+                if (listbooked[i].subcatid == listsub[e]._id) {
+                    listsub[e]['count'] += 1;
+                }
+            }
+        }
+
+        listcate.sort(function (a, b) { return b.count - a.count });
+        listcate = listcate.slice(0, 5);
+
+        while (listcate.length > 0 && listcate[listcate.length - 1].count === 0) {
+            listcate = listcate.slice(0, listcate.length - 1);
+        }
+        listsub.sort(function (a, b) { return b.count - a.count });
+        listsub = listsub.slice(0, 5);
+
+        while (listsub.length > 0 && listsub[listsub.length - 1].count === 0) {
+            listsub = listsub.slice(0, listsub.length - 1);
+        }
+        // temp=temp.slice(0,0);
+
+
+
+        // console.log(list[0]);
+
+        // console.log(list);
+        return [listcate, listsub];
     },
+    
     //Most highligted courses
-    getMostHighlighted() {
+    async getMostHighlighted() {
+        dateFrom = moment().subtract(7, 'd');
+        var listrate = await Rate.find({ "createdAt": { $gte: dateFrom } });
+        listrate = multipleMongooseToObject(listrate);
+        var lenlistrate = listrate.length;
+        var listcourse = [];
+        for (var i = 0; i < lenlistrate; i++) {
+            if (!listcourse.includes(listrate[i].course_id))
+                listcourse.push(listrate[i].course_id);
+        }
 
+        // console.log(listcourse);
+        var courses = await Course.find({ _id: { $in: listcourse } });
+        courses = multipleMongooseToObject(courses);
+        var lencourses = courses.length;
+        // console.log(lencourses);
+        for (var i = 0; i < lencourses; i++) {
+            courses[i]['ratethisweek'] = 0;
+            courses[i]['numratethisweek'] = 0;
+            for (var j = 0; j < lenlistrate; j++) {
+                if (listrate[j].course_id + "" === courses[i]._id + "") {
+
+                    courses[i]['numratethisweek'] += 1;
+                    courses[i]['ratethisweek'] += +listrate[j].rate_value;
+                    // console.log(+listrate[j].rate_value);
+
+                }
+            }
+            // console.log(courses[i]);
+        }
+        var inv = 1.0 / 0.5;
+        for (var i = 0; i < lencourses; i++) {
+            var temp=courses[i].ratethisweek/courses[i].numratethisweek;
+            // console.log(temp);
+            courses[i]['ratethisweek']=Math.round(temp*inv)/inv;
+        }
+
+        courses.sort((course1, course2) => { course1.ratethisweek - course2.ratethisweek });
+
+
+        // console.log(courses.slice(0, 3));
+        return courses.slice(0, 3);
     },
     //Newest courses
-    getNewest() {
+    async getNewest() {
+        var courses = await Course.find().populate('course_author').sort({ createdAt: -1 }).limit(10);
+        // courses.sort((course1, course2) => { course1.view - course2.view });
+        // editedCourses=courses.slice(0,10);
+        /* for(var i=0;i<courses.length;i++)
+        {
+            console.log(courses[i].createdAt);
 
+        } */
+        editedCourses = {
+            first_3: multipleMongooseToObject(courses.slice(0, 3)),
+            next_3: multipleMongooseToObject(courses.slice(3, 6)),
+            last_3: multipleMongooseToObject(courses.slice(6, 9)),
+            last_1: mongooseToObject(courses[9])
+        }
+        //...mongooseToObject(courses[9])
+        return editedCourses;
     },
 };
 
