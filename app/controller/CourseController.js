@@ -86,9 +86,9 @@ module.exports = {
 
             }
         }
-        
 
-        
+
+
 
 
         res.render('courses/list', {
@@ -184,9 +184,11 @@ module.exports = {
     },
 
     async detail(req, res, next) {
-        // try {
-        var course = await (await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author rates'));
-        var isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+        try {
+        var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
+        var isBooked=true;
+        if(req.session.role===1)
+            isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
         var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
         var isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
         mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
@@ -200,9 +202,9 @@ module.exports = {
         });
         course.view++;
         await Course.updateOne({ slug: course.slug }, course);
-        // } catch (err) {
-        //     res.json({ msg: 'Something happened!!!' });
-        // }
+        } catch (err) {
+            res.json({ msg: 'Something happened!!!' });
+        }
     },
 
     create(req, res) {
@@ -227,10 +229,10 @@ module.exports = {
         sortOption.field = "price";
         sortOption.type = 1;
         // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
-        Course.find({$or: [{$text: {$search: req.query.kw}}, {name: {$regex: req.query.kw,$options:'i'}}]})
-        .find(options).sortable(req).populate('course_author course_students')
-        // Course.find({ "name": { $regex: req.query.kw,$options:'i' } })
-        // Course.find().pretty()
+        Course.find({ $or: [{ $text: { $search: req.query.kw } }, { name: { $regex: req.query.kw, $options: 'i' } }] })
+            .find(options).sortable(req).populate('course_author course_students')
+            // Course.find({ "name": { $regex: req.query.kw,$options:'i' } })
+            // Course.find().pretty()
             .then(courses => res.render('courses/search', {
                 courses: multipleMongooseToObject(courses)
             }))
@@ -256,7 +258,7 @@ module.exports = {
         });
         const upload = multer({ storage });
 
-        //console.log(req.query);
+        console.log(req.query);
         //Tao input cho multer fields
         var inputArr = [{ name: 'thumbnail', maxcount: 1 }, { name: 'preview_vid', maxcount: 1 }];
         for (let i = 1; i <= +req.query.num; i++) {
@@ -271,11 +273,14 @@ module.exports = {
                 console.log(err);
             }
             else {
-                //console.log(req.body);
+                console.log(req.body);
                 //console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
-                req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
+                if(typeof(req.files.preview_vid)===undefined)
+                    req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
+                // else
+                //     req.body.preview_video="";
                 req.body.curriculum = [];
                 for (let i = 1; i <= +req.query.num; i++) {
 
@@ -287,7 +292,8 @@ module.exports = {
                             }
                         }
                         //console.log(previewArr);
-                        var object = { chapter_name: req.body.chapter_name[i - 1], lectures: [] };       //Lecture
+                        var object = { chapter_name: req.body.chapter_name[0], lectures: [] };    //Lecture
+                        req.body.chapter_name.shift();
                         if (+req.query[`chapter${i}`] > 1) {
                             for (let j = 1; j <= +req.query[`chapter${i}`]; j++) {                  //Xử lý nội dung lecture
                                 if (typeof (req.body[`lec_chapter${i}_name`][j - 1]) !== 'undefined') {
@@ -320,6 +326,7 @@ module.exports = {
                                 preview: previewArr[0]
                             })
                         }
+                        console.log(object);
                         const curr = new Curriculum(object);
                         curr.save();
                         req.body.curriculum.push({ _id: curr.id });
@@ -445,7 +452,7 @@ module.exports = {
         // .then(course => {console.log(course.course_students,'a',course)
         //     console.log(course.course_students.includes(req.session.user._id)) ;}
         // )
-       
+
         Course.findById(req.params.id).populate('course_students')
             .then(course => {
                 return new Promise(function (resolve, reject) {

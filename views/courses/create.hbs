@@ -70,7 +70,7 @@
 
                         <div class="form-group">
                             <label for="name">Tên khóa học </label>
-                            <input type="text" class="form-control" id="name" name="name">
+                            <input type="text" class="form-control" id="name" name="name" required>
                             <span class="form-message"></span>
                         </div>
 
@@ -89,6 +89,7 @@
                         <div class="form-group">
                             <label for="thumbnail">Thumbnail khoá học</label>
                             <input id="thumbnail" name="thumbnail" type="file">
+                            <span class="thumb-msg text-danger"></span>
                         </div>
 
                         <div class="form-group">
@@ -134,7 +135,8 @@
                         
                     </div>
                     <div class="tab-pane fade" id="sub" role="tabpanel" aria-labelledby="sub-tab">
-<button type="submit" class="btn btn-primary form-submit">Thêm khóa học</button>
+                            <button type="submit" class="btn btn-primary form-submit">Thêm khóa học</button>
+                            <span class="err-msg text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -192,6 +194,8 @@
             errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#name', 'Nhập tên khóa học'),
+                Validator.isRequired('#price','Nhập giá khoá học'),
+                Validator.isRequired('#short_description','Nhập mô tả ngắn gọn khoá học')
             ],
         });
         $(".custom-file-input").on("change", function () {
@@ -224,7 +228,7 @@
                             <div class="w-75 lecture p-3">
                                 <div class="form-group">
                                     <div class="d-flex justify-content-between">
-                                        <h5>Lecture 1</h5>
+                                        <h5>New lecture</h5>
                                         <div class="btn btn-outline-danger btn-delete-lecture"><i
                                                 class="fas fa-times"></i></div>
                                     </div>
@@ -276,7 +280,7 @@
                 $(this).parent().parent().append(`<div class="w-75 lecture p-3 mt-3">
                                 <div class="form-group">
                                     <div class="d-flex justify-content-between">
-                                        <h5>Lecture ${lec_num}</h5>
+                                        <h5>New lecture</h5>
                                         <div class="btn btn-outline-danger btn-delete-lecture"><i
                                                 class="fas fa-times"></i></div>
                                     </div>
@@ -341,8 +345,21 @@
 
         var submitForm = document.forms['createForm'];
         var btnSubmit = $('.form-submit');
-        btnSubmit.on('click', function () {
-             $('input[type="file"]').each(function(){
+        btnSubmit.on('click', function (e) {
+            let thumb=$('input[name=thumbnail]').val();
+            if(thumb==="") {
+                $('.thumb-msg').html(`Please choose your course's thumbnail`);
+                $('.err-msg').html("Please fill in all the required fields");
+                e.preventDefault();
+            }
+            let price=$('#price').val();
+            let shrt_des=$('#short_description').val();
+            if(price ==="" || shrt_des==="") {
+                $('.err-msg').html("Please fill in all the required fields");
+                e.preventDefault();
+            }
+            if(price !=="" && shrt_des!=="" && des!=="" && thumb!=="") {
+            $('input[type="file"]').each(function(){
                 if(this.value==='')
                 {
                     let name=$(this).attr('name');
@@ -356,8 +373,11 @@
             for (let i = 1; i <= num; i++) {
                 let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
                 submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
+                let pre_vid=$('#preview-vid').val();
+                
             }
             submitForm.submit();
+            }
         })
 
         var $select1 = $('#catid'),
