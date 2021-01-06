@@ -136,6 +136,7 @@ class AdminController {
         res.render('admin/addcategory');
         
         const instance = new categorySchema(req.body);
+        // console.log(req.body);
         instance.save(function (err) {
         });
 

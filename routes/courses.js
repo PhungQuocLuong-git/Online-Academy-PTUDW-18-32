@@ -6,7 +6,8 @@ const TeacherMiddleware = require('../app/middlewares/teacher.mdw');
 const courseController = require('../app/controller/CourseController');
 
 
-router.get('/', courseController.listlevel1);
+router.get('/', courseController.courses);
+router.get('/list', courseController.courses);
 router.get('/search',courseController.search);
 router.get('/create',TeacherMiddleware,courseController.create);
 router.get('/wished',courseController.wished);

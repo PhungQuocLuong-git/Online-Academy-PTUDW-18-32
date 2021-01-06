@@ -1,5 +1,6 @@
 const Student = require('../models/Student');
 const Course = require('../models/Course');
+const Bookdetail = require('../models/Bookdetail');
 const mailer = require('../../util/mailer');
 const { mongooseToObject } = require('../../util/mongoose');
 const multer = require('multer');
@@ -7,7 +8,7 @@ const fs = require('fs');
 
 // Hash password
 const bcrypt = require('bcrypt');
-const { findByIdAndUpdate } = require('../models/Student');
+// const { findByIdAndUpdate } = require('../models/Student');
 const saltRounds = 10;
 
 
@@ -107,9 +108,9 @@ class StudentController {
         });
     }
     // [POST] /student/check
-    check(req,res,next) {
+    check(req, res, next) {
         // res.json(req.body.password);
-        Student.findOne({username: req.body.username}).populate({
+        Student.findOne({ username: req.body.username }).populate({
             path: "cart_courses.course_id",
             select: "name slug price description course_author",
             populate: { path: "course_author", select: "name" },
@@ -251,6 +252,9 @@ class StudentController {
                     var courses = await Course.find({ _id: { $in: idCourses } }).populate('course_students')
                     let i = courses.length - 1;
                     courses.forEach(async function (course) {
+                        const instance = new Bookdetail({ course_id: course._id, student_id: req.session.user._id, catid: course.catid, subcatid: course.subcatid });
+                        instance.save(function (err) {
+                        });
                         user.booked_courses.push({ course_id: course.id });
                         let i = 0;
                         user.cart_courses.forEach(course2 => {
