@@ -591,59 +591,99 @@ module.exports = {
 
     //Most popular category
     async getMostpopular(res) {
-        dateTo = moment();
-        dateFrom = moment().subtract(7, 'd');
-        var list = await Bookdetail.find({ "createdAt": { $gte: dateFrom } });
-        var list2 = await Subcategory.find({}).populate("CatID");
-        list2=multipleMongooseToObject(list2);
-        var temp = res.locals.lcCategories;
+        dateTo = moment(); dateFrom = moment().subtract(7, 'd');
+        var listbooked = await Bookdetail.find({ "createdAt": { $gte: dateFrom } });
+        var listsub = await Subcategory.find({}).populate("CatID");
+        listsub = multipleMongooseToObject(listsub);
+        var listcate = res.locals.lcCategories;
 
-        var templen = temp.length;
-        var listlen = list.length;
-        var list2len = list2.length;
-        for (var i = 0; i < templen; i++) {
-            temp[i]['count'] = 0;
+        var lencate = listcate.length;
+        var lenbooked = listbooked.length;
+        var lensub = listsub.length;
+        for (var i = 0; i < lencate; i++) {
+            listcate[i]['count'] = 0;
         }
-        for (var i = 0; i < list2len; i++) {
-            list2[i]['count'] = 0;
+        for (var i = 0; i < lensub; i++) {
+            listsub[i]['count'] = 0;
         }
-        for (var i = 0; i < listlen; i++) {
-            for (var j = 0; j < templen; j++) {
-                if (list[i].catid == temp[j]._id) {
-                    temp[j]['count'] += 1;
+        for (var i = 0; i < lenbooked; i++) {
+            for (var j = 0; j < lencate; j++) {
+                if (listbooked[i].catid == listcate[j]._id) {
+                    listcate[j]['count'] += 1;
                 }
             }
-            for (var e = 0; e < list2len; e++) {
-                if (list[i].subcatid == list2[e]._id) {
-                    list2[e]['count'] += 1;
+            for (var e = 0; e < lensub; e++) {
+                if (listbooked[i].subcatid == listsub[e]._id) {
+                    listsub[e]['count'] += 1;
                 }
             }
         }
 
-        temp.sort(function (a, b) { return b.count - a.count });
-        temp = temp.slice(0, 5);
+        listcate.sort(function (a, b) { return b.count - a.count });
+        listcate = listcate.slice(0, 5);
 
-        while (temp.length > 0 && temp[temp.length - 1].count === 0) {
-            temp = temp.slice(0, temp.length - 1);
+        while (listcate.length > 0 && listcate[listcate.length - 1].count === 0) {
+            listcate = listcate.slice(0, listcate.length - 1);
         }
-        list2.sort(function (a, b) { return b.count - a.count });
-        list2 = list2.slice(0, 5);
+        listsub.sort(function (a, b) { return b.count - a.count });
+        listsub = listsub.slice(0, 5);
 
-        while (list2.length > 0 && list2[list2.length - 1].count === 0) {
-            list2 = list2.slice(0, list2.length - 1);
+        while (listsub.length > 0 && listsub[listsub.length - 1].count === 0) {
+            listsub = listsub.slice(0, listsub.length - 1);
         }
         // temp=temp.slice(0,0);
 
-        
+
 
         // console.log(list[0]);
 
         // console.log(list);
-        return [temp,list2];
+        return [listcate, listsub];
     },
+    
     //Most highligted courses
-    getMostHighlighted() {
+    async getMostHighlighted() {
+        dateFrom = moment().subtract(7, 'd');
+        var listrate = await Rate.find({ "createdAt": { $gte: dateFrom } });
+        listrate = multipleMongooseToObject(listrate);
+        var lenlistrate = listrate.length;
+        var listcourse = [];
+        for (var i = 0; i < lenlistrate; i++) {
+            if (!listcourse.includes(listrate[i].course_id))
+                listcourse.push(listrate[i].course_id);
+        }
 
+        // console.log(listcourse);
+        var courses = await Course.find({ _id: { $in: listcourse } });
+        courses = multipleMongooseToObject(courses);
+        var lencourses = courses.length;
+        // console.log(lencourses);
+        for (var i = 0; i < lencourses; i++) {
+            courses[i]['ratethisweek'] = 0;
+            courses[i]['numratethisweek'] = 0;
+            for (var j = 0; j < lenlistrate; j++) {
+                if (listrate[j].course_id + "" === courses[i]._id + "") {
+
+                    courses[i]['numratethisweek'] += 1;
+                    courses[i]['ratethisweek'] += +listrate[j].rate_value;
+                    // console.log(+listrate[j].rate_value);
+
+                }
+            }
+            // console.log(courses[i]);
+        }
+        var inv = 1.0 / 0.5;
+        for (var i = 0; i < lencourses; i++) {
+            var temp=courses[i].ratethisweek/courses[i].numratethisweek;
+            // console.log(temp);
+            courses[i]['ratethisweek']=Math.round(temp*inv)/inv;
+        }
+
+        courses.sort((course1, course2) => { course1.ratethisweek - course2.ratethisweek });
+
+
+        // console.log(courses.slice(0, 3));
+        return courses.slice(0, 3);
     },
     //Newest courses
     async getNewest() {
