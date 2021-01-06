@@ -265,7 +265,7 @@ module.exports = {
         });
         const upload = multer({ storage });
 
-        console.log(req.query);
+        //console.log(req.query);
         //Tao input cho multer fields
         var inputArr = [{ name: 'thumbnail', maxcount: 1 }, { name: 'preview_vid', maxcount: 1 }];
         for (let i = 1; i <= +req.query.num; i++) {
@@ -280,7 +280,7 @@ module.exports = {
                 console.log(err);
             }
             else {
-                console.log(req.body);
+                //console.log(req.body);
                 //console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
@@ -333,7 +333,7 @@ module.exports = {
                                 preview: previewArr[0]
                             })
                         }
-                        console.log(object);
+                        //console.log(object);
                         const curr = new Curriculum(object);
                         curr.save();
                         req.body.curriculum.push({ _id: curr.id });
