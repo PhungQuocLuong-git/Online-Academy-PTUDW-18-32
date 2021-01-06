@@ -8,6 +8,9 @@ const rateSchema = new Schema({
     student_avatar: {type:String,default:''},
     rate_value: {type:String,default:'0'},
     comment: {type:String,default:''}
+},
+{
+    timestamps: true,
 })
 
 module.exports = mongoose.model('Rate', rateSchema);

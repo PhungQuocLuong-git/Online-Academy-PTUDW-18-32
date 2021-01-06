@@ -1,5 +1,6 @@
 const Student = require('../models/Student');
 const Course = require('../models/Course');
+const Bookdetail = require('../models/Bookdetail');
 const mailer = require('../../util/mailer');
 const { mongooseToObject } = require('../../util/mongoose');
 const multer = require('multer');
@@ -107,9 +108,9 @@ class StudentController {
         });
     }
     // [POST] /student/check
-    check(req,res,next) {
+    check(req, res, next) {
         // res.json(req.body.password);
-        Student.findOne({username: req.body.username}).populate({
+        Student.findOne({ username: req.body.username }).populate({
             path: "cart_courses.course_id",
             select: "name slug price description course_author",
             populate: { path: "course_author", select: "name" },
@@ -153,10 +154,10 @@ class StudentController {
                 console.log(req.files);
                 console.log(req.body);
                 req.body.avatar = '/public/images/avatars/' + req.files[0].originalname;
-                if(!req.session.user.avatar.includes('https://'))
-                    fs.unlink('.'+req.session.user.avatar,(sth) => {
+                if (!req.session.user.avatar.includes('https://'))
+                    fs.unlink('.' + req.session.user.avatar, (sth) => {
                         console.log(sth);
-                });
+                    });
                 var user = await Student.findByIdAndUpdate(req.params.id, req.body)
                 req.session.user.avatar = req.body.avatar;
                 req.session.user.name = req.body.name;
@@ -251,6 +252,9 @@ class StudentController {
                     var courses = await Course.find({ _id: { $in: idCourses } }).populate('course_students')
                     let i = courses.length - 1;
                     courses.forEach(async function (course) {
+                        const instance = new Bookdetail({ course_id: course._id, student_id: req.session.user._id, catid: course.catid, subcatid: course.subcatid });
+                        instance.save(function (err) {
+                        });
                         user.booked_courses.push({ course_id: course.id });
                         let i = 0;
                         user.cart_courses.forEach(course2 => {

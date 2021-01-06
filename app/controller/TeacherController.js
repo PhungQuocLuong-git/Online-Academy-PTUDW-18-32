@@ -58,9 +58,7 @@ class TeacherController{
     logout(req,res,next) {
         req.app.locals.role = 0;
         req.session.destroy(() => {
-            res.render('teachers/login',{
-                layout:false,
-            });
+            res.redirect('/teacher/login');
           });
     }
 
