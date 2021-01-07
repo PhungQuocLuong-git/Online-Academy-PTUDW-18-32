@@ -544,8 +544,9 @@ module.exports = {
     //Most viewed courses
     async getMostviewed() {
         var courses = await Course.find().populate('course_author');
-        courses.sort((course1, course2) => { course1.view - course2.view });
+        courses.sort(function (course1, course2) { return course2.view -course1.view});
         // editedCourses=courses.slice(0,10);
+        
         editedCourses = {
             first_3: multipleMongooseToObject(courses.slice(0, 3)),
             next_3: multipleMongooseToObject(courses.slice(3, 6)),
@@ -624,7 +625,7 @@ module.exports = {
         var courses = await Course.find({ _id: { $in: listcourse } });
         courses = multipleMongooseToObject(courses);
         var lencourses = courses.length;
-        // console.log(lencourses);
+        
         for (var i = 0; i < lencourses; i++) {
             courses[i]['ratethisweek'] = 0;
             courses[i]['numratethisweek'] = 0;
@@ -645,8 +646,9 @@ module.exports = {
             // console.log(temp);
             courses[i]['ratethisweek']=Math.round(temp*inv)/inv;
         }
-
-        courses.sort((course1, course2) => { course1.ratethisweek - course2.ratethisweek });
+        
+        courses.sort(function (course1, course2)  {return course2.ratethisweek- course1.ratethisweek  });
+        // console.log(courses);
 
 
         // console.log(courses.slice(0, 3));
