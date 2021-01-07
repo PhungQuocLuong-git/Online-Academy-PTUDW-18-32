@@ -324,9 +324,9 @@
                 $(this).data('num', lec_num)
                 //Thêm sự kiện xoá lecture cho lecture mới thêm
                 $(`.btn-delete-lecture`).on('click', function () {
-                    /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
-                    lec_num--;
-                    $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
+                    let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
+            lec_num--;
+            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);
                     $(this).parent().parent().parent().remove();
                 })
             })
@@ -336,9 +336,9 @@
             })
             //Thêm sự kiện xoá lecture cho chapter mới thêm
             $(`.btn-delete-lecture`).on('click', function () {
-                /*let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
+                let lec_num = $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num');
             lec_num--;
-            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);*/
+            $(this).parent().parent().parent().siblings('.d-flex').children('.btn-outline-primary').data('num', lec_num);
                 $(this).parent().parent().parent().remove();
             })
         });
