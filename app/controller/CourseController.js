@@ -193,9 +193,11 @@ module.exports = {
     async detail(req, res, next) {
         try {
         var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
-        var isBooked=true;
+        var isBooked=false;
         if(req.session.role===1)
             isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+        if(req.session.role===2 || req.session.role===3)
+            isBooked=true;
         var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
         var isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
         mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
