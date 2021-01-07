@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const curriculumSchema = new Schema({
-    chapter_name: { type: String ,default:''},
+    chapter_name: { type: String ,default:`course's chapter`},
     lectures: [{
         name: { type: String, default: '' },
         description: { type: String, default: '' },
