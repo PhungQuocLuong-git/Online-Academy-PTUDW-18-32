@@ -88,12 +88,16 @@
 
                         <div class="form-group">
                             <label for="thumbnail">Thumbnail khoá học</label>
-                            <input id="thumbnail" name="thumbnail" type="file">
+                            <input id="thumbnail" name="thumbnail" type="file" id="thumbnail">
+                            <span class="form-message"></span>
+
                         </div>
 
                         <div class="form-group">
                             <label for="preview-vid">Preview course video khoá học</label>
                             <input id="preview-vid" name="preview_vid" type="file">
+                            <span class="form-message"></span>
+
                         </div>
 
                         <div class="form-group">
@@ -117,10 +121,16 @@
                                 {{!-- <option value="1">Web</option>
                                 <option value="2">Android</option> --}}
                             </select>
+                            <span class="form-message"></span>
+
+                        </div>
+                        <div class="form-group">
+
                             <label for="subcatid">Sub Category </label>
                             <select name="subcatid" id="subcatid">
                                 {{#each lcCategories }}
                                 {{#each sub}}
+
                                 <option value="{{_id}}" id="{{CatID}}">{{SubCatName}}</option>
                                 {{/each}}
                                 {{/each}}
@@ -134,7 +144,7 @@
                         
                     </div>
                     <div class="tab-pane fade" id="sub" role="tabpanel" aria-labelledby="sub-tab">
-<button type="submit" class="btn btn-primary form-submit">Thêm khóa học</button>
+                        <button class="btn btn-primary form-submit">Thêm khóa hc</button>
                     </div>
                 </div>
             </div>
@@ -157,6 +167,38 @@
 
     <script>
         $(document).ready(function () {
+            $('#form-1').submit( function (e) {
+             $('input[type="file"]').each(function(){
+                if(this.value==='')
+                {
+                    let name=$(this).attr('name');
+                    $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
+                } else {
+                let name=$(this).attr('name');
+                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
+                }
+            })
+            submitForm.action = `/courses/store?num=${num}`;
+            for (let i = 1; i <= num; i++) {
+                let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
+                submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
+            }
+            return false;
+        })
+            Validator({
+            form: '#form-1',
+            formGroup: '.form-group',
+            errorSelector: '.form-message',
+            rules: [
+                Validator.isRequired('#name', 'Nhập tên khóa học'),
+                Validator.isRequired('#short_description', 'Nhập tên khóa học'),
+                Validator.isRequired('#description', 'Nhập tên khóa học'),
+                Validator.isRequired('#thumbnail', 'Nhập tên khóa học'),
+                Validator.isRequired('#price', 'Nhập tên khóa học'),
+                Validator.isRequired('#catid', 'Nhập tên khóa học'),
+                Validator.isRequired('#subcatid', 'Nhập tên khóa học'),
+            ],
+        });
             $("#thumbnail").fileinput({
                 theme: 'fa',
                 dropZoneEnabled: false,
@@ -186,14 +228,7 @@
             ],
         });
 
-        Validator({
-            form: '#form-1',
-            formGroup: '.form-group',
-            errorSelector: '.form-message',
-            rules: [
-                Validator.isRequired('#name', 'Nhập tên khóa học'),
-            ],
-        });
+        
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -341,24 +376,7 @@
 
         var submitForm = document.forms['createForm'];
         var btnSubmit = $('.form-submit');
-        btnSubmit.on('click', function () {
-             $('input[type="file"]').each(function(){
-                if(this.value==='')
-                {
-                    let name=$(this).attr('name');
-                    $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
-                } else {
-                let name=$(this).attr('name');
-                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
-                }
-            })
-            submitForm.action = `/courses/store?num=${num}`;
-            for (let i = 1; i <= num; i++) {
-                let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
-                submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
-            }
-            submitForm.submit();
-        })
+        
 
         var $select1 = $('#catid'),
             $select2 = $('#subcatid'),
