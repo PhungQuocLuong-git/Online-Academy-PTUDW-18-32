@@ -192,25 +192,25 @@ module.exports = {
 
     async detail(req, res, next) {
         try {
-        var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
-        var isBooked=false;
-        if(req.session.role===1)
-            isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
-        if(req.session.role===2 || req.session.role===3)
-            isBooked=true;
-        var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
-        var isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
-        mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
-        res.render('courses/detail', {
-            course: mongooseToObject(course),
-            script: '/public/javascripts/home.js',
-            isBooked,
-            isTeacher: req.session.role === 2,
-            mostRelatedPurchased,
-            isStudent
-        });
-        course.view++;
-        await Course.updateOne({ slug: course.slug }, course);
+            var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
+            var isBooked = false;
+            if (req.session.role === 1)
+                isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+            if (req.session.role === 2 || req.session.role === 3)
+                isBooked = true;
+            var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
+            var isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+            mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
+            res.render('courses/detail', {
+                course: mongooseToObject(course),
+                script: '/public/javascripts/home.js',
+                isBooked,
+                isTeacher: req.session.role === 2,
+                mostRelatedPurchased,
+                isStudent
+            });
+            course.view++;
+            await Course.updateOne({ slug: course.slug }, course);
         } catch (err) {
             res.json({ msg: 'Something happened!!!' });
         }
@@ -282,11 +282,11 @@ module.exports = {
                 console.log(err);
             }
             else {
-                //console.log(req.body);
+                console.log(req.body);
                 //console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
-                if(typeof(req.files.preview_vid)===undefined)
+                if (typeof (req.files.preview_vid) === undefined)
                     req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
                 // else
                 //     req.body.preview_video="";
@@ -301,8 +301,17 @@ module.exports = {
                             }
                         }
                         //console.log(previewArr);
-                        var object = { chapter_name: req.body.chapter_name[0], lectures: [] };    //Lecture
-                        req.body.chapter_name.shift();
+                        var object;
+                        if (typeof (req.body.chapter_name[0]) !== undefined) {
+                            if (Array.isArray(req.body.chapter_name)) {
+                                object = { chapter_name: req.body.chapter_name[0], lectures: [] };    //Lecture
+                                req.body.chapter_name.shift();
+                            }
+                            else
+                                object = { chapter_name: req.body.chapter_name, lectures: [] };
+                        }
+                        else
+                            object = { chapter_name: "", lectures: [] };
                         if (+req.query[`chapter${i}`] > 1) {
                             for (let j = 1; j <= +req.query[`chapter${i}`]; j++) {                  //Xử lý nội dung lecture
                                 if (typeof (req.body[`lec_chapter${i}_name`][j - 1]) !== 'undefined') {
@@ -670,7 +679,7 @@ module.exports = {
         // console.log(list);
         return [listcate, listsub];
     },
-    
+
     //Most highligted courses
     async getMostHighlighted() {
         dateFrom = moment().subtract(7, 'd');
@@ -704,9 +713,9 @@ module.exports = {
         }
         var inv = 1.0 / 0.5;
         for (var i = 0; i < lencourses; i++) {
-            var temp=courses[i].ratethisweek/courses[i].numratethisweek;
+            var temp = courses[i].ratethisweek / courses[i].numratethisweek;
             // console.log(temp);
-            courses[i]['ratethisweek']=Math.round(temp*inv)/inv;
+            courses[i]['ratethisweek'] = Math.round(temp * inv) / inv;
         }
 
         courses.sort((course1, course2) => { course1.ratethisweek - course2.ratethisweek });
