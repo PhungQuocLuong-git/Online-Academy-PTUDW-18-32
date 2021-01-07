@@ -23,6 +23,7 @@ const CourseSchema = new Schema({
   discount_price: { type: Number, default: 0 },
   view: { type: Number, default: 0 },
   status: { type: Number, default: 0 },
+  complete: { type: Number, default: 0 },
   image: { type: String, default: '/public/images/feature.png' },
   preview_video: { type: String, default: '' },
   catid: { type: String, require: true },

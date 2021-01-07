@@ -155,7 +155,7 @@ module.exports = {
 
     create(req, res) {
         res.render('courses/create', {
-            layout: false,
+            layout: 'teacher',
         })
     },
     fts(req, res) {

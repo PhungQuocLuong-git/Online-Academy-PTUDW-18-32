@@ -15,6 +15,31 @@ class TeacherController{
         });
     }
 
+
+    home(req,res) {
+        res.render('teachers/teacher',{
+            layout:'teacher'
+        });
+    };
+    async inprogresscourses(req,res) {
+
+        var listidcourse=req.app.locals.user.posted_courses;
+        var len=listidcourse.length;
+        var listid=[];
+        for(var i=0;i<len;i++)
+        {
+            listid.push(listidcourse[i].course_id);
+        }
+        
+        var courses= await Course.find({_id:{$in: listid},complete: 0});
+        
+        res.render('teachers/inprogresscourses',{
+            layout:'teacher',
+            courses: courses,
+        });
+    };
+
+
     // [POST] /Teacher/store
     store(req,res,next) {
         Promise.all([Teacher.findOne({username: req.body.username}),bcrypt.hash(req.body.password, saltRounds)])
