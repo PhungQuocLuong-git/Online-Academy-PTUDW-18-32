@@ -34,38 +34,6 @@ module.exports = {
             page = 1;
         }
 
-
-
-        /* var len = catid.length;
-        if (len === 0) {
-            res.render('courses/list', {
-                script: '/public/javascripts/home.js',
-                isvalid: 1,
-            });
-        }
-        else {
-            page = +page;
-        }
-
-        console.log(page);
-        console.log(url);
-        if (slug === "all-courses") {
-            var list = await Course.find({}).populate('course_author');
-            res.render('courses/list', {
-                script: '/public/javascripts/home.js',
-                isvalid: 0,
-                list: list,
-                name: "All courses",
-                empty: list.length,
-                extraStyle: '/public/stylesheets/home.css',
-                pagination: {
-                    page: 1,
-                    pageCount: 5
-                  },
-                url: url,
-
-            });
-        } */
         var list = [];
         var isvalid;
         var name = '';
@@ -93,11 +61,6 @@ module.exports = {
 
             }
         }
-
-
-
-
-
         res.render('courses/list', {
             script: '/public/javascripts/home.js',
             isvalid: isvalid,
@@ -122,29 +85,6 @@ module.exports = {
         if (typeof page === 'undefined') {
             page = 1;
         }
-
-        /* var len1 = catid.length;
-        var len2 = subcatid.length;
-        if (len1 === 0 || len2 === 0) {
-            res.render('courses/list', {
-                script: '/public/javascripts/home.js',
-                isvalid: 1,
-            });
-        }
-        else {
-
-            var list = await Course.find({ subcatid: subcatid[0]._id }).populate('course_author');
-            res.render('courses/list', {
-                script: '/public/javascripts/home.js',
-                isvalid: 0,
-                list: list,
-                name: subcatid[0].SubCatName,
-                empty: list.length,
-                extraStyle: '/public/stylesheets/home.css',
-
-            });
-        } */
-
         var list = [];
         var isvalid;
         var name = '';
@@ -165,9 +105,6 @@ module.exports = {
             list = pag.docs;
             npage = Math.ceil(pag.total / limit);
         }
-
-
-
         res.render('courses/list', {
             script: '/public/javascripts/home.js',
             isvalid: isvalid,
