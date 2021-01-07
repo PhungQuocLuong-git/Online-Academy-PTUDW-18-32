@@ -554,6 +554,7 @@
 
 
 <!-- Modal -->
+{{#ifCond course.preview_video '!==' ''}}
 <div class="modal fade" id="course-video" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -581,6 +582,27 @@
     </div>
   </div>
 </div>
+{{else}}
+<div class="modal fade" id="course-video" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content m-0" style="width: 608px;">
+      <div class="modal-header">
+        <div>
+          <h6 class="modal-title" id="exampleModalLongTitle">Courses Preview</h6>
+          <h4 class="model-title"> {{course.name}}</h4>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <h5> Preview video chua duoc dang</h5>
+      </div>
+    </div>
+  </div>
+</div>
+{{/ifCond}}
 
 {{#each course.curriculum}}
 {{#each this.lectures}}
