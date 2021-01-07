@@ -1,7 +1,7 @@
 
 
 <div class="container-fluid p-0 my-5" style="width: 94%;">
-    <h1 id="search">Search</h1>
+    <h1 id="search" style="display: none;">Search</h1>
     <div class="row mt-4">
         <div class="col-sm-1"></div>
         <div class="col-2">
@@ -13,9 +13,9 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu--sort" aria-labelledby="dropdownMenuButton">
                     <btn class="btn dropdown-item" id="rating-asc">Lowest Rating</btn>
-                    <btn class="btn dropdown-item" id="rating-dec">Highest Rating</btn>
+                    <btn class="btn dropdown-item" id="rating-desc">Highest Rating</btn>
                     <btn class="btn dropdown-item" id="price-asc">Lowest Price</btn>
-                    <btn class="btn dropdown-item" id="price-dec">Highest Price</btn>
+                    <btn class="btn dropdown-item" id="price-desc">Highest Price</btn>
 
                 </div>
             </div>
@@ -35,9 +35,17 @@
                     <span class="dlt-text dlt-sort-text"></span>
                     <span class="dlt-x dlt-sort-x"></span>
                 </button>
-                <button class="btn btn-danger" id="btn-dlt-rate" style="display: none;">
-                    <span class="dlt-text dlt-rate-text"></span>
-                    <span class="dlt-x dlt-rate-x"></span>
+                <button class="btn btn-danger" id="btn-dlt-category" style="display: none;">
+                    <span class="dlt-text dlt-category-text"></span>
+                    <span class="dlt-x dlt-category-x"></span>
+                </button>
+                <button class="btn btn-danger" id="btn-dlt-subcategory" style="display: none;">
+                    <span class="dlt-text dlt-subcategory-text"></span>
+                    <span class="dlt-x dlt-subcategory-x"></span>
+                </button>
+                <button class="btn btn-danger" id="btn-dlt-rating" style="display: none;">
+                    <span class="dlt-text dlt-rating-text"></span>
+                    <span class="dlt-x dlt-rating-x"></span>
                 </button>
 
                 <button class="btn btn-danger" id="btn-dlt-price" style="display: none;">
@@ -50,54 +58,99 @@
     <div class="  d-flex">
         <div class="col-lg-2">
             <nav class="menu">
-                <h3 class="menu__heading">Rating</h3>
+                <div class="category-contain">
 
-                <ul class="menu-list">
-                    <li class="menu-item ">
-                        <btn class="menu-item__link " name="rate">Tất cả</btn>
-                    </li>
-                    <li class="menu-item ">
-                        <btn class="menu-item__link menu-item__link--rate" name="rate" value="3">
-                            3 & up
-                        </btn>
-                    </li>
-                    <li class="menu-item ">
-                        <btn class="menu-item__link menu-item__link--rate" name="rate" value="3.5">
-                            3.5 & up
-                        </btn>
-                    </li>
-                    <li class="menu-item ">
-                        <btn class="menu-item__link menu-item__link--rate" name="rate" value="4">
-                            4 & up
-                        </btn>
-                    </li>
-                    <li class="menu-item">
-                        <btn class="menu-item__link" name="rate" value="4.5">4.5 & up</btn>
-                    </li>
-                </ul>
-            </nav>
+                    <h3 class="menu__heading accordion" >Category</h3>
+                        <div class="panel p-0" >
+                            <ul class="menu-list">
+                                <li class="menu-item ">
+                                    <btn class="menu-item__link" name="category">Tất cả</btn>
+                                </li>
+                                {{#each lcCategories}}
+                                <li class="menu-item ">
+                                    <btn class="menu-item__link" name="category" value="{{_id}}">{{CatName}}</btn>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                </div>
+                <div id="subcat-contain" style="display: none;">
 
-            <nav class="menu">
-                <h3 class="menu__heading">Price</h3>
+                    <h3 class="menu__heading accordion" >SubCate</h3>
+                        <div class="panel p-0" >
+                            <ul class="menu-list">
+                                <div class="" id="subcat-list-contain">
+                                    <li class="menu-item ">
+                                        <btn class="menu-item__link" name="subcategory">Tất cả</btn>
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                </div>
 
-                <ul class="menu-list">
-                    <li class="menu-item ">
-                        <btn class="menu-item__link" name="price">Tất cả</btn>
-                    </li>
-                    <li class="menu-item ">
-                        <btn class="menu-item__link" name="price" value="5000">>=5000</btn>
-                    </li>
-                    <li class="menu-item">
-                        <btn class="menu-item__link" name="price" value="10000">>=10000</btn>
-                    </li>
-                </ul>
+
+                <h3 class="menu__heading accordion" >Rating</h3>
+                    <div class="panel p-0" >
+                
+
+                        <ul class="menu-list">
+                            <li class="menu-item ">
+                                <btn class="menu-item__link " name="rating">Tất cả</btn>
+                            </li>
+                            <li class="menu-item ">
+                                <btn class="menu-item__link menu-item__link--rating" name="rating" value="3">
+                                    3 & up
+                                </btn>
+                            </li>
+                            <li class="menu-item ">
+                                <btn class="menu-item__link menu-item__link--rating" name="rating" value="3.5">
+                                    3.5 & up
+                                </btn>
+                            </li>
+                            <li class="menu-item ">
+                                <btn class="menu-item__link menu-item__link--rating" name="rating" value="4">
+                                    4 & up
+                                </btn>
+                            </li>
+                            <li class="menu-item">
+                                <btn class="menu-item__link" name="rating" value="4.5">4.5 & up</btn>
+                            </li>
+                        </ul>
+                    </div>
+                
+                <h3 class="menu__heading accordion" >Price</h3>
+                    <div class="panel p-0" >
+                
+
+                        <ul class="menu-list">
+                            <li class="menu-item ">
+                                <btn class="menu-item__link" name="price">Tất cả</btn>
+                            </li>
+                            <li class="menu-item ">
+                                <btn class="menu-item__link" name="price" value="120">>=120</btn>
+                            </li>
+                            <li class="menu-item ">
+                                <btn class="menu-item__link" name="price" value="300">>=300</btn>
+                            </li>
+                            <li class="menu-item ">
+                                <btn class="menu-item__link" name="price" value="5000">>=5000</btn>
+                            </li>
+                            <li class="menu-item">
+                                <btn class="menu-item__link" name="price" value="10000">>=10000</btn>
+                            </li>
+                        </ul>
+                    </div>
+                
+           
+
+                
             </nav>
 
         </div>
         <div class="col-lg-10">
 
             {{#each courses}}
-
+            
             <div class="row my-3 ">
                 <div class="col-4">
                     <img width="260px" height="160px" class="card-img-top" src="/public/images/courses/1on2y0.jpg"
@@ -110,22 +163,44 @@
                         <p class="card-subtitle text-secondary teacher-text">{{this.course_author.name}}</p>
                         <div class="_43 rating-course">
 
-                            <div class="rate" data-rate-value={{this.rating}}></div>
-                            <span class="number-rates">({{this.course_students.length}})</span>
+                            <div class="rate" data-rate-value={{rating}}></div>
+                            <span class="number-ratings">({{this.course_students.length}})</span>
                         </div>
                         <div class="d-flex w-100 justify-content-end position-absolute">
-                            <h5 class="card-text font-weight-bold  text-right"> {{format this.price}} VND </h5>
+                            {{#ifCond price '!=' discount_price}}
+                            <h5 class="card-text font-weight-bold delete-price text-right"> {{format this.price}} </h5>
+                            <h5 class="card-text font-weight-bold align ml-3 text-right">{{format discount_price}} VND </h5>
+                            {{else}}
+                            <h5 class="card-text font-weight-bold align ml-3 text-right">{{format this.price}} VND </h5>
+                            {{/ifCond}}
                         </div>
                         <a href="/courses/{{this.slug}}" class="btn btn-primary align-self-start mt-auto">Go to
                             course</a>
                     </div>
                 </div>
+                
+                {{#ifCond course_students.length '>' 0}}
+                    <div class="course__favourite ">
+                        <i class="fas fa-check"></i>
+                        <span>
+                            Yêu thích
+                        </span> 
+                    </div>
+                    {{else}}
+
+                    {{#newCourse createdAt}}
+                    <div class="course-new">
+                        <span class="far fa-clock new-course-icon"></span>
+                        <span class="course-new-label">New</span>
+                    </div>
+                {{/newCourse}}
+                {{/ifCond}}
             </div>
             {{/each}}
         </div>
     </div>
-    {{>paging}}
-
+    
+    {{>paging}} 
 </div>
 
 <link rel="stylesheet" href='/public/stylesheets/home.css' />
@@ -142,67 +217,128 @@
     });
     var url = new URL(document.location.href);
 
+    var acc = document.getElementsByClassName("accordion");
+      var i;
 
-    $('#search').append(': '+url.searchParams.get('kw'))
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+          this.classList.toggle("acor-active");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+          } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          }
+        });
+      }
+    //Nếu có search từ thì hiện từ search, ko có(chỉ tìm theo Category) thì k hiện
+    if(url.searchParams.get('kw')){
+        $('#search').append(': '+url.searchParams.get('kw'));
+        $('#search').show();
+
+    }
     //Click vào item menu add parameter vào URL
-    var rateInput2 = $('btn[name="rate"]');
-    rateInput2.on("click", function (e) {
+    function handleItem(name){
+        $(`btn[name=${name}]`).on("click",function(e) {
+            
         if (e.target.getAttribute('value')) {
-            url.searchParams.set("rating", e.target.getAttribute('value'))
-            document.location = url;
+            url.searchParams.set(name, e.target.getAttribute('value'))
+            console.log(e.target.getAttribute('value'));
         }
         else {
-            url.searchParams.delete("rating");
-            document.location = url;
+            url.searchParams.delete(name);
+        } 
+        if(name === 'category'){
+            url.searchParams.delete('subcategory')
+            url.searchParams.delete('price')
+            url.searchParams.delete('field')
+            url.searchParams.delete('type')
+            url.searchParams.delete('rating')
         }
-    })
+        url.searchParams.delete('p')
+
+        document.location = url;
+
+        })
+    }
+    handleItem('rating');
+    handleItem('price');
+    handleItem('category');
 
     var priceInput2 = $('btn[name="price"]');
-    priceInput2.on("click", function (e) {
-        if (e.target.getAttribute('value')) {
-            url.searchParams.set("price", e.target.getAttribute('value'))
-            document.location = url;
-        }
-        else {
-            url.searchParams.delete("price");
-            document.location = url;
-        }
-    })
-
 
     //Nếu có parameter thì thêm thẻ xóa parameter và bật active cho item menu
-    var priceArray = priceInput2.toArray();
-    if (url.toString().includes('&price')) {
-        const priceValue = url.searchParams.get('price');
-        document.getElementById("btn-dlt-price").style.display = "block";
-        document.querySelector('#btn-dlt-price').querySelector('.dlt-price-text').append('Price: ' + priceValue);
-        document.querySelector('#btn-dlt-price').querySelector('.dlt-price-x').innerHTML = '<i class="fas fa-times"></i>';
-        priceArray.forEach(price => {
-            if (price.getAttribute('value') === priceValue) {
-                price.parentElement.classList.add('menu-item--active')
+    function handleUrlQuery(name){
+        if (url.toString().includes(`&${name}`)) {
+        const fieldValue = url.searchParams.get(name);
+        var htmlPicked = '';
+            $(`btn[name=${name}]`).toArray().forEach(element => {
+            if (element.getAttribute('value') === fieldValue) {
+                element.parentElement.classList.add('menu-item--active');
+                htmlPicked = element.textContent;
             }
         })
+        document.getElementById(`btn-dlt-${name}`).style.display = "block";
+        document.querySelector(`#btn-dlt-${name}`).querySelector(`.dlt-${name}-text`).append(`${name}: ` + htmlPicked);
+        document.querySelector(`#btn-dlt-${name}`).querySelector(`.dlt-${name}-x`).innerHTML = '<i class="fas fa-times"></i>';
+        
+        if(name === 'category'){
+            const catId= url.searchParams.get(name);
+            $.ajax({
+                    url: "/courses/getSubByCatId",
+                    type:"get",
+                    data: {catId },
+                    success: function (response) {
+                        if (response == "false") {
+                            console.log('fail')
+                        }
+                        else{
+                           console.log(response);
+                           response = response.map(subCat => `<li class="menu-item ">
+                                    <btn class="menu-item__link" name="subcategory" value ="${subCat._id}">${subCat.SubCatName}</btn>
+                                </li>`);
+                            response = response.join('\n');
+                            $('#subcat-list-contain').append(response);
+                            console.log($('#subcat-contain'))
+                            $('#subcat-contain').show();
+                            handleItem('subcategory');
+                            handleDelField('subcategory');
+                            
+                            //Bị bđb ở trên response trả về chưa kịp nên phải chạy lại đoan này
+                            if (url.toString().includes(`&subcategory`)){
+                                console.log('wth')
+                                $(`btn[name="subcategory"]`).toArray().forEach(element => {
+                                    if (element.getAttribute('value') === url.searchParams.get('subcategory')) {
+                                        console.log(element.getAttribute('value'))
+                                        element.parentElement.classList.add('menu-item--active')
+                                        const htmlPicked = element.textContent;
+                                        document.getElementById(`btn-dlt-subcategory`).style.display = "block";
+
+                                        document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-text`).append(`Subcategory: ` + htmlPicked);
+                                        document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-x`).innerHTML = '<i class="fas fa-times"></i>';
+                                    }
+                                })
+                            }
+                            else{
+                                console.log($(`btn[name=subcategory]`).toArray()[0])
+                                $(`btn[name=subcategory]`).toArray()[0].parentElement.classList.add('menu-item--active');
+                            }
+                        }
+        }
+            });
     }
+        }
     else {
-        priceArray[0].parentElement.classList.add('menu-item--active');
+        $(`btn[name=${name}]`).toArray()[0].parentElement.classList.add('menu-item--active');
+    }
     }
 
 
 
-    var rateArray = rateInput2.toArray();
-    if (url.toString().includes('&rating')) {
-        const rateValue = url.searchParams.get('rating');
-        document.getElementById("btn-dlt-rate").style.display = "block";
-        document.querySelector('#btn-dlt-rate').querySelector('.dlt-rate-text').append('Rate: ' + rateValue);
-        document.querySelector('#btn-dlt-rate').querySelector('.dlt-rate-x').innerHTML = '<i class="fas fa-times"></i>';
-        rateArray.forEach(rate => {
-            if (rate.getAttribute('value') === rateValue)
-                rate.parentElement.classList.add('menu-item--active')
-        })
-    }
-    else {
-        rateArray[0].parentElement.classList.add('menu-item--active');
-    }
+    handleUrlQuery('price');
+    handleUrlQuery('rating');
+    handleUrlQuery('category');
+
 
     if (url.toString().includes('&field')) {
         const field = url.searchParams.get('field');
@@ -222,14 +358,15 @@
     }
 
     //Btn-Dlt parameter
-    $('#btn-dlt-rate').on('click', function () {
-        url.searchParams.delete("rating");
+    function handleDelField(name){
+        $(`#btn-dlt-${name}`).on('click', function () {
+        url.searchParams.delete(name);
         document.location = url;
     })
-    $('#btn-dlt-price').on('click', function () {
-        url.searchParams.delete("price");
-        document.location = url;
-    })
+    }
+   handleDelField('price');
+   handleDelField('rating');
+   handleDelField('category');
     $('#btn-dlt-sort').on('click', function () {
         url.searchParams.delete("field");
         url.searchParams.delete("type");
@@ -245,11 +382,19 @@
     }
 
 
+    //Paginate
+    $('.pagination-item').on('click',function(e){
+        e.preventDefault();
+        url.searchParams.set('p',e.target.getAttribute('value'));
+        if(!$(e.target).parent().hasClass('disabled'))
+            document.location = url;
+    })
+
     //Bấm vào sort thêm parameter field vs type vào new url
-    $('#rating-dec').on('click', function () {
+    $('#rating-desc').on('click', function () {
 
         url.searchParams.set("field", "rating");
-        url.searchParams.set("type", "dec");
+        url.searchParams.set("type", "desc");
         document.location = url;
     })
     $('#rating-asc').on('click', function () {
@@ -258,10 +403,10 @@
         url.searchParams.set("type", "asc");
         document.location = url;
     })
-    $('#price-dec').on('click', function () {
+    $('#price-desc').on('click', function () {
 
         url.searchParams.set("field", "price");
-        url.searchParams.set("type", "dec");
+        url.searchParams.set("type", "desc");
         document.location = url;
     })
     $('#price-asc').on('click', function () {
