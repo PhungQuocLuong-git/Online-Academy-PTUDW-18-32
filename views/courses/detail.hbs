@@ -670,16 +670,6 @@
 <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 <script>
   $(document).ready(function () {
-    var url = $("#Geeks3").attr('src');
-    $("#Geeks2").on('hide.bs.modal', function () {
-      $("#Geeks3").attr('src', '');
-    });
-    $("#Geeks2").on('show.bs.modal', function () {
-      $("#Geeks3").attr('src', url);
-    });
-  });
-
-  $(document).ready(function () {
     var options = {
       max_value: 5,
       step_size:0.25,

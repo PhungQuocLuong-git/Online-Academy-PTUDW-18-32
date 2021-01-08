@@ -191,15 +191,19 @@ module.exports = {
     },
 
     async detail(req, res, next) {
-        try {
+        // try {
             var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
             var isBooked = false;
-            if (req.session.role === 1)
+            var isStudent;
+            if (req.session.role === 1) {
                 isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
-            if (req.session.role === 2 || req.session.role === 3)
+                isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+            }
+            if (req.session.role === 2 || req.session.role === 3) {
                 isBooked = true;
+                isStudent =false;
+            }
             var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
-            var isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
             mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
             res.render('courses/detail', {
                 course: mongooseToObject(course),
@@ -211,9 +215,9 @@ module.exports = {
             });
             course.view++;
             await Course.updateOne({ slug: course.slug }, course);
-        } catch (err) {
-            res.json({ msg: 'Something happened!!!' });
-        }
+        // } catch (err) {
+        //     res.json({ msg: 'Something happened!!!' });
+        // }
     },
 
     create(req, res) {
