@@ -13,8 +13,7 @@ router.get('/search',courseController.search);
 router.get('/create',TeacherMiddleware,courseController.create);
 router.get('/wished',courseController.wished);
 router.get('/fts',courseController.fts);
-router.get('/list/:slug1/:slug2',courseController.listlevel2);
-router.get('/list/:slug',courseController.listlevel1);
+router.get('/getSubByCatId',courseController.getSubByCatId);
 
 // router.get('/detail',courseController.detail);
 router.post('/store',courseController.store);
