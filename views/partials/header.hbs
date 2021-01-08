@@ -2,18 +2,17 @@
   <div class="container ">
     <a class="navbar-brand" href="/">Online Academy {{role}}
 
-      <div class="collapse navbar-collapse" id="main_nav">
         <ul class="navbar-nav">
-          <li class="nav-item dropdown">
+          <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Categories </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/courses/list/all-courses"> All courses </a>
+              <li><a class="dropdown-item" href="/courses/fts?kw="> All courses </a>
                 
               {{#each lcCategories}}
-              <li><a class="dropdown-item" href="/courses/list/{{slug}}"> {{CatName}} &raquo </a>
+              <li><a class="dropdown-item" href="/courses/fts?kw=&category={{_id}}"> {{CatName}} &raquo </a>
                 <ul class="submenu dropdown-menu">
                   {{#each sub}}
-                  <li><a class="dropdown-item" href="/courses/list/{{../slug}}/{{slug}}">{{SubCatName}}</a></li>
+                  <li><a class="dropdown-item" href="/courses/fts?kw=&category={{../_id}}&subcategory={{_id}}">{{SubCatName}}</a></li>
                   {{/each}}
 
                 </ul>
@@ -21,9 +20,8 @@
               {{/each}}
 
             </ul>
-          </li>
+          </div>
         </ul>
-      </div>
 
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
