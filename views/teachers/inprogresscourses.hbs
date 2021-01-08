@@ -1,0 +1,33 @@
+<div class="container p-0 my-5" style="width: 65%;">
+    <div class="text-center mb-5">
+        <h3> Inprogress Courses </h3>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row justify-content-around p-0 b-5">
+            <div class="row justify-content-around p-0 b-5">
+                {{#each courses}}
+                <div class="col-3 m-2 p-2">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="{{thumbnail}}" alt="Card image cap">
+                        <div class="card-body d-flex flex-column">
+                            <p class="card-text text-primary font-weight-bold">Web lopment</p>
+                            <h6 class="card-title font-weight-bold">{{name}} </h6>
+                            <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
+                            <div class="card-text d-flex">
+                                <div class="rate" data-rate-value={{rating}}></div>
+
+                            </div>
+
+                            <a href="/courses/edit/{{slug}}" class="btn btn-primary align-self-start mt-auto">Edit</a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

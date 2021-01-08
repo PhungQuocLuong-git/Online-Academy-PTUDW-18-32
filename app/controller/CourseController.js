@@ -152,6 +152,33 @@ module.exports = {
             res.json({ msg: 'Something happened!!!' });
         }
     },
+    async edit(req, res) {
+        try {
+            var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
+            console.log(course);
+            var isBooked = false;
+            if (req.session.role === 1)
+                isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+            if (req.session.role === 2 || req.session.role === 3)
+                isBooked = true;
+            var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
+            var isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+            mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
+            console.log(req.session.role);
+            res.render('courses/edit', {
+                layout:'teacher',
+                course: mongooseToObject(course),
+                script: '/public/javascripts/home.js',
+                isBooked:isBooked,
+                isTeacher: req.session.role === 2,
+                mostRelatedPurchased,
+                isStudent:isStudent,
+            });
+            
+        } catch (err) {
+            res.json({ msg: 'Something happened!!!' });
+        }
+    },
 
     create(req, res) {
         res.render('courses/create', {
@@ -568,7 +595,7 @@ module.exports = {
 
     //Most popular category
     async getMostpopular(res) {
-        dateTo = moment(); dateFrom = moment().subtract(7, 'd');
+         dateFrom = moment().subtract(7, 'd');
         var listbooked = await Bookdetail.find({ "createdAt": { $gte: dateFrom } });
         var listsub = await Subcategory.find({}).populate("CatID");
         listsub = multipleMongooseToObject(listsub);

@@ -7,6 +7,7 @@ const courseController = require('../app/controller/CourseController');
 
 
 router.get('/', courseController.courses);
+router.get('/edit/:slug',courseController.edit);
 router.get('/list', courseController.courses);
 router.get('/search',courseController.search);
 router.get('/create',TeacherMiddleware,courseController.create);

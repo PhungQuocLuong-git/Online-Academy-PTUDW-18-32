@@ -1,5 +1,5 @@
 const Teacher = require('../models/Teacher');
-const { mongooseToObject} = require('../../util/mongoose');
+const { mongooseToObject, multipleMongooseToObject} = require('../../util/mongoose');
 
 // Hash password
 const bcrypt = require('bcrypt');
@@ -23,16 +23,18 @@ class TeacherController{
     };
     async inprogresscourses(req,res) {
 
-        var listidcourse=req.app.locals.user.posted_courses;
+        var teacher=await Teacher.find(req.app.locals.user._id);
+        var listidcourse=teacher[0].posted_courses;
         var len=listidcourse.length;
         var listid=[];
+        console.log(len);
         for(var i=0;i<len;i++)
         {
             listid.push(listidcourse[i].course_id);
         }
         
-        var courses= await Course.find({_id:{$in: listid},complete: 0});
-        
+        var courses= await Course.find({_id:{$in: listid}});
+        console.log(courses.length);
         res.render('teachers/inprogresscourses',{
             layout:'teacher',
             courses: courses,
@@ -114,8 +116,6 @@ class TeacherController{
                     // req.app.locals.idUser = user._id ;
                     req.app.locals.user = user;
                     req.session.user = user;
-                    req.session.username = req.body.username;
-                    req.app.locals.nameUser = user.username;
                     req.session.role=2;
                     req.app.locals.role = 2;
                     req.session.role = 2;
