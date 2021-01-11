@@ -5,11 +5,11 @@
         <ul class="navbar-nav">
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Categories </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu menu-cate">
               <li><a class="dropdown-item" href="/courses/fts?kw="> All courses </a>
                 
               {{#each lcCategories}}
-              <li><a class="dropdown-item" href="/courses/fts?kw=&category={{_id}}"> {{CatName}} &raquo </a>
+              <li><a class="dropdown-item cate-item" href="/courses/fts?kw=&category={{_id}}"> {{CatName}} <span class="angel-cate fas fa-angle-right"></span> </a>
                 <ul class="submenu dropdown-menu">
                   {{#each sub}}
                   <li><a class="dropdown-item" href="/courses/fts?kw=&category={{../_id}}&subcategory={{_id}}">{{SubCatName}}</a></li>
@@ -124,8 +124,7 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="/courses/create">Đăng khóa hc</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
-                <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
+                <a class="dropdown-item" href="/teacher/courses">Khóa hc cũa t</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item btn--logout" href="/teacher/logout">Đăng xuất</a>
 
@@ -133,22 +132,8 @@
             </li>
             {{else}}
             {{#ifequal role 3}}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                ADMIN
-                <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
-
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/courses/create">ABC</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/me/stored/courses">Khóa hc cũa t</a>
-                <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa t</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item btn--logout" href="/admin/logout">Đăng xuất</a>
-
-              </div>
+            <li class="nav-item ">
+              <a href="/admin">BACK TO ADMIN</a>
             </li>
             {{else}}
             <li class="nav-item active">

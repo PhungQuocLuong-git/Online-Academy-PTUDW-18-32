@@ -13,6 +13,7 @@ router.get('/create',TeacherMiddleware,courseController.create);
 router.get('/wished',courseController.wished);
 router.get('/fts',courseController.fts);
 router.get('/getSubByCatId',courseController.getSubByCatId);
+router.get('/get/courses',courseController.getPopById);
 
 // router.get('/detail',courseController.detail);
 router.post('/store',courseController.store);

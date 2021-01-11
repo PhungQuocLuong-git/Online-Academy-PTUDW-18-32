@@ -1,3 +1,9 @@
+
+h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 {
+  font-weight: 400;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
 .user-avatar-div {
   display: inline-block;
   width: 28px;
@@ -245,4 +251,14 @@
   .dropdown-menu > li:hover > .submenu {
     display: block;
   }
+}
+
+/* Category */
+.cate-item{
+  margin-right: 10px;
+}
+
+.angel-cate{
+  float: right;
+  margin-top: 8px;
 }

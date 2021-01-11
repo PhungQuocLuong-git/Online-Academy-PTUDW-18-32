@@ -102,8 +102,6 @@ module.exports = {
         if(req.query.hasOwnProperty('field')){
             paginateOption.sort = {[req.query.field]:req.query.type }
         }
-        sortOption.field = "price";
-        sortOption.type = 1;
         options.$or = [{$text: {$search: wordSearch}}, {name: {$regex: wordSearch,$options:'i'}}];
         // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
         Course.paginate(options, paginateOption )
@@ -613,5 +611,23 @@ module.exports = {
         //...mongooseToObject(courses[9])
         return editedCourses;
     },
+
+    getPopById(req,res,next){
+        console.log(req.query,'abc');
+        const have = +req.query.isSub;
+        console.log(typeof(have),have)
+        option={};
+        if( +req.query.isSub)
+            option.subcatid= req.query.id
+        else
+            option.catid= req.query.id
+        Course.find(option).populate('course_author').sort({ view: -1 }).limit(6)
+            .then(courses => {
+                console.log(courses);
+                res.json(
+                    multipleMongooseToObject(courses)
+            )} )
+            .catch(()=> res.json('false'));
+    }
 };
 
