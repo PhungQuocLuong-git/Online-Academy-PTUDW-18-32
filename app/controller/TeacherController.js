@@ -78,6 +78,32 @@ class TeacherController {
         // res.json(req.body);
 
     }
+    change(req, res, next) {
+        Teacher.findById(req.session.user._id)
+
+            .then(user => {
+                console.log(req.body.oldPass, user);
+                return bcrypt.compare(req.body.oldPass, user.password)
+            })
+            .then(ret => {
+                if (ret)
+                    return bcrypt.hash(req.body.newPass, saltRounds);
+                else {
+                    return new Promise(function (resolve, reject) {
+                        res.send("false");
+                        reject("ABCDEFGH");
+                    })
+                }
+            }
+            )
+            .then(hash => {
+                return Teacher.findByIdAndUpdate(req.session.user._id, { password: hash });
+            })
+            .then(user => {
+                res.send("true")
+            })
+            .catch(err => console.log(err));
+    }
 
     async censor(req, res) {
         if (req.body.type === 'ok')

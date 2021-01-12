@@ -139,7 +139,7 @@
     text-decoration: none;
     background-color: transparent; }
     a:hover {
-      color: #0056b3;
+      color: #a4b0be;
       text-decoration: underline; }
   
   a:not([href]):not([tabindex]) {
@@ -8104,7 +8104,7 @@
     -webkit-transition: .3s all ease;
     -o-transition: .3s all ease;
     transition: .3s all ease;
-    color: #3e64ff; }
+    color: #3d3d3d; }
     a:hover, a:focus {
       text-decoration: none !important;
       outline: none !important;
