@@ -152,6 +152,7 @@ module.exports = {
                 console.log(req.body);
                 console.log(req.files);
                 req.body.course_author = req.session.user._id;
+                req.body.discount_price = !req.body.discount_price||req.body.discount_price>req.body.price ? req.body.price : req.body.discount_price;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
                 if (typeof (req.files.preview_vid) === undefined)
                     req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;

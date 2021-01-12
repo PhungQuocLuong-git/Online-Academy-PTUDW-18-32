@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="price">Giá duoc giam khóa học</label>
+                            <label for="price">Giá khóa hc sau khi giảm( K giảm thì k cần nhập)</label>
                             <input type="number" class="form-control" id="discount-price" name="discount_price">
                             <span class="form-message"></span>
                         </div>
@@ -174,12 +174,12 @@
             errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#name', 'Nhập tên khóa học'),
-                Validator.isRequired('#short_description', 'Nhập tên khóa học'),
-                Validator.isRequired('#description', 'Nhập tên khóa học'),
-                Validator.isRequired('#thumbnail', 'Nhập tên khóa học'),
-                Validator.isRequired('#price', 'Nhập tên khóa học'),
-                Validator.isRequired('#catid', 'Nhập tên khóa học'),
-                Validator.isRequired('#subcatid', 'Nhập tên khóa học'),
+                Validator.isRequired('#short_description', 'Miêu tả sơ lược vè khóa hc'),
+                Validator.isRequired('#description', 'Miêu ta chi tiết khóa hc'),
+                Validator.isRequired('#thumbnail', 'Chọn ảnh đại diện cho khóa hc'),
+                Validator.isRequired('#price', 'Nhập giá khóa hc'),
+                Validator.isRequired('#catid', 'Chọn Category khóa hc'),
+                Validator.isRequired('#subcatid', 'Chon SubCategory khóa hc'),
             ],
             cours:1,
         });
