@@ -75,6 +75,7 @@ class StudentController {
 
     // [GET] /student/login
     login(req, res, next) {
+        req.session.prevURL=req.get('referer');
         res.render('students/login', {
             layout: false,
         });
@@ -127,7 +128,7 @@ class StudentController {
                     req.session.username = req.body.username;
                     req.session.role = 1;
                     req.app.locals.role = 1;
-                    res.redirect('/')
+                    res.redirect(req.session.prevURL);
                 } else {
                     res.redirect('/student/login');
                 }
@@ -168,7 +169,6 @@ class StudentController {
                 res.redirect('/');
             }
         });
-
 
     }
 

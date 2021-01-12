@@ -132,27 +132,40 @@ class AdminController {
         });
 
     }; */
-    async addcatPost(req, res) {
-        res.render('admin/addcategory');
-        
-        const instance = new categorySchema(req.body);
-        // console.log(req.body);
-        instance.save(function (err) {
-        });
+     addcatPost(req, res) {
+        var newName= req.body.CatName.trim().replace(/\s+/g, ' ');
+        Promise.all([categorySchema.find(),subcategorySchema.find()])
+            .then(([categories,subCategories]) => {
+                if(!categories.some(category => category.CatName.toUpperCase() === newName.toUpperCase()) && 
+                !subCategories.some(subCategory => subCategory.SubCatName.toUpperCase()=== newName.toUpperCase()))
+                    return new categorySchema({CatName:newName}).save()
+                else
+                    return new Promise(function(resolve,reject){
+                        reject('Đã tồn tại Category or SubCategory có tên như vậy')
+                    })
+            })
+            .then(category => {
+                console.log('trap2',category);
+                res.redirect('/admin/categories')})
+            .catch(err => {console.log(err);res.status(200).json(err)})
 
     };
-    async addsubPost(req, res) {
-        const id = req.params.id;
-        var catname = await categorySchema.find({ _id: id });
-        catname = catname.map(mongoose => mongoose.toObject());
-        res.render('admin/addsub', {
-            id: id,
-            catname:catname[0].CatName,
-        });
-        
-        const instance = new subcategorySchema(req.body);
-        instance.save(function (err) {
-        });
+     addsubPost(req, res) {
+        var newName= req.body.SubCatName.trim().replace(/\s+/g, ' ');
+        Promise.all([categorySchema.find(),subcategorySchema.find()])
+            .then(([categories,subCategories]) => {
+                if(!categories.some(category => category.CatName.toUpperCase() === newName.toUpperCase()) && 
+                !subCategories.some(subCategory => subCategory.SubCatName.toUpperCase()=== newName.toUpperCase()))
+                    return new subcategorySchema({SubCatName:newName,CatID:req.body.CatID}).save()
+                else
+                    return new Promise(function(resolve,reject){
+                        reject('Đã tồn tại Category or SubCategory có tên như vậy')
+                    })
+            })
+            .then(category => {
+                console.log('trap2',category);
+                res.redirect('/admin/categories')})
+            .catch(err => {console.log(err);res.status(200).json(err)})
 
     };
 
@@ -182,92 +195,69 @@ class AdminController {
             layout:'admin'
         });
     };
-    async del(req, res) {
+     del(req, res) {
+        Course.findOne({catid: req.body._id})
+            .then(course =>{
+                if(course)
+                    res.json('Bn k dc xoa category da co khoa hc')
+                else 
+                    return categorySchema.deleteOne({ _id: req.body._id })
+            })
+            .then(() => res.redirect('/admin/categories'))
+            .catch(()=> res.json("Sth went wrong"));
+            
         
-        categorySchema.deleteOne({ _id: req.body._id }, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(data);
-            }
-        });
-        // categoriesSchema.findByIdAndDelete(req.body._id,(err,data)=> { 
-        //         if(err)
-        //     {
-        //         console.log(err);
-        //     }
-        //     else{
-        //         console.log(data);
-        //     }
-        //  });
-        res.redirect('/admin/categories');
-        // res.render('vwCategories/edit');
+            
     }
 
-    async patch(req, res) {
-        // categoriesSchema.findByIdAndUpdate({_id: req.body._id},req.body,(err,data)=>{
-        //     if(err)
-        //     {
-        //         console.log(err);
-        //     }
-        //     else{
-        //         console.log(data);
-        //     }
-        // })
-        categorySchema.updateOne({ _id: req.body._id }, { $set: req.body }, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(data);
-            }
-        });
-        res.redirect('/admin/categories');
-    }
-    async subdel(req, res) {
+    subdel(req, res) {
         
-        subcategorySchema.deleteOne({ _id: req.body._id }, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(data);
-            }
-        });
-        // categoriesSchema.findByIdAndDelete(req.body._id,(err,data)=> { 
-        //         if(err)
-        //     {
-        //         console.log(err);
-        //     }
-        //     else{
-        //         console.log(data);
-        //     }
-        //  });
-        res.redirect('/admin/categories');
-        // res.render('vwCategories/edit');
+        Course.findOne({subcatid: req.body._id})
+        .then(course =>{
+            if(course)
+            res.json('Bn k dc xoa subcategory da co khoa hc')
+            else 
+            return subcategorySchema.deleteOne({ _id: req.body._id })
+        })
+        .then(() => res.redirect('/admin/categories'))
+        .catch(()=> res.json("Sth went wrong"));
     }
-
+    
+    patch(req, res) {
+        var newName= req.body.CatName.trim().replace(/\s+/g, ' ');
+        Promise.all([categorySchema.find(),subcategorySchema.find()])
+            .then(([categories,subCategories]) => {
+                if(!categories.some(category => category.CatName.toUpperCase() === newName.toUpperCase()) && 
+                !subCategories.some(subCategory => subCategory.SubCatName.toUpperCase()=== newName.toUpperCase()))
+                    return categorySchema.updateOne({ _id: req.body._id }, { CatName: newName })
+                else
+                    return new Promise(function(resolve,reject){
+                        reject('Đã tồn tại Category or SubCategory có tên như vậy')
+                    })
+            })
+            .then(category => {
+                console.log('trap2',category);
+                res.redirect('/admin/categories')})
+            .catch(err => {console.log(err);res.status(200).json(err)})
+        
+    }
     async subpatch(req, res) {
-        // categoriesSchema.findByIdAndUpdate({_id: req.body._id},req.body,(err,data)=>{
-        //     if(err)
-        //     {
-        //         console.log(err);
-        //     }
-        //     else{
-        //         console.log(data);
-        //     }
-        // })
-        console.log("dddddddddddddddddddddddddddddddddddddddddddddddddddd");
-        subcategorySchema.updateOne({ _id: req.body._id }, { $set: req.body }, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(data);
-            }
-        });
-        res.redirect('/admin/categories');
+        var newName= req.body.SubCatName.trim().replace(/\s+/g, ' ');
+        Promise.all([categorySchema.find(),subcategorySchema.find()])
+            .then(([categories,subCategories]) => {
+                
+                if(!categories.some(category => category.CatName.toUpperCase() === newName.toUpperCase()) && 
+                !subCategories.some(subCategory => subCategory.SubCatName.toUpperCase()=== newName.toUpperCase()))
+                    return subcategorySchema.updateOne({ _id: req.body._id }, { SubCatName: newName })
+                else
+                    return new Promise(function(resolve,reject){
+                        reject('Đã tồn tại Category or SubCategory có tên như vậy')
+                    })
+            })
+            .then(category => {
+                console.log('trap2',category);
+                res.redirect('/admin/categories')})
+            .catch(err => {console.log(err);res.status(200).json(err)})
     }
 
 

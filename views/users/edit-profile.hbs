@@ -30,7 +30,7 @@
     display: block;
     transition: 0.5s ease;
     backface-visibility: hidden;
-    height:150px;
+    height: 150px;
     margin-left: 50%;
     transform: translateX(-50%);
   }
@@ -56,51 +56,69 @@
 
 
 {{>menu-edit}}
+{{#ifCond role '===' 1}}
 <form method="POST" class="form" id="form-1" action="/student/{{user._id}}?_method=PUT" enctype="multipart/form-data">
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-sm-3 p-2">
-      <div class="card text-left">
-        <div class="text-center pt-5">
-          <input id="avatar" name="avatar" type="file">
-        </div>
-        <div class="card-body text-center">
-          <h4 class="card-title">{{user.name}}</h4>
+{{/ifCond}}
+{{#ifCond role '===' 2}}
+<form method="POST" class="form" id="form-1" action="/teacher/{{user._id}}?_method=PUT" enctype="multipart/form-data">
+{{/ifCond}}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-sm-3 p-2">
+        <div class="card text-left">
+          <div class="text-center pt-5">
+            <input id="avatar" name="avatar" type="file">
+          </div>
+          <div class="card-body text-center">
+            <h4 class="card-title">{{user.name}}</h4>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-9 p-2">
-      <div class="card">
-        <div class="card-header align-items-center text-center">
-          <h3>
-            Public profile
-          </h3>
-          <p>Add information about yourself</p>
-        </div>
-        <div class="card-body">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" value="{{user.name}}" id="name" name="name">
-            <span class="form-message"></span>
+      <div class="col-sm-9 p-2">
+        <div class="card">
+          <div class="card-header align-items-center text-center">
+            <h3>
+              Public profile
+            </h3>
+            <p>Add information about yourself</p>
           </div>
-          <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" value={{user.email}} id="email" aria-describedby="emailHelp"
-              name="email">
-            <span class="form-message"></span>
-          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" value="{{user.name}}" id="name" name="name">
+              <span class="form-message"></span>
+            </div>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" value={{user.email}} id="email" aria-describedby="emailHelp"
+                name="email">
+              <span class="form-message"></span>
+            </div>
+            {{#ifCond role '===' 2}}
+            <div class="form-group">
+              <label for="short_description">Short Description</label>
+              <input type="text" class="form-control" value="{{user.short_description}}" id="short_description"
+                name="short_description">
+              <span class="form-message"></span>
+            </div>
 
-        </div>
-        <div class="card-footer text-muted text-center">
-          <button type="submit" class="btn btn-outline-success">
-            <i class="fa fa-check" aria-hidden="true"></i>
-            Save changes
-          </button>
+            <div class="form-group">
+              <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description">{{{user.description}}} </textarea>
+              <span class="form-message"></span>
+            </div>
+            {{/ifCond}}
+          </div>
+          <div class="card-footer text-muted text-center">
+            <button type="submit" class="btn btn-outline-success">
+              <i class="fa fa-check" aria-hidden="true"></i>
+              Save changes
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </form>
 
 
@@ -108,6 +126,8 @@
 <script src="/public/javascripts/validator.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+<script
+        src="https://cdn.tiny.cloud/1/27g7modnmc4qdzsocnz7v44i7di0kfc7x2txeylvfvrzjsei/tinymce/5/tinymce.min.js"></script>
 <script>
   Validator({
     form: '#form-1',
@@ -120,6 +140,15 @@
     ],
   }
   )
+  tinymce.init({
+    selector: '#description',
+    height: 500,
+    plugins: 'paste image link autolink lists table media',
+    toolbar: [
+      'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+    ],
+  });
+
   $("#avatar").fileinput({
     font: 'fa',
     maxFileCount: 1,
@@ -147,4 +176,3 @@
   });
 </script>
 {{/section}}
-

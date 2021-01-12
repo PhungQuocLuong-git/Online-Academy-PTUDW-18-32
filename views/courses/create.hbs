@@ -45,7 +45,7 @@
 </head>
 
 <body>
-    <form method="POST" action="/courses/store" id="form-1" name="createForm" enctype="multipart/form-data">
+    <form method="POST" action="/courses/store" id="form-1" name="createForm" novalidate enctype="multipart/form-data" >
         <div class="row mt-3 justify-content-center">
             <div class="col-md-3 mb-3">
                 <ul class="nav nav-pills flex-column" id="myTab" role="tablist">
@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="price">Giá duoc giam khóa học</label>
+                            <label for="price">Giá khóa hc sau khi giảm( K giảm thì k cần nhập)</label>
                             <input type="number" class="form-control" id="discount-price" name="discount_price">
                             <span class="form-message"></span>
                         </div>
@@ -167,37 +167,21 @@
 
     <script>
         $(document).ready(function () {
-            $('#form-1').submit( function (e) {
-             $('input[type="file"]').each(function(){
-                if(this.value==='')
-                {
-                    let name=$(this).attr('name');
-                    $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
-                } else {
-                let name=$(this).attr('name');
-                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
-                }
-            })
-            submitForm.action = `/courses/store?num=${num}`;
-            for (let i = 1; i <= num; i++) {
-                let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
-                submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
-            }
-            return false;
-        })
+            
             Validator({
             form: '#form-1',
             formGroup: '.form-group',
             errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#name', 'Nhập tên khóa học'),
-                Validator.isRequired('#short_description', 'Nhập tên khóa học'),
-                Validator.isRequired('#description', 'Nhập tên khóa học'),
-                Validator.isRequired('#thumbnail', 'Nhập tên khóa học'),
-                Validator.isRequired('#price', 'Nhập tên khóa học'),
-                Validator.isRequired('#catid', 'Nhập tên khóa học'),
-                Validator.isRequired('#subcatid', 'Nhập tên khóa học'),
+                Validator.isRequired('#short_description', 'Miêu tả sơ lược vè khóa hc'),
+                Validator.isRequired('#description', 'Miêu ta chi tiết khóa hc'),
+                Validator.isRequired('#thumbnail', 'Chọn ảnh đại diện cho khóa hc'),
+                Validator.isRequired('#price', 'Nhập giá khóa hc'),
+                Validator.isRequired('#catid', 'Chọn Category khóa hc'),
+                Validator.isRequired('#subcatid', 'Chon SubCategory khóa hc'),
             ],
+            cours:1,
         });
             $("#thumbnail").fileinput({
                 theme: 'fa',
@@ -228,16 +212,6 @@
             ],
         });
 
-        Validator({
-            form: '#form-1',
-            formGroup: '.form-group',
-            errorSelector: '.form-message',
-            rules: [
-                Validator.isRequired('#name', 'Nhập tên khóa học'),
-                Validator.isRequired('#price','Nhập giá khoá học'),
-                Validator.isRequired('#short_description','Nhập mô tả ngắn gọn khoá học')
-            ],
-        });
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -385,40 +359,7 @@
 
         var submitForm = document.forms['createForm'];
         var btnSubmit = $('.form-submit');
-        btnSubmit.on('click', function (e) {
-            let thumb=$('input[name=thumbnail]').val();
-            if(thumb==="") {
-                $('.thumb-msg').html(`Please choose your course's thumbnail`);
-                $('.err-msg').html("Please fill in all the required fields");
-                e.preventDefault();
-            }
-            let price=$('#price').val();
-            let shrt_des=$('#short_description').val();
-            if(price ==="" || shrt_des==="") {
-                $('.err-msg').html("Please fill in all the required fields");
-                e.preventDefault();
-            }
-            if(price !=="" && shrt_des!=="" && des!=="" && thumb!=="") {
-            $('input[type="file"]').each(function(){
-                if(this.value==='')
-                {
-                    let name=$(this).attr('name');
-                    $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
-                } else {
-                let name=$(this).attr('name');
-                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
-                }
-            })
-            submitForm.action = `/courses/store?num=${num}`;
-            for (let i = 1; i <= num; i++) {
-                let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
-                submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
-                let pre_vid=$('#preview-vid').val();
-                
-            }
-            submitForm.submit();
-            }
-        })
+        
 
         var $select1 = $('#catid'),
             $select2 = $('#subcatid'),

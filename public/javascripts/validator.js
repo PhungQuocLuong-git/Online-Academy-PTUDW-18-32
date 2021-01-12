@@ -80,6 +80,7 @@ function Validator(options){
                     isFormValid = false;
                 }            
             });
+            
             if(isFormValid){
                 // Submit vs JS
                 if(typeof options.onSubmit === 'function'){
@@ -115,7 +116,26 @@ function Validator(options){
                 }
                 // Submit vs default
                 else {
+                    if(options.cours){
+                        $('input[type="file"]').each(function(){
+                            if(this.value==='')
+                            {
+                                let name=$(this).attr('name');
+                                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
+                            } else {
+                            let name=$(this).attr('name');
+                            $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
+                            }
+                        })
+                        submitForm.action = `/courses/store?num=${num}`;
+                        for (let i = 1; i <= num; i++) {
+                            let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
+                            submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
+                        }
+                        console.log('done');
+                    }
                     formElement.submit();
+
                 }
                 
             }

@@ -315,3 +315,11 @@
   text-align: center;
   border-radius: 2px;
 }
+
+.or-seperate {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #e1e6eb;
+  margin: 10px 2px 24px 2px;
+}
