@@ -1,5 +1,5 @@
 const Teacher = require('../models/Teacher');
-const { mongooseToObject, multipleMongooseToObject} = require('../../util/mongoose');
+const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 
 // Hash password
 const bcrypt = require('bcrypt');
@@ -7,97 +7,117 @@ const Course = require('../models/Course');
 const saltRounds = 10;
 
 
-class TeacherController{
+class TeacherController {
     // [GET] /Teacher/create
-    create(req,res) {
-        res.render('teachers/create',{
-            layout:false,
+    create(req, res) {
+        res.render('teachers/create', {
+            layout: false,
         });
     }
 
 
-    home(req,res) {
-        res.render('teachers/teacher',{
-            layout:'teacher'
+    home(req, res) {
+        res.render('teachers/teacher', {
+            layout: 'teacher'
         });
     };
-    async inprogresscourses(req,res) {
+    async inprogresscourses(req, res) {
 
-        var teacher=await Teacher.find(req.app.locals.user._id);
-        var listidcourse=teacher[0].posted_courses;
-        var len=listidcourse.length;
-        var listid=[];
+        var teacher = await Teacher.find(req.app.locals.user._id);
+        var listidcourse = teacher[0].posted_courses;
+        var len = listidcourse.length;
+        var listid = [];
         console.log(len);
-        for(var i=0;i<len;i++)
-        {
+        for (var i = 0; i < len; i++) {
             listid.push(listidcourse[i].course_id);
         }
-        
-        var courses= await Course.find({_id:{$in: listid}});
+
+        var courses = await Course.find({ _id: { $in: listid }, complete: 0 });
         console.log(courses.length);
-        res.render('teachers/inprogresscourses',{
-            layout:'teacher',
+        res.render('teachers/inprogresscourses', {
+            layout: 'teacher',
             courses: courses,
+            title: "Inprogress courses"
+        });
+    };
+
+    async completecourses(req, res) {
+
+        var teacher = await Teacher.find(req.app.locals.user._id);
+        var listidcourse = teacher[0].posted_courses;
+        var len = listidcourse.length;
+        var listid = [];
+        console.log(len);
+        for (var i = 0; i < len; i++) {
+            listid.push(listidcourse[i].course_id);
+        }
+
+        var courses = await Course.find({ _id: { $in: listid }, complete: 1 });
+        console.log(courses.length);
+        res.render('teachers/inprogresscourses', {
+            layout: 'teacher',
+            courses: courses,
+            title: "Complete courses"
         });
     };
 
 
     // [POST] /Teacher/store
-    store(req,res,next) {
-        Promise.all([Teacher.findOne({username: req.body.username}),bcrypt.hash(req.body.password, saltRounds)])
-            .then(([user,hash]) => {
-                if(user) res.json({err:'Existed username'})
+    store(req, res, next) {
+        Promise.all([Teacher.findOne({ username: req.body.username }), bcrypt.hash(req.body.password, saltRounds)])
+            .then(([user, hash]) => {
+                if (user) res.json({ err: 'Existed username' })
                 else {
-                    req.body.password= hash;
+                    req.body.password = hash;
                     new Teacher(req.body).save()
-                        .then (res.redirect('/'));
-                    
+                        .then(res.redirect('/'));
+
                 }
             });
-            
+
         // res.json(req.body);
 
     }
 
-    async censor(req,res) {
-        if(req.body.type === 'ok')
+    async censor(req, res) {
+        if (req.body.type === 'ok')
             var status = 1;
         else
             var status = -1;
-        
 
-        let teacher = await Teacher.findByIdAndUpdate(req.body.idTeacher,{$set: { stt: status }});
-        if(teacher){
+
+        let teacher = await Teacher.findByIdAndUpdate(req.body.idTeacher, { $set: { stt: status } });
+        if (teacher) {
             res.send('true');
         }
         else
             res.send('false');
-        
+
     }
 
     // [GET] /Teacher/login
-    login(req,res,next) {
-        res.render('teachers/login',{
-            layout:false,
+    login(req, res, next) {
+        res.render('teachers/login', {
+            layout: false,
         });
     }
 
     // [POST] /Teacher/logout
-    logout(req,res,next) {
+    logout(req, res, next) {
         req.app.locals.role = 0;
         req.session.destroy(() => {
             res.redirect('/teacher/login');
-          });
+        });
     }
 
     // [PATCH] /Teacher/:id
-    swap(req,res,next) {
+    swap(req, res, next) {
         var roleSwap = 1;
-        if(req.session.user.role===1){
+        if (req.session.user.role === 1) {
             roleSwap = 2;
         }
-        
-        Teacher.updateOne({_id:req.params.id},{role:roleSwap})
+
+        Teacher.updateOne({ _id: req.params.id }, { role: roleSwap })
             .then(() => {
                 req.session.user.role = roleSwap;
                 req.app.locals.user = req.session.user;
@@ -107,32 +127,32 @@ class TeacherController{
     }
 
     // [POST] /Teacher/check
-    check(req,res,next) {
-        Teacher.findOne({username: req.body.username,stt:1})
-            .then( user => {
-                bcrypt.compare(req.body.password,user.password).then((result)=>{
-                    user= mongooseToObject(user);
-                    if(result){
-                    // req.app.locals.idUser = user._id ;
-                    req.app.locals.user = user;
-                    req.session.user = user;
-                    req.session.role=2;
-                    req.app.locals.role = 2;
-                    req.session.role = 2;
-                    res.redirect('/')
-                      } else {
+    check(req, res, next) {
+        Teacher.findOne({ username: req.body.username, stt: 1 })
+            .then(user => {
+                bcrypt.compare(req.body.password, user.password).then((result) => {
+                    user = mongooseToObject(user);
+                    if (result) {
+                        // req.app.locals.idUser = user._id ;
+                        req.app.locals.user = user;
+                        req.session.user = user;
+                        req.session.role = 2;
+                        req.app.locals.role = 2;
+                        req.session.role = 2;
+                        res.redirect('/')
+                    } else {
                         res.redirect('/teachers/login');
-                      }
-                    })
-                    .catch((err)=>res.json({error1: err}))
+                    }
                 })
-                .catch(err => res.json({err2: err}));
+                    .catch((err) => res.json({ error1: err }))
+            })
+            .catch(err => res.json({ err2: err }));
         // res.json(req.body)
     }
 
-    async uploadedCourses(req,res) {
-        var courses = await Course.find({status:0,course_author:req.session.user._id});
-        res.render('teachers/courses',{
+    async uploadedCourses(req, res) {
+        var courses = await Course.find({ status: 0, course_author: req.session.user._id });
+        res.render('teachers/courses', {
             courses
         })
     }
