@@ -340,8 +340,7 @@ module.exports = {
         Course.findById(req.params.id).populate('course_students')
             .then(course => {
                 return new Promise(function (resolve, reject) {
-                    if (
-                        course.course_students.some(course => course.user_id.equals(req.session.user._id))) {
+                    if (course.course_students.some(course => course.user_id.equals(req.session.user._id))) {
                         reject(course)
                     }
                     else
@@ -349,7 +348,7 @@ module.exports = {
                 })
             })
             .catch(course => {
-                res.json({ msg: 'fail', course })
+                res.json({ msg: 'fail', course });
             })
             .then(course => {
                 return new Promise(function (resolve, reject) {
@@ -389,7 +388,7 @@ module.exports = {
                 res.redirect(req.get('referer'));
             })
             .catch(() => {
-                res.json({ msg: 'Bn k mua dc khoa hc nay' });
+                res.json({ msg: 'Bn k mua dc khoa hc nay'});
             })
     },
 
@@ -614,9 +613,7 @@ module.exports = {
     },
 
     getPopById(req,res,next){
-        console.log(req.query,'abc');
         const have = +req.query.isSub;
-        console.log(typeof(have),have)
         option={};
         if( +req.query.isSub)
             option.subcatid= req.query.id

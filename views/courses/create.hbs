@@ -164,6 +164,7 @@
         src="https://cdn.tiny.cloud/1/27g7modnmc4qdzsocnz7v44i7di0kfc7x2txeylvfvrzjsei/tinymce/5/tinymce.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <script>
         $(document).ready(function () {
@@ -174,12 +175,10 @@
             errorSelector: '.form-message',
             rules: [
                 Validator.isRequired('#name', 'Nhập tên khóa học'),
-                Validator.isRequired('#short_description', 'Nhập tên khóa học'),
-                Validator.isRequired('#description', 'Nhập tên khóa học'),
-                Validator.isRequired('#thumbnail', 'Nhập tên khóa học'),
-                Validator.isRequired('#price', 'Nhập tên khóa học'),
-                Validator.isRequired('#catid', 'Nhập tên khóa học'),
-                Validator.isRequired('#subcatid', 'Nhập tên khóa học'),
+                Validator.isRequired('#short_description', 'Nhập mô tả ngắn gọn khóa học'),
+                Validator.isRequired('#description', 'Nhập mô tả khóa học'),
+                Validator.isRequired('#thumbnail', 'Nhập thumbnail khóa học'),
+                Validator.isRequired('#price', 'Nhập nhập giá khóa học')
             ],
             cours:1,
         });
@@ -356,6 +355,8 @@
                 $(this).parent().parent().parent().remove();
             })
         });
+
+        
 
 
         var submitForm = document.forms['createForm'];
