@@ -21,7 +21,6 @@ async function getMostPurchasedRelated(course_subCatid) {
     return mostRelatedPurchased;
 }
 
-
 module.exports = {
     courses(req, res) {
         res.redirect('/courses/list/all-courses');
@@ -34,7 +33,7 @@ module.exports = {
 
     async detail(req, res, next) {
         // try {
-            var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
+            var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates posted_courses');
             var isBooked = false;
             var isStudent;
             if (req.session.role === 1) {
@@ -367,10 +366,13 @@ module.exports = {
                 })
             }
             )
-            .then(([ret, course]) => {
+            .then(async ([ret, course]) => {
                 if (ret >= 0 && req.session.user.cart_courses.length > 0) {
                     req.session.user.cart_courses.splice(ret, 1);
                 }
+                let teacher=await Teacher.findById(course.course_author);
+                teacher.NumOfStudents=teacher.NumOfStudents+1;
+                await Teacher.findByIdAndUpdate(course.course_author,teacher);
                 course.course_students.push({ user_id: req.session.user._id });
                 req.session.user.booked_courses.push({ course_id: course._id });
                 req.session.user.money -= course.price;
@@ -383,11 +385,11 @@ module.exports = {
                     select: "name slug price course_author",
                     populate: { path: "course_author", select: "name" },
 
-                })])
+                 })])
             })
             .then(([course, user]) => {
                 req.app.locals.user = mongooseToObject(user);
-                res.redirect('/student/cart/' + user._id);
+                res.redirect(req.get('referer'));
             })
             .catch(() => {
                 res.json({ msg: 'Bn k mua dc khoa hc nay' });

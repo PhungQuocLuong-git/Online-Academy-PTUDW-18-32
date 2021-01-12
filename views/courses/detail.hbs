@@ -1,5 +1,5 @@
 {{#section 'css'}}
-<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet" />
+<link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet"/>
 <link rel="stylesheet" href="/public/stylesheets/home.css">
 <style>
   /* course-intro */
@@ -394,17 +394,15 @@
       <div class="row">
         <img src="/public/images/avatars/avatar-2.jpeg" class="rounded-circle ml-2 mb-4" alt="">
         <div class="d-flex col-6">
-          <div class="text-danger">
+          <div class="text-danger d-flex flex-column justify-content-around">
             <p><i class="fas fa-users"></i> </p>
             <p><i class="fas fa-play-circle"></i> </p>
             <p><i class="fas fa-user"></i> </p>
-            <p><i class="fa fa-medal"></i> </p>
           </div>
-          <div class="col-8">
-            <p>6 Students</p>
-            <p>20 Courses</p>
-            <p>10 Years</p>
-            <p>3 Certificates</p>
+          <div class="col-8 d-flex flex-column justify-content-around">
+            <p>{{course.course_author.NumOfStudents}} Applied</p>
+            <p>{{course.course_author.posted_courses.length}} Courses</p>
+            <p>Has joined in {{dateFormat course.course_author.createdAt}}</p>
           </div>
         </div>
         {{{course.course_author.description}}}
@@ -568,17 +566,6 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      {{!-- <div class="modal-body p-0">
-        <video id="my-video" class="video-js" controls preload="auto" width="608" height="342" data-setup="{}">
-          <source src="{{course.preview_video}}" type="video/mp4" />
-          <source src="MY_VIDEO.webm" type="video/webm" />
-          <p class="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a
-            web browser that
-            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-          </p>
-        </video>
-      </div> --}}
     </div>
   </div>
 </div>

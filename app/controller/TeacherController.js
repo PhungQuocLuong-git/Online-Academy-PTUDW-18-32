@@ -1,5 +1,6 @@
 const Teacher = require('../models/Teacher');
 const { mongooseToObject} = require('../../util/mongoose');
+const multer = require('multer');
 
 // Hash password
 const bcrypt = require('bcrypt');
@@ -50,6 +51,7 @@ class TeacherController{
 
     // [GET] /Teacher/login
     login(req,res,next) {
+        req.session.prevURL=req.get('referer');
         res.render('teachers/login',{
             layout:false,
         });
@@ -59,7 +61,7 @@ class TeacherController{
     logout(req,res,next) {
         req.app.locals.role = 0;
         req.session.destroy(() => {
-            res.redirect('/teacher/login');
+            res.redirect('/');
           });
     }
 
@@ -94,7 +96,7 @@ class TeacherController{
                     req.session.role=2;
                     req.app.locals.role = 2;
                     req.session.role = 2;
-                    res.redirect('/')
+                    res.redirect(req.session.prevURL)
                       } else {
                         res.redirect('/teachers/login');
                       }
@@ -103,6 +105,46 @@ class TeacherController{
                 })
                 .catch(err => res.json({err2: err}));
         // res.json(req.body)
+    }
+
+    update(req,res) {
+        const storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                cb(null, './public/images/avatars/');
+            },
+            filename: function (req, file, cb) {
+                cb(null, file.originalname);
+            }
+        });
+        const upload = multer({ storage });
+
+        upload.array('avatar', 1)(req, res, async function (err) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(req.body);
+                if(req.files.length!==0) {
+                    req.body.avatar = '/public/images/avatars/' + req.files[0].originalname;
+                    req.session.user.avatar = req.body.avatar;
+                    req.app.locals.user.avatar = req.body.avatar;
+                    if(req.session.user.avatar.includes('https://'))
+                        fs.unlink('.'+req.session.user.avatar,(sth) => {
+                            console.log(sth);
+                    });
+                }
+                var user = await Teacher.findByIdAndUpdate(req.params.id, req.body)
+                req.session.user.name = req.body.name;
+                req.session.user.email = req.body.email;
+                req.session.user.short_description = req.body.short_description;
+                req.session.user.description = req.body.description;
+                req.app.locals.user.name = req.body.name;
+                req.app.locals.user.email = req.body.email;
+                req.app.locals.user.short_description = req.body.short_description;
+                req.app.locals.user.description = req.body.description;
+                res.redirect('/');
+            }
+        });
     }
 
     async uploadedCourses(req,res) {
