@@ -1,8 +1,34 @@
 
 
 <div class="container-fluid p-0 my-5" style="width: 94%;">
-    <h1 id="search" style="display: none;">Search</h1>
-    <div class="row mt-4">
+    <h2 id="search" style="display: none;">Search</h2>
+    <h2 id="cateName"></h2>
+    <h4 id="popText" style="display: none;">Most popular</h4>
+    <div id="myCarousel" class="carousel slide mt-4" data-ride="carousel" style="display: none;">
+        <div class="carousel-inner">
+            <div class="carousel-item active ">
+                <div class="row justify-content-around p-0 b-5" style="margin: 0 100px;" id ="first">
+                    
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row justify-content-around p-0 b-5" style="margin: 0 100px;" id="sec">
+                    
+                </div>
+            </div>
+            
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="or-seperate mt-4"></div>
+    <div class="row ">
         <div class="col-sm-1"></div>
         <div class="col-2">
 
@@ -16,6 +42,8 @@
                     <btn class="btn dropdown-item" id="rating-desc">Highest Rating</btn>
                     <btn class="btn dropdown-item" id="price-asc">Lowest Price</btn>
                     <btn class="btn dropdown-item" id="price-desc">Highest Price</btn>
+                    <btn class="btn dropdown-item" id="createdAt-asc">Oldest Courses</btn>
+                    <btn class="btn dropdown-item" id="createdAt-desc">Newest Courses</btn>
 
                 </div>
             </div>
@@ -164,7 +192,7 @@
                         <div class="_43 rating-course">
 
                             <div class="rate" data-rate-value={{rating}}></div>
-                            <span class="number-ratings">({{this.course_students.length}})</span>
+                            <span class="number-ratings">({{rates.length}})</span>
                         </div>
                         <div class="d-flex w-100 justify-content-end position-absolute">
                             {{#ifCond price '!=' discount_price}}
@@ -217,6 +245,65 @@
     });
     var url = new URL(document.location.href);
 
+    if(!url.searchParams.get('kw') && url.searchParams.get('category')){
+        var haveSub = 0;
+        var id = url.searchParams.get('category');
+        if(url.searchParams.get('subcategory')){
+            haveSub = 1;
+            id = url.searchParams.get('subcategory');
+        }
+        $.ajax({
+                url: "/courses/get/courses",
+                type:"get",
+                data: { id, isSub: haveSub  },
+                success: function (response) {
+                    //sai mat khau
+                    if (response == "false") {
+                        console.log('fale')
+
+                    }
+                    else{
+                        myArr = response.map(ele => `<div class="col-3 p-0">
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="/public/images/courses/1on2y0.jpg" alt="Card image cap">
+                                    <div class="card-body d-flex flex-column">
+                                        <p class="card-text text-primary font-weight-bold">Web Development</p>
+                                        <h6 class="card-title font-weight-bold">${ele.name} </h6>
+                                        <p class="card-subtitle text-secondary teacher-text">${ele.course_author.name}</p>
+                                        <div class="card-text d-flex">
+                                            <div class="rate" data-rate-value=${ele.rating}></div>
+                                            <span class="number-students">(${ele.rates.length})</span>
+                                        </div>
+                                        <div class="d-flex">
+                                            <h5 class="card-text font-weight-bold delete-price"> ${ele.price} </h5>
+                                            <h5 class="card-text font-weight-bold align ml-3 discout-price"> ${ele.discount_price}
+                                            </h5>
+                                        </div>
+                                        <a href="/courses/${ele.slug}" class="btn btn-primary align-self-start mt-auto">Go
+                                            to
+                                            course</a>
+                                    </div>
+                                </div>
+                            </div>`)
+                            const firstArr = myArr.slice(0,3).join('\n');
+                            const secArr = myArr.slice(3,6).join('\n');
+                            $('#first').append(firstArr);
+                            $('#sec').append(secArr);
+                            $('#myCarousel').show();
+                            $(document).ready(function () {
+                                var options = {
+                                    max_value: 5,
+                                    initial_value: 4,
+                                    readonly: true
+                                }
+                                $(".rate").rate(options);
+                            });
+                    }
+                }
+            });
+    }
+    else console.log('ko')
+
     var acc = document.getElementsByClassName("accordion");
       var i;
 
@@ -238,106 +325,107 @@
 
     }
     //Click vào item menu add parameter vào URL
-    function handleItem(name){
-        $(`btn[name=${name}]`).on("click",function(e) {
-            
-        if (e.target.getAttribute('value')) {
-            url.searchParams.set(name, e.target.getAttribute('value'))
-            console.log(e.target.getAttribute('value'));
-        }
-        else {
-            url.searchParams.delete(name);
-        } 
-        if(name === 'category'){
-            url.searchParams.delete('subcategory')
-            url.searchParams.delete('price')
-            url.searchParams.delete('field')
-            url.searchParams.delete('type')
-            url.searchParams.delete('rating')
-        }
-        url.searchParams.delete('p')
+    function handleItem(...args){
+        args.forEach(name=> {
 
-        document.location = url;
+            $(`btn[name=${name}]`).on("click",function(e) {
+                
+            if (e.target.getAttribute('value')) {
+                url.searchParams.set(name, e.target.getAttribute('value'))
+                console.log(e.target.getAttribute('value'));
+            }
+            else {
+                url.searchParams.delete(name);
+            } 
+            if(name === 'category'){
+                url.searchParams.delete('subcategory')
+                url.searchParams.delete('price')
+                url.searchParams.delete('field')
+                url.searchParams.delete('type')
+                url.searchParams.delete('rating')
+            }
+            url.searchParams.delete('p')
 
+            document.location = url;
+
+            })
         })
     }
-    handleItem('rating');
-    handleItem('price');
-    handleItem('category');
-
+    handleItem('rating', 'price', 'category');
     var priceInput2 = $('btn[name="price"]');
 
     //Nếu có parameter thì thêm thẻ xóa parameter và bật active cho item menu
-    function handleUrlQuery(name){
-        if (url.toString().includes(`&${name}`)) {
-        const fieldValue = url.searchParams.get(name);
-        var htmlPicked = '';
-            $(`btn[name=${name}]`).toArray().forEach(element => {
-            if (element.getAttribute('value') === fieldValue) {
-                element.parentElement.classList.add('menu-item--active');
-                htmlPicked = element.textContent;
-            }
-        })
-        document.getElementById(`btn-dlt-${name}`).style.display = "block";
-        document.querySelector(`#btn-dlt-${name}`).querySelector(`.dlt-${name}-text`).append(`${name}: ` + htmlPicked);
-        document.querySelector(`#btn-dlt-${name}`).querySelector(`.dlt-${name}-x`).innerHTML = '<i class="fas fa-times"></i>';
-        
-        if(name === 'category'){
-            const catId= url.searchParams.get(name);
-            $.ajax({
-                    url: "/courses/getSubByCatId",
-                    type:"get",
-                    data: {catId },
-                    success: function (response) {
-                        if (response == "false") {
-                            console.log('fail')
-                        }
-                        else{
-                           console.log(response);
-                           response = response.map(subCat => `<li class="menu-item ">
-                                    <btn class="menu-item__link" name="subcategory" value ="${subCat._id}">${subCat.SubCatName}</btn>
-                                </li>`);
-                            response = response.join('\n');
-                            $('#subcat-list-contain').append(response);
-                            console.log($('#subcat-contain'))
-                            $('#subcat-contain').show();
-                            handleItem('subcategory');
-                            handleDelField('subcategory');
-                            
-                            //Bị bđb ở trên response trả về chưa kịp nên phải chạy lại đoan này
-                            if (url.toString().includes(`&subcategory`)){
-                                console.log('wth')
-                                $(`btn[name="subcategory"]`).toArray().forEach(element => {
-                                    if (element.getAttribute('value') === url.searchParams.get('subcategory')) {
-                                        console.log(element.getAttribute('value'))
-                                        element.parentElement.classList.add('menu-item--active')
-                                        const htmlPicked = element.textContent;
-                                        document.getElementById(`btn-dlt-subcategory`).style.display = "block";
-
-                                        document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-text`).append(`Subcategory: ` + htmlPicked);
-                                        document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-x`).innerHTML = '<i class="fas fa-times"></i>';
-                                    }
-                                })
+    function handleUrlQuery(...args){
+        args.forEach(name=> {
+            if (url.toString().includes(`&${name}`)) {
+            const fieldValue = url.searchParams.get(name);
+            var htmlPicked = '';
+                $(`btn[name=${name}]`).toArray().forEach(element => {
+                if (element.getAttribute('value') === fieldValue) {
+                    element.parentElement.classList.add('menu-item--active');
+                    htmlPicked = element.textContent;
+                }
+            })
+            document.getElementById(`btn-dlt-${name}`).style.display = "block";
+            document.querySelector(`#btn-dlt-${name}`).querySelector(`.dlt-${name}-text`).append(`${name}: ` + htmlPicked);
+            document.querySelector(`#btn-dlt-${name}`).querySelector(`.dlt-${name}-x`).innerHTML = '<i class="fas fa-times"></i>';
+            
+            if(name === 'category'){
+                $('#popText').show();
+                $('#cateName').append(htmlPicked+' Courses')
+                const catId= url.searchParams.get(name);
+                $.ajax({
+                        url: "/courses/getSubByCatId",
+                        type:"get",
+                        data: {catId },
+                        success: function (response) {
+                            if (response == "false") {
+                                console.log('fail')
                             }
                             else{
-                                console.log($(`btn[name=subcategory]`).toArray()[0])
-                                $(`btn[name=subcategory]`).toArray()[0].parentElement.classList.add('menu-item--active');
+                            console.log(response);
+                            response = response.map(subCat => `<li class="menu-item ">
+                                        <btn class="menu-item__link" name="subcategory" value ="${subCat._id}">${subCat.SubCatName}</btn>
+                                    </li>`);
+                                response = response.join('\n');
+                                $('#subcat-list-contain').append(response);
+                                console.log($('#subcat-contain'))
+                                $('#subcat-contain').show();
+                                handleItem('subcategory');
+                                handleDelField('subcategory');
+                                
+                                //Bị bđb ở trên response trả về chưa kịp nên phải chạy lại đoan này
+                                if (url.toString().includes(`&subcategory`)){
+                                    console.log('wth')
+                                    $(`btn[name="subcategory"]`).toArray().forEach(element => {
+                                        if (element.getAttribute('value') === url.searchParams.get('subcategory')) {
+                                            console.log(element.getAttribute('value'))
+                                            element.parentElement.classList.add('menu-item--active')
+                                            const htmlPicked = element.textContent;
+                                            document.getElementById(`btn-dlt-subcategory`).style.display = "block";
+                                            $('#cateName').empty();
+                                            $('#cateName').append(htmlPicked+' Courses');
+                                            document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-text`).append(`Subcategory: ` + htmlPicked);
+                                            document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-x`).innerHTML = '<i class="fas fa-times"></i>';
+                                        }
+                                    })
+                                }
+                                else{
+                                    console.log($(`btn[name=subcategory]`).toArray()[0])
+                                    $(`btn[name=subcategory]`).toArray()[0].parentElement.classList.add('menu-item--active');
+                                }
                             }
-                        }
+            }
+                });
         }
-            });
-    }
+            }
+        else {
+            $(`btn[name=${name}]`).toArray()[0].parentElement.classList.add('menu-item--active');
         }
-    else {
-        $(`btn[name=${name}]`).toArray()[0].parentElement.classList.add('menu-item--active');
-    }
+        })
     }
 
-
-
-    handleUrlQuery('price');
-    handleUrlQuery('rating');
-    handleUrlQuery('category');
+    handleUrlQuery('price', 'rating', 'category');
 
 
     if (url.toString().includes('&field')) {
@@ -358,15 +446,15 @@
     }
 
     //Btn-Dlt parameter
-    function handleDelField(name){
-        $(`#btn-dlt-${name}`).on('click', function () {
-        url.searchParams.delete(name);
-        document.location = url;
-    })
+    function handleDelField(...args){
+        args.forEach(name => {
+            $(`#btn-dlt-${name}`).on('click', function () {
+            url.searchParams.delete(name);
+            document.location = url;
+        })
+        })
     }
-   handleDelField('price');
-   handleDelField('rating');
-   handleDelField('category');
+   handleDelField('price', 'rating', 'category');
     $('#btn-dlt-sort').on('click', function () {
         url.searchParams.delete("field");
         url.searchParams.delete("type");
@@ -391,30 +479,24 @@
     })
 
     //Bấm vào sort thêm parameter field vs type vào new url
-    $('#rating-desc').on('click', function () {
-
-        url.searchParams.set("field", "rating");
-        url.searchParams.set("type", "desc");
-        document.location = url;
-    })
-    $('#rating-asc').on('click', function () {
-
-        url.searchParams.set("field", "rating");
-        url.searchParams.set("type", "asc");
-        document.location = url;
-    })
-    $('#price-desc').on('click', function () {
-
-        url.searchParams.set("field", "price");
-        url.searchParams.set("type", "desc");
-        document.location = url;
-    })
-    $('#price-asc').on('click', function () {
-
-        url.searchParams.set("field", "price");
-        url.searchParams.set("type", "asc");
-        document.location = url;
-    })
+    //Rest Parameter Sort
+    function handleSort(...args){
+        console.log(args);
+        args.forEach(name => {
+            $(`#${name}-desc`).on('click', function () {
+                url.searchParams.set("field", name);
+                url.searchParams.set("type", "desc");
+                document.location = url;
+            })
+            $(`#${name}-asc`).on('click', function () {
+                url.searchParams.set("field", name);
+                url.searchParams.set("type", "asc");
+                document.location = url;
+            })
+        })
+    }
+    handleSort('rating','price','createdAt');
+    
 </script>
 
 {{/section}}

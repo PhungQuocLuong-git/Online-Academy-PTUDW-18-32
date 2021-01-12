@@ -106,7 +106,7 @@
 
                 <a class="dropdown-item" href="/user/registered-courses">My learning</a>
                 <a class="dropdown-item" href="/user/watch-list">Watch list</a>
-                <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
+                <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>  
                 <a class="dropdown-item" href="/user/edit-account">Change password</a>
 
                 <div class="dropdown-divider"></div>
@@ -138,21 +138,8 @@
             </li>
             {{else}}
             {{#ifequal role 3}}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                ADMIN
-                <img src="https://i.pinimg.com/564x/50/4d/0e/504d0e3a8dd7425771a68cb1ca59a009.jpg" class="user-avatar">
-
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/courses/create">ABC</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/me/stored/courses">Khóa học của tôi</a>
-                <a class="dropdown-item" href="/me/stored/courses">Bình luận cũa tôi</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item btn--logout" href="/admin/logout">Đăng xuất</a>
-              </div>
+            <li class="nav-item ">
+              <a href="/admin">BACK TO ADMIN</a>
             </li>
             {{else}}
             <li class="nav-item active dropdown">

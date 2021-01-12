@@ -15,7 +15,7 @@ const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongo
 const multer = require('multer');
 
 async function getMostPurchasedRelated(course_subCatid) {
-    var courses = await Course.find({ subcatid: course_subCatid }).populate('course_author');
+    var courses = await Course.find({ subcatid: course_subCatid }).populate('course_author course_students');
     courses.sort((course1, course2) => { return course2.course_students.length - course1.course_students.length });
     var mostRelatedPurchased = multipleMongooseToObject(courses.slice(0, 6));
     return mostRelatedPurchased;
@@ -101,8 +101,6 @@ module.exports = {
         if(req.query.hasOwnProperty('field')){
             paginateOption.sort = {[req.query.field]:req.query.type }
         }
-        sortOption.field = "price";
-        sortOption.type = 1;
         options.$or = [{$text: {$search: wordSearch}}, {name: {$regex: wordSearch,$options:'i'}}];
         // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
         Course.paginate(options, paginateOption )
@@ -245,7 +243,6 @@ module.exports = {
 
 
     async destroy(req, res, next) {
-
 
         //console.log(req.body.courseID);
         await Student.updateMany(
@@ -615,5 +612,23 @@ module.exports = {
         //...mongooseToObject(courses[9])
         return editedCourses;
     },
+
+    getPopById(req,res,next){
+        console.log(req.query,'abc');
+        const have = +req.query.isSub;
+        console.log(typeof(have),have)
+        option={};
+        if( +req.query.isSub)
+            option.subcatid= req.query.id
+        else
+            option.catid= req.query.id
+        Course.find(option).populate('course_author').sort({ view: -1 }).limit(6)
+            .then(courses => {
+                console.log(courses);
+                res.json(
+                    multipleMongooseToObject(courses)
+            )} )
+            .catch(()=> res.json('false'));
+    }
 };
 
