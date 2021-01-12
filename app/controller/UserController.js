@@ -52,7 +52,7 @@ module.exports = {
             script: '/public/javascripts/home.js',
             progress: '10',
             numlesson: '25',
-        percent: +'10' / +'25' * 100,
+            percent: +'10' / +'25' * 100,
             url: url,
             list: student.booked_courses,
         });
@@ -61,35 +61,21 @@ module.exports = {
         const id = req.params.id;
         const student = await Student.find({ "_id": req.session.user._id, "wish_courses.course_id": id });
         const len = student.length;
-        
+
         // console.log("saaaaaaaaaaaaaaaa"+student);
         if (len > 0) {
-            Student.updateOne(
+            var wishlist = await Student.updateOne(
                 { _id: req.session.user._id },
                 { $pull: { wish_courses: { course_id: id } } },
-                (err, data) => {
-                    if (err) {
-
-                        console.log(err);
-                    }
-                    else {
-
-                        res.send("dddddddddd");
-                    }
-                });
+                { upsert: true, new: true }
+            );
         }
         else {
-            Student.updateOne(
+            var wishlist = await Student.updateOne(
                 { _id: req.session.user._id },
                 { $push: { wish_courses: { course_id: id } } },
-                (err, data) => {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        res.send("rrrrrrrrrr");
-                    }
-                });
+                { upsert: true, new: true }
+            );
         }
         console.log(len);
 

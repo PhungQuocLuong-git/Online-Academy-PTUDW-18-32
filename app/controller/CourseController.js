@@ -33,53 +33,280 @@ module.exports = {
 
     async detail(req, res, next) {
         // try {
-            var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates posted_courses');
-            var isBooked = false;
-            var isStudent;
-            if (req.session.role === 1) {
-                isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
-                isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
-            }
-            if (req.session.role === 2 || req.session.role === 3) {
-                isBooked = true;
-                isStudent =false;
-            }
-            var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
-            mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
-            res.render('courses/detail', {
-                course: mongooseToObject(course),
-                script: '/public/javascripts/home.js',
-                isBooked,
-                isTeacher: req.session.role === 2,
-                mostRelatedPurchased,
-                isStudent
-            });
-            course.view++;
-            await Course.updateOne({ slug: course.slug }, course);
+        var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates posted_courses');
+        var isBooked = false;
+        var isStudent;
+        if (req.session.role === 1) {
+            isBooked = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+            isStudent = course.course_students.some(student => student.user_id.equals(req.session.user._id));
+        }
+        if (req.session.role === 2 || req.session.role === 3) {
+            isBooked = true;
+            isStudent = false;
+        }
+        var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
+        mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
+        res.render('courses/detail', {
+            course: mongooseToObject(course),
+            script: '/public/javascripts/home.js',
+            isBooked,
+            isTeacher: req.session.role === 2,
+            mostRelatedPurchased,
+            isStudent
+        });
+        course.view++;
+        await Course.updateOne({ slug: course.slug }, course);
         // } catch (err) {
         //     res.json({ msg: 'Something happened!!!' });
         // }
     },
 
+    async isown(req, res, next) {
+
+
+        try {
+            var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum');
+            if (course.course_author + '' === req.session.user._id + '') {
+                next();
+            }
+            else {
+                res.render('404', {
+                    script: 'Bạn không sở hữu khoá học này!',
+                    layout: false,
+                });
+            }
+
+
+        } catch (err) {
+            res.render('404', {
+                script: 'Không tìm thấy khoá học!',
+                layout: false,
+            });
+        }
+
+    },
+
+    async edit(req, res) {
+        {
+            var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum');
+            res.render('courses/edit', {
+                layout: 'teacher',
+                course: mongooseToObject(course),
+                script: '/public/javascripts/home.js',
+            });
+            /* try {
+                var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum');
+                if (course.course_author + '' === req.session.user._id + '') {
+                    res.render('courses/edit', {
+                        layout: 'teacher',
+                        course: mongooseToObject(course),
+                        script: '/public/javascripts/home.js',
+    
+    
+                    });
+                }
+                else {
+                    res.render('404', {
+                        script: 'Bạn không sở hữu khoá học này!',
+                        layout: false,
+                    });
+                }
+    
+    
+            } catch (err) {
+                res.render('404', {
+                    script: 'Không tìm thấy khoá học!',
+                    layout: false,
+                });
+            } */
+        }
+    },
+
+    async renamechap(req, res) {
+        var slug = req.params.slug + '';
+        var idchapter = req.params.idchapter;
+        var url = '/courses/edit/' + slug;
+        var cur = await Curriculum.findOneAndUpdate(
+            { _id: idchapter },
+            { chapter_name: req.body.name }
+        )
+
+
+        res.redirect(url);
+
+    },
+    async complete(req, res) {
+
+        var slug = req.params.slug;
+        var course = await Course.findOneAndUpdate(
+            { slug: slug },
+            { complete: +req.body.complete }
+        )
+
+
+        var url = '/courses/edit/' + slug;
+
+        res.redirect(url);
+
+    },
+
+
+    async general(req, res) {
+
+        var slug = req.params.slug;
+        var course = await Course.findOneAndUpdate(
+            { slug: slug },
+            { description: req.body.description, discount_price: req.body.discount_price }
+        )
+
+
+        var url = '/courses/edit/' + slug;
+
+        res.redirect(url);
+
+    },
+
+    async deletechap(req, res) {
+        var slug = req.params.slug + '';
+        var idchapter = req.params.idchapter;
+        var idcourse = req.params.idcourse;
+        var url = '/courses/edit/' + slug;
+        var cur = await Curriculum.deleteOne({ _id: idchapter });
+        console.log(cur);
+        var course = await Course.findOneAndUpdate(
+            { _id: idcourse },
+            { $pull: { curriculum: idchapter } }
+        );
+
+
+        res.redirect(url);
+
+    },
+
+    async addchapter(req, res) {
+
+        var slug = req.params.slug + '';
+        // console.log(req.body);
+        var url = '/courses/edit/' + slug;
+        var cur = req.body;
+        cur.lectures = [];
+        const instance = new Curriculum(cur);
+        instance.save(function (err) {
+        });
+        console.log(instance._id);
+        var updatedcourser = await Course.updateOne(
+            { slug: req.params.slug },
+            { $push: { curriculum: { '_id': instance._id } } },
+            { upsert: true, new: true }
+        );
+
+
+        res.redirect(url);
+    },
+
+    async addletter(req, res) {
+
+        var slug = req.params.slug + '';
+        var idchapter = req.params.idchapter;
+        // console.log(req.body);
+        var url = '/courses/edit/' + slug;
+        const storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                if (file.originalname.includes('.mp4')) {
+                    cb(null, './public/videos/');
+                }
+            },
+            filename: function (req, file, cb) {
+                cb(null, Date.now() + '-' + file.originalname);
+            }
+        });
+        const upload = multer({ storage });
+        upload.fields([
+            { name: 'name', maxCount: 1 },
+            { name: 'letter-vid', maxCount: 1 }
+        ])(req, res, async function (err) {
+            if (err) {
+                res.send("loi");
+                console.log(err);
+            }
+            else {
+                // console.log(req.files['letter-vid'][0].filename);
+                // console.log(req.letter-vid.filename);
+                var link = '/public/videos/' + req.files['letter-vid'][0].filename;
+                var cur = await Curriculum.findOneAndUpdate(
+                    { _id: idchapter },
+                    { $push: { lectures: { name: req.body.name, description: "", link: link, preview: 0 } } }
+                );
+                // console.log(cur);
+
+                res.redirect(url);
+            }
+        });
+
+
+    },
+
+
+    async changeimg(req, res) {
+
+        var slug = req.params.slug + '';
+
+
+        var url = '/courses/edit/' + slug;
+        const storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+                if (file.originalname.includes('.png') || file.originalname.includes('.jpg') || file.originalname.includes('.gif')) {
+                    cb(null, './public/images/courses/');
+                }
+            },
+            filename: function (req, file, cb) {
+                cb(null, Date.now() + '-' + file.originalname);
+            }
+        });
+        const upload = multer({ storage });
+        upload.fields([
+            { name: 'img-course', maxCount: 1 },
+
+        ])(req, res, async function (err) {
+            if (err) {
+                res.send("loi");
+                console.log(err);
+            }
+            else {
+
+                var link = '/public/images/courses/' + req.files['img-course'][0].filename;
+                var course = await Course.findOneAndUpdate(
+                    { slug: slug },
+                    { thumbnail: link }
+                );
+                // console.log(cur);
+
+                res.redirect(url);
+            }
+        });
+
+
+    },
+
     create(req, res) {
         res.render('courses/create', {
-            layout: false,
+            layout: 'teacher',
         })
     },
 
-    getSubByCatId(req,res){
-        Subcategory.find({CatID: req.query.catId })
-         .then(result => res.json(result))
-         .catch(() => res.send('false')) ;
-        
+    getSubByCatId(req, res) {
+        Subcategory.find({ CatID: req.query.catId })
+            .then(result => res.json(result))
+            .catch(() => res.send('false'));
+
     },
 
     fts(req, res) {
         var options = {};
         var sortOption = {};
         var wordSearch = '';
-        if(req.query.kw)
-            wordSearch=req.query.kw.trim().replace(/\s+/g, ' ');
+        if (req.query.kw)
+            wordSearch = req.query.kw.trim().replace(/\s+/g, ' ');
         if (req.query.rating) {
             const rate = +req.query.rating;
             options.rating = { $gte: rate };
@@ -88,23 +315,23 @@ module.exports = {
             const price = +req.query.price;
             options.price = { $gte: price };
         }
-        if(req.query.category)
+        if (req.query.category)
             options.catid = req.query.category;
-        if(req.query.subcategory)
+        if (req.query.subcategory)
             options.subcatid = req.query.subcategory;
-        
+
         var page = (req.query.p) ? req.query.p : 1;
         var paginateOption = {
             page,
-            limit : 5
+            limit: 5
         }
-        if(req.query.hasOwnProperty('field')){
-            paginateOption.sort = {[req.query.field]:req.query.type }
+        if (req.query.hasOwnProperty('field')) {
+            paginateOption.sort = { [req.query.field]: req.query.type }
         }
-        options.$or = [{$text: {$search: wordSearch}}, {name: {$regex: wordSearch,$options:'i'}}];
+        options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } }];
         // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
-        Course.paginate(options, paginateOption )
-        // Course.find().pretty()
+        Course.paginate(options, paginateOption)
+            // Course.find().pretty()
             .then(courses => res.render('courses/search', {
                 courses: courses.docs,
                 pagination: {
@@ -114,7 +341,7 @@ module.exports = {
             }))
             .catch(error => console.error(error));
     },
-    
+
     async store(req, res, next) {
         const storage = multer.diskStorage({
             destination: function (req, file, cb) {
@@ -152,7 +379,7 @@ module.exports = {
                 console.log(req.body);
                 console.log(req.files);
                 req.body.course_author = req.session.user._id;
-                req.body.discount_price = !req.body.discount_price||req.body.discount_price>req.body.price ? req.body.price : req.body.discount_price;
+                req.body.discount_price = !req.body.discount_price || req.body.discount_price > req.body.price ? req.body.price : req.body.discount_price;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
                 if (typeof (req.files.preview_vid) === undefined)
                     req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
@@ -368,9 +595,9 @@ module.exports = {
                 if (ret >= 0 && req.session.user.cart_courses.length > 0) {
                     req.session.user.cart_courses.splice(ret, 1);
                 }
-                let teacher=await Teacher.findById(course.course_author);
-                teacher.NumOfStudents=teacher.NumOfStudents+1;
-                await Teacher.findByIdAndUpdate(course.course_author,teacher);
+                let teacher = await Teacher.findById(course.course_author);
+                teacher.NumOfStudents = teacher.NumOfStudents + 1;
+                await Teacher.findByIdAndUpdate(course.course_author, teacher);
                 course.course_students.push({ user_id: req.session.user._id });
                 req.session.user.booked_courses.push({ course_id: course._id });
                 req.session.user.money -= course.price;
@@ -383,7 +610,7 @@ module.exports = {
                     select: "name slug price course_author",
                     populate: { path: "course_author", select: "name" },
 
-                 })])
+                })])
             })
             .then(([course, user]) => {
                 req.app.locals.user = mongooseToObject(user);
@@ -486,9 +713,9 @@ module.exports = {
     //Most viewed courses
     async getMostviewed() {
         var courses = await Course.find().populate('course_author');
-        courses.sort(function (course1, course2) { return course2.view -course1.view});
+        courses.sort(function (course1, course2) { return course2.view - course1.view });
         // editedCourses=courses.slice(0,10);
-        
+
         editedCourses = {
             first_3: multipleMongooseToObject(courses.slice(0, 3)),
             next_3: multipleMongooseToObject(courses.slice(3, 6)),
@@ -501,7 +728,7 @@ module.exports = {
 
     //Most popular category
     async getMostpopular(res) {
-        dateTo = moment(); dateFrom = moment().subtract(7, 'd');
+        dateFrom = moment().subtract(7, 'd');
         var listbooked = await Bookdetail.find({ "createdAt": { $gte: dateFrom } });
         var listsub = await Subcategory.find({}).populate("CatID");
         listsub = multipleMongooseToObject(listsub);
@@ -567,7 +794,7 @@ module.exports = {
         var courses = await Course.find({ _id: { $in: listcourse } });
         courses = multipleMongooseToObject(courses);
         var lencourses = courses.length;
-        
+
         for (var i = 0; i < lencourses; i++) {
             courses[i]['ratethisweek'] = 0;
             courses[i]['numratethisweek'] = 0;
@@ -588,8 +815,8 @@ module.exports = {
             // console.log(temp);
             courses[i]['ratethisweek'] = Math.round(temp * inv) / inv;
         }
-        
-        courses.sort(function (course1, course2)  {return course2.ratethisweek- course1.ratethisweek  });
+
+        courses.sort(function (course1, course2) { return course2.ratethisweek - course1.ratethisweek });
         // console.log(courses);
 
 
@@ -604,7 +831,7 @@ module.exports = {
         /* for(var i=0;i<courses.length;i++)
         {
             console.log(courses[i].createdAt);
-
+    
         } */
         editedCourses = {
             first_3: multipleMongooseToObject(courses.slice(0, 3)),
@@ -615,26 +842,27 @@ module.exports = {
         //...mongooseToObject(courses[9])
         return editedCourses;
     },
-    
+
     getMostPurchased() {
-        
+
     },
-    getPopById(req,res,next){
-        console.log(req.query,'abc');
+    getPopById(req, res, next) {
+        console.log(req.query, 'abc');
         const have = +req.query.isSub;
-        console.log(typeof(have),have)
-        option={};
-        if( +req.query.isSub)
-            option.subcatid= req.query.id
+        console.log(typeof (have), have)
+        option = {};
+        if (+req.query.isSub)
+            option.subcatid = req.query.id
         else
-            option.catid= req.query.id
+            option.catid = req.query.id
         Course.find(option).populate('course_author').sort({ view: -1 }).limit(6)
             .then(courses => {
                 console.log(courses);
                 res.json(
                     multipleMongooseToObject(courses)
-            )} )
-            .catch(()=> res.json('false'));
+                )
+            })
+            .catch(() => res.json('false'));
     }
 };
 
