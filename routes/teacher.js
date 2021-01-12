@@ -14,6 +14,7 @@ router.get('/create', teacherController.create);
 router.post('/store', teacherController.store);
 router.get('/login', teacherController.login);
 router.post('/check', teacherController.check);
+router.patch('/change', teacherController.change);
 router.patch('/censor',isAdmin, teacherController.censor);
 
 // router.post('/login', teacherController.create);
