@@ -612,7 +612,10 @@ module.exports = {
         //...mongooseToObject(courses[9])
         return editedCourses;
     },
-
+    
+    getMostPurchased() {
+        
+    },
     getPopById(req,res,next){
         console.log(req.query,'abc');
         const have = +req.query.isSub;

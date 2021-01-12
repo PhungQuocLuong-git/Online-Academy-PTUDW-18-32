@@ -386,19 +386,6 @@
         var submitForm = document.forms['createForm'];
         var btnSubmit = $('.form-submit');
         btnSubmit.on('click', function (e) {
-            let thumb=$('input[name=thumbnail]').val();
-            if(thumb==="") {
-                $('.thumb-msg').html(`Please choose your course's thumbnail`);
-                $('.err-msg').html("Please fill in all the required fields");
-                e.preventDefault();
-            }
-            let price=$('#price').val();
-            let shrt_des=$('#short_description').val();
-            if(price ==="" || shrt_des==="") {
-                $('.err-msg').html("Please fill in all the required fields");
-                e.preventDefault();
-            }
-            if(price !=="" && shrt_des!=="" && des!=="" && thumb!=="") {
             $('input[type="file"]').each(function(){
                 if(this.value==='')
                 {
@@ -413,11 +400,9 @@
             for (let i = 1; i <= num; i++) {
                 let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
                 submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
-                let pre_vid=$('#preview-vid').val();
-                
+                let pre_vid=$('#preview-vid').val();                
             }
             submitForm.submit();
-            }
         })
 
         var $select1 = $('#catid'),
