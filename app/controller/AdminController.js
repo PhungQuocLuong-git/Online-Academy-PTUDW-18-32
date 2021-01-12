@@ -182,27 +182,19 @@ class AdminController {
             layout:'admin'
         });
     };
-    async del(req, res) {
+     del(req, res) {
+        Course.find({catid: req.body._id})
+            .then(course =>{
+                if(course)
+                    {console.log('a',course);res.json('Bn k dc xoa category da co khoa hc')}
+                else 
+                    return categorySchema.deleteOne({ _id: req.body._id })
+            })
+            .then(() => res.redirect('/admin/categories'))
+            .catch(()=> res.json("Sth went wrong"));
+            
         
-        categorySchema.deleteOne({ _id: req.body._id }, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(data);
-            }
-        });
-        // categoriesSchema.findByIdAndDelete(req.body._id,(err,data)=> { 
-        //         if(err)
-        //     {
-        //         console.log(err);
-        //     }
-        //     else{
-        //         console.log(data);
-        //     }
-        //  });
-        res.redirect('/admin/categories');
-        // res.render('vwCategories/edit');
+            
     }
 
     async patch(req, res) {

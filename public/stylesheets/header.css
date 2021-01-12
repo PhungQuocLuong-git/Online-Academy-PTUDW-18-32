@@ -26,6 +26,10 @@ h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 {
   color: #fcd411;
 }
 
+.user-money:hover {
+  cursor: default;
+}
+
 .body {
   padding-top: 78px;
   /* margin-top: 100px; */
@@ -260,5 +264,5 @@ h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 {
 
 .angel-cate{
   float: right;
-  margin-top: 8px;
+  margin-top: 6px;
 }

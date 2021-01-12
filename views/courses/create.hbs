@@ -228,16 +228,6 @@
             ],
         });
 
-        Validator({
-            form: '#form-1',
-            formGroup: '.form-group',
-            errorSelector: '.form-message',
-            rules: [
-                Validator.isRequired('#name', 'Nhập tên khóa học'),
-                Validator.isRequired('#price','Nhập giá khoá học'),
-                Validator.isRequired('#short_description','Nhập mô tả ngắn gọn khoá học')
-            ],
-        });
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
