@@ -76,7 +76,7 @@
             {{#each catemostpopular}}
 
 
-            <a class="btn accordion border m-3" href="/courses/list/{{slug}}">
+            <a class="btn accordion border m-3" href="/courses/fts?kw=&category={{_id}}">
                 <h4>{{CatName}}</h4>
                 {{#ifgreater count 1}}
                 <p> {{count}} purchases this week</p>
@@ -90,7 +90,7 @@
             {{#each subcatemostpopular}}
 
 
-            <a class="btn accordion border m-3" href="/courses/list/{{CatID.slug}}/{{slug}}">
+            <a class="btn accordion border m-3" href="/courses/fts?kw=&category={{CatID._id}}&subcategory={{_id}}">
                 <h4>{{SubCatName}}</h4>
                 {{#ifgreater count 1}}
                 <p> {{count}} purchases this week</p>

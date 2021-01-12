@@ -71,25 +71,20 @@
               </li>
               {{/each}}
 
-            </ul>
-            <a href="/student/cart/{{user._id}}" class="navbar__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
-          </div>
-        </li>
-        {{else}}
-        <div class="navbar__cart-list navbar__cart-list--no-card ">
-          <img src="/public/images/empty-cart.png" alt="" class="navbar__cart-no-card-img">
-          <span class="navbar__card-list-no-card-msg">
-            Chưa có khóa nào
-          </span>
-          {{/if}}
+              </ul>
+              <a href="/student/cart/{{user._id}}" class="navbar__cart-view-cart btn btn--primary">Xem giỏ hàng</a>
+            </div>
+          </li>
+          {{else}}
+          <div class="navbar__cart-list navbar__cart-list--no-card ">
+            <img src="/public/images/empty-cart.png" alt="" class="navbar__cart-no-card-img">
+            <span class="navbar__card-list-no-card-msg">
+              Chưa có khóa nào
+            </span>
+            {{/if}}
 
-
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/courses/create">Đăng khóa học</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/teacher/courses">Khóa học cũa tôi</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item btn--logout" href="/teacher/logout">Đăng xuất</a>
+            </a>
+            
 
             <li class="nav-item active">
               <div class="user-money"> {{format user.money}} <i class="fas fa-coins"></i></div>
