@@ -29,7 +29,9 @@ chưa tạo view đăng nhập theo rule
 chưa xử lý tạo cate trùng tên
 chưa xử lý rating ở detail
 chưa tự động đăng nhập sau khi đăng ký
-
+chưa làm view chỉnh sửa cho teacher
+chua kiem tra quyen cua teacher ve course
+chua chon prevew
 
 #Mail
 nhom15webhcmus@gmail.com

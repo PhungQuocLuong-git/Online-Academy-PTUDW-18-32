@@ -6,6 +6,9 @@ const isTeacher = require('../app/middlewares/teacher.mdw');
 
 const teacherController = require('../app/controller/TeacherController');
 
+router.get('/',isTeacher,teacherController.home);
+router.get('/inprogress-courses',isTeacher,teacherController.inprogresscourses);
+router.get('/complete-courses',isTeacher,teacherController.completecourses);
 router.patch('/:id/swap', teacherController.swap );
 router.get('/create', teacherController.create);
 router.post('/store', teacherController.store);
