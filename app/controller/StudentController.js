@@ -118,17 +118,16 @@ class StudentController {
         })
             .then(user => {
                 //console.log(user);
-                req.session.user = mongooseToObject(user);
-                req.app.locals.user = mongooseToObject(user);
-                return bcrypt.compare(req.body.password, user.password)
-            })
-            .catch(err =>{
-                res.render('students/login', {
-                    layout: false,
-                    err_message:'Invalid username or password'
-                });
+                if(user){
+
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);
+                    return bcrypt.compare(req.body.password, user.password)
+                }
+                else return new Promise(function(resolve,reject){reject('invalid name')});
             })
             .then((result) => {
+                console.log('?????abc')
                 if (result) {
                     req.session.username = req.body.username;
                     req.session.role = 1;
@@ -141,6 +140,13 @@ class StudentController {
                         err_message:'Invalid username or password'
                     });
                 }
+            })
+            .catch(err =>{
+                console.log(err)
+                res.render('students/login', {
+                    layout: false,
+                    err_message:'Invalid username or password'
+                });
             })
     }
 

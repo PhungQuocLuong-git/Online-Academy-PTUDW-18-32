@@ -155,16 +155,16 @@
                                 <btn class="menu-item__link" name="price">Tất cả</btn>
                             </li>
                             <li class="menu-item ">
-                                <btn class="menu-item__link" name="price" value="120">>=120</btn>
+                                <btn class="menu-item__link" name="price" value="50000">>=50.000</btn>
                             </li>
                             <li class="menu-item ">
-                                <btn class="menu-item__link" name="price" value="300">>=300</btn>
+                                <btn class="menu-item__link" name="price" value="100000">>=100.000</btn>
                             </li>
                             <li class="menu-item ">
-                                <btn class="menu-item__link" name="price" value="5000">>=5000</btn>
+                                <btn class="menu-item__link" name="price" value="200000">>=200.000</btn>
                             </li>
                             <li class="menu-item">
-                                <btn class="menu-item__link" name="price" value="10000">>=10000</btn>
+                                <btn class="menu-item__link" name="price" value="500000">>=500.000</btn>
                             </li>
                         </ul>
                     </div>
@@ -246,6 +246,7 @@
     var url = new URL(document.location.href);
 
     if(!url.searchParams.get('kw') && url.searchParams.get('category')){
+        console.log(' an lz');
         var haveSub = 0;
         var id = url.searchParams.get('category');
         if(url.searchParams.get('subcategory')){
@@ -371,8 +372,11 @@
             document.querySelector(`#btn-dlt-${name}`).querySelector(`.dlt-${name}-x`).innerHTML = '<i class="fas fa-times"></i>';
             
             if(name === 'category'){
-                $('#popText').show();
-                $('#cateName').append(htmlPicked+' Courses')
+                if(!url.searchParams.get('kw')){
+
+                    $('#popText').show();
+                    $('#cateName').append(htmlPicked+' Courses')
+                }
                 const catId= url.searchParams.get(name);
                 $.ajax({
                         url: "/courses/getSubByCatId",
@@ -403,8 +407,11 @@
                                             element.parentElement.classList.add('menu-item--active')
                                             const htmlPicked = element.textContent;
                                             document.getElementById(`btn-dlt-subcategory`).style.display = "block";
-                                            $('#cateName').empty();
-                                            $('#cateName').append(htmlPicked+' Courses');
+                                            if(!url.searchParams.get('kw')){
+
+                                                $('#cateName').empty();
+                                                $('#cateName').append(htmlPicked+' Courses');
+                                            }
                                             document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-text`).append(`Subcategory: ` + htmlPicked);
                                             document.querySelector(`#btn-dlt-subcategory`).querySelector(`.dlt-subcategory-x`).innerHTML = '<i class="fas fa-times"></i>';
                                         }

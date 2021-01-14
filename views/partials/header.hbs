@@ -9,7 +9,7 @@
           <li><a class="dropdown-item" href="/courses/fts?kw="> All courses </a>
 
             {{#each lcCategories}}
-          <li><a class="dropdown-item" href="/courses/fts?kw=&category={{_id}}"> {{CatName}} &raquo </a>
+          <li><a class="dropdown-item cate-item" href="/courses/fts?kw=&category={{_id}}"> {{CatName}} <span class="angel-cate fas fa-angle-right"></span> </a>
             <ul class="submenu dropdown-menu">
               {{#each sub}}
               <li><a class="dropdown-item"
