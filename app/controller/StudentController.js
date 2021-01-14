@@ -8,6 +8,7 @@ const fs = require('fs');
 
 // Hash password
 const bcrypt = require('bcrypt');
+const { error } = require('console');
 // const { findByIdAndUpdate } = require('../models/Student');
 const saltRounds = 10;
 
@@ -109,7 +110,7 @@ class StudentController {
         });
     }
     // [POST] /student/check
-    check(req, res, next) {
+     check(req, res, next) {
         // res.json(req.body.password);
         Student.findOne({ username: req.body.username }).populate({
             path: "cart_courses.course_id",
@@ -117,15 +118,20 @@ class StudentController {
             populate: { path: "course_author", select: "name" },
         })
             .then(user => {
-                //console.log(user);
-                req.session.user = mongooseToObject(user);
-                req.app.locals.user = mongooseToObject(user);
-                return bcrypt.compare(req.body.password, user.password)
+                if(user) {
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);
+                    return bcrypt.compare(req.body.password, user.password)             
+                }
+                else return new Promise(function(resolve,reject) {
+                    reject('Invalid username');
+                })
             })
             .catch(err =>{
+                console.log('sai user');
                 res.render('students/login', {
                     layout: false,
-                    err_message:'Invalid username or password'
+                    err_message: err
                 });
             })
             .then((result) => {
@@ -136,9 +142,10 @@ class StudentController {
                     res.redirect(req.session.prevURL);
                 } 
                 else {
+                    console.log('sai pass');
                     res.render('students/login', {
                         layout: false,
-                        err_message:'Invalid username or password'
+                        err_message:'Wrong password'
                     });
                 }
             })
