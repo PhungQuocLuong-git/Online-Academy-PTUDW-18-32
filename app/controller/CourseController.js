@@ -53,7 +53,7 @@ module.exports = {
             console.log('iiiiiiiiiiiiiii', i);
 
             for (var j = 0; j < course.curriculum[i].lectures.length; j++) {
-                course.curriculum[i].lectures[j]['isWatched'] = 0;
+                course.curriculum[i].lectures[j]['iswatch'] = 0;
                 for (var k = 0; k < lenprocess; k++) {
                     if (course.curriculum[i].lectures[j]._id + '' === process[k] + '') {
                         course.curriculum[i].lectures[j].iswatch = 1;
