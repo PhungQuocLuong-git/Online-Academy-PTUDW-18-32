@@ -133,7 +133,7 @@ class TeacherController {
     logout(req, res, next) {
         req.app.locals.role = 0;
         req.session.destroy(() => {
-            res.redirect('/teacher/login');
+            res.redirect('/');
         });
     }
 

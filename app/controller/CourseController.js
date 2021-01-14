@@ -94,31 +94,6 @@ module.exports = {
                 course: mongooseToObject(course),
                 script: '/public/javascripts/home.js',
             });
-            /* try {
-                var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum');
-                if (course.course_author + '' === req.session.user._id + '') {
-                    res.render('courses/edit', {
-                        layout: 'teacher',
-                        course: mongooseToObject(course),
-                        script: '/public/javascripts/home.js',
-    
-    
-                    });
-                }
-                else {
-                    res.render('404', {
-                        script: 'Bạn không sở hữu khoá học này!',
-                        layout: false,
-                    });
-                }
-    
-    
-            } catch (err) {
-                res.render('404', {
-                    script: 'Không tìm thấy khoá học!',
-                    layout: false,
-                });
-            } */
         }
     },
 
@@ -172,7 +147,7 @@ module.exports = {
         var idcourse = req.params.idcourse;
         var url = '/courses/edit/' + slug;
         var cur = await Curriculum.deleteOne({ _id: idchapter });
-        console.log(cur);
+        //console.log(cur);
         var course = await Course.findOneAndUpdate(
             { _id: idcourse },
             { $pull: { curriculum: idchapter } }
@@ -193,7 +168,7 @@ module.exports = {
         const instance = new Curriculum(cur);
         instance.save(function (err) {
         });
-        console.log(instance._id);
+        //console.log(instance._id);
         var updatedcourser = await Course.updateOne(
             { slug: req.params.slug },
             { $push: { curriculum: { '_id': instance._id } } },
@@ -376,8 +351,8 @@ module.exports = {
                 console.log(err);
             }
             else {
-                console.log(req.body);
-                console.log(req.files);
+               // console.log(req.body);
+                //console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.discount_price = !req.body.discount_price || req.body.discount_price > req.body.price ? req.body.price : req.body.discount_price;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
@@ -439,7 +414,7 @@ module.exports = {
                                 preview: previewArr[0]
                             })
                         }
-                        console.log(object);
+                        //console.log(object);
                         const curr = new Curriculum(object);
                         curr.save();
                         req.body.curriculum.push({ _id: curr.id });
@@ -635,7 +610,7 @@ module.exports = {
     //[POST]/courses/wish/:id
     wish(req, res, next) {
         // res.json({msg:req.params.id});
-        console.log('wish');
+        //console.log('wish');
         Student.findById(req.session.user._id).populate('wish_courses')
             .then(user => {
                 let wished = false;
@@ -846,9 +821,9 @@ module.exports = {
 
     },
     getPopById(req, res, next) {
-        console.log(req.query, 'abc');
+        //console.log(req.query, 'abc');
         const have = +req.query.isSub;
-        console.log(typeof (have), have)
+        //console.log(typeof (have), have)
         option = {};
         if (+req.query.isSub)
             option.subcatid = req.query.id
@@ -856,7 +831,7 @@ module.exports = {
             option.catid = req.query.id
         Course.find(option).populate('course_author').sort({ view: -1 }).limit(6)
             .then(courses => {
-                console.log(courses);
+               // console.log(courses);
                 res.json(
                     multipleMongooseToObject(courses)
                 )
