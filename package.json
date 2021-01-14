@@ -8,7 +8,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "node --inspect ./bin/www"
+    "start": "nodemon --inspect ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
