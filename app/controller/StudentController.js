@@ -24,11 +24,11 @@ class StudentController {
 
     // [POST] /Student/store
     store(req, res, next) {
-        Promise.all([Student.findOne({ username: req.body.username }), bcrypt.hash(req.body.password, saltRounds)])
+        Promise.all([Student.findOne({ email: req.body.email }), bcrypt.hash(req.body.password, saltRounds)])
             .then(([user, hash]) => {
                 if (user) {
                     return new Promise(function (resolve, reject) {
-                        reject('existed username');
+                        reject('existed email');
                     });
                 }
                 req.body.password = hash;
@@ -87,7 +87,7 @@ class StudentController {
         // res.json({msg:req.params.id});
         Student.findById(req.params.id).populate({
             path: "cart_courses.course_id",
-            select: "name slug price course_author",
+            select: "name slug price course_author discount_price",
             populate: { path: "course_author", select: "name" },
 
         })
@@ -110,9 +110,9 @@ class StudentController {
         });
     }
     // [POST] /student/check
-     check(req, res, next) {
-        // res.json(req.body.password);
-        Student.findOne({ username: req.body.username }).populate({
+    check(req, res, next) {
+        // res.json(req.body);
+        Student.findOne({ email: req.body.email }).populate({
             path: "cart_courses.course_id",
             select: "name slug price description course_author",
             populate: { path: "course_author", select: "name" },
@@ -134,11 +134,11 @@ class StudentController {
                 });
             })
             .then((result) => {
-                console.log('?????abc')
                 if (result) {
-                    req.session.username = req.body.username;
+                    console.log('true');
                     req.session.role = 1;
                     req.app.locals.role = 1;
+                    console.log(req.session.prevURL);
                     res.redirect(req.session.prevURL);
                 } 
                 if(result===false) {
@@ -152,7 +152,7 @@ class StudentController {
                 console.log(err)
                 res.render('students/login', {
                     layout: false,
-                    err_message:'Invalid username or password'
+                    err_message:'Invalid email or password'
                 });
             })
     }
@@ -225,7 +225,7 @@ class StudentController {
     delcart(req, res, next) {
         Student.findById(req.session.user._id).populate({
             path: "cart_courses.course_id",
-            select: "name slug price course_author",
+            select: "name slug price course_author discount_price",
             populate: { path: "course_author", select: "name" },
 
         })
@@ -252,7 +252,7 @@ class StudentController {
         var idCourses = req.body.courseIds;
         let user = await Student.findById(req.session.user._id).populate({
             path: "cart_courses.course_id",
-            select: "name slug price course_author",
+            select: "name slug price course_author discount_price",
             populate: { path: "course_author", select: "name" },
 
         });

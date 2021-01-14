@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 // const slug = require('mongoose-slug-generator');
 
 const StudentSchema = new Schema({
-  username: {type: String},
   name: {type: String},
   email: {type: String},
   password: {type: String},
