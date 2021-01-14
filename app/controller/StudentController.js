@@ -1,6 +1,7 @@
 const Student = require('../models/Student');
 const Course = require('../models/Course');
 const Bookdetail = require('../models/Bookdetail');
+const Process = require('../models/Process');
 const mailer = require('../../util/mailer');
 const { mongooseToObject } = require('../../util/mongoose');
 const multer = require('multer');
@@ -75,7 +76,7 @@ class StudentController {
 
     // [GET] /student/login
     login(req, res, next) {
-        req.session.prevURL=req.get('referer');
+        req.session.prevURL = req.get('referer');
         res.render('students/login', {
             layout: false,
         });
@@ -122,10 +123,10 @@ class StudentController {
                 req.app.locals.user = mongooseToObject(user);
                 return bcrypt.compare(req.body.password, user.password)
             })
-            .catch(err =>{
+            .catch(err => {
                 res.render('students/login', {
                     layout: false,
-                    err_message:'Invalid username or password'
+                    err_message: 'Invalid username or password'
                 });
             })
             .then((result) => {
@@ -134,14 +135,26 @@ class StudentController {
                     req.session.role = 1;
                     req.app.locals.role = 1;
                     res.redirect(req.session.prevURL);
-                } 
+                }
                 else {
                     res.render('students/login', {
                         layout: false,
-                        err_message:'Invalid username or password'
+                        err_message: 'Invalid username or password'
                     });
                 }
             })
+    }
+
+    async updateprocess(req, res, next) {
+        var courseid = req.params.courseid;
+        var lectureid = req.params.lectureid;
+        
+        console.log('aaaaaaaaaaaaaaaaaaaa', courseid, lectureid);;
+        var process = await Process.updateOne(
+            { student_id: req.session.user._id, course_id: courseid },
+            { $push: { process: lectureid } },
+            { upsert: true }
+        )
     }
 
     // [PUT] /:id
@@ -161,14 +174,14 @@ class StudentController {
                 console.log(err);
             }
             else {
-                if(req.files.length!==0) {
+                if (req.files.length !== 0) {
                     req.body.avatar = '/public/images/avatars/' + req.files[0].originalname;
                     req.session.user.avatar = req.body.avatar;
                     req.app.locals.user.avatar = req.body.avatar;
-                    if(req.session.user.avatar.includes('https://'))
-                        fs.unlink('.'+req.session.user.avatar,(sth) => {
+                    if (req.session.user.avatar.includes('https://'))
+                        fs.unlink('.' + req.session.user.avatar, (sth) => {
                             console.log(sth);
-                    });
+                        });
                 }
                 var user = await Student.findByIdAndUpdate(req.params.id, req.body)
                 req.session.user.name = req.body.name;
