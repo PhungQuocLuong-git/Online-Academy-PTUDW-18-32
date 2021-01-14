@@ -38,12 +38,12 @@
             <tr>
                 <td>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{this.course_id._id}}" data-price="{{this.course_id.price}}" name="courseIds">
+                    <input class="form-check-input" type="checkbox" value="{{this.course_id._id}}" data-price="{{this.course_id.discount_price}}" name="courseIds">
                   </div>
                 </td>
                 <th scope="row">{{sum @index 1}}</th>
-                <td>{{this.course_id.name}}</td>
-                <td>{{this.course_id.price}}</td>
+                <td><a href="/courses/{{this.course_id.slug}}">{{this.course_id.name}}</a> </td>
+                <td>{{this.course_id.discount_price}}</td>
                 <td>{{this.course_id.course_author.name}}</td>
                 <td>
                   <btn class="btn btn-del-cart  btn-outline-danger" data-id="{{this.course_id._id}}" >Xóa</btn>

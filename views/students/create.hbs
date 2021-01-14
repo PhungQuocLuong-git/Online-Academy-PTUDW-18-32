@@ -37,11 +37,6 @@
         <input id="name" name="name" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
         <span class="form-message"></span>
       </div>
-      <div class="form-group">
-        <label for="username" class="form-label">Tên đăng nhập</label>
-        <input id="username" name="username" type="text" placeholder="VD: abcd" class="form-control">
-        <span class="form-message"></span>
-      </div>
 
       <div class="form-group">
         <label for="email" class="form-label">Email</label>
@@ -83,13 +78,9 @@
         Validator.isRequired('#email', 'Vui lòng nhập i meo'),
         Validator.isRequired('#name', 'Vui lòng nhập tên của bạn'),
         Validator.isEmail('#email', 'Vui lòng nhập lại i meo'),
-        Validator.minLength('#username', 4),
-        Validator.isRequired('#username'),
-        Validator.isAccount('#username', 'Tên đăng nhập không được chứa các kí tự đặc bịt'),
         Validator.minLength('#password', 6),
-        {{!-- Validator.isPassword('#password', 'Mật khẩu phái bao gồm chữ in hoa, số và kí tự đặc biệt'), --}}
       Validator.isRequired('#password_confirmation'),
-      {{!-- Validator.isRequired('#fullname', 'Vui lòng nhập họ tên đầy đủ'),
+       Validator.isRequired('#fullname', 'Vui lòng nhập họ tên đầy đủ'),
       Validator.isRequired('#role', 'Vui lòng chọn vai trò'),
       Validator.isRequired('#gender', 'Vui lòng chọn giới tính'), --}}
       Validator.isConfirmed('#password_confirmation', function () {

@@ -579,18 +579,20 @@ module.exports = {
                 instance.save(function (err) {
                 });
                 return Promise.all([Course.findByIdAndUpdate(course._id, course),
-                Student.findByIdAndUpdate(req.session.user._id, req.session.user).populate({
-                    path: "cart_courses.course_id",
-                    select: "name slug price course_author",
+                Student.findOneAndUpdate({_id:req.session.user._id}, req.session.user).populate({
+                    path: "cart_courses ",
+                    select: "name slug price course_author ",
                     populate: { path: "course_author", select: "name" },
 
                 })])
             })
             .then(([course, user]) => {
-                req.app.locals.user = mongooseToObject(user);
+                req.app.locals.user.money = req.session.user.money;
+                req.app.locals.user.cart_courses = req.session.user.cart_courses;
                 res.redirect(req.get('referer'));
             })
-            .catch(() => {
+            .catch(err => {
+                console.log(err)
                 res.json({ msg: 'Bn k mua dc khoa hc nay'});
             })
     },
