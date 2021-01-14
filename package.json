@@ -8,7 +8,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "nodemon --inspect ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -30,7 +30,6 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.17",
-    "nodemon": "^2.0.6",
     "numeral": "^2.0.6"
   },
   "devDependencies": {
