@@ -128,7 +128,6 @@ class StudentController {
                 })
             })
             .catch(err =>{
-                console.log('sai user');
                 res.render('students/login', {
                     layout: false,
                     err_message: err
@@ -141,11 +140,10 @@ class StudentController {
                     req.app.locals.role = 1;
                     res.redirect(req.session.prevURL);
                 } 
-                else {
-                    console.log('sai pass');
+                if(result===false) {
                     res.render('students/login', {
                         layout: false,
-                        err_message:'Wrong password'
+                        err_message:'Invalid password'
                     });
                 }
             })

@@ -170,12 +170,26 @@ class TeacherController {
                     req.session.role = 2;
                     res.redirect(req.session.prevURL)
                       } else {
-                        res.redirect('/teachers/login');
+                        res.render('teachers/login', {
+                            layout: false,
+                            err_message: 'Invalid password'
+                        });
                     }
                 })
-                    .catch((err) => res.json({ error1: err }))
+                    .catch((err) => 
+                    {
+                        res.render('teachers/login', {
+                            layout: false,
+                            err_message:'Invalid username'
+                        });
+                    })
             })
-            .catch(err => res.json({ err2: err }));
+            .catch(err => {
+                res.render('teachers/login', {
+                    layout: false,
+                    err_message: 'Invalid username'
+                });
+            });
         // res.json(req.body)
     }
 

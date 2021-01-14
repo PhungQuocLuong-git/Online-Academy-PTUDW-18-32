@@ -9,6 +9,8 @@
 </head>
 
 
+<body>
+  
 
 <div class="main">
 
@@ -31,25 +33,35 @@
     </div>
 
 
-    <button class="btn btn-primary form-submit">Đăng Nhap</button>
-
-    <div style="margin: 15px;">
-      <a href="/student/login">Học sinh đăng nhập</a>
-    </div>
+    <button class="btn btn-primary form-submit">Đăng Nhập</button>
   </form>
 
 </div>
 
 
 <script src="/public/javascripts/validator.js"></script>
+{{#if err_message}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{{/if}}
 <script>
   Validator({
     form: '#form-1',
     formGroup: '.form-group',
     errorSelector: '.form-message',
-    rules: []
-
-
+    rules: [
+    Validator.isRequired('#username','Vui lòng nhập tên đăng nhập'),
+    Validator.isRequired('#password','Vui lòng nhập password')
+    ]
   }
   )
+  
+  {{#if err_message}}
+    Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: '{{err_message}}',
+    })
+  {{/if}}
 </script>
+
+</body>
