@@ -102,11 +102,6 @@
                 Validator.isRequired('#username'),
                 Validator.isAccount('#username','Tên đăng nhập không được chứa các kí tự đặc bịt'),
                 Validator.minLength('#password',6),
-                {{!-- Validator.isPassword('#password','Mật khẩu phái bao gồm chữ in hoa, số và kí tự đặc biệt'), --}}
-                Validator.isRequired('#password_confirmation'),
-                {{!-- Validator.isRequired('#fullname','Vui lòng nhập họ tên đầy đủ'),
-                Validator.isRequired('#role','Vui lòng chọn vai trò'),
-                Validator.isRequired('#gender','Vui lòng chọn giới tính'), --}}
                 Validator.isConfirmed('#password_confirmation',function() {
                   return document.querySelector('#form-1 #password').value;
                 },'Mật khẩu không khớp')
