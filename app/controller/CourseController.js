@@ -361,7 +361,7 @@ module.exports = {
         });
         const upload = multer({ storage });
 
-        console.log(req.query);
+        // console.log(req.query);
         //Tao input cho multer fields
         var inputArr = [{ name: 'thumbnail', maxcount: 1 }, { name: 'preview_vid', maxcount: 1 }];
         for (let i = 1; i <= +req.query.num; i++) {
