@@ -15,12 +15,11 @@ const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongo
 const multer = require('multer');
 
 async function getMostPurchasedRelated(course_subCatid) {
-    var courses = await Course.find({ subcatid: course_subCatid }).populate('course_author');
+    var courses = await Course.find({ subcatid: course_subCatid }).populate('course_author course_students');
     courses.sort((course1, course2) => { return course2.course_students.length - course1.course_students.length });
     var mostRelatedPurchased = multipleMongooseToObject(courses.slice(0, 6));
     return mostRelatedPurchased;
 }
-
 
 module.exports = {
     courses(req, res) {
@@ -34,7 +33,7 @@ module.exports = {
 
     async detail(req, res, next) {
         // try {
-        var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates');
+        var course = await Course.findOne({ slug: req.params.slug}).populate('curriculum course_author course_students rates posted_courses');
         var isBooked = false;
         var isStudent;
         if (req.session.role === 1) {
@@ -58,7 +57,7 @@ module.exports = {
         course.view++;
         await Course.updateOne({ slug: course.slug }, course);
         // } catch (err) {
-        //     res.json({ msg: 'Something happened!!!' });
+        //      console.error(err);
         // }
     },
 
@@ -102,8 +101,8 @@ module.exports = {
                         layout: 'teacher',
                         course: mongooseToObject(course),
                         script: '/public/javascripts/home.js',
-
-
+    
+    
                     });
                 }
                 else {
@@ -112,8 +111,8 @@ module.exports = {
                         layout: false,
                     });
                 }
-
-
+    
+    
             } catch (err) {
                 res.render('404', {
                     script: 'Không tìm thấy khoá học!',
@@ -329,8 +328,6 @@ module.exports = {
         if (req.query.hasOwnProperty('field')) {
             paginateOption.sort = { [req.query.field]: req.query.type }
         }
-        sortOption.field = "price";
-        sortOption.type = 1;
         options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } }];
         // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
         Course.paginate(options, paginateOption)
@@ -382,6 +379,7 @@ module.exports = {
                 console.log(req.body);
                 console.log(req.files);
                 req.body.course_author = req.session.user._id;
+                req.body.discount_price = !req.body.discount_price || req.body.discount_price > req.body.price ? req.body.price : req.body.discount_price;
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
                 if (typeof (req.files.preview_vid) === undefined)
                     req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
@@ -473,7 +471,6 @@ module.exports = {
 
 
     async destroy(req, res, next) {
-
 
         //console.log(req.body.courseID);
         await Student.updateMany(
@@ -571,8 +568,7 @@ module.exports = {
         Course.findById(req.params.id).populate('course_students')
             .then(course => {
                 return new Promise(function (resolve, reject) {
-                    if (
-                        course.course_students.some(course => course.user_id.equals(req.session.user._id))) {
+                    if (course.course_students.some(course => course.user_id.equals(req.session.user._id))) {
                         reject(course)
                     }
                     else
@@ -580,7 +576,7 @@ module.exports = {
                 })
             })
             .catch(course => {
-                res.json({ msg: 'fail', course })
+                res.json({ msg: 'fail', course });
             })
             .then(course => {
                 return new Promise(function (resolve, reject) {
@@ -594,10 +590,13 @@ module.exports = {
                 })
             }
             )
-            .then(([ret, course]) => {
+            .then(async ([ret, course]) => {
                 if (ret >= 0 && req.session.user.cart_courses.length > 0) {
                     req.session.user.cart_courses.splice(ret, 1);
                 }
+                let teacher = await Teacher.findById(course.course_author);
+                teacher.NumOfStudents = teacher.NumOfStudents + 1;
+                await Teacher.findByIdAndUpdate(course.course_author, teacher);
                 course.course_students.push({ user_id: req.session.user._id });
                 req.session.user.booked_courses.push({ course_id: course._id });
                 req.session.user.money -= course.price;
@@ -614,10 +613,10 @@ module.exports = {
             })
             .then(([course, user]) => {
                 req.app.locals.user = mongooseToObject(user);
-                res.redirect('/student/cart/' + user._id);
+                res.redirect(req.get('referer'));
             })
             .catch(() => {
-                res.json({ msg: 'Bn k mua dc khoa hc nay' });
+                res.json({ msg: 'Bn k mua dc khoa hc nay'});
             })
     },
 
@@ -831,7 +830,7 @@ module.exports = {
         /* for(var i=0;i<courses.length;i++)
         {
             console.log(courses[i].createdAt);
-
+    
         } */
         editedCourses = {
             first_3: multipleMongooseToObject(courses.slice(0, 3)),
@@ -842,5 +841,27 @@ module.exports = {
         //...mongooseToObject(courses[9])
         return editedCourses;
     },
+
+    getMostPurchased() {
+
+    },
+    getPopById(req, res, next) {
+        console.log(req.query, 'abc');
+        const have = +req.query.isSub;
+        console.log(typeof (have), have)
+        option = {};
+        if (+req.query.isSub)
+            option.subcatid = req.query.id
+        else
+            option.catid = req.query.id
+        Course.find(option).populate('course_author').sort({ view: -1 }).limit(6)
+            .then(courses => {
+                console.log(courses);
+                res.json(
+                    multipleMongooseToObject(courses)
+                )
+            })
+            .catch(() => res.json('false'));
+    }
 };
 

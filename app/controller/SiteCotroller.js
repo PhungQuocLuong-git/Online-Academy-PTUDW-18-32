@@ -15,8 +15,7 @@ module.exports = {
       catemostpopular:catemostpopular[0],
       subcatemostpopular:catemostpopular[1],
       getMostHight:getMostHight,
-      script: '/public/javascripts/home.js',
-      extraStyle:'/public/stylesheets/home.css'      
+      extraStyle:'/public/stylesheets/home.css' 
     });
   }
 };

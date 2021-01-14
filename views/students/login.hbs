@@ -6,8 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="/public/stylesheets/validator.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.13.0/sweetalert2.min.css">
+  <style>
+    .swal2-popup {
+      font-size: 140% !important;
+    }
+  </style>
 </head>
 
+<div class="main">
+
+  <form action="check" method="POST" class="form" id="form-1">
+    <h3 class="heading">ĐĂNG NHẬP</h3>
+    <p class="desc"></p>
+    <div class="spacer"></div>
+
+    <div class="form-group">
+      <label for="username" class="form-label">Tên đăng nhập</label>
+      <input id="username" name="username" type="text" placeholder="VD: abcd" class="form-control">
+      <span class="form-message"></span>
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="form-label">Mật khẩu</label>
+      <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" class="form-control">
+      <span class="form-message"></span>
+    </div>
+
+
+    <button class="btn btn-primary form-submit">Đăng Nhập</button>
+  </form>
+
+</div>
 
 
 <div class="main">
@@ -42,6 +72,11 @@
 
 
 <script src="/public/javascripts/validator.js"></script>
+<script src="/public/javascripts/validator.js"></script>
+{{#if err_message}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+{{/if}}
+<script>
 <script>
   Validator({
     form: '#form-1',
@@ -50,4 +85,12 @@
     rules: []
   }
   )
+  
+  {{#if err_message}}
+  Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: '{{err_message}}',
+  })
+  {{/if}}
 </script>

@@ -11,7 +11,7 @@ router.post('/store', studentController.store);
 router.get('/login', studentController.login);
 router.post('/check-otp', studentController.checkOtp);
 router.get('/cart/:id',isStudent, studentController.cart);
-router.post('/change', studentController.change);
+router.patch('/change', studentController.change);
 router.post('/check', studentController.check);
 router.post('/logout', studentController.logout);
 router.post('/handle-form-actions', studentController.handleFormActions);

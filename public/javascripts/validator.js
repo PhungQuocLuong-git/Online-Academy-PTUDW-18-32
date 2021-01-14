@@ -80,6 +80,7 @@ function Validator(options){
                     isFormValid = false;
                 }            
             });
+            
             if(isFormValid){
                 // Submit vs JS
                 if(typeof options.onSubmit === 'function'){
@@ -115,7 +116,55 @@ function Validator(options){
                 }
                 // Submit vs default
                 else {
-                    formElement.submit();
+                    if(options.cours){
+                        $('input[type="file"]').each(function(){
+                            if(this.value==='')
+                            {
+                                let name=$(this).attr('name');
+                                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
+                            } else {
+                            let name=$(this).attr('name');
+                            $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
+                            }
+                        })
+                        submitForm.action = `/courses/store?num=${num}`;
+                        for (let i = 1; i <= num; i++) {
+                            let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
+                            submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
+                        }
+                        console.log('done');
+                    }
+                    if(!options.change){
+                        console.log('abc');
+                        formElement.submit();
+                    }
+                    else{
+                        console.log('vcl');
+                        var oldPass = $("#old-pass").val();
+                    var newPass = $("#new-pass").val();
+                        $.ajax({
+                            url: `/${options.change}/change`,
+                            type:"patch",
+                            data: { oldPass: oldPass, newPass: newPass },
+                            success: function (response) {
+                                //sai mat khau
+                                if (response == "false") {
+                                    alert("Wrong password");
+                                    var oldPassMsg=document.querySelector(".form-message");
+                                    var formOldPass=document.querySelector('.form-group');
+                                    formOldPass.classList.add("invalid");
+                                    
+                                    oldPassMsg.innerHTML = 'Bạn đã nhập sai mật khẩu cũ. Vui lòng nhập đúng'
+    
+                                }
+                                else{
+                                    alert("Đổi mk thành công");
+                                  location.href="/";
+                                }
+                            }
+                        });
+                    }
+
                 }
                 
             }

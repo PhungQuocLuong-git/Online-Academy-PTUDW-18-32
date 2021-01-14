@@ -75,6 +75,7 @@ class StudentController {
 
     // [GET] /student/login
     login(req, res, next) {
+        req.session.prevURL=req.get('referer');
         res.render('students/login', {
             layout: false,
         });
@@ -121,15 +122,24 @@ class StudentController {
                 req.app.locals.user = mongooseToObject(user);
                 return bcrypt.compare(req.body.password, user.password)
             })
-            .catch(err => res.json({ err2: err }))
+            .catch(err =>{
+                res.render('students/login', {
+                    layout: false,
+                    err_message:'Invalid username or password'
+                });
+            })
             .then((result) => {
                 if (result) {
                     req.session.username = req.body.username;
                     req.session.role = 1;
                     req.app.locals.role = 1;
-                    res.redirect('/')
-                } else {
-                    res.redirect('/student/login');
+                    res.redirect(req.session.prevURL);
+                } 
+                else {
+                    res.render('students/login', {
+                        layout: false,
+                        err_message:'Invalid username or password'
+                    });
                 }
             })
     }
@@ -168,7 +178,6 @@ class StudentController {
                 res.redirect('/');
             }
         });
-
 
     }
 
