@@ -35,33 +35,37 @@ module.exports = {
     async detail(req, res, next) {
         // try {
         var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates posted_courses');
-        var pro = await Process.findOne({ student_id: req.session.user._id, course_id: course._id });
         course=mongooseToObject(course);
+        
+        if(typeof req.session.user !== 'undefined')
+        {
 
-
-        // console.log(pro.process);
-        var process = pro.process;
-        var lenprocess = process.length;
-        var lencur = course.curriculum.length;
-        console.log(lencur);
-
-
-
-
-
-        for (var i = 0; i < lencur; i++) {
-            console.log('iiiiiiiiiiiiiii', i);
-
-            for (var j = 0; j < course.curriculum[i].lectures.length; j++) {
-                course.curriculum[i].lectures[j]['iswatch'] = 0;
-                for (var k = 0; k < lenprocess; k++) {
-                    if (course.curriculum[i].lectures[j]._id + '' === process[k] + '') {
-                        course.curriculum[i].lectures[j].iswatch = 1;
+            var pro = await Process.findOne({ student_id: req.session.user._id, course_id: course._id });
+            console.log(typeof pro);
+            console.log( pro!==null);
+            if(pro!==null)
+            {
+                var process = pro.process;
+                var lenprocess = process.length;
+                var lencur = course.curriculum.length;
+                console.log(lencur);
+        
+                for (var i = 0; i < lencur; i++) {
+                    console.log('iiiiiiiiiiiiiii', i);
+        
+                    for (var j = 0; j < course.curriculum[i].lectures.length; j++) {
+                        course.curriculum[i].lectures[j]['iswatch'] = 0;
+                        for (var k = 0; k < lenprocess; k++) {
+                            if (course.curriculum[i].lectures[j]._id + '' === process[k] + '') {
+                                course.curriculum[i].lectures[j].iswatch = 1;
+                            }
+                        }
+        
                     }
                 }
-
             }
         }
+
 
 
         var isBooked = false;
@@ -83,7 +87,7 @@ module.exports = {
             isTeacher: req.session.role === 2,
             mostRelatedPurchased,
             isStudent,
-            process
+           
         });
         course.view++;
         await Course.updateOne({ slug: course.slug }, course);
@@ -307,9 +311,8 @@ module.exports = {
 
     },
 
-    fts(req, res) {
+    async fts(req, res) {
         var options = {};
-        var sortOption = {};
         var wordSearch = '';
         if (req.query.kw)
             wordSearch = req.query.kw.trim().replace(/\s+/g, ' ');
@@ -334,18 +337,32 @@ module.exports = {
         if (req.query.hasOwnProperty('field')) {
             paginateOption.sort = { [req.query.field]: req.query.type }
         }
-        options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } }];
-        // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
-        Course.paginate(options, paginateOption)
-            // Course.find().pretty()
-            .then(courses => res.render('courses/search', {
+
+        console.log(wordSearch);
+        var myArr = [];
+        var myArr2 = [];
+        let categories = await Category.find({$or: [{ $text: { $search: wordSearch } }, { CatName: { $regex: wordSearch, $options: 'i' } }]})
+        let subCategories = await Subcategory.find({$or: [{ $text: { $search: wordSearch } }, { SubCatName: { $regex: wordSearch, $options: 'i' } }]})
+        
+        if(categories)
+            multipleMongooseToObject(categories).forEach(obj => myArr.push(obj['_id']));
+
+        if(subCategories)
+            multipleMongooseToObject(subCategories).forEach(obj => myArr2.push(obj['_id']));
+        
+        options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } },{catid: {$in: myArr}},{subcatid: {$in: myArr2}}];
+        let courses = await Course.paginate(options, paginateOption);
+        if(courses){
+
+            res.render('courses/search', {
                 courses: courses.docs,
                 pagination: {
                     page,
                     pageCount: Math.ceil(courses.total / courses.limit)
                 },
-            }))
-            .catch(error => console.error(error));
+            })
+        }
+        else console.log('sth happened');
     },
 
     async store(req, res, next) {

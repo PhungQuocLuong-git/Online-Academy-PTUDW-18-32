@@ -1,0 +1,158 @@
+{{#section "css"}}
+<style>
+
+    .user-img{
+      height: 200px;  
+    }
+    .user-img--blocked{
+        opacity: .3;
+    }
+
+.btn--unblock{
+    {{!-- margin: -18px 0; --}}
+}
+</style>
+{{/section}}
+
+<div id="toast"></div>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" id="teachers-link">Teachers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="#" id="students-link">Students</a>
+  </li>
+</ul>
+<div class="row" id="students" style="display: none;">
+    <h1>STUDENTS</h1>
+    <div class="row" id="">
+        {{#each students}}
+    <div class="col-sm-3 mt-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top user-img {{#ifCond stt "===" 2}} user-img--blocked{{/ifCond}}" src="/public/images/avatars/72980918_760811827677801_783855450192871424_n.png" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <div class="">
+                        <i class="fas fa-book"></i>  {{booked_courses.length}} Booked Courses
+                    </div>
+                    <div class="">
+                        <i class="fas fa-history"></i> Joined in {{dateFormat createdAt}} 
+                    </div>
+                    <div class="" >
+                        <i class="fas fa-coins"></i>  {{format money}} coins
+                    </div>
+                    {{#ifCond stt "===" 2}} 
+                    <button name="btn-unblock" class="btn btn--unblock btn-outline-primary" data-id="{{_id}}"><i class="fas fa-lock-open"></i> Unblock hc viên</button>
+                    
+                    {{else}}
+
+                    <button name="btn-block" class="btn btn-primary" data-id="{{_id}}"><i class="fas fa-user-lock" ></i> Block hc viên</button>
+                    {{/ifCond}}
+            </div>
+        </div>
+    </div>
+        
+    {{/each}}
+    
+    </div>
+</div>
+<div id="teachers">
+
+    <h1>TEACHERS</h1>
+    <div class="row" id="">
+        {{#each teachers}}
+    <div class="col-sm-3 mt-4">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top user-img {{#ifCond stt "===" 2}} user-img--blocked{{/ifCond}}" src="/public/images/avatars/72980918_760811827677801_783855450192871424_n.png" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                    <div class="">
+                        <i class="fas fa-user"></i> {{NumOfStudents}} Students
+                    </div>
+                    <div class="">
+                        <i class="fas fa-play-circle"></i> {{posted_courses.length}} Courses
+                    </div>
+                    <div class="">
+                        <i class="fas fa-history"></i> Joined in {{dateFormat createdAt}} 
+                    </div>
+                    <div class=""></div>
+                    {{#ifCond stt "===" 2}} 
+                    <button name="btn-unblock" class="btn btn--unblock btn-outline-primary" data-id="{{_id}}"><i class="fas fa-lock-open"></i> Unblock teacher</button>
+                    
+                    {{else}}
+
+                    <button name="btn-block" class="btn btn-primary" data-id="{{_id}}"><i class="fas fa-user-lock" ></i> Block teacher</button>
+                    {{/ifCond}}
+            </div>
+        </div>
+    </div>
+        
+    {{/each}}
+    
+    </div>
+</div> 
+
+{{#section "js"}}
+    <script>
+        console.log($('button[name="btn-block"]'));
+
+        $('#students-link').on('click',function(){
+            $('#teachers').hide();
+            $('#students').show();
+            $('#students-link').addClass('active');
+            $('#teachers-link').removeClass('active');
+        })
+        $('#teachers-link').on('click',function(){
+            $('#teachers-link').addClass('active');
+            $('#students-link').removeClass('active');
+            $('#teachers').show();
+            $('#students').hide();
+        })
+        function handleBlock(name){
+            $(`button[name="btn-${name}"]`).on('click',function(e){
+            if($(e.target).data('id')){
+                roleName = $('#students-link').hasClass('active')? 'học viên': 'giảng viên';
+                role = $('#students-link').hasClass('active')? 'student': 'teacher';
+                $.ajax({
+                    url: `/${role}/block`,
+                    type:"patch",
+                    data: { id:$(e.target).data('id'), blocked: name==="block"?0:1 },
+                    success: function (response) {
+                        if (response == "true") {
+                            if(name ==="block"){
+                                showToast('Thành công!',`Bn đã khóa tài khoản ${roleName} này`,'sad');
+                                $(e.target).parent().append(`
+                                <button name="btn-unblock" class="btn btn--unblock btn-outline-primary" data-id="${$(e.target).data('id')}"><i class="fas fa-lock-open"></i> Unblock ${roleName}</button>
+                                `);
+                                $(e.target).parent().parent().find('.card-img-top').addClass('user-img--blocked');
+                                $(e.target).remove();
+                                handleBlock('unblock');
+
+                            }
+                            else{
+                                showToast('Thành công!',`Bn đã mở khóa tài khoản ${roleName} thành công`,'success');
+
+                                $(e.target).parent().append(`
+                                <button name="btn-block" class="btn btn-primary" data-id="${$(e.target).data('id')}"><i class="fas fa-user-lock" ></i> Block ${roleName}</button>
+                                
+                                `);
+                                $(e.target).parent().parent().find('.card-img-top').removeClass('user-img--blocked');
+                                $(e.target).remove();
+                                handleBlock('block');
+
+                            }
+                        }
+                        else{
+                            showToast('Thất bại!',response,'error');
+                        }
+                    }
+                });
+            }
+        }
+            )
+
+        }
+        handleBlock('unblock');
+        handleBlock('block');
+    </script>
+{{/section}}

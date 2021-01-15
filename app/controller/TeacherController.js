@@ -16,10 +16,24 @@ class TeacherController {
     }
 
 
-    home(req, res) {
-        res.render('teachers/teacher', {
-            layout: 'teacher'
+    async home(req, res) {
+        var teacher = await Teacher.find(req.app.locals.user._id);
+        var listidcourse = teacher[0].posted_courses;
+        var len = listidcourse.length;
+        var listid = [];
+        console.log(len);
+        for (var i = 0; i < len; i++) {
+            listid.push(listidcourse[i].course_id);
+        }
+
+        var courses = await Course.find({ _id: { $in: listid }});
+        console.log(courses.length);
+        res.render('teachers/inprogresscourses', {
+            layout: 'teacher',
+            courses: courses,
+            title: "All posted courses"
         });
+        
     };
     async inprogresscourses(req, res) {
 
@@ -105,20 +119,31 @@ class TeacherController {
             .catch(err => console.log(err));
     }
 
+    // [PATCH] /teacher/censor
     async censor(req, res) {
         if (req.body.type === 'ok')
             var status = 1;
         else
             var status = -1;
-
-
         let teacher = await Teacher.findByIdAndUpdate(req.body.idTeacher, { $set: { stt: status } });
         if (teacher) {
             res.send('true');
         }
         else
             res.send('false');
+    }
 
+    // [PATCH] /teacher/block
+    async block(req, res) {
+        if (+req.body.blocked)
+            var status = 1;
+        else
+            var status = 2;
+        let teacher = await Teacher.findByIdAndUpdate(req.body.id, { $set: { stt: status } });
+        if (teacher) 
+            res.send('true');
+        else
+            res.send('false');
     }
 
     // [GET] /Teacher/login
