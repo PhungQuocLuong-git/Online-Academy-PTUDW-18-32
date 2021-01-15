@@ -8,23 +8,42 @@
                 <img class="card-img-top" src="{{course_id.thumbnail}}" alt="Card image cap">
                 <div class="card-body p-1">
                     <p class="card-text text-primary font-weight-bold py-1 my-0">{{course_id.name}}</p>
-                    <b>{{../progress}}/{{../numlesson}}</b>
+                    {{#ifCond numlesson '===' 0}}
+                        <b style="color: crimson;">
+                            Course has no video
+                        </b>
+                    {{else}}
+                    {{#ifCond progress '===' numlesson}}
+                    <p class="btn btn-primary mt-2">
+                        Completed
+                    </p>
+                    {{else}}
+                    <b>{{progress}}/{{numlesson}}</b>
+                    {{/ifCond}}
+                    {{/ifCond}}
                 </div>
-                <div style="width: {{../percent}}%; height: 6px;background-color: aqua;">
+                {{#ifCond progress '!==' numlesson}}
+                <div style="width: {{percent}}%; height: 6px; background-color: #00ff00;"></div>
+                {{else}}
+                {{/ifCond}}
 
-                </div>
             </div>
             <div class="card p-0 my-0">
-                
+                {{#ifCond progress '!==' numlesson}}
                 <a class="btn btn-outline-success" href="/courses/{{course_id.slug}}" role="button">
                     Continue
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                 </a>
+                {{else}}
+                <a class="btn btn-outline-primary" href="/courses/{{course_id.slug}}" role="button">
+                    Go to course
+                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                </a>
+                {{/ifCond}}
             </div>
 
         </div>
         {{/each}}
     </div>
-    
-</div>
 
+</div>

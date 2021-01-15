@@ -162,12 +162,25 @@ class StudentController {
         var courseid = req.params.courseid;
         var lectureid = req.params.lectureid;
         
-        console.log('aaaaaaaaaaaaaaaaaaaa', courseid, lectureid);;
-        var process = await Process.updateOne(
-            { student_id: req.session.user._id, course_id: courseid },
-            { $push: { process: lectureid } },
-            { upsert: true }
-        )
+        // console.log('aaaaaaaaaaaaaaaaaaaa', courseid, lectureid);;
+        var fi= await Process.findOne({ student_id: req.session.user._id, course_id: courseid });
+        var flag=0;
+        for(var i=0;i<fi.process.length;i++)
+        {
+            if(fi.process[i]+''===lectureid+'')
+            {
+                flag=1;
+            }
+        }
+        if(flag===0)
+        {
+
+            var process = await Process.updateOne(
+                { student_id: req.session.user._id, course_id: courseid },
+                { $push: { process: lectureid } },
+                { upsert: true }
+            )
+        }
     }
     checkDetail(req, res, next) {
         console.log('sanetdas')
