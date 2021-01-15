@@ -105,20 +105,31 @@ class TeacherController {
             .catch(err => console.log(err));
     }
 
+    // [PATCH] /teacher/censor
     async censor(req, res) {
         if (req.body.type === 'ok')
             var status = 1;
         else
             var status = -1;
-
-
         let teacher = await Teacher.findByIdAndUpdate(req.body.idTeacher, { $set: { stt: status } });
         if (teacher) {
             res.send('true');
         }
         else
             res.send('false');
+    }
 
+    // [PATCH] /teacher/block
+    async block(req, res) {
+        if (+req.body.blocked)
+            var status = 1;
+        else
+            var status = 2;
+        let teacher = await Teacher.findByIdAndUpdate(req.body.id, { $set: { stt: status } });
+        if (teacher) 
+            res.send('true');
+        else
+            res.send('false');
     }
 
     // [GET] /Teacher/login
