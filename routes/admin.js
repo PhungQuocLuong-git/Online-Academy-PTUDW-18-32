@@ -10,6 +10,7 @@ router.get('/login', adminController.login);
 router.get('/logout', adminController.logout);
 router.get('/',isAdmin, adminController.home);
 router.get('/teacher-queue',isAdmin, adminController.teacherQueue);
+router.get('/teachers',isAdmin, adminController.teachers);
 router.get('/categories',isAdmin, adminController.categories);
 router.get('/courses',isAdmin, adminController.courses);
 router.get('/trash',isAdmin, adminController.trash);

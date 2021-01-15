@@ -45,3 +45,12 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
       main.appendChild(toast);
     }
   }
+
+  function showToast(tt, msg, type) {
+    toast({
+        title: tt,
+        message: msg,
+        type: type,
+        duration: 5000
+    });
+}

@@ -1,6 +1,7 @@
 const categorySchema = require('../models/Category');
 const subcategorySchema = require('../models/Subcategory');
 const Teacher = require('../models/Teacher');
+const Student = require('../models/Student');
 const Course = require('../models/Course');
 const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongoose');
 
@@ -55,6 +56,18 @@ class AdminController {
                 });
             })
     };
+
+    teachers(req,res,next) {
+        Promise.all([Teacher.find({ $or:[ {'stt':2}, {'stt':1} ]}),
+            Student.find()])
+            .then(([teachers,students]) => {
+                res.render('admin/teachers',{
+                    layout:'admin',
+                    teachers: multipleMongooseToObject(teachers),
+                    students: multipleMongooseToObject(students),
+                });
+            })
+    }
 
     courses(req,res) {
         Course.find({status:0})

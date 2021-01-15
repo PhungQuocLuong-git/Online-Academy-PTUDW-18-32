@@ -2,6 +2,7 @@
 <link href="https://vjs.zencdn.net/7.10.2/video-js.css" rel="stylesheet"/>
 <link rel="stylesheet" href="/public/stylesheets/home.css">
 <link rel="stylesheet" href="/public/stylesheets/form.css">
+<link rel="stylesheet" href="/public/stylesheets/toast.css">
 <style>
   /* course-intro */
   .course-detail {
@@ -449,7 +450,7 @@
 }
 </style>
 {{/section}}
-
+<div id="toast"></div>
 
 <!-- info -->
 <div class="container-fluid course-detail d-flex">
@@ -926,6 +927,7 @@
 
 {{#section 'js'}}
 <script src="/public/javascripts/validator.js"></script>
+<script src="/public/javascripts/toast.js"></script>
 <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
 <script>
   Validator({
@@ -954,7 +956,7 @@
         Validator.isRequired('#email2', 'Vui lòng nhập i meo'),
       Validator.isRequired('#password2'),
             ],
-            
+      detail:1
         }
     )
   $(document).ready(function () {

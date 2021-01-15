@@ -16,6 +16,7 @@ router.get('/login', teacherController.login);
 router.post('/check', teacherController.check);
 router.patch('/change', teacherController.change);
 router.patch('/censor',isAdmin, teacherController.censor);
+router.patch('/block',isAdmin, teacherController.block);
 
 // router.post('/login', teacherController.create);
 router.get('/logout', teacherController.logout);

@@ -134,35 +134,56 @@ function Validator(options){
                         }
                         console.log('done');
                     }
-                    if(!options.change){
+                    if(!options.change && !options.detail){
                         console.log('abc');
                         formElement.submit();
                     }
                     else{
-                        console.log('vcl');
-                        var oldPass = $("#old-pass").val();
-                    var newPass = $("#new-pass").val();
-                        $.ajax({
-                            url: `/${options.change}/change`,
-                            type:"patch",
-                            data: { oldPass: oldPass, newPass: newPass },
-                            success: function (response) {
-                                //sai mat khau
-                                if (response == "false") {
-                                    alert("Wrong password");
-                                    var oldPassMsg=document.querySelector(".form-message");
-                                    var formOldPass=document.querySelector('.form-group');
-                                    formOldPass.classList.add("invalid");
-                                    
-                                    oldPassMsg.innerHTML = 'Bạn đã nhập sai mật khẩu cũ. Vui lòng nhập đúng'
-    
+                        if(options.change){
+                            var oldPass = $("#old-pass").val();
+                            var newPass = $("#new-pass").val();
+                            $.ajax({
+                                url: `/${options.change}/change`,
+                                type:"patch",
+                                data: { oldPass: oldPass, newPass: newPass },
+                                success: function (response) {
+                                    //sai mat khau
+                                    if (response == "false") {
+                                        alert("Wrong password");
+                                        var oldPassMsg=document.querySelector(".form-message");
+                                        var formOldPass=document.querySelector('.form-group');
+                                        formOldPass.classList.add("invalid");
+                                        
+                                        oldPassMsg.innerHTML = 'Bạn đã nhập sai mật khẩu cũ. Vui lòng nhập đúng'
+        
+                                    }
+                                    else{
+                                        alert("Đổi mk thành công");
+                                      location.href="/";
+                                    }
                                 }
-                                else{
-                                    alert("Đổi mk thành công");
-                                  location.href="/";
+                            });
+                        }
+                        if(options.detail){
+                            var email = $("#email2").val();
+                            var password = $("#password2").val();
+                            $.ajax({
+                                url: `/student/check/detail`,
+                                type:"post",
+                                data: { email,password },
+                                success: function (response) {
+                                    //sai mat khau
+                                    if (response == "true") {
+                                        alert("Đăng nhập thành công. Bấm ok để tiếp tục");
+                                        location.href = window.location.href;
+                                    }
+                                    else{
+                                        showToast('Thất bại!',response,'error');
+                                        
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
 
                 }

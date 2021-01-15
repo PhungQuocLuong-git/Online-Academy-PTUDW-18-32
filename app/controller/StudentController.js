@@ -112,10 +112,10 @@ class StudentController {
     }
     // [POST] /student/check
     check(req, res, next) {
-        // res.json(req.body);
+        
         Student.findOne({ email: req.body.email }).populate({
             path: "cart_courses.course_id",
-            select: "name slug price description course_author",
+            select: "name slug price description course_author discount_price",
             populate: { path: "course_author", select: "name" },
         })
             .then(user => {
@@ -168,6 +168,42 @@ class StudentController {
             { $push: { process: lectureid } },
             { upsert: true }
         )
+    }
+    checkDetail(req, res, next) {
+        console.log('sanetdas')
+        console.log(req.body)
+        Student.findOne({ email: req.body.email }).populate({
+            path: "cart_courses.course_id",
+            select: "name slug price description course_author discount_price",
+            populate: { path: "course_author", select: "name" },
+        })
+            .then(user => {
+                if(user) {
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);
+                    return bcrypt.compare(req.body.password, user.password)             
+                }
+                else return new Promise(function(resolve,reject) {
+                    reject('Invalid username');
+                })
+            })
+            .then((result) => {
+                if (result) {
+                    console.log('true');
+                    req.session.role = 1;
+                    req.app.locals.role = 1;
+                    res.json('true')
+                } 
+                if(result===false) {
+                    return new Promise(function(resolve,reject) {
+                        reject('Wrong password');
+                    })
+                }
+            })
+            .catch(err =>{
+                console.log(err);
+                res.json(err);
+            })
     }
 
     // [PUT] /:id
@@ -320,6 +356,18 @@ class StudentController {
                 }
 
         }
+    }
+
+    async block(req,res){
+        if (+req.body.blocked)
+            var status = 1;
+        else
+            var status = 2;
+        let student = await Student.findByIdAndUpdate(req.body.id, { $set: { stt: status } });
+        if (student) 
+            res.send('true');
+        else
+            res.send('false');
     }
 }
 
