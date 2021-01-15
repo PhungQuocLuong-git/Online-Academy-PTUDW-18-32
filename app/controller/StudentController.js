@@ -253,7 +253,7 @@ class StudentController {
         let user = await Student.findById(req.session.user._id).populate({
             path: "cart_courses.course_id",
             select: "name slug price course_author discount_price",
-            populate: { path: "course_author", select: "name" },
+                populate: { path: "course_author", select: "name" },
 
         });
         switch (req.body.action) {
