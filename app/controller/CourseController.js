@@ -4,6 +4,7 @@ const Teacher = require('../models/Teacher');
 const Category = require('../models/Category');
 const Subcategory = require('../models/Subcategory');
 const Bookdetail = require('../models/Bookdetail');
+const Process = require('../models/Process');
 const Subategory = require('../models/Subcategory');
 const moment = require("moment-timezone");
 const Rate = require('../models/Rate');
@@ -33,7 +34,36 @@ module.exports = {
 
     async detail(req, res, next) {
         // try {
-        var course = await Course.findOne({ slug: req.params.slug}).populate('curriculum course_author course_students rates posted_courses');
+        var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates posted_courses');
+        var pro = await Process.findOne({ student_id: req.session.user._id, course_id: course._id });
+        course=mongooseToObject(course);
+
+
+        // console.log(pro.process);
+        var process = pro.process;
+        var lenprocess = process.length;
+        var lencur = course.curriculum.length;
+        console.log(lencur);
+
+
+
+
+
+        for (var i = 0; i < lencur; i++) {
+            console.log('iiiiiiiiiiiiiii', i);
+
+            for (var j = 0; j < course.curriculum[i].lectures.length; j++) {
+                course.curriculum[i].lectures[j]['iswatch'] = 0;
+                for (var k = 0; k < lenprocess; k++) {
+                    if (course.curriculum[i].lectures[j]._id + '' === process[k] + '') {
+                        course.curriculum[i].lectures[j].iswatch = 1;
+                    }
+                }
+
+            }
+        }
+
+
         var isBooked = false;
         var isStudent;
         if (req.session.role === 1) {
@@ -47,12 +77,13 @@ module.exports = {
         var mostRelatedPurchased = await getMostPurchasedRelated(course.subcatid);
         mostRelatedPurchased = mostRelatedPurchased.filter(a => !a._id.equals(course._id));
         res.render('courses/detail', {
-            course: mongooseToObject(course),
+            course: course,
             script: '/public/javascripts/home.js',
             isBooked,
             isTeacher: req.session.role === 2,
             mostRelatedPurchased,
-            isStudent
+            isStudent,
+            process
         });
         course.view++;
         await Course.updateOne({ slug: course.slug }, course);
@@ -577,6 +608,9 @@ module.exports = {
                 req.session.user.money -= course.price;
                 const instance = new Bookdetail({ course_id: course._id, student_id: req.session.user._id, catid: course.catid, subcatid: course.subcatid });
                 instance.save(function (err) {
+                });
+                const instancepro = new Process({ student_id: req.session.user._id, course_id: course._id });
+                instancepro.save(function (err) {
                 });
                 return Promise.all([Course.findByIdAndUpdate(course._id, course),
                 Student.findOneAndUpdate({_id:req.session.user._id}, req.session.user).populate({

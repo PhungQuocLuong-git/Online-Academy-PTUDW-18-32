@@ -533,9 +533,18 @@
       <button class="accordion">{{chapter_name}}</button>
       <div class="panel p-0">
         <ul class="list-group">
-          {{#each this.lectures}}
-          <a href="#{{_id}}" data-toggle="modal" style="text-decoration: none;">
-            <li class="list-group-item list-group-item-action border-0">{{name}}</li>
+          {{#each lectures}}
+          <a href="#{{_id}}" data-toggle="modal" style="text-decoration: none;" class="process" data-process="/student/updateprocess/{{../../course._id}}/{{_id}}">
+            <li class="list-group-item list-group-item-action border-0">
+              {{name}}
+              
+              {{#ifCond iswatch '===' 1}}
+                <p style="color: green;" >
+                  <i class="far fa-check-circle float-right" aria-hidden="true" style="bottom: 20px; position: relative;"></i>
+                </p>
+              {{/ifCond}}
+             
+              </li>
           </a>
           {{/each}}
         </ul>
@@ -969,6 +978,13 @@
     var heart = $('.btn-wish').data('id');
     return $.getJSON(`/courses/wished?id=${heart}`);
   }
+
+  $('.process').on('click', function () {
+        var val= $(this).data('process');
+        console.log(val);
+        $.post(val, function (data, status) {});
+      })
+
 
   $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();

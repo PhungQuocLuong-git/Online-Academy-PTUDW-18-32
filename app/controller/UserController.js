@@ -66,15 +66,14 @@ module.exports = {
         if (len > 0) {
             var wishlist = await Student.updateOne(
                 { _id: req.session.user._id },
-                { $pull: { wish_courses: { course_id: id } } },
-                { upsert: true, new: true }
+                { $pull: { wish_courses: { course_id: id } } }
             );
         }
         else {
             var wishlist = await Student.updateOne(
                 { _id: req.session.user._id },
-                { $push: { wish_courses: { course_id: id } } },
-                { upsert: true, new: true }
+                { $push: { wish_courses: { course_id: id } } }
+                
             );
         }
         console.log(len);
