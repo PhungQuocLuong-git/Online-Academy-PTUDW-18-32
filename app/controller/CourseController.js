@@ -35,33 +35,37 @@ module.exports = {
     async detail(req, res, next) {
         // try {
         var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates posted_courses');
-        var pro = await Process.findOne({ student_id: req.session.user._id, course_id: course._id });
         course=mongooseToObject(course);
+        
+        if(typeof req.session.user !== 'undefined')
+        {
 
-
-        // console.log(pro.process);
-        var process = pro.process;
-        var lenprocess = process.length;
-        var lencur = course.curriculum.length;
-        console.log(lencur);
-
-
-
-
-
-        for (var i = 0; i < lencur; i++) {
-            console.log('iiiiiiiiiiiiiii', i);
-
-            for (var j = 0; j < course.curriculum[i].lectures.length; j++) {
-                course.curriculum[i].lectures[j]['iswatch'] = 0;
-                for (var k = 0; k < lenprocess; k++) {
-                    if (course.curriculum[i].lectures[j]._id + '' === process[k] + '') {
-                        course.curriculum[i].lectures[j].iswatch = 1;
+            var pro = await Process.findOne({ student_id: req.session.user._id, course_id: course._id });
+            console.log(typeof pro);
+            console.log( pro!==null);
+            if(pro!==null)
+            {
+                var process = pro.process;
+                var lenprocess = process.length;
+                var lencur = course.curriculum.length;
+                console.log(lencur);
+        
+                for (var i = 0; i < lencur; i++) {
+                    console.log('iiiiiiiiiiiiiii', i);
+        
+                    for (var j = 0; j < course.curriculum[i].lectures.length; j++) {
+                        course.curriculum[i].lectures[j]['iswatch'] = 0;
+                        for (var k = 0; k < lenprocess; k++) {
+                            if (course.curriculum[i].lectures[j]._id + '' === process[k] + '') {
+                                course.curriculum[i].lectures[j].iswatch = 1;
+                            }
+                        }
+        
                     }
                 }
-
             }
         }
+
 
 
         var isBooked = false;
@@ -83,7 +87,7 @@ module.exports = {
             isTeacher: req.session.role === 2,
             mostRelatedPurchased,
             isStudent,
-            process
+           
         });
         course.view++;
         await Course.updateOne({ slug: course.slug }, course);
