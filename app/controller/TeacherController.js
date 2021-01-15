@@ -16,10 +16,24 @@ class TeacherController {
     }
 
 
-    home(req, res) {
-        res.render('teachers/teacher', {
-            layout: 'teacher'
+    async home(req, res) {
+        var teacher = await Teacher.find(req.app.locals.user._id);
+        var listidcourse = teacher[0].posted_courses;
+        var len = listidcourse.length;
+        var listid = [];
+        console.log(len);
+        for (var i = 0; i < len; i++) {
+            listid.push(listidcourse[i].course_id);
+        }
+
+        var courses = await Course.find({ _id: { $in: listid }});
+        console.log(courses.length);
+        res.render('teachers/inprogresscourses', {
+            layout: 'teacher',
+            courses: courses,
+            title: "All posted courses"
         });
+        
     };
     async inprogresscourses(req, res) {
 
