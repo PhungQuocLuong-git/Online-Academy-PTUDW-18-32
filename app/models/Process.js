@@ -6,7 +6,7 @@ const ProcessSchema = new Schema({
   student_id: {type: Schema.Types.ObjectId, ref: "Student"},
   course_id: {type: Schema.Types.ObjectId, ref: "Course"},
   process: [
-      { type: Schema.Types.ObjectId, ref: "Course" ,default: [1]},
+      { type: Schema.Types.ObjectId, ref: "Course" ,default: []},
   ],
   continue:{type: String, default: ''  }
   
