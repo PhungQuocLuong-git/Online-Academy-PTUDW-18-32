@@ -10,5 +10,10 @@ const SubcategorySchema = new Schema({
     SubCatName: {type: String, require: true},
     slug: { type: String, slug: 'SubCatName', unique: true },
 });
+SubcategorySchema.index({
+    SubCatName: 'text',
+  }
+  );
+  SubcategorySchema.index({SubCatName:1})
 
 module.exports = mongoose.model('Subcategory', SubcategorySchema);
