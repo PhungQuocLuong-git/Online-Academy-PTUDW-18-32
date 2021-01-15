@@ -556,12 +556,15 @@
       <div class="panel p-0">
         <ul class="list-group">
           {{#each this.lectures}}
-          <li class="list-group-item list-group-item-action border-0">{{name}}
             {{#if this.preview}}
+          <li class="list-group-item list-group-item-action border-0">{{name}}
             <a href="#{{_id}}" data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2">
                 Preview</span></a>
-            {{/if}}
           </li>
+          {{else}}
+          <li class="list-group-item list-group-item-action border-0" id='msg-alert'>{{name}}
+          </li>
+          {{/if}}
           {{/each}}
         </ul>
       </div>
@@ -1101,5 +1104,9 @@
                             $('#pb4').width((rate4 * 100) / len + '%');
                             $('#pb35').width((rate35 * 100) / len + '%');
                             $('#pblqt3').width((ratelqt3 * 100) / len + '%');
+      {{#ifequal role 0 }}
+
+      {{/ifequal
+      }}
 </script>
 {{/section}}
