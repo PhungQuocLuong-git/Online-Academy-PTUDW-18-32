@@ -9,4 +9,11 @@ const CategorySchema = new Schema({
     slug: { type: String, slug: 'CatName', unique: true },
 });
 
+CategorySchema.index({
+    CatName: 'text',
+  }
+  );
+  CategorySchema.index({CatName:1})
+
+
 module.exports = mongoose.model('Category', CategorySchema);

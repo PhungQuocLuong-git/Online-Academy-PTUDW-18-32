@@ -311,9 +311,8 @@ module.exports = {
 
     },
 
-    fts(req, res) {
+    async fts(req, res) {
         var options = {};
-        var sortOption = {};
         var wordSearch = '';
         if (req.query.kw)
             wordSearch = req.query.kw.trim().replace(/\s+/g, ' ');
@@ -338,18 +337,32 @@ module.exports = {
         if (req.query.hasOwnProperty('field')) {
             paginateOption.sort = { [req.query.field]: req.query.type }
         }
-        options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } }];
-        // Course.find({$text: {$search: req.query.kw} }).find(options).sortable(req).populate('course_author course_students')
-        Course.paginate(options, paginateOption)
-            // Course.find().pretty()
-            .then(courses => res.render('courses/search', {
+
+        console.log(wordSearch);
+        var myArr = [];
+        var myArr2 = [];
+        let categories = await Category.find({$or: [{ $text: { $search: wordSearch } }, { CatName: { $regex: wordSearch, $options: 'i' } }]})
+        let subCategories = await Subcategory.find({$or: [{ $text: { $search: wordSearch } }, { SubCatName: { $regex: wordSearch, $options: 'i' } }]})
+        
+        if(categories)
+            multipleMongooseToObject(categories).forEach(obj => myArr.push(obj['_id']));
+
+        if(subCategories)
+            multipleMongooseToObject(subCategories).forEach(obj => myArr2.push(obj['_id']));
+        
+        options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } },{catid: {$in: myArr}},{subcatid: {$in: myArr2}}];
+        let courses = await Course.paginate(options, paginateOption);
+        if(courses){
+
+            res.render('courses/search', {
                 courses: courses.docs,
                 pagination: {
                     page,
                     pageCount: Math.ceil(courses.total / courses.limit)
                 },
-            }))
-            .catch(error => console.error(error));
+            })
+        }
+        else console.log('sth happened');
     },
 
     async store(req, res, next) {

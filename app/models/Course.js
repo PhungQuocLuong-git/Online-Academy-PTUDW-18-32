@@ -53,6 +53,8 @@ CourseSchema.index({
 });
 
 CourseSchema.index({name:1})
+CourseSchema.index({catid:1})
+CourseSchema.index({subcatid:1})
 
 CourseSchema.query.sortable = function (req) {
   if (req.query.hasOwnProperty('field')) {
