@@ -263,7 +263,7 @@
                     else{
                         myArr = response.map(ele => `<div class="col-3 p-0">
                                 <div class="card h-100">
-                                    <img class="card-img-top" src="${ele.thumbnail}" alt="Card image cap">
+                                    <img class="card-img-top" src="${ele.thumbnail}" alt="Card image cap" style = "height:200px;">
                                     <div class="card-body d-flex flex-column">
                                         <p class="card-text text-primary font-weight-bold">Web Development</p>
                                         <h6 class="card-title font-weight-bold">${ele.name} </h6>
@@ -273,9 +273,8 @@
                                             <span class="number-students">(${ele.rates.length})</span>
                                         </div>
                                         <div class="d-flex">
-                                            <h5 class="card-text font-weight-bold delete-price"> ${ele.price} </h5>
-                                            <h5 class="card-text font-weight-bold align ml-3 discout-price"> ${ele.discount_price}
-                                            </h5>
+                                            <h5 class="card-text font-weight-bold align ml-3 text-right">${ele.discount_price} VND </h5>
+
                                         </div>
                                         <a href="/courses/${ele.slug}" class="btn btn-primary align-self-start mt-auto">Go
                                             to
@@ -284,9 +283,14 @@
                                 </div>
                             </div>`)
                             const firstArr = myArr.slice(0,3).join('\n');
-                            const secArr = myArr.slice(3,6).join('\n');
                             $('#first').append(firstArr);
-                            $('#sec').append(secArr);
+                            if(myArr.slice(3,6).length === 0){
+                                $('#sec').parent().remove();
+                            }
+                            else{
+                                const secArr = myArr.slice(3,6).join('\n');
+                                $('#sec').append(secArr);
+                            }
                             $('#myCarousel').show();
                             $(document).ready(function () {
                                 var options = {

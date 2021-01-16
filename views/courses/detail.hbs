@@ -484,12 +484,12 @@
       {{{course.short_description}}}
 
       <div class="d-flex text-warning mt-3">
-        {{#ifgreater course.discount_price 0}}
-        <h3 class="delete-price text-dark">${{course.price}}</h3>
-        <h3 class="ml-4">${{course.discount_price}}</h3>
+        {{#ifCond course.price '!=' course.discount_price}}
+        <h3 class="delete-price text-dark">$ {{format course.price}}</h3>
+        <h3 class="ml-4">${{format course.discount_price}}</h3>
         {{else}}
         <h3 class="text-warning">${{course.price}}</h3>
-        {{/ifgreater}}
+        {{/ifCond}}
         {{#ifequal role 1}}
         <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}" data-toggle="tooltip" data-placement="top"
             title="Add to Wishlist"><i class="fa-heart text-danger wish-icon"></i></a></i></h3>

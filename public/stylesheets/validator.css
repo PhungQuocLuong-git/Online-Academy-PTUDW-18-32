@@ -99,33 +99,6 @@ html {
   flex-direction: row;
 }
 
-/* .horizontal-option{
-      margin-top:10px;
-    } */
-
-.header-logo {
-  display: block;
-  justify-content: center;
-  /* width: 360px; */
-  /* min-height: 100px; */
-  /* padding: 32px 24px; */
-  /* padding-bottom: 16px; */
-  text-align: center;
-  background: #fff;
-  border-radius: 2px;
-  border-bottom: #f33a58;
-  width: 100%;
-  background-color: #f368e0;
-  /* margin: 24px; */
-  align-self: center;
-  box-shadow: 0 1px 5px -1px rgba(51, 62, 73, 0.14),
-    0 4px 10px 0 rgba(51, 62, 73, 0.08);
-}
-
-.img-header-logo {
-  height: 60px;
-  margin: 20px;
-}
 
 .footer-license {
   font-size: 1.2rem;
