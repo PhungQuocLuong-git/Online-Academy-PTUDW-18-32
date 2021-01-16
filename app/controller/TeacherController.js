@@ -179,43 +179,47 @@ class TeacherController {
     }
 
     // [POST] /Teacher/check
-    check(req,res,next) {
-        Teacher.findOne({username: req.body.username,stt:1})
-            .then( user => {
-                bcrypt.compare(req.body.password,user.password).then((result)=>{
-                    user= mongooseToObject(user);
-                    if(result){
-                    // req.app.locals.idUser = user._id ;
-                    req.app.locals.user = user;
-                    req.session.user = user;
-                    req.session.username = req.body.username;
-                    req.app.locals.nameUser = user.username;
-                    req.session.role=2;
-                    req.app.locals.role = 2;
-                    req.session.role = 2;
-                    res.redirect(req.session.prevURL)
-                      } else {
-                        res.render('teachers/login', {
-                            layout: false,
-                            err_message: 'Invalid password'
-                        });
-                    }
+    check(req, res, next) {
+        
+        Teacher.findOne({ username: req.body.username })
+            .then(user => {
+                if(user) {
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);
+                    return bcrypt.compare(req.body.password, user.password)             
+                }
+                else return new Promise(function(resolve,reject) {
+                    reject('Invalid username');
                 })
-                    .catch((err) => 
-                    {
-                        res.render('teachers/login', {
-                            layout: false,
-                            err_message:'Invalid username'
-                        });
-                    })
             })
             .catch(err => {
                 res.render('teachers/login', {
                     layout: false,
-                    err_message: 'Invalid username'
+                    err_message: err
                 });
-            });
-        // res.json(req.body)
+            })
+            .then((result) => {
+                if (result) {
+                    console.log('true');
+                    req.session.role = 2;
+                    req.app.locals.role = 2;
+                    console.log(req.session.prevURL);
+                    res.redirect(req.session.prevURL);
+                } 
+                if(result===false) {
+                    res.render('teachers/login', {
+                        layout: false,
+                        err_message:'Invalid password'
+                    });
+                }
+            })
+            .catch(err =>{
+                console.log(err)
+                res.render('students/login', {
+                    layout: false,
+                    err_message:'Invalid email or password'
+                });
+            })
     }
 
     update(req,res) {

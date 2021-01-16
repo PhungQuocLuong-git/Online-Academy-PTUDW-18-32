@@ -1,7 +1,85 @@
+{{#section 'css'}}
+    <style>
+        @media (min-width: 992px) {
+  .dropdown-menu .dropdown-toggle:after {
+    border-top: 0.3em solid transparent;
+    border-right: 0;
+    border-bottom: 0.3em solid transparent;
+    border-left: 0.3em solid;
+  }
+  .dropdown-menu .dropdown-menu {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .dropdown-menu li {
+    position: relative;
+  }
+  .nav-item .submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -7px;
+  }
+  .nav-item .submenu-left {
+    right: 100%;
+    left: auto;
+  }
+  .dropdown-menu > li:hover {
+    background-color: #f1f1f1;
+  }
+  .dropdown-menu > li:hover > .submenu {
+    display: block;
+  }
+}
+
+/* Category */
+.cate-item{
+  margin-right: 10px;
+}
+
+.angel-cate{
+  float: right;
+  margin-top: 6px;
+}
+    </style>
+{{/section}}
+
 <h1 id='storage' data-dlt=" {{#ifequal delete 0}} 0 ">COURSES {{else}} 1 ">TRASH{{/ifequal}}</h1>
 
 <div id="toast"></div>
 <div class="container-fluid">
+    <div class="row">
+        {{#ifequal delete 0}}
+        <a class="nav-link dropdown-toggle mr-3" href="#" data-toggle="dropdown"> Categories </a>
+        <ul class="dropdown-menu">
+
+            {{#each lcCategories}}
+          <li><a class="dropdown-item cate-item" href="/admin/courses?category={{_id}}"> {{CatName}} <span class="angel-cate fas fa-angle-right"></span> </a>
+            <ul class="submenu dropdown-menu">
+              {{#each sub}}
+              <li><a class="dropdown-item"
+                  href="/admin/courses?category={{../_id}}&subcategory={{_id}}">{{SubCatName}}</a></li>
+              {{/each}}
+
+            </ul>
+          </li>
+          {{/each}}
+
+        </ul>
+        
+    <div class="dropdown dropdowm--sort">
+                <button class="btn btn-light dropdown-toggle btn-sort" type="button" id="teachersBtn"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Teachers
+                </button>
+                <div class="dropdown-menu dropdown-menu--sort" aria-labelledby="teachersBtn">
+                    {{#each teachers}}
+                    <a href="/admin/courses?teacher={{_id}}" class="btn dropdown-item" name="btn-teacher" data-id="{{_id}}">{{name}}</a>
+                    {{/each}}
+                </div>
+            </div>
+    </div>
+    {{/ifequal}}
     <div class="row ">
 
     {{#each courses}}
@@ -75,9 +153,10 @@
  
 
 {{#section 'js'}}
-
-
     <script>
+        $('.dropdown-menu').on('click', function (e) {
+      e.stopPropagation();
+    });
         if(+$('#storage').data('dlt')){
             pathUrl='destroy';
             typeAjax = 'delete';
@@ -153,5 +232,23 @@
                     }
                 });
         })
+    
+    //Filter
+    console.log($('btn[name="btn-category"]'))
+    $('btn[name="btn-category"]').hover(function(e){
+        $.ajax({
+                    url: "/courses/getSubByCatId",
+                    type:"get",
+                    data: { catId:$(e.target).data('id')},
+                    success: function (response) {
+                        if (response !== "false") {
+                            console.log(response);
+                        }
+                        
+                        
+                    }
+                });
+        console.log($(e.target).data('id'))
+    })
     </script>
 {{/section}}

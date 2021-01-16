@@ -19,8 +19,19 @@
     }
 
     .card-img-top {
-          width: 100%;
-          max-height: 180px;
+        width: 100%;
+        max-height: 180px;
+    }
+
+    .gradi {
+        border: 0;
+        height: 150px !important;
+        width: 100%;
+        margin: auto;
+        background-image: -webkit-linear-gradient(left, #fff, #4dc0f5, #fff);
+        background-image: -moz-linear-gradient(left, #fff,#4dc0f5, #fff);
+        background-image: -ms-linear-gradient(left, #fff,#4dc0f5, #fff);
+        background-image: -o-linear-gradient(left, #fff,#4dc0f5, #fff);
     }
 </style>
 {{/section}}
@@ -106,8 +117,8 @@
 <hr>
 
 {{!-- Các khoá học nổi bật nhất trong tuần --}}
-<div class="container p-0 my-5" style="width: 65%;">
-    <div class="text-center mb-5">
+<div class="container pt-2 my-5" style="width: 65%;">
+    <div class="text-center mb-5 gradi">
         <h3> The most highlighted courses of the week </h3>
         <h5> We recommend you some courses that are very popular on the Internet</h5>
     </div>
@@ -175,7 +186,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
@@ -206,7 +218,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
@@ -236,7 +249,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
@@ -266,7 +280,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             {{#if discount_price}}
@@ -327,7 +342,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
@@ -358,7 +374,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
@@ -388,7 +405,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
@@ -418,7 +436,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value={{rating}}></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             {{#if discount_price}}
@@ -476,7 +495,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -497,7 +517,8 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                                <span class="number-students"><i class="fas fa-users"></i>
+                                                    {{course_students.length}}</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -515,7 +536,8 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                                <span class="number-students"><i class="fas fa-users"></i>
+                                                    {{course_students.length}}</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
@@ -539,7 +561,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -560,7 +583,8 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                                <span class="number-students"><i class="fas fa-users"></i>
+                                                    {{course_students.length}}</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -578,7 +602,8 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                                <span class="number-students"><i class="fas fa-users"></i>
+                                                    {{course_students.length}}</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"
@@ -602,7 +627,8 @@
                                         <p class="card-subtitle text-secondary teacher-text">Ho Tuan Thanh</p>
                                         <div class="card-text d-flex">
                                             <div class="rate" data-rate-value=4></div>
-                                            <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                            <span class="number-students"><i class="fas fa-users"></i>
+                                                {{course_students.length}}</span>
                                         </div>
                                         <div class="d-flex">
                                             <h5 class="card-text font-weight-bold delete-price"> $200 </h5>
@@ -623,7 +649,8 @@
                                             <p class="card-subtitle text-secondary teacher-text">Nguyen Duc Huy</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                                <span class="number-students"><i class="fas fa-users"></i>
+                                                    {{course_students.length}}</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $99.99 </h5>
                                             <a href="/courses/detail"
@@ -641,7 +668,8 @@
                                             <p class="card-subtitle text-secondary teacher-text">Ngo Ngoc Dang Khoa</p>
                                             <div class="card-text d-flex">
                                                 <div class="rate" data-rate-value=4></div>
-                                                <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
+                                                <span class="number-students"><i class="fas fa-users"></i>
+                                                    {{course_students.length}}</span>
                                             </div>
                                             <h5 class="card-text font-weight-bold"> $111.99 </h5>
                                             <a href="/courses/detail"

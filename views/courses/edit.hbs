@@ -144,11 +144,7 @@
 
 
 
-    .acor-active:after {
-        border: none;
-        content: "\f106";
-        font-family: "Font Awesome 5 Free";
-    }
+
 
     .panel {
         padding: 0 18px;
@@ -323,7 +319,7 @@
                             <div id="curriculum" class="container tab-pane fade active show"><br>
 
                                 {{#each course.curriculum}}
-                                <p class="accordion d-flex justify-content-between">z
+                                <p class="accordion d-flex justify-content-between">
                                     {{chapter_name}}
                                     <span class="end">
                                         <a class="btn btn-outline-success addletter1"
@@ -356,10 +352,13 @@
                                         {{#each this.lectures}}
                                         <a href="#{{_id}}" data-toggle="modal" style="text-decoration: none;">
                                             <li class="list-group-item list-group-item-action border-0">
-
                                                 {{name}}
-
-
+                                                {{#if this.preview}}
+                                                <span>
+                                                    <span
+                                                        class="badge badge-success px-2 py-1 ml-2">
+                                                        Preview</span></span>
+                                                {{/if}}
 
 
                                             </li>
@@ -525,6 +524,7 @@
                 <span class="form-message-chapter" style="color: red;"></span>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <a class="btn btn-outline-success addchapter" href="javascript:;" role="button">
                     <i class="fa fa-check" aria-hidden="true"></i>
                     Save
@@ -552,6 +552,11 @@
                         <label for="vidLet">Letter video</label>
                         <input id="letter-vid" name="letter-vid" type="file">
                         <p class="form-message-letter-vid" style="color: red;"></p>
+                        <p>Preview this video:</p>
+                        <input type="radio" id="yes" name="preview_video" value="true" checked="none">
+                        <label for="yes">Yes</label><br>
+                        <input type="radio" id="no" name="preview_video" value="false" checked="true">
+                        <label for="no">No</label><br>
 
                     </div>
 
@@ -559,6 +564,7 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <a class="btn btn-outline-success addletter" href="javascript:;" role="button">
                     <i class="fa fa-check" aria-hidden="true"></i>
                     Save
@@ -591,6 +597,7 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <a class="btn btn-outline-success editchaptername" href="javascript:;" role="button">
                     <i class="fa fa-check" aria-hidden="true"></i>
                     Save
@@ -618,6 +625,7 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <a class="btn btn-outline-danger deletechap" href="javascript:;" role="button">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                     Delete
@@ -651,6 +659,7 @@
 
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <a class="btn btn-outline-success changeimg" href="javascript:;" role="button">
                     <i class="fa fa-check" aria-hidden="true"></i>
                     Save

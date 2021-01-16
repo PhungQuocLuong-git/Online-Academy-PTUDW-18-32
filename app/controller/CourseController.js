@@ -241,7 +241,8 @@ module.exports = {
         const upload = multer({ storage });
         upload.fields([
             { name: 'name', maxCount: 1 },
-            { name: 'letter-vid', maxCount: 1 }
+            { name: 'letter-vid', maxCount: 1 },
+            { name: 'preview_video', maxCount: 1 }
         ])(req, res, async function (err) {
             if (err) {
                 res.send("loi");
@@ -250,10 +251,11 @@ module.exports = {
             else {
                 // console.log(req.files['letter-vid'][0].filename);
                 // console.log(req.letter-vid.filename);
+                console.log(req.body.preview_video);
                 var link = '/public/videos/' + req.files['letter-vid'][0].filename;
                 var cur = await Curriculum.findOneAndUpdate(
                     { _id: idchapter },
-                    { $push: { lectures: { name: req.body.name, description: "", link: link, preview: 0 } } }
+                    { $push: { lectures: { name: req.body.name, description: "", link: link, preview: req.body.preview_video} } }
                 );
                 // console.log(cur);
                 var today= new Date();
