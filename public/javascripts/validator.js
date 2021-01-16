@@ -149,7 +149,12 @@ function Validator(options){
                                 success: function (response) {
                                     //sai mat khau
                                     if (response == "false") {
-                                        alert("Wrong password");
+                                        Swal.fire({
+                                            title: 'Sai mật khẩu!',
+                                            text: 'Bạn đã nhập sai mật khẩu cũ.',
+                                            icon: 'warning',
+                                            confirmButtonText: 'OK'
+                                          })
                                         var oldPassMsg=document.querySelector(".form-message");
                                         var formOldPass=document.querySelector('.form-group');
                                         formOldPass.classList.add("invalid");
@@ -158,7 +163,12 @@ function Validator(options){
         
                                     }
                                     else{
-                                        alert("Đổi mk thành công");
+                                        Swal.fire({
+                                            title: 'Thành công!',
+                                            text: 'Bạn đã đổi mật khẩu thành công.',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                          })
                                       location.href="/";
                                     }
                                 }
