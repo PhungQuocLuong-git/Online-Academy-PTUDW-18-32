@@ -146,7 +146,7 @@ class StudentController {
                     req.session.role = 1;
                     req.app.locals.role = 1;
                     console.log(req.session.prevURL);
-                    res.redirect(req.session.prevURL);
+                    res.redirect('/');
                 } 
                 if(result===false) {
                     res.render('students/login', {

@@ -6,7 +6,7 @@ const StudentSchema = new Schema({
   name: {type: String},
   email: {type: String},
   password: {type: String},
-  money: {type: Number,default: 0},
+  money: {type: Number,default: 5000000},
   stt: {type: Number,default: 1},
   avatar: {type:String,default:'/public/images/avatars/default.png'},
   booked_courses: [

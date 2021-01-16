@@ -40,7 +40,6 @@ module.exports = {
     },
     async registeredcourses(req, res, next) {
         const url = req.url + '';
-
         var student = await Student.findById(req.session.user._id).populate({
             path: "booked_courses.course_id",
             select: "name slug price course_author thumbnail curriculum",

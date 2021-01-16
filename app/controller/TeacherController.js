@@ -188,6 +188,10 @@ class TeacherController {
         Teacher.findOne({ username: req.body.username })
             .then(user => {
                 if(user) {
+                    if(user.stt===0)
+                        return new Promise(function(resolve,reject) {
+                            reject('Bn chưa đc admin duyệt.');
+                        })
                     req.session.user = mongooseToObject(user);
                     req.app.locals.user = mongooseToObject(user);
                     return bcrypt.compare(req.body.password, user.password)             
@@ -208,7 +212,7 @@ class TeacherController {
                     req.session.role = 2;
                     req.app.locals.role = 2;
                     console.log(req.session.prevURL);
-                    res.redirect(req.session.prevURL);
+                    res.redirect('/');
                 } 
                 if(result===false) {
                     res.render('teachers/login', {
