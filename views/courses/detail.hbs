@@ -557,12 +557,19 @@
       <div class="panel p-0">
         <ul class="list-group">
           {{#each this.lectures}}
-          <li class="list-group-item list-group-item-action border-0">{{name}}
-            {{#if this.preview}}
-            <a href="#{{_id}}" data-toggle="modal"><span class="badge badge-success px-2 py-1 ml-2">
-                Preview</span></a>
-            {{/if}}
-          </li>
+          
+          {{#if this.preview}}
+          <a href="#{{_id}}" data-toggle="modal" style="text-decoration: none;">
+              <li class="list-group-item list-group-item-action border-0">
+                {{name}}
+                    <span><span class="badge badge-success px-2 py-1 ml-2">Preview</span></span>
+              </li>
+          </a>
+          {{else}}
+          <li class="list-group-item list-group-item-action border-0">{{name}}</li>
+          {{/if}}
+
+
           {{/each}}
         </ul>
       </div>
