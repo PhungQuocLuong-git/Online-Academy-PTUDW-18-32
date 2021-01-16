@@ -59,8 +59,9 @@ module.exports = {
             courses[i]['percent'] = 0;
             if (pro !== null) {
                 var lenlec=0;
+
                 for (var j = 0; j < courses[i].course_id.curriculum.length; j++) {
-                    lenlec=lenlec+ courses[i].course_id.curriculum[0].lectures.length;
+                    lenlec=lenlec+ courses[i].course_id.curriculum[j].lectures.length;
                 }
                 courses[i]['numlesson'] = lenlec;
 
