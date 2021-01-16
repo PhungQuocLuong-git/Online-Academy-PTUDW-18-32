@@ -70,11 +70,21 @@ class AdminController {
     }
 
     courses(req,res) {
-        Course.find({status:0})
-            .then(courses => {
+        var options ={status: 0};
+        if(req.query.category)
+            options.catid = req.query.category;
+        if(req.query.subcategory)
+            options.subcatid = req.query.subcategory;
+        if(req.query.teacher)
+            options.course_author = req.query.teacher;
+        console.log(options)
+        Promise.all([Course.find(options),Teacher.find({ $or:[ {'stt':2}, {'stt':1} ]}),categorySchema.find()])
+            .then(([courses,teachers,categories]) => {
                 res.render('admin/courses',{
                     layout:'admin',
                     courses:multipleMongooseToObject(courses),
+                    teachers:multipleMongooseToObject(teachers),
+                    categories:multipleMongooseToObject(categories),
                     delete:0
                 });
             })
