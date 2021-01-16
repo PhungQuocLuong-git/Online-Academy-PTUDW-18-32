@@ -28,6 +28,7 @@ const CourseSchema = new Schema({
   preview_video: { type: String, default: '' },
   catid: { type: String, require: true },
   subcatid: { type: String, require: true },
+  lastUpdated:{type: Date},
   curriculum: [
     { type: Schema.Types.ObjectId, ref: 'Curriculum' }
   ],

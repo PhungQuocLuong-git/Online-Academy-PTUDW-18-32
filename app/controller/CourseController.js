@@ -35,24 +35,22 @@ module.exports = {
     async detail(req, res, next) {
         // try {
         var course = await Course.findOne({ slug: req.params.slug }).populate('curriculum course_author course_students rates posted_courses');
-        course=mongooseToObject(course);
-        
-        if(typeof req.session.user !== 'undefined')
-        {
+        course = mongooseToObject(course);
+
+        if (typeof req.session.user !== 'undefined') {
 
             var pro = await Process.findOne({ student_id: req.session.user._id, course_id: course._id });
             console.log(typeof pro);
-            console.log( pro!==null);
-            if(pro!==null)
-            {
+            console.log(pro !== null);
+            if (pro !== null) {
                 var process = pro.process;
                 var lenprocess = process.length;
                 var lencur = course.curriculum.length;
                 console.log(lencur);
-        
+
                 for (var i = 0; i < lencur; i++) {
                     console.log('iiiiiiiiiiiiiii', i);
-        
+
                     for (var j = 0; j < course.curriculum[i].lectures.length; j++) {
                         course.curriculum[i].lectures[j]['iswatch'] = 0;
                         for (var k = 0; k < lenprocess; k++) {
@@ -60,7 +58,7 @@ module.exports = {
                                 course.curriculum[i].lectures[j].iswatch = 1;
                             }
                         }
-        
+
                     }
                 }
             }
@@ -87,7 +85,7 @@ module.exports = {
             isTeacher: req.session.role === 2,
             mostRelatedPurchased,
             isStudent,
-           
+
         });
         course.view++;
         await Course.updateOne({ slug: course.slug }, course);
@@ -136,9 +134,11 @@ module.exports = {
         var slug = req.params.slug + '';
         var idchapter = req.params.idchapter;
         var url = '/courses/edit/' + slug;
+        var today= new Date();
+        today.setHours(today.getHours() + 7);
         var cur = await Curriculum.findOneAndUpdate(
             { _id: idchapter },
-            { chapter_name: req.body.name }
+            { chapter_name: req.body.name ,lastUpdated:today}
         )
 
 
@@ -148,9 +148,11 @@ module.exports = {
     async complete(req, res) {
 
         var slug = req.params.slug;
+        var today= new Date();
+        today.setHours(today.getHours() + 7);
         var course = await Course.findOneAndUpdate(
             { slug: slug },
-            { complete: +req.body.complete }
+            { complete: +req.body.complete ,lastUpdated:today}
         )
 
 
@@ -164,9 +166,11 @@ module.exports = {
     async general(req, res) {
 
         var slug = req.params.slug;
+        var today= new Date();
+        today.setHours(today.getHours() + 7);
         var course = await Course.findOneAndUpdate(
             { slug: slug },
-            { description: req.body.description, discount_price: req.body.discount_price }
+            { description: req.body.description, discount_price: req.body.discount_price ,lastUpdated:today}
         )
 
 
@@ -183,9 +187,11 @@ module.exports = {
         var url = '/courses/edit/' + slug;
         var cur = await Curriculum.deleteOne({ _id: idchapter });
         //console.log(cur);
+        var today= new Date();
+        today.setHours(today.getHours() + 7);
         var course = await Course.findOneAndUpdate(
             { _id: idcourse },
-            { $pull: { curriculum: idchapter } }
+            { $pull: { curriculum: idchapter },$set: { lastUpdated: today } }
         );
 
 
@@ -204,12 +210,14 @@ module.exports = {
         instance.save(function (err) {
         });
         //console.log(instance._id);
+        var today= new Date();
+        today.setHours(today.getHours() + 7);
         var updatedcourser = await Course.updateOne(
             { slug: req.params.slug },
-            { $push: { curriculum: { '_id': instance._id } } },
+            { $push: { curriculum: { '_id': instance._id } },$set: { lastUpdated: today }},
             { upsert: true, new: true }
         );
-
+        console.log(updatedcourser);
 
         res.redirect(url);
     },
@@ -248,7 +256,12 @@ module.exports = {
                     { $push: { lectures: { name: req.body.name, description: "", link: link, preview: 0 } } }
                 );
                 // console.log(cur);
-
+                var today= new Date();
+                today.setHours(today.getHours() + 7);
+                var course = await Course.findOneAndUpdate(
+                    {slug: req.params.slug},
+                    {lastUpdated:today},
+                );
                 res.redirect(url);
             }
         });
@@ -279,14 +292,17 @@ module.exports = {
 
         ])(req, res, async function (err) {
             if (err) {
-                res.send("loi");
+                //res.send("loi");
                 console.log(err);
             }
             else {
 
                 var link = '/public/images/courses/' + req.files['img-course'][0].filename;
+                var today= new Date();
+                today.setHours(today.getHours() + 7);
                 var course = await Course.findOneAndUpdate(
-                    { slug: slug },
+                    {slug: slug },
+                    {$set:{lastUpdated:today}},
                     { thumbnail: link }
                 );
                 // console.log(cur);
@@ -341,18 +357,18 @@ module.exports = {
         console.log(wordSearch);
         var myArr = [];
         var myArr2 = [];
-        let categories = await Category.find({$or: [{ $text: { $search: wordSearch } }, { CatName: { $regex: wordSearch, $options: 'i' } }]})
-        let subCategories = await Subcategory.find({$or: [{ $text: { $search: wordSearch } }, { SubCatName: { $regex: wordSearch, $options: 'i' } }]})
-        
-        if(categories)
+        let categories = await Category.find({ $or: [{ $text: { $search: wordSearch } }, { CatName: { $regex: wordSearch, $options: 'i' } }] })
+        let subCategories = await Subcategory.find({ $or: [{ $text: { $search: wordSearch } }, { SubCatName: { $regex: wordSearch, $options: 'i' } }] })
+
+        if (categories)
             multipleMongooseToObject(categories).forEach(obj => myArr.push(obj['_id']));
 
-        if(subCategories)
+        if (subCategories)
             multipleMongooseToObject(subCategories).forEach(obj => myArr2.push(obj['_id']));
-        
-        options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } },{catid: {$in: myArr}},{subcatid: {$in: myArr2}}];
+
+        options.$or = [{ $text: { $search: wordSearch } }, { name: { $regex: wordSearch, $options: 'i' } }, { catid: { $in: myArr } }, { subcatid: { $in: myArr2 } }];
         let courses = await Course.paginate(options, paginateOption);
-        if(courses){
+        if (courses) {
 
             res.render('courses/search', {
                 courses: courses.docs,
@@ -399,7 +415,7 @@ module.exports = {
                 console.log(err);
             }
             else {
-               // console.log(req.body);
+                // console.log(req.body);
                 //console.log(req.files);
                 req.body.course_author = req.session.user._id;
                 req.body.discount_price = !req.body.discount_price || req.body.discount_price > req.body.price ? req.body.price : req.body.discount_price;
@@ -468,6 +484,12 @@ module.exports = {
                         req.body.curriculum.push({ _id: curr.id });
                     }
                 }
+                var today= new Date();
+                today.setHours(today.getHours() + 7);
+                // req.body.lastUpdated = yyyy + '-' + mm + '-' + dd;
+                req.body.lastUpdated = today;
+                console.log(req.body.lastUpdated);
+
                 const course = new Course(req.body);
                 course.save();
                 var teacher = await Teacher.findOne({ _id: req.session.user._id });
@@ -630,7 +652,7 @@ module.exports = {
                 instancepro.save(function (err) {
                 });
                 return Promise.all([Course.findByIdAndUpdate(course._id, course),
-                Student.findOneAndUpdate({_id:req.session.user._id}, req.session.user).populate({
+                Student.findOneAndUpdate({ _id: req.session.user._id }, req.session.user).populate({
                     path: "cart_courses ",
                     select: "name slug price course_author ",
                     populate: { path: "course_author", select: "name" },
@@ -644,7 +666,7 @@ module.exports = {
             })
             .catch(err => {
                 console.log(err)
-                res.json({ msg: 'Bn k mua dc khoa hc nay'});
+                res.json({ msg: 'Bn k mua dc khoa hc nay' });
             })
     },
 
@@ -884,7 +906,7 @@ module.exports = {
             option.catid = req.query.id
         Course.find(option).populate('course_author').sort({ view: -1 }).limit(6)
             .then(courses => {
-               // console.log(courses);
+                // console.log(courses);
                 res.json(
                     multipleMongooseToObject(courses)
                 )
