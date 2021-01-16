@@ -535,7 +535,10 @@
       <div class="panel p-0">
         <ul class="list-group">
           {{#each lectures}}
-          <a href="#{{_id}}" data-toggle="modal" style="text-decoration: none;" class="process" data-process="/student/updateprocess/{{../../course._id}}/{{_id}}">
+          
+          <a 
+          href="#{{_id}}" data-toggle="modal" style="text-decoration: none;" class="process" data-process="/student/updateprocess/{{../../course._id}}/{{_id}}"
+            >
             <li class="list-group-item list-group-item-action border-0">
               {{name}}
               
@@ -566,7 +569,13 @@
               </li>
           </a>
           {{else}}
-          <li class="list-group-item list-group-item-action border-0" id='msg-alert'>{{name}}</li>
+            <a {{#ifCond ../../role "===" 0}}href="#loginModal" data-toggle="modal" {{else}} name="booknt"{{/ifCond}}  style="text-decoration: none;" class="process">
+          <li   class="list-group-item list-group-item-action border-0" id='msg-alert'>
+              
+              {{name}}
+          </li>
+              </a>
+          
           {{/if}}
 
 
@@ -936,7 +945,17 @@
 <script src="/public/javascripts/validator.js"></script>
 <script src="/public/javascripts/toast.js"></script>
 <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <script>
+  $('a[name="booknt"]').on('click',function(){
+    Swal.fire({
+      title: 'Bạn chưa mua khóa học!',
+      text: 'Hãy mua khóa học và quay lại sau nhé',
+      icon: 'warning',
+      confirmButtonText: 'OK'
+    })
+  })
   Validator({
       form: '#form-2',
       formGroup: '.auth-form__group',
@@ -1112,7 +1131,6 @@
                             $('#pblqt3').width((ratelqt3 * 100) / len + '%');
       {{#ifequal role 0 }}
 
-      {{/ifequal
-      }}
+      {{/ifequal}}
 </script>
 {{/section}}

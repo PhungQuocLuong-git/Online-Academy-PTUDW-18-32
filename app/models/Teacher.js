@@ -10,7 +10,7 @@ const TeacherSchema = new Schema({
   stt: {type: Number,default:0},
   short_description: {type: String,default:'a short description of teacher'},
   description: {type: String,default:'a description of teacher'},
-  avatar: {type:String,default:'https://lh3.googleusercontent.com/proxy/kwGs56fxpkEgQLTV0wDA3F3jo65CEvZPiiGq-0Y0zoICbsMO-uK_m9yIHCa4LjXRZQf8GI8qRSZBzuqqtz59kDVIcveX9szEe9HL45fhjiRRPIt4-KXsDg0ubkpzjGk5YovTnUEw6aqHggj9'},
+  avatar: {type:String,default:'/public/images/user1.png'},
   NumOfStudents: {type: Number,default:0},
   posted_courses: [
     {
