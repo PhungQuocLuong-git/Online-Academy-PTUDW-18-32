@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="/public/stylesheets/validator.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
     integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <style>
+    .swal2-popup {
+      font-size: 140% !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -68,28 +73,32 @@
 
   <script src="/public/javascripts/validator.js"></script>
 
-
+  {{#if err_message}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  {{/if}}
   <script>
     Validator({
       form: '#form-1',
       formGroup: '.form-group',
       errorSelector: '.form-message',
       rules: [
-        Validator.isRequired('#email', 'Vui lòng nhập i meo'),
+        Validator.isRequired('#email', 'Vui lòng nhập email'),
         Validator.isRequired('#name', 'Vui lòng nhập tên của bạn'),
-        Validator.isEmail('#email', 'Vui lòng nhập lại i meo'),
         Validator.minLength('#password', 6),
-      Validator.isRequired('#password_confirmation'),
-       Validator.isRequired('#fullname', 'Vui lòng nhập họ tên đầy đủ'),
-      Validator.isRequired('#role', 'Vui lòng chọn vai trò'),
-      Validator.isRequired('#gender', 'Vui lòng chọn giới tính'), --}}
-      Validator.isConfirmed('#password_confirmation', function () {
-        return document.querySelector('#form-1 #password').value;
-      }, 'Mật khẩu không khớp')
-            ],
-            
-        }
-    )
+        Validator.isRequired('#password_confirmation'),
+        Validator.isConfirmed('#password_confirmation', function () {
+          return document.querySelector('#form-1 #password').value;
+        }, 'Mật khẩu không khớp')
+      ],
+    })
+  {{#if err_message}}
+    Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: '{{err_message}}',
+    })
+  {{/if}}
+
   </script>
 </body>
 

@@ -80,7 +80,13 @@ class TeacherController {
     store(req, res, next) {
         Promise.all([Teacher.findOne({ username: req.body.username }), bcrypt.hash(req.body.password, saltRounds)])
             .then(([user, hash]) => {
-                if (user) res.json({ err: 'Existed username' })
+                if (user) 
+                {
+                    res.render('teachers/create', {
+                        layout: false,
+                        err_message: 'Username đã tồn tại!'
+                    });
+                }
                 else {
                     req.body.password = hash;
                     new Teacher(req.body).save()
@@ -88,8 +94,6 @@ class TeacherController {
 
                 }
             });
-
-        // res.json(req.body);
 
     }
     change(req, res, next) {

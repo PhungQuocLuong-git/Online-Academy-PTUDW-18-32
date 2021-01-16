@@ -29,9 +29,10 @@ class StudentController {
             .then(([user, hash]) => {
                 if (user) {
                     return new Promise(function (resolve, reject) {
-                        reject('existed email');
+                        reject('Email đã tồn tại!');
                     });
                 }
+                else {
                 req.body.password = hash;
                 const to = req.body.email;
                 const subject = 'Xác thực OTP nhé';
@@ -42,10 +43,15 @@ class StudentController {
                 const body = `<h1> Vui lòng xác thực để đăng kí tài khoản </h1>Your OTP is ${randNumb} .`
                 // res.json({to,subject,body});
                 console.log('test', req.app.locals.otp, req.app.locals.times);
-
                 return mailer.sendMail(to, subject, body);
+            }
             })
-            .catch(error => res.status(404).json(error))
+            .catch(err => {
+                res.render('students/create', {
+                    layout: false,
+                    err_message: err
+                });
+            })
             .then(() => res.status(200).render('students/verify', {
                 layout: false
             }))
