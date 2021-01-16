@@ -5,7 +5,7 @@
       height: 200px;  
     }
     .user-img--blocked{
-        opacity: .3;
+        opacity: .1;
     }
 
 .btn--unblock{
@@ -29,7 +29,7 @@
         {{#each students}}
     <div class="col-sm-3 mt-4">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top user-img {{#ifCond stt "===" 2}} user-img--blocked{{/ifCond}}" src="/public/images/avatars/72980918_760811827677801_783855450192871424_n.png" alt="Card image cap">
+                <img class="card-img-top user-img {{#ifCond stt "===" 2}} user-img--blocked{{/ifCond}}" src="{{avatar}}" alt="Avatar User">
                 <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                 <div class="">
@@ -63,7 +63,7 @@
         {{#each teachers}}
     <div class="col-sm-3 mt-4">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top user-img {{#ifCond stt "===" 2}} user-img--blocked{{/ifCond}}" src="/public/images/avatars/72980918_760811827677801_783855450192871424_n.png" alt="Card image cap">
+                <img class="card-img-top user-img {{#ifCond stt "===" 2}} user-img--blocked{{/ifCond}}" src="{{avatar}}" alt="Avatar User">
                 <div class="card-body">
                 <h5 class="card-title">{{name}}</h5>
                     <div class="">
