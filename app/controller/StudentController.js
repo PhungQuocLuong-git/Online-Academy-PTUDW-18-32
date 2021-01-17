@@ -63,8 +63,16 @@ class StudentController {
         if (req.app.locals.otp === +req.body.otp) {
 
             new Student(req.app.locals.storeStudent).save()
-                .then(res.status(200).redirect('/student/login'))
-                .catch(res.status(404).json('OOPS'));
+                .catch(err => {console.log(err);res.status(404).json('OOPS')})
+                .then(student => {
+                    console.log(student);
+                    req.app.locals.role=1;
+                    req.session.role=1;
+                    req.app.locals.user= mongooseToObject(student);
+                    req.session.user= mongooseToObject(student);
+
+                    res.status(200).redirect('/');
+                })
         }
 
         else {
