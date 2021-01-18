@@ -26,8 +26,8 @@ const CourseSchema = new Schema({
   complete: { type: Number, default: 0 },
   image: { type: String, default: '/public/images/feature.png' },
   preview_video: { type: String, default: '' },
-  catid: { type: String, require: true },
-  subcatid: { type: String, require: true },
+  catid: { type: String, require: true, ref: "Category"},
+  subcatid: { type: String, require: true, ref: "Subcategory" },
   lastUpdated:{type: Date},
   curriculum: [
     { type: Schema.Types.ObjectId, ref: 'Curriculum' }

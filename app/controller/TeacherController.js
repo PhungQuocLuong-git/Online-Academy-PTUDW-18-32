@@ -26,7 +26,7 @@ class TeacherController {
             listid.push(listidcourse[i].course_id);
         }
 
-        var courses = await Course.find({ _id: { $in: listid }});
+        var courses = await Course.find({ _id: { $in: listid }}).populate('subcatid');
         console.log(courses.length);
         res.render('teachers/inprogresscourses', {
             layout: 'teacher',
