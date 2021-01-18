@@ -25,7 +25,7 @@
 
     .gradi {
         border: 0;
-        height: 150px !important;
+        height: 90px !important;
         width: 100%;
         margin: auto;
         background-image: -webkit-linear-gradient(left, #fff, #4dc0f5, #fff);
@@ -76,7 +76,7 @@
 <hr>
 
 <div class="container my-5">
-    <div class="text-center mb-5 mt-5">
+    <div class="text-center mb-5 mt-5 gradi">
         <h3> Topics recommended for you</h3>
 
     </div>
@@ -117,8 +117,8 @@
 <hr>
 
 {{!-- Các khoá học nổi bật nhất trong tuần --}}
-<div class="container pt-2 my-5" style="width: 65%;">
-    <div class="text-center mb-5 gradi">
+<div class="container pt-1 my-5" style="width: 65%;">
+    <div class="text-center my-5  gradi">
         <h3> The most highlighted courses of the week </h3>
         <h5> We recommend you some courses that are very popular on the Internet</h5>
     </div>
@@ -127,7 +127,7 @@
         <div class="row justify-content-around p-0 b-5">
             <div class="row justify-content-around p-0 b-5">
                 {{#each getMostHight}}
-                <div class="col p-0">
+                <div class="col-3 p-0">
                     <div class="card h-100">
                         <img class="card-img-top" src="{{thumbnail}}" alt="Card image cap">
                         <div class="card-body d-flex flex-column">
@@ -165,7 +165,7 @@
 
 {{!-- Các khoá học được xem nhiều nhất --}}
 <div class="container p-0 my-5" style="width: 65%;">
-    <div class="text-center mb-5">
+    <div class="text-center mb-5 gradi">
         <h3> The most viewed courses of all times</h3>
     </div>
 
@@ -321,7 +321,7 @@
 
 {{!-- Các khoá học mới nhất nhất --}}
 <div class="container p-0 my-5" style="width: 65%;">
-    <div class="text-center mb-5">
+    <div class="text-center mb-5 gradi">
         <h3>Check out own newest courses</h3>
     </div>
 

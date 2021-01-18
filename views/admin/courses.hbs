@@ -50,22 +50,24 @@
 <div class="container-fluid">
     <div class="row">
         {{#ifequal delete 0}}
-        <a class="nav-link dropdown-toggle mr-3" href="#" data-toggle="dropdown"> Categories </a>
-        <ul class="dropdown-menu">
-
-            {{#each lcCategories}}
-          <li><a class="dropdown-item cate-item" href="/admin/courses?category={{_id}}"> {{CatName}} <span class="angel-cate fas fa-angle-right"></span> </a>
-            <ul class="submenu dropdown-menu">
-              {{#each sub}}
-              <li><a class="dropdown-item"
-                  href="/admin/courses?category={{../_id}}&subcategory={{_id}}">{{SubCatName}}</a></li>
-              {{/each}}
-
-            </ul>
-          </li>
-          {{/each}}
-
-        </ul>
+        <div class="nav-item dropdown justify-items-center">
+          <a class="nav-link dropdown-toggle mr-3" href="#" data-toggle="dropdown"> Categories </a>
+          <ul class="dropdown-menu">
+  
+              {{#each lcCategories}}
+            <li><a class="dropdown-item cate-item" href="/admin/courses?category={{_id}}"> {{CatName}} <span class="angel-cate fas fa-angle-right"></span> </a>
+              <ul class="submenu dropdown-menu">
+                {{#each sub}}
+                <li><a class="dropdown-item"
+                    href="/admin/courses?category={{../_id}}&subcategory={{_id}}">{{SubCatName}}</a></li>
+                {{/each}}
+  
+              </ul>
+            </li>
+            {{/each}}
+  
+          </ul>
+        </div>
         
     <div class="dropdown dropdowm--sort">
                 <button class="btn btn-light dropdown-toggle btn-sort" type="button" id="teachersBtn"
