@@ -1,18 +1,17 @@
-<form method="POST">
     <div class="card">
         <div class="card-header">
             Subcategory
         </div>
         <div class="card-body">
             <div class="form-group">
-                <input type="txt" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="_id"
+                <input id="catId" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="_id"
                     value="{{list._id}}" autofocus readonly hidden>
 
             </div>
             
             <div class="form-group">
                 <label for="exampleInputEmail1">CatName</label>
-                <input type="txt" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                <input id="catName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                     name="CatName" value="{{list.CatName}}">
 
             </div>
@@ -24,14 +23,92 @@
                 <i class="fa fa-backward" aria-hidden="true"></i>
                 Back to List
             </a>
-            <button type="submit" class="btn btn-outline-danger" formaction="/admin/categories/del">
+            <button id="btn-dlt" class="btn btn-outline-danger" >
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                 Delete
             </button>
-            <button type="submit" class="btn btn-outline-success" formaction="/admin/categories/patch">
+            <button id="btn-submit" class="btn btn-outline-success" >
                 <i class="fa fa-check" aria-hidden="true"></i>
                 Save
             </button>
         </div>
     </div>
-</form>
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+   <script>
+    $('#btn-submit').on('click',function(){
+        if(!$('#catName').val()){
+            Swal.fire({
+            title: 'Thất bại!',
+            text: 'Vui lòng nhập tên Category',
+            icon: 'error',
+            confirmButtonText: 'OK'
+            })
+        }
+        else{
+            $.ajax({
+                url: "/admin/categories/patch",
+                type:"patch",
+                data: { CatName: $('#catName').val(), _id: $('#catId').val()},
+                success: function (response) {
+                    console.log(response)
+                    if(response === "true")
+                        {Swal.fire({
+                        title: 'Thành công!',
+                        text: 'Bạn đã đổi tên Category thành công.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                        })
+                        .then(function() {
+                            location.href="/admin/categories";
+                        })
+                        
+                        }
+                    else{
+                        
+                        Swal.fire({
+                        title: 'Thất bại!',
+                        text: response,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                        })
+                    }
+                }
+            });
+           
+        }
+    })
+    $('#btn-dlt').on('click',function(){
+        $.ajax({
+            url: "/admin/categories/del",
+            type:"delete",
+            data: {  _id: $('#catId').val()},
+            success: function (response) {
+                console.log(response)
+                if(response === "true")
+                    {Swal.fire({
+                    title: 'Thành công!',
+                    text: 'Bạn đã xóa Category thành công.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                    })
+                    .then(function() {
+                        location.href="/admin/categories";
+                    })
+                    
+                    }
+                else{
+                    Swal.fire({
+                    title: 'Thất bại!',
+                    text: response,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                    })
+                }
+            }
+        });
+    });
+</script>
+{{/section}}

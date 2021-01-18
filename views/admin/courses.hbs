@@ -94,14 +94,7 @@
                 <p class="card-text text-primary font-weight-bold">{{this.name}}</p>
                 <h6 class="card-title font-weight-bold">{{this.short_description}} </h5>
                     <p class="card-subtitle text-secondary teacher-text">{{this.course_author.name}}</p>
-                    <div class="_46">
-                        <span class="number-rating"></span>
-                        <div class="stars-outer">
-                            <div class="stars-inner"></div>
-                        </div>
-                        <span class="number-rates">({{this.rating}})</span>
-                    </div>
-                    <h5 class="card-text font-weight-bold"> ${{this.price}} </h5>
+                    <h5 class="card-text font-weight-bold"> ${{this.discount_price}} </h5>
                     <div class="temp"></div>
                     {{#ifequal ../delete 0}} 
                     

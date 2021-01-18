@@ -8,9 +8,15 @@
   <link rel="stylesheet" href="/public/stylesheets/validator.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
     integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <style>
+    .swal2-popup {
+      font-size: 140% !important;
+    }
+  </style>
 </head>
 
 <body>
+  <a class="header-link" href="/"><header class="Auth_header"><span class="Auth_logo">Fullstack.edu.vn</span></header></a>
 
   <div class="main">
     <form action="store" method="POST" class="form" id="form-1">
@@ -21,12 +27,12 @@
       <div class="sign-up sign-up--facebook">
         <i class="fab fa-google sign-up-icon"></i>
 
-        Đăng ký với Google
+        Đăng nhập với Google
       </div>
 
       <div class="sign-up sign-up--facebook">
         <i class="fab fa-facebook sign-up-icon"></i>
-        Đăng ký với Facebook
+        Đăng nhập với Facebook
       </div>
 
       <div class="or-seperate">
@@ -58,38 +64,44 @@
       </div>
 
       <div class="text-license">
-        Vui lòng đọc <a href="#">điều khoản sử dụng</a> trước khi đăng ký
+        Vui lòng đọc <a class="text-license__link" href="#">điều khoản sử dụng</a> trước khi đăng ký
       </div>
 
       <button class="btn btn-primary form-submit">Đăng ký</button>
+    <div class="Auth_disclaimer"><p>Bạn đã có tài khoản?<br><a href="/student/login">Đăng nhập ngay!</a></p></div>
+
     </form>
 
   </div>
 
   <script src="/public/javascripts/validator.js"></script>
 
-
+  {{#if err_message}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  {{/if}}
   <script>
     Validator({
       form: '#form-1',
       formGroup: '.form-group',
       errorSelector: '.form-message',
       rules: [
-        Validator.isRequired('#email', 'Vui lòng nhập i meo'),
+        Validator.isRequired('#email', 'Vui lòng nhập email'),
         Validator.isRequired('#name', 'Vui lòng nhập tên của bạn'),
-        Validator.isEmail('#email', 'Vui lòng nhập lại i meo'),
         Validator.minLength('#password', 6),
-      Validator.isRequired('#password_confirmation'),
-       Validator.isRequired('#fullname', 'Vui lòng nhập họ tên đầy đủ'),
-      Validator.isRequired('#role', 'Vui lòng chọn vai trò'),
-      Validator.isRequired('#gender', 'Vui lòng chọn giới tính'), --}}
-      Validator.isConfirmed('#password_confirmation', function () {
-        return document.querySelector('#form-1 #password').value;
-      }, 'Mật khẩu không khớp')
-            ],
-            
-        }
-    )
+        Validator.isRequired('#password_confirmation'),
+        Validator.isConfirmed('#password_confirmation', function () {
+          return document.querySelector('#form-1 #password').value;
+        }, 'Mật khẩu không khớp')
+      ],
+    })
+  {{#if err_message}}
+    Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: '{{err_message}}',
+    })
+  {{/if}}
+
   </script>
 </body>
 
