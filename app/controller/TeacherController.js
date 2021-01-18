@@ -78,22 +78,31 @@ class TeacherController {
 
     // [POST] /Teacher/store
     store(req, res, next) {
-        Promise.all([Teacher.findOne({ username: req.body.username }), bcrypt.hash(req.body.password, saltRounds)])
-            .then(([user, hash]) => {
-                if (user) 
-                {
-                    res.render('teachers/create', {
-                        layout: false,
-                        err_message: 'Username đã tồn tại!'
-                    });
-                }
-                else {
+        Promise.all([Teacher.findOne({ username: req.body.username }), 
+            Teacher.findOne({ email: req.body.email }), 
+            bcrypt.hash(req.body.password, saltRounds)])
+            .then(([user1, user2,hash]) => {
+                if (user1) 
+                    return new Promise(function(resolve,reject) {
+                        reject('Tên đăng nhập đã được sử dụng.');
+                    })
+                
+                else if(user2)
+                    return new Promise(function(resolve,reject) {
+                        reject('Email này đã được sử dụng.');
+                    })
+                else{
                     req.body.password = hash;
-                    new Teacher(req.body).save()
-                        .then(res.redirect('/'));
-
+                    return new Teacher(req.body).save()
                 }
-            });
+
+                
+            })
+            .then(()=> res.redirect('/'))
+            .catch(err => {console.log(err);res.render('teachers/create', {
+                layout: false,
+                err_message: err
+            })})
 
     }
     change(req, res, next) {
@@ -192,6 +201,11 @@ class TeacherController {
                         return new Promise(function(resolve,reject) {
                             reject('Bn chưa đc admin duyệt.');
                         })
+                    else if(user.stt === 2)
+                        return new Promise(function(resolve,reject) {
+                            reject('Bn đã bị khóa tài khoản.');
+                        })
+                    
                     req.session.user = mongooseToObject(user);
                     req.app.locals.user = mongooseToObject(user);
                     return bcrypt.compare(req.body.password, user.password)             

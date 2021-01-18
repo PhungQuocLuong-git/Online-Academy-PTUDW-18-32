@@ -169,7 +169,9 @@ function Validator(options){
                                             icon: 'success',
                                             confirmButtonText: 'OK'
                                           })
-                                      location.href="/";
+                                          .then(function() {
+                                            location.href='/';
+                                        })
                                     }
                                 }
                             });
@@ -184,8 +186,15 @@ function Validator(options){
                                 success: function (response) {
                                     //sai mat khau
                                     if (response == "true") {
-                                        alert("Đăng nhập thành công. Bấm ok để tiếp tục");
-                                        location.href = window.location.href;
+                                        Swal.fire({
+                                            title: 'Thành công!',
+                                            text: 'Bạn đã đăng nhập thành công.',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                          })
+                                          .then(function() {
+                                            location.href=window.location.href;
+                                        })
                                     }
                                     else{
                                         showToast('Thất bại!',response,'error');

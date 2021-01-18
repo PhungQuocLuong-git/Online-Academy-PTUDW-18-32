@@ -16,27 +16,15 @@
 </style>
 <body>
 
+  <a class="header-link" href="/"><header class="Auth_header"><span class="Auth_logo">Fullstack.edu.vn</span></header></a>
   <div class="main">
 
     <form action="store" method="POST" class="form" id="form-1">
-      <h3 class="heading">ĐĂNG KÝ</h3>
+      <h3 class="heading">ĐĂNG KÝ GIÁO VIÊN</h3>
       <p class="desc"></p>
       <div class="spacer"></div>
 
-      <div class="sign-up sign-up--facebook">
-        <i class="fab fa-google sign-up-icon"></i>
-
-        Đăng ký với Google
-      </div>
-
-      <div class="sign-up sign-up--facebook">
-        <i class="fab fa-facebook sign-up-icon"></i>
-        Đăng ký với Facebook
-      </div>
-
-      <div class="or-seperate">
-        <span>Hoặc</span>
-      </div>
+      
       <div class="form-group">
         <label for="name" class="form-label">Họ tên</label>
         <input id="name" name="name" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
@@ -67,29 +55,13 @@
         <span class="form-message"></span>
       </div>
 
-      {{!-- <div class="form-group"></div>
-      <label for="fullname" class="form-label">Tên đầy đủ</label>
-      <input id="fullname" name="fullname" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
-      <span class="form-message"></span>
-  </div> --}}
-
-
-  {{!-- <div class="form-group ">
-    <label for="gender" class="form-label">Giới tính</label>
-    <select id="gender" name="gender" placeholder="Nhập lại mật khẩu" class="form-control">
-      <option value="">--Chọn giới tính--</option>
-      <option value="male">--Nam--</option>
-      <option value="female">--Nữ--</option>
-      <option value="other">--Khác--</option>
-    </select>
-    <span class="form-message"></span>
-  </div> --}}
-
   <div class="text-license">
-    Vui lòng đọc <a href="#">điều khoản sử dụng</a> trước khi đăng ký
+    Vui lòng đọc <a class="text-license__link" href="#">điều khoản giáo viên</a> trước khi đăng ký 
   </div>
 
   <button class="btn btn-primary form-submit">Đăng ký</button>
+    <div class="Auth_disclaimer"><p>Bạn đã có tài khoản?<br><a href="/teacher/login">Đăng nhập ngay!</a></p></div>
+
   </form>
 
   </div>
