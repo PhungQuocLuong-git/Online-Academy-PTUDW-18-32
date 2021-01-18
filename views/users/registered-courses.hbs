@@ -1,3 +1,5 @@
+
+
 {{>menu-edit}}
 
 <div class="container-fluid" style="width: 65%;">
@@ -5,7 +7,7 @@
         {{#each list}}
         <div class="col-4 p-4">
             <div class="card p-0 my-0">
-                <img class="card-img-top" src="{{course_id.thumbnail}}" alt="Card image cap">
+                <img class="card-img-top course-img" style="height: 142px;" src="{{course_id.thumbnail}}" alt="Card image cap">
                 <div class="card-body p-1">
                     <p class="card-text text-primary font-weight-bold py-1 my-0">{{course_id.name}}</p>
                     {{#ifCond numlesson '===' 0}}

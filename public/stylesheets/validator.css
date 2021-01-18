@@ -10,9 +10,8 @@ html {
   background: #fff;
 }
 .main {
-  padding-top: 16px;
   background: #fff;
-  min-height: 100vh;
+  min-height: 70vh;
   display: flex;
   justify-content: center;
 }
@@ -76,7 +75,7 @@ html {
 
 .form-submit {
   outline: none;
-  background-color: #f368e0;
+  background-color: #00a8ff;
   margin-top: 12px;
   padding: 12px 16px;
   font-weight: 600;
@@ -89,7 +88,7 @@ html {
 }
 
 .form-submit:hover {
-  background-color: #f368e0;
+  background-color: #00a8ff;
 }
 
 .spacer {
@@ -99,33 +98,6 @@ html {
   flex-direction: row;
 }
 
-/* .horizontal-option{
-      margin-top:10px;
-    } */
-
-.header-logo {
-  display: block;
-  justify-content: center;
-  /* width: 360px; */
-  /* min-height: 100px; */
-  /* padding: 32px 24px; */
-  /* padding-bottom: 16px; */
-  text-align: center;
-  background: #fff;
-  border-radius: 2px;
-  border-bottom: #f33a58;
-  width: 100%;
-  background-color: #f368e0;
-  /* margin: 24px; */
-  align-self: center;
-  box-shadow: 0 1px 5px -1px rgba(51, 62, 73, 0.14),
-    0 4px 10px 0 rgba(51, 62, 73, 0.08);
-}
-
-.img-header-logo {
-  height: 60px;
-  margin: 20px;
-}
 
 .footer-license {
   font-size: 1.2rem;
@@ -142,7 +114,7 @@ html {
 .footer-text {
   text-decoration: none;
   font-weight: 600;
-  color: #f368e0;
+  color: #00a8ff;
 }
 
 .divide {
@@ -163,12 +135,12 @@ html {
 }
 
 .sign-up-icon {
-  color: #f368e0;
+  color: #00a8ff;
   padding-right: 4px;
 }
 
 .sign-up:hover {
-  border-color: #f368e0;
+  border-color: #00a8ff;
   background-color: #dfe6e9;
 }
 
@@ -191,4 +163,68 @@ html {
 
 .form--verify{
     background-color: #f5f6fa;
+}
+
+.text-license{
+  font-size: 1.2rem;
+  color: #636D77;
+
+}
+
+.text-license__link{
+  color: #636D77;
+}
+
+.header-link{
+  text-decoration: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 14px;
+  text-align: left;
+}
+
+.Auth_header{
+  display: flex;
+  align-items: center;
+  min-height: 96px;
+  background-color: #fff;
+  margin: 0;
+  box-shadow: 0 1px 5px -1px rgba(51,62,73,.14), 0 4px 10px 0 rgba(51,62,73,.08);
+  margin-bottom:24px;
+
+}
+
+.Auth_logo{
+  overflow: hidden;
+  text-indent: -9000px;
+  width: 250px;
+  height: 100px;
+  display: block;
+  margin: 4px auto 4px 42vw;
+  background-image: url(/public/images/online-academy.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: relative;
+  top: -4px;
+}
+
+.Auth_disclaimer{
+  margin-top: 24px;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.Auth_disclaimer p {
+  text-align: center;
+  color: #636d77;
+}
+
+.Auth_disclaimer p a {
+  color: #00a8ff;
+  text-decoration: none;
+  font-weight: 600;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

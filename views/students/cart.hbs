@@ -1,10 +1,10 @@
-<h1 class="mt-4">My cart</h1>
 
 <form class="mt-4" name="container-form" method="POST" action="/student/handle-form-actions">
-
+<div class="container-fluid">
+<h1 class="mt-4">My cart</h1>
+          
   <div class="mt-4">
 
-        <h3 class="mt-4">My cart</h3>
         
         <div class="mt-4 d-flex align-items-center">
           <div class="form-check">
@@ -66,6 +66,7 @@
           {{#if student.cart_courses.length}}
              Tổng cộng: <span class="total-money">0</span>đ
           {{/if}}
+</div>
 </form>
 
 <form  name="del-course" method="POST"></form>

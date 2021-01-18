@@ -1,114 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-    <link rel="stylesheet" href="/public/stylesheets/validator.css">
-     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/stylesheets/validator.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+    integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 </head>
+<style>
+  .swal2-popup {
+      font-size: 140% !important;
+    }
+</style>
 <body>
-    
-    <div class="main">
 
-        <form action="store" method="POST" class="form" id="form-1">
-          <h3 class="heading">ĐĂNG KÝ</h3>
-          <p class="desc"></p>
-          <div class="spacer"></div>
+  <a class="header-link" href="/"><header class="Auth_header"><span class="Auth_logo">Fullstack.edu.vn</span></header></a>
+  <div class="main">
+
+    <form action="store" method="POST" class="form" id="form-1">
+      <h3 class="heading">ĐĂNG KÝ GIÁO VIÊN</h3>
+      <p class="desc"></p>
+      <div class="spacer"></div>
+
       
-         <div class="sign-up sign-up--facebook">
-            <i class="fab fa-google sign-up-icon"></i>
-
-            Đăng ký với Google
-          </div>
-          
-          <div class="sign-up sign-up--facebook">
-            <i class="fab fa-facebook sign-up-icon"></i>
-            Đăng ký với Facebook
-          </div>
-          
-          <div class="or-seperate">
-            <span>Hoặc</span>
-          </div>
-          <div class="form-group">
-            <label for="name" class="form-label">Họ tên</label>
-            <input id="name" name="name" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
-            <span class="form-message"></span>
-          </div>
-          <div class="form-group">
-            <label for="username" class="form-label">Tên đăng nhập</label>
-            <input id="username" name="username" type="text" placeholder="VD: abcd" class="form-control">
-            <span class="form-message"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="email" class="form-label">Email</label>
-            <input id="email" name="email" type="text" placeholder="VD: 18120502@student.hcmus.edu.vn" class="form-control">
-            <span class="form-message"></span>
-          </div>
-      
-          <div class="form-group">
-            <label for="password" class="form-label">Mật khẩu</label>
-            <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" class="form-control">
-            <span class="form-message"></span>
-          </div>
-      
-          <div class="form-group ">
-            <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
-            <input id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu" type="password" class="form-control">
-            <span class="form-message"></span>
-          </div>
-          
-           {{!-- <div class="form-group"></div>
-            <label for="fullname" class="form-label">Tên đầy đủ</label>
-            <input id="fullname" name="fullname" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
-            <span class="form-message"></span>
-          </div> --}}
-
-
-          {{!-- <div class="form-group ">
-            <label for="gender" class="form-label">Giới tính</label>
-            <select id="gender" name="gender" placeholder="Nhập lại mật khẩu"  class="form-control">
-                <option value="">--Chọn giới tính--</option>
-                <option value="male">--Nam--</option>
-                <option value="female">--Nữ--</option>
-                <option value="other">--Khác--</option>
-            </select>
-            <span class="form-message"></span>
-          </div> --}} 
-
-          <div class="text-license">
-            Vui lòng đọc <a href="#">điều khoản sử dụng</a> trước khi đăng ký
-          </div>
-
-          <button class="btn btn-primary form-submit">Đăng ký</button>
-        </form>
-      
+      <div class="form-group">
+        <label for="name" class="form-label">Họ tên</label>
+        <input id="name" name="name" type="text" placeholder="VD: Tô Nguyễn Tấn Phát" class="form-control">
+        <span class="form-message"></span>
       </div>
-          
+      <div class="form-group">
+        <label for="username" class="form-label">Tên đăng nhập</label>
+        <input id="username" name="username" type="text" placeholder="VD: abcd" class="form-control">
+        <span class="form-message"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input id="email" name="email" type="text" placeholder="VD: 18120502@student.hcmus.edu.vn" class="form-control">
+        <span class="form-message"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Mật khẩu</label>
+        <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" class="form-control">
+        <span class="form-message"></span>
+      </div>
+
+      <div class="form-group ">
+        <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
+        <input id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu" type="password"
+          class="form-control">
+        <span class="form-message"></span>
+      </div>
+
+  <div class="text-license">
+    Vui lòng đọc <a class="text-license__link" href="#">điều khoản giáo viên</a> trước khi đăng ký 
+  </div>
+
+  <button class="btn btn-primary form-submit">Đăng ký</button>
+    <div class="Auth_disclaimer"><p>Bạn đã có tài khoản?<br><a href="/teacher/login">Đăng nhập ngay!</a></p></div>
+
+  </form>
+
+  </div>
+
   <script src="/public/javascripts/validator.js"></script>
 
-    
-    <script>
-        Validator({
-            form:'#form-1',
-            formGroup:'.form-group',
-            errorSelector:'.form-message',
-            rules:[
-                Validator.isRequired('#email','Vui lòng nhập i meo'),
-                Validator.isRequired('#name','Vui lòng nhập tên của bạn'),
-                Validator.isEmail('#email','Vui lòng nhập lại i meo'),
-                Validator.minLength('#username',4),
-                Validator.isRequired('#username'),
-                Validator.isAccount('#username','Tên đăng nhập không được chứa các kí tự đặc bịt'),
-                Validator.minLength('#password',6),
-                Validator.isConfirmed('#password_confirmation',function() {
-                  return document.querySelector('#form-1 #password').value;
-                },'Mật khẩu không khớp')
-            ],
-            
-        }
-        )
-    </script>
+  {{#if err_message}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  {{/if}}
+  <script>
+    Validator({
+      form: '#form-1',
+      formGroup: '.form-group',
+      errorSelector: '.form-message',
+      rules: [
+        Validator.isRequired('#email', 'Vui lòng nhập i meo'),
+        Validator.isRequired('#name', 'Vui lòng nhập tên của bạn'),
+        Validator.isEmail('#email', 'Vui lòng nhập lại i meo'),
+        Validator.minLength('#username', 4),
+        Validator.isRequired('#username'),
+        Validator.isAccount('#username', 'Tên đăng nhập không được chứa các kí tự đặc biệt'),
+        Validator.minLength('#password', 6),
+        Validator.isConfirmed('#password_confirmation', function () {
+          return document.querySelector('#form-1 #password').value;
+        }, 'Mật khẩu không khớp')
+      ],
+
+    }
+    )
+    {{#if err_message }}
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: '{{err_message}}',
+    })
+    {{/if}}
+  </script>
 </body>
+
 </html>

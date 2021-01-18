@@ -149,7 +149,12 @@ function Validator(options){
                                 success: function (response) {
                                     //sai mat khau
                                     if (response == "false") {
-                                        alert("Wrong password");
+                                        Swal.fire({
+                                            title: 'Sai mật khẩu!',
+                                            text: 'Bạn đã nhập sai mật khẩu cũ.',
+                                            icon: 'warning',
+                                            confirmButtonText: 'OK'
+                                          })
                                         var oldPassMsg=document.querySelector(".form-message");
                                         var formOldPass=document.querySelector('.form-group');
                                         formOldPass.classList.add("invalid");
@@ -158,8 +163,15 @@ function Validator(options){
         
                                     }
                                     else{
-                                        alert("Đổi mk thành công");
-                                      location.href="/";
+                                        Swal.fire({
+                                            title: 'Thành công!',
+                                            text: 'Bạn đã đổi mật khẩu thành công.',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                          })
+                                          .then(function() {
+                                            location.href='/';
+                                        })
                                     }
                                 }
                             });
@@ -174,8 +186,15 @@ function Validator(options){
                                 success: function (response) {
                                     //sai mat khau
                                     if (response == "true") {
-                                        alert("Đăng nhập thành công. Bấm ok để tiếp tục");
-                                        location.href = window.location.href;
+                                        Swal.fire({
+                                            title: 'Thành công!',
+                                            text: 'Bạn đã đăng nhập thành công.',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                          })
+                                          .then(function() {
+                                            location.href=window.location.href;
+                                        })
                                     }
                                     else{
                                         showToast('Thất bại!',response,'error');

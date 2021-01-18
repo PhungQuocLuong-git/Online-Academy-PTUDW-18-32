@@ -29,9 +29,10 @@ class StudentController {
             .then(([user, hash]) => {
                 if (user) {
                     return new Promise(function (resolve, reject) {
-                        reject('existed email');
+                        reject('Email đã tồn tại!');
                     });
                 }
+                else {
                 req.body.password = hash;
                 const to = req.body.email;
                 const subject = 'Xác thực OTP nhé';
@@ -42,10 +43,15 @@ class StudentController {
                 const body = `<h1> Vui lòng xác thực để đăng kí tài khoản </h1>Your OTP is ${randNumb} .`
                 // res.json({to,subject,body});
                 console.log('test', req.app.locals.otp, req.app.locals.times);
-
                 return mailer.sendMail(to, subject, body);
+            }
             })
-            .catch(error => res.status(404).json(error))
+            .catch(err => {
+                res.render('students/create', {
+                    layout: false,
+                    err_message: err
+                });
+            })
             .then(() => res.status(200).render('students/verify', {
                 layout: false
             }))
@@ -57,8 +63,16 @@ class StudentController {
         if (req.app.locals.otp === +req.body.otp) {
 
             new Student(req.app.locals.storeStudent).save()
-                .then(res.status(200).redirect('/student/login'))
-                .catch(res.status(404).json('OOPS'));
+                .catch(err => {console.log(err);res.status(404).json('OOPS')})
+                .then(student => {
+                    console.log(student);
+                    req.app.locals.role=1;
+                    req.session.role=1;
+                    req.app.locals.user= mongooseToObject(student);
+                    req.session.user= mongooseToObject(student);
+
+                    res.status(200).redirect('/');
+                })
         }
 
         else {
@@ -88,7 +102,7 @@ class StudentController {
         // res.json({msg:req.params.id});
         Student.findById(req.params.id).populate({
             path: "cart_courses.course_id",
-            select: "name slug price course_author discount_price",
+            select: "name slug price course_author discount_price thumbnail",
             populate: { path: "course_author", select: "name" },
 
         })
@@ -115,11 +129,15 @@ class StudentController {
         
         Student.findOne({ email: req.body.email }).populate({
             path: "cart_courses.course_id",
-            select: "name slug price description course_author discount_price",
+            select: "name slug price description course_author discount_price thumbnail",
             populate: { path: "course_author", select: "name" },
         })
             .then(user => {
                 if(user) {
+                    if(user.stt === 2)
+                        return new Promise(function(resolve,reject) {
+                            reject('Bn đã bị khóa tài khoản.');
+                        })
                     req.session.user = mongooseToObject(user);
                     req.app.locals.user = mongooseToObject(user);
                     return bcrypt.compare(req.body.password, user.password)             
@@ -140,7 +158,7 @@ class StudentController {
                     req.session.role = 1;
                     req.app.locals.role = 1;
                     console.log(req.session.prevURL);
-                    res.redirect(req.session.prevURL);
+                    res.redirect('/');
                 } 
                 if(result===false) {
                     res.render('students/login', {
@@ -187,7 +205,7 @@ class StudentController {
         console.log(req.body)
         Student.findOne({ email: req.body.email }).populate({
             path: "cart_courses.course_id",
-            select: "name slug price description course_author discount_price",
+            select: "name slug price description course_author discount_price thumbnail",
             populate: { path: "course_author", select: "name" },
         })
             .then(user => {
@@ -287,7 +305,7 @@ class StudentController {
     delcart(req, res, next) {
         Student.findById(req.session.user._id).populate({
             path: "cart_courses.course_id",
-            select: "name slug price course_author discount_price",
+            select: "name slug price course_author discount_price thumbnail",
             populate: { path: "course_author", select: "name" },
 
         })
@@ -314,7 +332,7 @@ class StudentController {
         var idCourses = req.body.courseIds;
         let user = await Student.findById(req.session.user._id).populate({
             path: "cart_courses.course_id",
-            select: "name slug price course_author discount_price",
+            select: "name slug price course_author discount_price thumbnail",
                 populate: { path: "course_author", select: "name" },
 
         });
@@ -355,7 +373,7 @@ class StudentController {
                     req.app.locals.user = mongooseToObject(user);
                     let student = await Student.findByIdAndUpdate(req.session.user._id, user).populate({
                         path: "cart_courses.course_id",
-                        select: "name slug price course_author",
+                        select: "name slug price course_author thumbnail",
                         populate: { path: "course_author", select: "name" },
 
                     });

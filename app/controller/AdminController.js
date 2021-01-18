@@ -78,7 +78,7 @@ class AdminController {
         if(req.query.teacher)
             options.course_author = req.query.teacher;
         console.log(options)
-        Promise.all([Course.find(options),Teacher.find({ $or:[ {'stt':2}, {'stt':1} ]}),categorySchema.find()])
+        Promise.all([Course.find(options).populate('course_author'),Teacher.find({ $or:[ {'stt':2}, {'stt':1} ]}),categorySchema.find()])
             .then(([courses,teachers,categories]) => {
                 res.render('admin/courses',{
                     layout:'admin',
@@ -156,6 +156,7 @@ class AdminController {
 
     }; */
      addcatPost(req, res) {
+        
         var newName= req.body.CatName.trim().replace(/\s+/g, ' ');
         Promise.all([categorySchema.find(),subcategorySchema.find()])
             .then(([categories,subCategories]) => {
@@ -169,26 +170,27 @@ class AdminController {
             })
             .then(category => {
                 console.log('trap2',category);
-                res.redirect('/admin/categories')})
-            .catch(err => {console.log(err);res.status(200).json(err)})
+                res.json('true')})
+            .catch(err => res.json(err))
 
     };
      addsubPost(req, res) {
+        console.log(req.body)
         var newName= req.body.SubCatName.trim().replace(/\s+/g, ' ');
         Promise.all([categorySchema.find(),subcategorySchema.find()])
             .then(([categories,subCategories]) => {
                 if(!categories.some(category => category.CatName.toUpperCase() === newName.toUpperCase()) && 
                 !subCategories.some(subCategory => subCategory.SubCatName.toUpperCase()=== newName.toUpperCase()))
-                    return new subcategorySchema({SubCatName:newName,CatID:req.body.CatID}).save()
+                    return new subcategorySchema({SubCatName:newName,CatID:req.body.CatId}).save()
                 else
                     return new Promise(function(resolve,reject){
                         reject('Đã tồn tại Category or SubCategory có tên như vậy')
                     })
             })
             .then(category => {
-                console.log('trap2',category);
-                res.redirect('/admin/categories')})
-            .catch(err => {console.log(err);res.status(200).json(err)})
+                console.log(category)
+                res.json('true')})
+            .catch(err => res.json(err))
 
     };
 
@@ -219,15 +221,19 @@ class AdminController {
         });
     };
      del(req, res) {
+        console.log(req.body)
         Course.findOne({catid: req.body._id})
             .then(course =>{
                 if(course)
-                    res.json('Bn k dc xoa category da co khoa hc')
+                    return new Promise(function(resolve,reject){
+                        reject('Bn k đc xóa Category đã có khóa hc')
+                    })
                 else 
                     return categorySchema.deleteOne({ _id: req.body._id })
             })
-            .then(() => res.redirect('/admin/categories'))
-            .catch(()=> res.json("Sth went wrong"));
+            .then(category => {
+                res.json('true')})
+            .catch(err => res.json(err))
             
         
             
@@ -242,11 +248,13 @@ class AdminController {
             else 
             return subcategorySchema.deleteOne({ _id: req.body._id })
         })
-        .then(() => res.redirect('/admin/categories'))
-        .catch(()=> res.json("Sth went wrong"));
+        .then(category => {
+            res.json('true')})
+        .catch(err => res.json(err))
     }
     
     patch(req, res) {
+        console.log(req.body);
         var newName= req.body.CatName.trim().replace(/\s+/g, ' ');
         Promise.all([categorySchema.find(),subcategorySchema.find()])
             .then(([categories,subCategories]) => {
@@ -259,9 +267,10 @@ class AdminController {
                     })
             })
             .then(category => {
-                console.log('trap2',category);
-                res.redirect('/admin/categories')})
-            .catch(err => {console.log(err);res.status(200).json(err)})
+                console.log('sentttt')
+                res.json("true");})
+            .catch(err => {console.log(err);res.json(err)})
+
         
     }
     async subpatch(req, res) {
@@ -278,9 +287,9 @@ class AdminController {
                     })
             })
             .then(category => {
-                console.log('trap2',category);
-                res.redirect('/admin/categories')})
-            .catch(err => {console.log(err);res.status(200).json(err)})
+                console.log('sentttt')
+                res.json("true");})
+            .catch(err => {console.log(err);res.json(err)})
     }
 
 

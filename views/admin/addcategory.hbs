@@ -1,32 +1,73 @@
 <div class="container-fluid align-items-center">
-    <form method="POST" action="" class="w-75 p-5">
 
         <div class="card">
             <div class="card-header">
                 New Category
             </div>
             <div class="card-body">
-
-
                 <div class="form-group">
-                    <label for="exampleInputEmail1">CatName</label>
-                    <input type="txt" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    <label for="catName">CatName</label>
+                    <input type="txt" class="form-control" id="catName" aria-describedby="emailHelp"
                         name="CatName">
-
                 </div>
-
-
             </div>
             <div class="card-footer text-muted">
                 <a class="btn btn-primary" href="/admin/categories" role="button">
                     <i class="fa fa-backward" aria-hidden="true"></i>
                     Back to List
                 </a>
-                <button type="submit" class="btn btn-outline-success">
+                <button id="btn-submit"  class="btn btn-outline-success">
                     <i class="fa fa-check" aria-hidden="true"></i>
                     Save
                 </button>
             </div>
         </div>
-    </form>
 </div>
+
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+   <script>
+    $('#btn-submit').on('click',function(){
+        if(!$('#catName').val()){
+            Swal.fire({
+            title: 'Thất bại!',
+            text: 'Vui lòng nhập tên Category',
+            icon: 'error',
+            confirmButtonText: 'OK'
+            })
+        }
+        else{
+            $.ajax({
+                url: "/admin/categories/add",
+                type:"post",
+                data: { CatName: $('#catName').val()},
+                success: function (response) {
+                    if(response === "true")
+                        {
+                        Swal.fire({
+                        title: 'Thành công!',
+                        text: 'Bạn đã thêm Category mới thành công.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                        })
+                        .then(function() {
+                            location.href="/admin/categories";
+                        })
+                        }
+                    else{
+                        Swal.fire({
+                        title: 'Thất bại!',
+                        text: response,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                        })
+                    }
+                }
+            });
+           
+        }
+    })
+</script>
+{{/section}}

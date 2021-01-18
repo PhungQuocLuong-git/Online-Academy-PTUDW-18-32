@@ -484,12 +484,12 @@
       {{{course.short_description}}}
 
       <div class="d-flex text-warning mt-3">
-        {{#ifgreater course.discount_price 0}}
-        <h3 class="delete-price text-dark">${{course.price}}</h3>
-        <h3 class="ml-4">${{course.discount_price}}</h3>
+        {{#ifCond course.price '!=' course.discount_price}}
+        <h3 class="delete-price text-dark">$ {{format course.price}}</h3>
+        <h3 class="ml-4">${{format course.discount_price}}</h3>
         {{else}}
         <h3 class="text-warning">${{course.price}}</h3>
-        {{/ifgreater}}
+        {{/ifCond}}
         {{#ifequal role 1}}
         <h3 class="mx-auto"><a class="btn-wish" data-id="{{course._id}}" data-toggle="tooltip" data-placement="top"
             title="Add to Wishlist"><i class="fa-heart text-danger wish-icon"></i></a></i></h3>
@@ -535,7 +535,10 @@
       <div class="panel p-0">
         <ul class="list-group">
           {{#each lectures}}
-          <a href="#{{_id}}" data-toggle="modal" style="text-decoration: none;" class="process" data-process="/student/updateprocess/{{../../course._id}}/{{_id}}">
+          
+          <a 
+          href="#{{_id}}" data-toggle="modal" style="text-decoration: none;" class="process" data-process="/student/updateprocess/{{../../course._id}}/{{_id}}"
+            >
             <li class="list-group-item list-group-item-action border-0">
               {{name}}
               
@@ -566,7 +569,13 @@
               </li>
           </a>
           {{else}}
-          <li class="list-group-item list-group-item-action border-0" id='msg-alert'>{{name}}</li>
+            <a {{#ifCond ../../role "===" 0}}href="#loginModal" data-toggle="modal" {{else}} name="booknt"{{/ifCond}}  style="text-decoration: none;" class="process">
+          <li   class="list-group-item list-group-item-action border-0" id='msg-alert'>
+              
+              {{name}}
+          </li>
+              </a>
+          
           {{/if}}
 
 
@@ -720,13 +729,12 @@
             <span class="number-students"><i class="fas fa-users"></i> {{course_students.length}}</span>
             </div>
             <div class="d-flex">
-              {{#if discount_price}}
-              <h5 class="card-text font-weight-bold delete-price"> ${{price}} </h5>
-              <h5 class="card-text font-weight-bold align ml-3 discout-price"> ${{discount_price}}
+              {{#ifCond price '!=' discount_price}}
+              <h3 class="delete-price text-dark">$ {{format price}}</h3>
+              <h3 class="ml-4">${{format discount_price}}</h3>
               {{else}}
-              <h5 class="card-text font-weight-bold"> ${{price}} </h5>
-              {{/if}}
-              </h5>
+              <h3 class="text-warning">${{price}}</h3>
+              {{/ifCond}}
             </div>
             <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to
               course</a>
@@ -756,6 +764,17 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+      <div class="modal-body p-0">
+        <video id="my-video" class="video-js" controls preload="auto" width="608" height="342" data-setup="{}">
+          <source src="{{course.preview_video}}" type="video/mp4"/>
+          <source src="MY_VIDEO.webm" type="video/webm" />
+          <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+          </p>
+        </video>
       </div>
     </div>
   </div>
@@ -936,7 +955,17 @@
 <script src="/public/javascripts/validator.js"></script>
 <script src="/public/javascripts/toast.js"></script>
 <script src="https://vjs.zencdn.net/7.10.2/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <script>
+  $('a[name="booknt"]').on('click',function(){
+    Swal.fire({
+      title: 'Bạn chưa mua khóa học!',
+      text: 'Hãy mua khóa học và quay lại sau nhé',
+      icon: 'warning',
+      confirmButtonText: 'OK'
+    })
+  })
   Validator({
       form: '#form-2',
       formGroup: '.auth-form__group',
@@ -1112,7 +1141,6 @@
                             $('#pblqt3').width((ratelqt3 * 100) / len + '%');
       {{#ifequal role 0 }}
 
-      {{/ifequal
-      }}
+      {{/ifequal}}
 </script>
 {{/section}}
