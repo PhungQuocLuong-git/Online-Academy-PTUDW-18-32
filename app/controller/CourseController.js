@@ -171,8 +171,9 @@ module.exports = {
         today.setHours(today.getHours() + 7);
         var course = await Course.findOneAndUpdate(
             { slug: slug },
-            { description: req.body.description, discount_price: req.body.discount_price ,lastUpdated:today}
+            { description: req.body.description, price: req.body.price , discount_price: req.body.discount_price ,lastUpdated:today}
         )
+        console.log();
 
 
         var url = '/courses/edit/' + slug;
