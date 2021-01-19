@@ -1,5 +1,4 @@
 <div class="container-fluid align-items-center">
-    <form method="POST" action="" class="w-75 p-5">
 
         <div class="card">
             <div class="card-header">
@@ -7,14 +6,14 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <input type="txt" class="form-control" id="exampleInputEmail1" 
+                    <input type="txt" id="catId" class="form-control" id="exampleInputEmail1" 
                         name="CatID" value="{{id}}" autofocus readonly hidden>
 
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">SubCatName</label>
-                    <input type="txt" class="form-control" id="exampleInputEmail1" 
+                    <label for="subName">SubCatName</label>
+                    <input type="txt" class="form-control" id="subName" 
                         name="SubCatName">
                 </div>
 
@@ -25,11 +24,57 @@
                     <i class="fa fa-backward" aria-hidden="true"></i>
                     Back to List
                 </a>
-                <button type="submit" class="btn btn-outline-success">
+                <button id="btn-submit" class="btn btn-outline-success">
                     <i class="fa fa-check" aria-hidden="true"></i>
                     Save
                 </button>
             </div>
         </div>
-    </form>
 </div>
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+   <script>
+    $('#btn-submit').on('click',function(){
+        console.log($('#subName').val());
+        if(!$('#subName').val()){
+            Swal.fire({
+            title: 'Thất bại!',
+            text: 'Vui lòng nhập tên Category',
+            icon: 'error',
+            confirmButtonText: 'OK'
+            })
+        }
+        else{
+            $.ajax({
+                url: "/admin/categories/addsub",
+                type:"post",
+                data: { SubCatName: $('#subName').val(), CatId: $('#catId').val()},
+                success: function (response) {
+                    if(response === "true")
+                        {Swal.fire({
+                        title: 'Thành công!',
+                        text: 'Bạn đã thêm SubCategory mới thành công.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                        })
+                        .then(function() {
+                            location.href="/admin/categories";
+                        })
+                        }
+                    else{
+                        Swal.fire({
+                        title: 'Thất bại!',
+                        text: response,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                        })
+                    }
+                }
+            });
+           
+        }
+    })
+</script>
+{{/section}}

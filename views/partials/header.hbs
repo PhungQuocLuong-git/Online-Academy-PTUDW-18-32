@@ -49,10 +49,11 @@
               {{#each user.cart_courses}}
 
               <li class="navbar__cart-item">
-                <img src="/public/images/user1.png" alt="" class="navbar__cart-img">
+                
+                <img src="{{mon2 this 'thumbnail'}}" alt="" class="navbar__cart-img">
                 <div class="navbar__cart-item-info">
                   <div class="navbar__cart-item-head">
-                    <h5 class="navbar__cart-item-name">{{mon2 this 'name'}}</h5>
+                    <h5 class="navbar__cart-item-name">{{mon2 this 'name'}} </h5>
                     <div class="navbar__cart-item-wrap">
                       <span class="navbar__cart-item-price">{{format (mon2 this 'discount_price')}}</span>
                       <span class="navbar__cart-item-currency">VND</span>

@@ -13,7 +13,8 @@
         <div class="col-8">
             <div class="card-body d-flex flex-column my-0 p-0">
                 <p class="card-text text-primary font-weight-bold">{{this.name}}</p>
-                <p class="card-subtitle text-secondary teacher-text">{{this.short_description}}</p>
+                <p class="card-subtitle text-secondary teacher-text">{{this.email}}</p>
+                <p class="card-subtitle text-secondary teacher-text">Joined on {{dateFormat createdAt}}</p>
                 <div class="d-flex w-100 justify-content-end position-absolute" >
                     <button class="btn btn-censor btn-ok btn-outline-success" data-censor="ok" data-id="{{this._id}}">Duyệt</button>
                     <button class="btn btn-censor btn-non btn-outline-danger ml-3" data-censor="non" data-id="{{this._id}}">Từ chối</button>
