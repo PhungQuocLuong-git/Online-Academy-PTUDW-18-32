@@ -17,5 +17,16 @@ module.exports = {
       getMostHight:getMostHight,
       extraStyle:'/public/stylesheets/home.css' 
     });
+  },
+  async logOut(req,res,next){
+    let destroy = await (req.session.destroy());
+    if(destroy){
+      req.app.locals.role = 0;
+      req.app.locals.user = {};
+      res.json('true');
+    }
+    else
+      res.json('false');
+    
   }
 };

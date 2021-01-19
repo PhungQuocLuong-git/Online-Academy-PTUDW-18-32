@@ -78,6 +78,7 @@ class TeacherController {
 
     // [POST] /Teacher/store
     store(req, res, next) {
+        console.log(req.body);
         Promise.all([Teacher.findOne({ username: req.body.username }), 
             Teacher.findOne({ email: req.body.email }), 
             bcrypt.hash(req.body.password, saltRounds)])
@@ -98,11 +99,8 @@ class TeacherController {
 
                 
             })
-            .then(()=> res.redirect('/'))
-            .catch(err => {console.log(err);res.render('teachers/create', {
-                layout: false,
-                err_message: err
-            })})
+            .then(()=> res.json('true'))
+            .catch(err => {console.log(err);res.json(err)})
 
     }
     change(req, res, next) {
@@ -129,7 +127,7 @@ class TeacherController {
             .then(user => {
                 res.send("true")
             })
-            .catch(err => console.log(err));
+            .catch(err => res.json(err));
     }
 
     // [PATCH] /teacher/censor
@@ -169,79 +167,90 @@ class TeacherController {
 
     // [POST] /Teacher/logout
     logout(req, res, next) {
+        req.app.locals.user = {};
         req.app.locals.role = 0;
         req.session.destroy(() => {
             res.redirect('/');
         });
     }
 
-    // [PATCH] /Teacher/:id
-    swap(req, res, next) {
-        var roleSwap = 1;
-        if (req.session.user.role === 1) {
-            roleSwap = 2;
-        }
-
-        Teacher.updateOne({ _id: req.params.id }, { role: roleSwap })
-            .then(() => {
-                req.session.user.role = roleSwap;
-                req.app.locals.user = req.session.user;
-                req.app.locals.role = roleSwap;
-                res.redirect('/')
-            });
-    }
-
     // [POST] /Teacher/check
-    check(req, res, next) {
-        
-        Teacher.findOne({ username: req.body.username })
-            .then(user => {
-                if(user) {
-                    if(user.stt===0)
-                        return new Promise(function(resolve,reject) {
-                            reject('Bn chưa đc admin duyệt.');
-                        })
-                    else if(user.stt === 2)
-                        return new Promise(function(resolve,reject) {
-                            reject('Bn đã bị khóa tài khoản.');
-                        })
-                    
-                    req.session.user = mongooseToObject(user);
-                    req.app.locals.user = mongooseToObject(user);
-                    return bcrypt.compare(req.body.password, user.password)             
-                }
-                else return new Promise(function(resolve,reject) {
-                    reject('Invalid username');
-                })
-            })
-            .catch(err => {
-                res.render('teachers/login', {
-                    layout: false,
-                    err_message: err
-                });
-            })
-            .then((result) => {
-                if (result) {
-                    console.log('true');
+    async check(req, res, next) {
+        let err='';
+        let user = await Teacher.findOne({ username: req.body.username });
+        if(user){
+            if(user.stt === 0)
+                err = "You hasnt censored by Admin. Pls wait";
+            else if(user.stt === 2)
+                err = "You was blocked by Admin.";
+            else {
+                const result = await bcrypt.compare(req.body.password, user.password);
+                if(result){
                     req.session.role = 2;
                     req.app.locals.role = 2;
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);
                     console.log(req.session.prevURL);
-                    res.redirect('/');
-                } 
-                if(result===false) {
-                    res.render('teachers/login', {
-                        layout: false,
-                        err_message:'Invalid password'
-                    });
+                    res.json('true');
                 }
-            })
-            .catch(err =>{
-                console.log(err)
-                res.render('students/login', {
-                    layout: false,
-                    err_message:'Invalid email or password'
-                });
-            })
+                else
+                    err = 'Wrong password. Pls check again'
+
+            }
+        }
+        else
+            err ='Invalid username';
+        if(err)
+            res.json(err)
+       
+        // Teacher.findOne({ username: req.body.username })
+        //     .then(user => {
+        //         if(user) {
+        //             if(user.stt===0)
+        //                 return new Promise(function(resolve,reject) {
+        //                     reject('Bn chưa đc admin duyệt.');
+        //                 })
+        //             else if(user.stt === 2)
+        //                 return new Promise(function(resolve,reject) {
+        //                     reject('Bn đã bị khóa tài khoản.');
+        //                 })
+                    
+        //             req.session.user = mongooseToObject(user);
+        //             req.app.locals.user = mongooseToObject(user);
+        //             return bcrypt.compare(req.body.password, user.password)             
+        //         }
+        //         else return new Promise(function(resolve,reject) {
+        //             reject('Invalid username');
+        //         })
+        //     })
+        //     .catch(err => {
+        //         res.render('teachers/login', {
+        //             layout: false,
+        //             err_message: err
+        //         });
+        //     })
+        //     .then((result) => {
+        //         if (result) {
+        //             console.log('true');
+        //             req.session.role = 2;
+        //             req.app.locals.role = 2;
+        //             console.log(req.session.prevURL);
+        //             res.redirect('/');
+        //         } 
+        //         if(result===false) {
+        //             res.render('teachers/login', {
+        //                 layout: false,
+        //                 err_message:'Invalid password'
+        //             });
+        //         }
+        //     })
+        //     .catch(err =>{
+        //         console.log(err)
+        //         res.render('students/login', {
+        //             layout: false,
+        //             err_message:'Invalid email or password'
+        //         });
+        //     })
     }
 
     update(req,res) {

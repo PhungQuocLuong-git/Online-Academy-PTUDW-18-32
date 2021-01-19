@@ -424,8 +424,9 @@ module.exports = {
                 req.body.discount_price = !req.body.discount_price || req.body.discount_price > req.body.price ? req.body.price : req.body.discount_price;
                 
                 req.body.thumbnail = `/public/images/courses/${req.files.thumbnail[0].originalname}`;
-                if (typeof (req.files.preview_vid) !== 'undefined')
+                if (typeof (req.files.preview_vid) !== 'undefined') {
                     req.body.preview_video = `/public/videos/${req.files.preview_vid[0].originalname}`;
+                }
                 // else
                 //     req.body.preview_video="";
                 req.body.curriculum = [];

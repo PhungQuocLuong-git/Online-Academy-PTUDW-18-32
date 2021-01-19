@@ -22,6 +22,7 @@ const loadCategories =require('../app/middlewares/categories.mdw');
 function route(app) {
     app.use(function (req, res, next) {
         if (typeof (req.session.role) === 'undefined') {
+            
             app.locals.role = 0;
             app.locals.idUser = 0;
             app.locals.nameUser = 'User';

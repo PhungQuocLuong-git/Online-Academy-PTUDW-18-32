@@ -730,10 +730,10 @@
             </div>
             <div class="d-flex">
               {{#ifCond price '!=' discount_price}}
-              <h3 class="delete-price text-dark">$ {{format price}}</h3>
-              <h3 class="ml-4">${{format discount_price}}</h3>
+              <h5 class="delete-price text-dark">${{format price}}</h5>
+              <h5 class="ml-4">${{format discount_price}}</h5>
               {{else}}
-              <h3 class="text-warning">${{price}}</h3>
+              <h5 class="text-warning">${{price}}</h5>
               {{/ifCond}}
             </div>
             <a href="/courses/{{slug}}" class="btn btn-primary align-self-start mt-auto">Go to
@@ -992,7 +992,32 @@
         Validator.isRequired('#email2', 'Vui lòng nhập i meo'),
       Validator.isRequired('#password2'),
             ],
-      detail:1
+      detail:1,
+      onSubmit: function (data) {
+            
+            $.ajax({
+                url: `/student/check`,
+                type:"post",
+                data: { email: data.email,password: data.password },
+                success: function (response) {
+                    if (response == "true") {
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: 'Bạn đã đăng nhập thành công.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                          })
+                          .then(function() {
+                            location.href=window.location.href;
+                        })
+                    }
+                    else{
+                        showToast('Thất bại!',response,'error');
+                        
+                    }
+                }
+            });
+          }
         }
     )
   $(document).ready(function () {

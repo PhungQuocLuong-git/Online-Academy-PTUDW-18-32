@@ -173,7 +173,24 @@
                 Validator.isRequired('#thumbnail', 'Nhập thumbnail khóa học'),
                 Validator.isRequired('#price', 'Nhập nhập giá khóa học')
             ],
-            cours: 1,
+            onSubmit:function (data){
+            $('input[type="file"]').each(function(){
+                if(this.value==='')
+                {
+                    let name=$(this).attr('name');
+                    $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="no">`);
+                } else {
+                let name=$(this).attr('name');
+                $(this).parent().append(`<input type="hidden" id="custId" name="${name}" value="yes">`)
+                }
+            })
+            submitForm.action = `/courses/store?num=${num}`;
+            for (let i = 1; i <= num; i++) {
+                let lec_num = $($(`.btn-add-lecture${i}`)).data('num');
+                submitForm.action = submitForm.action + '&chapter' + i + '=' + lec_num;
+            }
+                submitForm.submit();
+            }
         });
         $("#thumbnail").fileinput({
             theme: 'fa',
