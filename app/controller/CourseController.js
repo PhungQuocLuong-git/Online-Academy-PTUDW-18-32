@@ -769,7 +769,7 @@ module.exports = {
 
     //Most viewed courses
     async getMostviewed() {
-        var courses = await Course.find().populate('course_author subcatid');
+        var courses = await Course.find({status:0}).populate('course_author subcatid');
         courses.sort(function (course1, course2) { return course2.view - course1.view });
         // editedCourses=courses.slice(0,10);
 
@@ -787,7 +787,7 @@ module.exports = {
     async getMostpopular(res) {
         dateFrom = moment().subtract(7, 'd');
         var listbooked = await Bookdetail.find({ "createdAt": { $gte: dateFrom } });
-        var listsub = await Subcategory.find({}).populate("CatID");
+        var listsub = await Subcategory.find({status:0}).populate("CatID");
         listsub = multipleMongooseToObject(listsub);
         var listcate = res.locals.lcCategories;
 
@@ -848,7 +848,7 @@ module.exports = {
         }
 
         // console.log(listcourse);
-        var courses = await Course.find({ _id: { $in: listcourse } }).populate('subcatid');
+        var courses = await Course.find({ _id: { $in: listcourse },status:0 }).populate('subcatid');
         courses = multipleMongooseToObject(courses);
         var lencourses = courses.length;
 
@@ -882,7 +882,7 @@ module.exports = {
     },
     //Newest courses
     async getNewest() {
-        var courses = await Course.find().populate('course_author subcatid').sort({ createdAt: -1 }).limit(10);
+        var courses = await Course.find({status:0}).populate('course_author subcatid').sort({ createdAt: -1 }).limit(10);
         // courses.sort((course1, course2) => { course1.view - course2.view });
         // editedCourses=courses.slice(0,10);
         /* for(var i=0;i<courses.length;i++)
