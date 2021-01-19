@@ -448,6 +448,17 @@
   background-color: #e26078;
 
 }
+
+.gradi {
+        border: 0;
+        height: 60px !important;
+        width: 100%;
+        margin: auto;
+        background-image: -webkit-linear-gradient(left,#4dc0f5, #EDEFF0); 
+        background-image: -moz-linear-gradient(left,#4dc0f5, #EDEFF0);
+        background-image: -ms-linear-gradient(left,#4dc0f5, #EDEFF0);
+        background-image: -o-linear-gradient(left,#4dc0f5, #EDEFF0);
+    }
 </style>
 {{/section}}
 <div id="toast"></div>
@@ -592,7 +603,7 @@
       <h3 class="instructor-name">{{course.course_author.name}}</h3>
       <p class="intructor-first-des">{{course.course_author.short_description}}</p>
       <div class="row">
-        <img src="/public/images/avatars/avatar-2.jpeg" class="rounded-circle ml-2 mb-4" alt="">
+        <img src={{course.course_author.avatar}} class="rounded-circle ml-2 mb-4" alt="Avata" style="width: 150px;height: 150px;">
         <div class="d-flex col-6">
           <div class="text-danger d-flex flex-column justify-content-around">
             <p><i class="fas fa-users"></i> </p>
@@ -713,7 +724,7 @@
   </div>
 
   <div class="col-3 pt-4">
-    <h3 class="mb-3 d-block w-75" style="color: #3E416D;margin-left:32px;">Related courses</h3>
+    <h3 class="mb-3 d-block w-75 gradi" style="color: #3E416D;margin-left:32px;">Related courses</h3>
     <div class="row d-flex flex-column align-items-center p-0 b-5">
       {{#if mostRelatedPurchased}}
       {{#each mostRelatedPurchased}}
@@ -721,7 +732,7 @@
         <div class="card h-100">
           <img class="card-img-top" src="{{thumbnail}}" alt="Card image cap">
           <div class="card-body d-flex flex-column">
-            <p class="card-text text-primary font-weight-bold">Web Development</p>
+            <p class="card-text text-primary font-weight-bold">{{subcatid.SubCatName}}</p>
             <h6 class="card-title font-weight-bold">{{name}} </h6>
             <p class="card-subtitle text-secondary teacher-text">{{course_author.name}}</p>
             <div class="card-text d-flex">

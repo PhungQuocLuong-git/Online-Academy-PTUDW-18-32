@@ -10,15 +10,15 @@
           <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
               <label class="form-check-label" for="checkbox-all">
-                Chọn tất cả
+                Choose all
               </label>
           </div>
             <select class="form-control form-control-sm checkbox-select-all-options" name="action" required>
-              <option value ="">--Hành động--</option>
-              <option value="delete"> Xóa</option>
-              <option value="book">Mua</option>
+              <option value ="">--Action--</option>
+              <option value="delete"> Delete</option>
+              <option value="book">Buy</option>
             </select>
-            <button class="btn btn-primary btn-sm check-all-submit-btn  " disabled >Thực hiện</button>
+            <button class="btn btn-primary btn-sm check-all-submit-btn  " disabled >Perform</button>
         </div>
     </div>
     <table class="table mt-4 mt-4">
@@ -26,9 +26,9 @@
         <tr>
           <th scope="col"></th>
           <th scope="col">#</th>
-          <th scope="col">Tên khóa hc</th>
+          <th scope="col">Course name</th>
           <th scope="col">Money</th>
-          <th scope="col">Giảng viên</th>
+          <th scope="col">Teacher</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -46,16 +46,16 @@
                 <td>{{this.course_id.discount_price}}</td>
                 <td>{{this.course_id.course_author.name}}</td>
                 <td>
-                  <btn class="btn btn-del-cart  btn-outline-danger" data-id="{{this.course_id._id}}" >Xóa</btn>
-                  <btn class="btn btn-book-cart  btn-outline-success" data-id="{{this.course_id._id}}" >Mua</btn>
+                  <btn class="btn btn-del-cart  btn-outline-danger" data-id="{{this.course_id._id}}" >Delete</btn>
+                  <btn class="btn btn-book-cart  btn-outline-success" data-id="{{this.course_id._id}}" >Buy</btn>
                 </td>
             </tr>
             {{else}}
             <tr>
           <td colspan="5" class="text-center">
-            Bạn chưa thêm khóa học nào vào giỏ.
+            You have no course in your cart.
             <div class="">
-            <a href="/"> Về trang chủ
+            <a href="/"> Home
             </div>
         </tr>
           {{/each}}
@@ -64,7 +64,7 @@
     </table>
 <input type ="hidden" name ="total">
           {{#if student.cart_courses.length}}
-             Tổng cộng: <span class="total-money">0</span>đ
+             Total: $<span class="total-money">0</span>
           {{/if}}
 </div>
 </form>

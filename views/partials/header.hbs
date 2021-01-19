@@ -44,7 +44,7 @@
           </a>
           {{#if user.cart_courses.length }}
           <div class="navbar__cart-list ">
-            <h4 class="navbar__cart-heading">Khóa hc đã thêm vào Cart </h4>
+            <h4 class="navbar__cart-heading">Added to Cart </h4>
             <ul class="navbar__cart-list-item">
               {{#each user.cart_courses}}
 
@@ -56,17 +56,17 @@
                     <h5 class="navbar__cart-item-name">{{mon2 this 'name'}} </h5>
                     <div class="navbar__cart-item-wrap">
                       <span class="navbar__cart-item-price">{{format (mon2 this 'discount_price')}}</span>
-                      <span class="navbar__cart-item-currency">VND</span>
+                      <span class="navbar__cart-item-currency">$</span>
                     </div>
                   </div>
                   <div class="navbar__cart-item-body">
                     <span class="navbar__cart-item-description">
-                      Category:Web
+                      Teacher :{{this.course_id.course_author.name}}
                     </span>
                     <form action="" method="POST"></form>
 
                     <span class="btn navbar__cart-item-remove btn-del-cart btn-outline-danger"
-                      data-id="{{this.course_id._id}}">Xóa</span>
+                      data-id="{{this.course_id._id}}">Delete</span>
                   </div>
                 </div>
               </li>
@@ -80,7 +80,7 @@
           <div class="navbar__cart-list navbar__cart-list--no-card ">
             <img src="/public/images/empty-cart.png" alt="" class="navbar__cart-no-card-img">
             <span class="navbar__card-list-no-card-msg">
-              Chưa có khóa nào
+              Nothing
             </span>
             {{/if}}
 
@@ -106,7 +106,7 @@
                 <a class="dropdown-item" href="/user/edit-account">Change password</a>
 
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item btn--logout" href="#">Đăng xuất</a>
+                <a class="dropdown-item btn--logout" href="#">Log out</a>
               </div>
             </li>
             {{else}}
@@ -124,13 +124,13 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="/teacher">Home</a>
                 <a class="dropdown-item" href="/user/edit-profile">Edit my profile</a>
-                <a class="dropdown-item" href="/courses/create">Đăng khóa học</a>
+                <a class="dropdown-item" href="/courses/create">Post course</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/teacher/inprogress-courses">Khoá học đang tiến hành</a>
+                <a class="dropdown-item" href="/teacher/inprogress-courses">In progress courses</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/teacher/complete-courses">Khoá học đã hoàn thành</a>
+                <a class="dropdown-item" href="/teacher/complete-courses">Completed courses</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item btn--logout" href="/teacher/logout">Đăng xuất</a>
+                <a class="dropdown-item btn--logout" href="/teacher/logout">Log out</a>
               </div>
             </li>
             {{else}}
@@ -140,21 +140,21 @@
             </li>
             {{else}}
             <li class="nav-item active dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">Đăng ký</a>
+              <a class="nav-link dropdown-toggle  border rounded mr-2" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">Sign up</a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                <a class="dropdown-item" href="/student/create">Đăng ký cho học viên</a>
+                <a class="dropdown-item" href="/student/create">Student sign up</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/teacher/create">Đăng ký cho giảng viên</a>
+                <a class="dropdown-item" href="/teacher/create">Teacher sign up</a>
               </div>
             </li>
             <li class="nav-item active dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">Đăng nhập</a>
+              <a class="nav-link dropdown-toggle border rounded" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">Log in</a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                <a class="dropdown-item" href="/student/login">Đăng nhập cho học viên</a>
+                <a class="dropdown-item" href="/student/login">Student log in</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/teacher/login">Đăng nhập cho giảng viên</a>
+                <a class="dropdown-item" href="/teacher/login">Teacher log in</a>
               </div>
             </li>
             {{/ifequal}}

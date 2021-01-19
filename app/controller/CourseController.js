@@ -16,7 +16,7 @@ const { mongooseToObject, multipleMongooseToObject } = require('../../util/mongo
 const multer = require('multer');
 
 async function getMostPurchasedRelated(course_subCatid) {
-    var courses = await Course.find({ subcatid: course_subCatid }).populate('course_author course_students');
+    var courses = await Course.find({ subcatid: course_subCatid }).populate('course_author course_students subcatid');
     courses.sort((course1, course2) => { return course2.course_students.length - course1.course_students.length });
     var mostRelatedPurchased = multipleMongooseToObject(courses.slice(0, 6));
     return mostRelatedPurchased;
@@ -767,7 +767,7 @@ module.exports = {
 
     //Most viewed courses
     async getMostviewed() {
-        var courses = await Course.find().populate('course_author');
+        var courses = await Course.find().populate('course_author subcatid');
         courses.sort(function (course1, course2) { return course2.view - course1.view });
         // editedCourses=courses.slice(0,10);
 
@@ -846,7 +846,7 @@ module.exports = {
         }
 
         // console.log(listcourse);
-        var courses = await Course.find({ _id: { $in: listcourse } });
+        var courses = await Course.find({ _id: { $in: listcourse } }).populate('subcatid');
         courses = multipleMongooseToObject(courses);
         var lencourses = courses.length;
 
@@ -880,7 +880,7 @@ module.exports = {
     },
     //Newest courses
     async getNewest() {
-        var courses = await Course.find().populate('course_author').sort({ createdAt: -1 }).limit(10);
+        var courses = await Course.find().populate('course_author subcatid').sort({ createdAt: -1 }).limit(10);
         // courses.sort((course1, course2) => { course1.view - course2.view });
         // editedCourses=courses.slice(0,10);
         /* for(var i=0;i<courses.length;i++)
@@ -910,7 +910,7 @@ module.exports = {
             option.subcatid = req.query.id
         else
             option.catid = req.query.id
-        Course.find(option).populate('course_author').sort({ view: -1 }).limit(6)
+        Course.find(option).populate('course_author subcatid').sort({ view: -1 }).limit(6)
             .then(courses => {
                 // console.log(courses);
                 res.json(
