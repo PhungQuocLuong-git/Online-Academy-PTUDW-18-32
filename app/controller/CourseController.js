@@ -342,7 +342,7 @@ module.exports = {
         }
         if (req.query.price) {
             const price = +req.query.price;
-            options.price = { $gte: price };
+            options.discount_price = { $gte: price };
         }
         if (req.query.category)
             options.catid = req.query.category;
