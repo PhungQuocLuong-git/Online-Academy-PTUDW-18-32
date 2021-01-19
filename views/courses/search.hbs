@@ -181,8 +181,8 @@
             {{#each courses}}
             
             <div class="row my-3 ">
-                <div class="col-4">
-                    <img width="260px" height="160px" class="card-img-top" src="{{thumbnail}}"
+                <div class="col-3">
+                    <img width="20px" height="160px" class="card-img-top" src="{{thumbnail}}"
                         alt="Card image cap">
                 </div>
                 <div class="col-8">
@@ -207,12 +207,15 @@
                             course</a>
                     </div>
                 </div>
+                <div class="col-1">
+
+                </div>
                 
                 {{#ifCond course_students.length '>' 1}}
                     <div class="course__favourite ">
                         <i class="fas fa-check"></i>
                         <span>
-                            Yêu thích
+                            Best Seller
                         </span> 
                     </div>
                     {{else}}
