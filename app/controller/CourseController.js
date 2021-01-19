@@ -848,7 +848,7 @@ module.exports = {
         }
 
         // console.log(listcourse);
-        var courses = await Course.find({ _id: { $in: listcourse },status:0 }).populate('subcatid');
+        var courses = await Course.find({ _id: { $in: listcourse },status:0 }).populate('subcatid course_author');
         courses = multipleMongooseToObject(courses);
         var lencourses = courses.length;
 
