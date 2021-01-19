@@ -67,6 +67,7 @@
       type:"post",
       data: { email: data.email,password: data.password },
       success: function (response) {
+        console.log(response)
           if (response == "true") {
             Swal.fire({
                 title: 'Thành công!',

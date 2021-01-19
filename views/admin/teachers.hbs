@@ -91,6 +91,7 @@
     
     </div>
 </div> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 {{#section "js"}}
     <script>
@@ -120,30 +121,59 @@
                     success: function (response) {
                         if (response == "true") {
                             if(name ==="block"){
-                                showToast('Thành công!',`Bn đã khóa tài khoản ${roleName} này`,'sad');
-                                $(e.target).parent().append(`
-                                <button name="btn-unblock" class="btn btn--unblock btn-outline-primary" data-id="${$(e.target).data('id')}"><i class="fas fa-lock-open"></i> Unblock ${roleName}</button>
-                                `);
-                                $(e.target).parent().parent().find('.card-img-top').addClass('user-img--blocked');
-                                $(e.target).remove();
-                                handleBlock('unblock');
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: `Bn đã khóa tài khoản ${roleName} này`,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                    })
+                                    .then(function() {
+                                        $(e.target).parent().append(`
+                                        <button name="btn-unblock" class="btn btn--unblock btn-outline-primary" data-id="${$(e.target).data('id')}"><i class="fas fa-lock-open"></i> Unblock ${roleName}</button>
+                                        `);
+                                        $(e.target).parent().parent().find('.card-img-top').addClass('user-img--blocked');
+                                        $(e.target).remove();
+                                        handleBlock('unblock');
+                                    })
+                                
 
                             }
                             else{
-                                showToast('Thành công!',`Bn đã mở khóa tài khoản ${roleName} thành công`,'success');
-
-                                $(e.target).parent().append(`
-                                <button name="btn-block" class="btn btn-primary" data-id="${$(e.target).data('id')}"><i class="fas fa-user-lock" ></i> Block ${roleName}</button>
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: `Bn đã mở khóa tài khoản ${roleName} thành công`,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                    })
+                                    .then(function() {
+                                        $(e.target).parent().append(`
+                                        <button name="btn-block" class="btn btn-primary" data-id="${$(e.target).data('id')}"><i class="fas fa-user-lock" ></i> Block ${roleName}</button>
+                                        
+                                        `);
+                                        $(e.target).parent().parent().find('.card-img-top').removeClass('user-img--blocked');
+                                        $(e.target).remove();
+                                        handleBlock('block');
+                                    })
                                 
-                                `);
-                                $(e.target).parent().parent().find('.card-img-top').removeClass('user-img--blocked');
-                                $(e.target).remove();
-                                handleBlock('block');
 
                             }
                         }
                         else{
-                            showToast('Thất bại!',response,'error');
+                            Swal.fire({
+                                title: 'Thất bại!',
+                                text: response,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                                })
+                                .then(function() {
+                                    $(e.target).parent().append(`
+                                    <button name="btn-block" class="btn btn-primary" data-id="${$(e.target).data('id')}"><i class="fas fa-user-lock" ></i> Block ${roleName}</button>
+                                    
+                                    `);
+                                    $(e.target).parent().parent().find('.card-img-top').removeClass('user-img--blocked');
+                                    $(e.target).remove();
+                                    handleBlock('block');
+                                })
                         }
                     }
                 });
