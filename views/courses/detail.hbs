@@ -463,6 +463,7 @@
 {{/section}}
 <div id="toast"></div>
 
+<div id="detailPage">
 <!-- info -->
 <div class="container-fluid course-detail d-flex">
   <div class="mx-auto d-flex w-75">
@@ -955,6 +956,8 @@
   </div>
 </div>
 {{/ifCond}}
+</div>
+
 
 
 <form name="book-course" method="POST"></form>
@@ -969,6 +972,22 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
+  {{#if course.status}}
+    $('#detailPage').empty();
+    $('#detailPage').hide();
+    Swal.fire({
+        title: 'Thất bại!',
+        text: 'Khóa học này đã bị chặn vì 1 lý do nào đó. Vui lòng truy cập lại sau.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
+      .then(function() {
+        location.href='/';
+    })
+  {{else}}
+
+  {{/if}}
+
   $('a[name="booknt"]').on('click',function(){
     Swal.fire({
       title: 'Bạn chưa mua khóa học!',

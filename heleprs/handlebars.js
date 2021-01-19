@@ -31,7 +31,8 @@ module.exports = {
   mon2: (col, field) => col.course_id[field],
   newCourse: (date,options) => {
     const distance = (Date.now() -new Date(date).getTime())/(3600*24*1000);
-    if(distance <= 5)
+    console.log(options)
+    if(distance <= 0.5)
       return options.fn(this);
     return options.inverse(this);
   },

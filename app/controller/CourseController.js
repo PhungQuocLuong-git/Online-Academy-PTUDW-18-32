@@ -332,7 +332,7 @@ module.exports = {
     },
 
     async fts(req, res) {
-        var options = {};
+        var options = {status:0};
         var wordSearch = '';
         if (req.query.kw)
             wordSearch = req.query.kw.trim().replace(/\s+/g, ' ');
@@ -652,7 +652,7 @@ module.exports = {
                 await Teacher.findByIdAndUpdate(course.course_author, teacher);
                 course.course_students.push({ user_id: req.session.user._id });
                 req.session.user.booked_courses.push({ course_id: course._id });
-                req.session.user.money -= course.price;
+                req.session.user.money -= course.discount_price;
                 const instance = new Bookdetail({ course_id: course._id, student_id: req.session.user._id, catid: course.catid, subcatid: course.subcatid });
                 instance.save(function (err) {
                 });
@@ -907,7 +907,7 @@ module.exports = {
         //console.log(req.query, 'abc');
         const have = +req.query.isSub;
         //console.log(typeof (have), have)
-        option = {};
+        option = {status:0};
         if (+req.query.isSub)
             option.subcatid = req.query.id
         else

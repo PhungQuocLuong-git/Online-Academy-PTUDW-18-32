@@ -108,6 +108,8 @@
                     <div class="form-group">
                         <label for="catid">Category </label>
                         <select name="catid" id="catid" class="p-2">
+                            <option value="">--Category--</option>
+
                             {{#each lcCategories }}
                             <option value="{{_id}}">{{CatName}}</option>
                             {{/each}}
@@ -121,7 +123,9 @@
 
                         <label for="subcatid">Sub Category </label>
                         <select name="subcatid" id="subcatid" class="p-2">
+
                             {{#each lcCategories }}
+                            <option value="">--SubCategory--</option>
                             {{#each sub}}
 
                             <option value="{{_id}}" id="{{CatID}}">{{SubCatName}}</option>
