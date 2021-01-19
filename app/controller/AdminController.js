@@ -27,7 +27,6 @@ class AdminController {
 
     // [POST] /admin/check
     check(req, res) {
-        console.log(req.body,req.body.username ==='admin',req.body.password ==='admin')
         if(req.body.username ==='admin'&& req.body.password ==='admin'){
             console.log('ok');
             req.session.role=3;
