@@ -125,55 +125,32 @@ class StudentController {
         });
     }
     // [POST] /student/check
-    check(req, res, next) {
-        
-        Student.findOne({ email: req.body.email }).populate({
+    async check(req, res, next) {
+        let err = '';
+        let user = await Student.findOne({ email: req.body.email }).populate({
             path: "cart_courses.course_id",
             select: "name slug price description course_author discount_price thumbnail",
             populate: { path: "course_author", select: "name" },
         })
-            .then(user => {
-                if(user) {
-                    if(user.stt === 2)
-                        return new Promise(function(resolve,reject) {
-                            reject('Bn đã bị khóa tài khoản.');
-                        })
-                    req.session.user = mongooseToObject(user);
-                    req.app.locals.user = mongooseToObject(user);
-                    return bcrypt.compare(req.body.password, user.password)             
-                }
-                else return new Promise(function(resolve,reject) {
-                    reject('Invalid username');
-                })
-            })
-            .catch(err => {
-                res.render('students/login', {
-                    layout: false,
-                    err_message: err
-                });
-            })
-            .then((result) => {
-                if (result) {
-                    console.log('true');
+        if(user){
+            if(user.stt===2)
+                err = 'You was blocked by Admin.'
+            const result = await bcrypt.compare(req.body.password, user.password) ;
+            if(result){
+                console.log('true');
                     req.session.role = 1;
                     req.app.locals.role = 1;
-                    console.log(req.session.prevURL);
-                    res.redirect('/');
-                } 
-                if(result===false) {
-                    res.render('students/login', {
-                        layout: false,
-                        err_message:'Invalid password'
-                    });
-                }
-            })
-            .catch(err =>{
-                console.log(err)
-                res.render('students/login', {
-                    layout: false,
-                    err_message:'Invalid email or password'
-                });
-            })
+                    req.session.user = mongooseToObject(user);
+                    req.app.locals.user = mongooseToObject(user);
+                    res.json('true');
+            }
+            else err = 'Wrong password'
+        }
+        else
+            err ='Invalid email';
+        if(err)
+            res.json(err);
+
     }
 
     async updateprocess(req, res, next) {
@@ -200,42 +177,7 @@ class StudentController {
             )
         }
     }
-    checkDetail(req, res, next) {
-        console.log('sanetdas')
-        console.log(req.body)
-        Student.findOne({ email: req.body.email }).populate({
-            path: "cart_courses.course_id",
-            select: "name slug price description course_author discount_price thumbnail",
-            populate: { path: "course_author", select: "name" },
-        })
-            .then(user => {
-                if(user) {
-                    req.session.user = mongooseToObject(user);
-                    req.app.locals.user = mongooseToObject(user);
-                    return bcrypt.compare(req.body.password, user.password)             
-                }
-                else return new Promise(function(resolve,reject) {
-                    reject('Invalid username');
-                })
-            })
-            .then((result) => {
-                if (result) {
-                    console.log('true');
-                    req.session.role = 1;
-                    req.app.locals.role = 1;
-                    res.json('true')
-                } 
-                if(result===false) {
-                    return new Promise(function(resolve,reject) {
-                        reject('Wrong password');
-                    })
-                }
-            })
-            .catch(err =>{
-                console.log(err);
-                res.json(err);
-            })
-    }
+    
 
     // [PUT] /:id
     update(req, res, next) {
@@ -298,7 +240,7 @@ class StudentController {
             .then(user => {
                 res.send("true")
             })
-            .catch(err => console.log(err));
+            .catch(err => res.json(err));
     }
 
     // [DELETE] /student//delcart/:id

@@ -5,7 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <!-- CSS only -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/public/stylesheets/validator.css">
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
     integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 </head>
@@ -13,8 +17,12 @@
   .swal2-popup {
       font-size: 140% !important;
     }
+  .modal-msg{
+      font-size: 140% !important;
+  }
 </style>
 <body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
   <a class="header-link" href="/"><header class="Auth_header"><span class="Auth_logo">Fullstack.edu.vn</span></header></a>
   <div class="main">
@@ -62,16 +70,40 @@
   <button class="btn btn-primary form-submit">Đăng ký</button>
     <div class="Auth_disclaimer"><p>Bạn đã có tài khoản?<br><a href="/teacher/login">Đăng nhập ngay!</a></p></div>
 
-  </form>
 
   </div>
+<div class="modal fade modal-msg" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="msgModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title modal-msg" id="msgModalLabel">Tại sao bạn lại muốn đăng kí làm giáo viên tại web này?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+        <div class="form-group ">
+        <textarea class="form-control" name="msg" id="msg" placeholder="Say sth to us" rows="10" style="width: 100%;"></textarea>
+        
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-msg" data-dismiss="modal">Close</button>
+        <button type="button" id='msgBtn' class="btn btn-primary modal-msg">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </form>
 
+<!-- JavaScript Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="/public/javascripts/validator.js"></script>
 
-  {{#if err_message}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  {{/if}}
   <script>
+
     Validator({
       form: '#form-1',
       formGroup: '.form-group',
@@ -88,16 +120,44 @@
           return document.querySelector('#form-1 #password').value;
         }, 'Mật khẩu không khớp')
       ],
+      onSubmit: function(data){
+        $('#msgModal').modal('show');
+        $('#msgBtn').on('click',function(){
+          data.msg = $('#msg').val();
+          $.ajax({
+          url: `/teacher/store`,
+          type:"post",
+          data: data,
+          success: function (response) {
+            console.log(response);
+              if (response === "true") {
+                Swal.fire({
+                    title: 'Thành công!',
+                    text: 'Bạn đã đăng kí thành công. Tài khoản của bn có thể đăng nhập sau khi được chúng tôi đồng ý',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                  })
+                  .then(function() {
+                    location.href='/';
+                })
+              }
+              else{
+                Swal.fire({
+                    title: 'Thất bại!',
+                    text: response,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                  })
+                  
+              }
+          }
+      });
+        })
+        
+      }
 
     }
     )
-    {{#if err_message }}
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: '{{err_message}}',
-    })
-    {{/if}}
   </script>
 </body>
 
