@@ -28,15 +28,14 @@ class AdminController {
     // [POST] /admin/check
     check(req, res) {
         if(req.body.username ==='admin'&& req.body.password ==='admin'){
-            console.log('ok');
+            
             req.session.role=3;
             req.app.locals.role = 3;
+            res.json('true')
         }
         else{
-            console.log('not ok')
+            res.json('false');
         }
-        console.log(req.app.locals.role)
-        res.redirect('/admin');
         
     };
 

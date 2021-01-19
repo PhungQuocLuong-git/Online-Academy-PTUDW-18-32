@@ -355,6 +355,7 @@ module.exports = {
             limit: 5
         }
         if (req.query.hasOwnProperty('field')) {
+            req.query.field = req.query.field === 'price' ? 'discount_price' : req.query.field;
             paginateOption.sort = { [req.query.field]: req.query.type }
         }
 
@@ -375,6 +376,7 @@ module.exports = {
         if (courses) {
 
             res.render('courses/search', {
+                total: courses.total,
                 courses: courses.docs,
                 pagination: {
                     page,

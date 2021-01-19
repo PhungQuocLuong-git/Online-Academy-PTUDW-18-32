@@ -1,73 +1,151 @@
 
-<form class="mt-4" name="container-form" method="POST" action="/student/handle-form-actions">
+{{#section 'css'}}
+<style>
+  .home-back-contain{
+    margin: 40px 0;
+  }
+  .home-back{
+    margin-top: 40px;
+    color: #333;
+    text-decoration: none!important;
+
+  }
+  .home-back:hover{
+    color: rgb(102, 100, 100);
+
+  }
+  .cash{
+    padding-left: 10px;
+    margin-left: 50px;
+    height: 80%;
+    border-left: 1px solid #adb0b6;
+  }
+  .my-container{
+    min-height: 60vh;
+  }
+  .percent{
+    color: #686f7a;
+  }
+  .or-seperate {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #e1e6eb;
+  margin: 10px 2px 24px 2px;
+}
+</style>
+{{/section}}
+<div class="my-container">
+
+<form class="mt-4 my-form" name="container-form" method="POST" action="/student/handle-form-actions">
 <div class="container-fluid">
 <h1 class="mt-4">My cart</h1>
           
   <div class="mt-4">
+  </div>
+  {{#if student.cart_courses.length}}
+  <div class="row mt-4 d-flex align-items-center">
+    <div class="col-3">
 
-        
-        <div class="mt-4 d-flex align-items-center">
-          <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
-              <label class="form-check-label" for="checkbox-all">
-                Choose all
-              </label>
-          </div>
-            <select class="form-control form-control-sm checkbox-select-all-options" name="action" required>
-              <option value ="">--Action--</option>
-              <option value="delete"> Delete</option>
-              <option value="book">Buy</option>
-            </select>
-            <button class="btn btn-primary btn-sm check-all-submit-btn  " disabled >Perform</button>
-        </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+        <h5 class="form-check-label" for="checkbox-all">
+          Chọn tất cả
+        </h5>
     </div>
-    <table class="table mt-4 mt-4">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">#</th>
-          <th scope="col">Course name</th>
-          <th scope="col">Money</th>
-          <th scope="col">Teacher</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
+    </div>
+    <div class="col-7">
+
+      <select class="form-control form-control-sm checkbox-select-all-options" name="action" required>
+        <option value ="">--Hành động--</option>
+        <option value="delete"> Xóa</option>
+        <option value="book">Mua</option>
+      </select>
+    </div>
+      <button class="btn btn-primary btn-sm check-all-submit-btn  " disabled >Thực hiện</button>
+  </div>
+  <div class="row container-fluid ml-2">
+    <h4>{{student.cart_courses.length}}{{#ifCond student.cart_courses.length "===" 1}} Course {{else}} Courses {{/ifCond}}in Cart</h4>
+  </div>
+  <div class=" row container-fluid">
+
+    <div class="col-9">
+          
           {{#each student.cart_courses}}
-              
-            <tr>
-                <td>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{this.course_id._id}}" data-price="{{this.course_id.discount_price}}" name="courseIds">
-                  </div>
-                </td>
-                <th scope="row">{{sum @index 1}}</th>
-                <td><a href="/courses/{{this.course_id.slug}}">{{this.course_id.name}}</a> </td>
-                <td>{{this.course_id.discount_price}}</td>
-                <td>{{this.course_id.course_author.name}}</td>
-                <td>
-                  <btn class="btn btn-del-cart  btn-outline-danger" data-id="{{this.course_id._id}}" >Delete</btn>
-                  <btn class="btn btn-book-cart  btn-outline-success" data-id="{{this.course_id._id}}" >Buy</btn>
-                </td>
-            </tr>
-            {{else}}
-            <tr>
-          <td colspan="5" class="text-center">
-            You have no course in your cart.
-            <div class="">
-            <a href="/"> Home
-            </div>
-        </tr>
+              <div class="row my-3 ">
+                <div class="col-4">
+                    <div class="form-check">
+
+                    <input class="form-check-input" type="checkbox" value="{{this.course_id._id}}" data-original-price="{{this.course_id.price}}" data-price="{{this.course_id.discount_price}}" name="courseIds">
+                    </div>
+
+                    <img width="260px" height="160px" class="card-img-top" src="{{this.course_id.thumbnail}}"
+                        alt="Card image cap">
+                </div>
+                <div class="col-8">
+                    <div class="card-body d-flex flex-column my-0 p-0">
+                        <p class="card-text text-primary font-weight-bold">{{this.course_id.name}}</p>
+                        <p class="card-subtitle text-secondary teacher-text">By {{this.course_id.course_author.name}}</p>
+                        
+                        <div class="d-flex w-100 justify-content-end position-absolute">
+                            {{#ifCond this.course_id.price '!=' this.course_id.discount_price}}
+                            <h5 class="card-text font-weight-bold delete-price text-right"> {{format this.course_id.price}} </h5>
+                            <h5 class="card-text font-weight-bold align ml-3 text-right text-warning">{{format this.course_id.discount_price}} $ </h5>
+                            {{else}}
+                            <h5 class="card-text font-weight-bold align ml-3 text-right text-warning  ">{{format this.course_id.price}} $ </h5>
+                            {{/ifCond}}
+                        </div>
+                      <div class="mt-2">
+
+                        <btn class="btn btn-del-cart  btn-outline-danger" data-id="{{this.course_id._id}}" >Xóa</btn>
+                        <btn class="btn btn-book-cart  btn-outline-success" data-id="{{this.course_id._id}}" >Mua</btn>
+                      </div>
+                        <a href="/courses/{{this.slug}}" class="btn btn-primary align-self-start mt-2">Go to
+                            course</a>
+                    </div>
+                </div>
+              </div>
+            <div class="or-seperate"></div>
+            
+        
           {{/each}}
           
-      </tbody>
-    </table>
-<input type ="hidden" name ="total">
-          {{#if student.cart_courses.length}}
-             Total: $<span class="total-money">0</span>
-          {{/if}}
+      
+    </div>
+    <div class="col-3 mt-4 ">
+      <div class="cash">
+
+    <input type ="hidden" name ="total">
+              <h5>
+                Tổng cộng:
+              </h5>
+              <h3 id="original" class="delete-price" style="display: none;">
+              </h3>
+              <h2 class="font-weight-bold">
+                $<span class="total-money ">0</span>
+              </h2>
+              <h5 class="percent" id="percent"></h5>
+      </div>
+          
+  </div>
 </div>
+{{else}}
+          <div class="container-fluid text-center">
+            <h3>
+
+            Bạn chưa thêm khóa học nào vào giỏ.
+            </h3>
+            <div class="home-back-contain">
+            <a href="/" class="home-back" >
+            <i class="fas fa-home"></i>
+             <h5>Về trang chủ</h5></a>
+            </div>
+            <img src="/public/images/empty-cart.png" alt="" class="">
+          </div>
+
+            {{/if}}
 </form>
+</div>
 
 <form  name="del-course" method="POST"></form>
 <form  name="book-course" method="POST"></form>
@@ -116,9 +194,22 @@
           const arrayC = $('input[name="courseIds"]:checked').toArray();
           var checkedCount=arrayC.length;
           var totalMoney = arrayC.reduce((a,b)=>a+ +b.getAttribute('data-price'),0);
+          var totalOriginalMoney = arrayC.reduce((a,b)=>a+ +b.getAttribute('data-original-price'),0);
+          if(totalMoney != totalOriginalMoney){
+            $('#original').show();
+            $('#original').empty();
+            $('#percent').show();
+            $('#percent').empty();
+            $('#original').append(`$ ${totalOriginalMoney}`)
+            $('#percent').append(` ${Math.floor(100 - totalMoney/totalOriginalMoney*100)}% off`)
+          }
+          else{
+            $('#original').hide();
+            $('#percent').hide();
+
+          }
+            document.querySelector('.total-money').innerHTML=totalMoney;
           $('input[name="total"]').prop('value', totalMoney);
-          document.querySelector('.total-money').innerHTML=totalMoney;
-          console.log(totalMoney);
           if( checkedCount ){
             checkAllSubmitBtn.removeAttr('disabled');
           }
