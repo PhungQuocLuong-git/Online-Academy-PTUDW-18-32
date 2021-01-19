@@ -47,23 +47,26 @@ class StudentController {
             }
             })
             .catch(err => {
-                res.render('students/create', {
-                    layout: false,
-                    err_message: err
-                });
+                res.json(err);
             })
-            .then(() => res.status(200).render('students/verify', {
-                layout: false
-            }))
+            .then(() => res.json('true'))
+    }
+
+    verify(req,res,next){
+        res.status(200).render('students/verify', {
+            layout: false
+        })
     }
 
     // [POST] /student/check-otp
     checkOtp(req, res) {
+        console.log('aaaaaaaaaaa');
+        console.log(req.body)
         console.log(req.app.locals.otp, +req.body.otp, req.app.locals.times);
         if (req.app.locals.otp === +req.body.otp) {
 
             new Student(req.app.locals.storeStudent).save()
-                .catch(err => {console.log(err);res.status(404).json('OOPS')})
+                .catch(err => {console.log(err);res.json('OOPS')})
                 .then(student => {
                     console.log(student);
                     req.app.locals.role=1;
@@ -71,7 +74,7 @@ class StudentController {
                     req.app.locals.user= mongooseToObject(student);
                     req.session.user= mongooseToObject(student);
 
-                    res.status(200).redirect('/');
+                    res.json('true');
                 })
         }
 
@@ -79,12 +82,10 @@ class StudentController {
             req.app.locals.times = req.app.locals.times - 1;
             if (!req.app.locals.times)
                 req.session.destroy(() => {
-                    res.redirect('/student/create');
+                    res.json('false');
                 })
             else
-                res.render('students/verify', {
-                    layout: false,
-                });
+                {console.log('abcde');res.json(req.app.locals.times);}
 
         }
     }
@@ -127,16 +128,19 @@ class StudentController {
         if(user){
             if(user.stt===2)
                 err = 'You was blocked by Admin.'
-            const result = await bcrypt.compare(req.body.password, user.password) ;
-            if(result){
-                console.log('true');
-                    req.session.role = 1;
-                    req.app.locals.role = 1;
-                    req.session.user = mongooseToObject(user);
-                    req.app.locals.user = mongooseToObject(user);
-                    res.json('true');
+            else{
+
+                const result = await bcrypt.compare(req.body.password, user.password) ;
+                if(result){
+                    console.log('true');
+                        req.session.role = 1;
+                        req.app.locals.role = 1;
+                        req.session.user = mongooseToObject(user);
+                        req.app.locals.user = mongooseToObject(user);
+                        res.json('true');
+                }
+                else err = 'Wrong password'
             }
-            else err = 'Wrong password'
         }
         else
             err ='Invalid email';

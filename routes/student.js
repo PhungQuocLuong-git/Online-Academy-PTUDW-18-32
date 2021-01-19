@@ -9,6 +9,7 @@ const studentController = require('../app/controller/StudentController');
 router.get('/create', studentController.create);
 router.post('/store', studentController.store);
 router.get('/login', studentController.login);
+router.get('/verify', studentController.verify);
 router.post('/check-otp', studentController.checkOtp);
 router.get('/cart/:id',isStudent, studentController.cart);
 router.patch('/change', studentController.change);
