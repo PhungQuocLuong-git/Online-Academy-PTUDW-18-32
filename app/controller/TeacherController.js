@@ -165,15 +165,6 @@ class TeacherController {
         });
     }
 
-    // [POST] /Teacher/logout
-    logout(req, res, next) {
-        req.app.locals.user = {};
-        req.app.locals.role = 0;
-        req.session.destroy(() => {
-            res.redirect('/');
-        });
-    }
-
     // [POST] /Teacher/check
     async check(req, res, next) {
         let err='';

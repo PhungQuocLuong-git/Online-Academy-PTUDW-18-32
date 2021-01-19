@@ -486,7 +486,7 @@
       <div class="d-flex text-warning mt-3">
         {{#ifCond course.price '!=' course.discount_price}}
         <h3 class="delete-price text-dark">$ {{format course.price}}</h3>
-        <h3 class="ml-4">${{format course.discount_price}}</h3>
+        <h3 class="ml-4 text-warning">${{format course.discount_price}}</h3>
         {{else}}
         <h3 class="text-warning">${{course.price}}</h3>
         {{/ifCond}}

@@ -32,7 +32,7 @@
         <div class="col-sm-1"></div>
         <div class="col-2">
 
-            <div class="dropdown dropdowm--sort">
+            <div class="dropdown dropdowm--sort ml-4">
                 <button class="btn btn-light dropdown-toggle btn-sort" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Sort
@@ -47,6 +47,9 @@
 
                 </div>
             </div>
+        </div>
+        <div class="col-8 mt-4 ml-4">
+            <h1>{{#if total}} FOUND {{total}} COURSES{{else}}NO COURSE MATCHES {{/if}}</h1>
         </div>
     </div>
     <div class="row mt-4">
@@ -469,7 +472,8 @@
         url.searchParams.delete("type");
         document.location = url;
     })
-    if (url.toString().includes('&')) {
+    if(!(Array.from(url.searchParams).length === 1 || (Array.from(url.searchParams).length === 2 && url.searchParams.get('p'))))
+    {
         document.querySelector('.btn-dlt-all').style.display = "block";
         $('#btn-dlt-all').on('click', function () {
             var newUrl = new URL(document.location.origin + document.location.pathname);

@@ -18,7 +18,6 @@ router.patch('/censor',isAdmin, teacherController.censor);
 router.patch('/block',isAdmin, teacherController.block);
 
 // router.post('/login', teacherController.create);
-router.get('/logout', teacherController.logout);
 router.get('/courses',teacherController.uploadedCourses);
 
 router.put('/:id', teacherController.update);

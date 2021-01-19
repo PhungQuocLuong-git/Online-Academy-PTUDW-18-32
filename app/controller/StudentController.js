@@ -115,15 +115,7 @@ class StudentController {
                 })
             });
     }
-
-    // [POST] /Student/logout
-    logout(req, res, next) {
-        req.app.locals.role = 0;
-        req.app.locals.user = {};
-        req.session.destroy(() => {
-            res.redirect('/');
-        });
-    }
+    
     // [POST] /student/check
     async check(req, res, next) {
         let err = '';
@@ -271,6 +263,11 @@ class StudentController {
     // [POST] /student//handle-form-actions
     async handleFormActions(req, res, next) {
         // res.json(req.body);
+        console.log(req.body);
+        
+        if(typeof(req.body.courseIds) === 'string')
+            req.body.courseIds = req.body.courseIds.split();
+
         var idCourses = req.body.courseIds;
         let user = await Student.findById(req.session.user._id).populate({
             path: "cart_courses.course_id",
@@ -280,6 +277,7 @@ class StudentController {
         });
         switch (req.body.action) {
             case 'delete':
+                console.log('dltttt')
                 idCourses.forEach(id => {
                     let i = 0;
                     user.cart_courses.forEach(course => {
@@ -288,8 +286,20 @@ class StudentController {
                     })
                 })
                 req.session.user = mongooseToObject(user);
-                Student.updateOne({ _id: user.id }, user)
+                    req.app.locals.user = mongooseToObject(user);
+                let user2 = await Student.updateOne({ _id: user.id }, user).populate({
+                    path: "cart_courses.course_id",
+                    select: "name slug price course_author thumbnail ",
+                    populate: { path: "course_author", select: "name" },
+
+                });
+                if(user2)
+                    res.redirect('/');
+
+                break;
             case 'book':
+                console.log('bokkkkkk')
+
                 var total = +req.body.total;
                 // res.json(req.session.user);
                 if (total <= user.money) {
@@ -327,6 +337,7 @@ class StudentController {
                 else {
                     res.json({ total, urm: user.money });
                 }
+                break;
 
         }
     }
