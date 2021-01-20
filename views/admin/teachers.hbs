@@ -41,6 +41,10 @@
                     <div class="" >
                         <i class="fas fa-coins"></i>  {{format money}} coins
                     </div>
+                    <div class="" >
+                        <i class="far fa-envelope"></i>  {{email}} 
+                    </div>
+
                     {{#ifCond stt "===" 2}} 
                     <button name="btn-unblock" class="btn btn--unblock btn-outline-primary" data-id="{{_id}}"><i class="fas fa-lock-open"></i> Unblock hc viên</button>
                     
@@ -71,6 +75,9 @@
                     </div>
                     <div class="">
                         <i class="fas fa-play-circle"></i> {{posted_courses.length}} Courses
+                    </div>
+                    <div class="" >
+                        <i class="far fa-envelope"></i>  {{email}} 
                     </div>
                     <div class="">
                         <i class="fas fa-history"></i> Joined in {{dateFormat createdAt}} 
